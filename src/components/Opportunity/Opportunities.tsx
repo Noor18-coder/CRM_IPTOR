@@ -5,8 +5,8 @@ import { AddOpportunity } from './AddOpportunity';
 import { addOpportunity  } from "../../store/Opportunity/Actions";
 import { Dispatch } from "redux"
 import { AppState } from '../../store/store';
-import { Opportunity } from './Opportunity';
-import { IOpportunity } from "../../store/Opportunity/Types";
+import { OpportunityCard } from './OpportunityCard';
+import { Opportunity } from "../../store/Opportunity/Types";
 
 
 const ShowTeams: React.FC = () => {
@@ -21,7 +21,7 @@ const ShowTeams: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch()
 
   const saveOppty = React.useCallback(
-    (opportunity: IOpportunity) => dispatch(addOpportunity(opportunity)),
+    (opportunity: Opportunity) => dispatch(addOpportunity(opportunity)),
     [dispatch]
   )
 
@@ -30,7 +30,7 @@ const ShowTeams: React.FC = () => {
         <h1>Opportunities</h1>
        <AddOpportunity saveOppty={saveOppty} />
        {/* {state.loading ? <h3>Loading</h3> : null} */}
-   { state.opportunities.opportunities.map((oppty: IOpportunity) => <Opportunity opportunity={oppty} /> )}   
+   { state.opportunities.opportunities.map((oppty: Opportunity) => <OpportunityCard opportunity={oppty} /> )}   
       {/* {console.log(teams)} */}
 
     </div>

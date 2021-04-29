@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore, Store, Reducer } from 'redux';
 import thunk from 'redux-thunk';
-import  opportunityReducer  from './Opportunity/reducers';
+import  opportunityReducer  from './Opportunity/Reducers';
 import { OpportunityState } from './Opportunity/Types';
 
 export interface AppState {

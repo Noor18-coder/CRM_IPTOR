@@ -5,7 +5,7 @@ export enum OpportunityTypes {
   ADD_OPPORTUNITY = 'ADD_OPPORTUNITY'
 }
 
-export interface IOpportunity {
+export interface Opportunity {
   id: string,
   dealSize : string,
   company : string,
@@ -14,16 +14,16 @@ export interface IOpportunity {
 
 /** Opportunity add action */
 
-  export interface IOpportunityAdd
+  export interface OpportunityAdd
   extends Action<OpportunityTypes.ADD_OPPORTUNITY> {
-    opprtunity: IOpportunity
+    opportunity: Opportunity
   }
 
 
   
 
-export type OpportunityActions = IOpportunityAdd;
+export type OpportunityActions = OpportunityAdd;
 
 export interface OpportunityState {
-  opportunities : IOpportunity[]
+  opportunities : Opportunity[]
 }

@@ -1,12 +1,12 @@
 import * as React from "react"
-import { IOpportunity } from "../../store/Opportunity/Types";
+import { Opportunity } from "../../store/Opportunity/Types";
 
 type Props = {
-  saveOppty : (opportunity: IOpportunity | any) => void
+  saveOppty : (opportunity: Opportunity | any) => void
 }
 
 export const AddOpportunity: React.FC<Props> = ({ saveOppty }) => {
-  const [opportunity, setTeam] = React.useState<IOpportunity | {}>()
+  const [opportunity, setTeam] = React.useState<Opportunity | {}>()
 
   const handleArticleData = (e: React.FormEvent<HTMLInputElement>) => {
     setTeam({
