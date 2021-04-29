@@ -3,7 +3,7 @@
  */
 
 import { Reducer } from 'redux';
-import { IOpportunity, OpportunityActions, OpportunityTypes, OpportunityState } from './Types';
+import { Opportunity, OpportunityActions, OpportunityTypes, OpportunityState } from './Types';
 
 /**
  * Initial State
@@ -39,13 +39,12 @@ const initialState: OpportunityState = {
  const opportunityReducer: Reducer<OpportunityState, OpportunityActions> = (state = initialState, action) => {
     switch (action.type) {
         case OpportunityTypes.ADD_OPPORTUNITY : 
-            const newOppty: IOpportunity = {
-                    id:action.opprtunity.id,
-                    company: action.opprtunity.company,
-                    dealSize: action.opprtunity.dealSize,
-                    status: action.opprtunity.status
+            const newOppty: Opportunity = {
+                    id:action.opportunity.id,
+                    company: action.opportunity.company,
+                    dealSize: action.opportunity.dealSize,
+                    status: action.opportunity.status
                 }
-                console.log("PPP", newOppty);
                 return {
                     ...state,
                     opportunities: state.opportunities.concat(newOppty),
