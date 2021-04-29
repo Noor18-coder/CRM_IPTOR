@@ -1,0 +1,105 @@
+body,
+html {
+  height: 100%;
+}
+.bg {
+  background-image: url("../../../../assets/images/bg_login.png");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login-bg {
+  background: $White-color;
+  padding: 16px;
+  float: right;
+  width: 336px;
+  border-radius: 3px;
+  box-shadow: -15.8px 10.6px 46px 0 rgba(0, 0, 0, 0.58);
+  margin-top: -410px;
+  margin-right: 2em;
+}
+.forgot-pwd {
+  text-align: right;
+  margin-top: -14px;
+}
+.forgot-pwd a {
+  color: $color;
+  font-size: 12px;
+}
+.login-bg h1, h4{
+
+  font-size: 24px;
+  font-weight: 500;
+  color: $border-color;
+  width: 63%;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  margin-left: 18px;
+}
+
+.login-footer {
+  padding: 10px 0;
+  bottom: 0;
+  width: 77%;
+}
+.login-footer p {
+  font-size: 13px;
+  margin: 0;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: $color;
+}
+
+@media (max-width: 990px) {
+  .login-bg {
+    width: 100%;
+    margin-top: 30px;
+    margin-right: 0em;
+  }
+}
+
+.left-col-data h4 {
+  font-weight: 500;
+  color: $White-color;
+  font-size: 30px;
+  margin: 0;
+  width: 326px;
+}
+.left-col-data p {
+  color: $White-color;
+  font-size: 15px;
+  font-weight: 300;
+}
+.left-col-data {
+  border-top: 1px solid $White-color;
+  margin-top: 250px;
+  padding-left: 2px;
+}
+.site-footer {
+  padding: 10px 0;
+  bottom: 0;
+  width: 77%;
+}
+.site-footer p {
+  color: $White-color;
+  font-size: 13px;
+  margin: 0;
+}
+.content-column {
+  margin-top: 0px;
+}
+@media (max-width: 990px) {
+  .left-col-data {
+    margin-top: 0;
+  }
+  .left-col-data h1 {
+    width: inherit;
+  }
+}

@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import Opportunities from './components/Opportunity/Opportunities';
+import LandingPage from './components/Login/Shared/LandingPage';
 
 function App() {
   return (
     <div className="App">
-      <Opportunities /> 
+      {/* <Opportunities />  */}
+      <LandingPage/>
     </div>
   );      
 }
