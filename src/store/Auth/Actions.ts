@@ -9,7 +9,9 @@
  import * as apiModels from '../../helpers/Api/models';
  //import { User, CompanyInfo } from '../../helpers/Api';
  import { AppState } from '../store';
- //import { isEmpty } from 'lodash';
+ import { isEmpty } from 'lodash';
+ import {CompanyInfo} from '../../helpers/Api/CompanyInfo';
+ import { User } from '../../helpers/Api/User';
  
  
  /** Action to set auth state logged in status */
@@ -32,6 +34,7 @@
      type: actionTypes.AuthTypes.LOGOUT_SUCCESS
    };
  };
+
  
  /** Middleware to handle authentication */
  export const auth: ActionCreator<ThunkAction<
@@ -49,14 +52,15 @@
      }
  
      try {
-       const response = await axios.post('http://sepdvs137.rd.ibs.net:8219/api/login', authRequest);
+       const response = await axios.post('/api/login', authRequest);
+       const companyInfo = await CompanyInfo.get();
        if (response.status === 200) {
-        //  const user = await User.get(response.config.data.user);
-        //  const companyInfo = await CompanyInfo.get();
-        //  if (companyInfo !== undefined && !isEmpty(companyInfo)){
-        //    user.currentEnvironment = companyInfo;
-        //  }
-        //  dispatch(setUserInfo(user))
+          const user = await User.get(response.config.data.user);
+          // const companyInfo = await CompanyInfo.get();
+          // if (companyInfo !== undefined && !isEmpty(companyInfo)){
+          //   user.currentEnvironment = companyInfo;
+          // }
+          dispatch(setUserInfo(user))
          return dispatch(authSuccess());
        }
        return dispatch(logOutSuccess());

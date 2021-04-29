@@ -1,4 +1,4 @@
-//import { CompanyInfoItem } from "./CompanyInfo";
+import { CompanyInfoItem } from "./CompanyInfo";
 
 export interface UserItem {
   user: string;
@@ -6,7 +6,9 @@ export interface UserItem {
   defaultSalesOrderType: string;
   description: string;
   language: string;
+  currentEnvironment?: CompanyInfoItem;
 }
+
 export interface UserParams {
   user?: string;
 }
