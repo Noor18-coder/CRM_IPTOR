@@ -5,15 +5,13 @@
  import { ThunkAction } from 'redux-thunk';
  import axios from 'axios';
  import * as actionTypes from './Types';
- //import { AuthRequest } from '../models';
- import * as apiModels from '../../helpers/Api/models';
- //import { User, CompanyInfo } from '../../helpers/Api';
+  import * as apiModels from '../../helpers/Api/models';
  import { AppState } from '../store';
  import { isEmpty } from 'lodash';
- import {CompanyInfo} from '../../helpers/Api/CompanyInfo';
- import { User } from '../../helpers/Api/User';
- 
- 
+ import { User, CompanyInfo } from '../../helpers/Api';
+
+
+
  /** Action to set auth state logged in status */
  export const authSuccess: ActionCreator<actionTypes.AuthSuccessAction> = () => {
    return {
@@ -54,13 +52,14 @@
      try {
        const response = await axios.post('/api/login', authRequest);
        const companyInfo = await CompanyInfo.get();
+        dispatch(setUserInfo(companyInfo))
        if (response.status === 200) {
           const user = await User.get(response.config.data.user);
           // const companyInfo = await CompanyInfo.get();
           // if (companyInfo !== undefined && !isEmpty(companyInfo)){
           //   user.currentEnvironment = companyInfo;
           // }
-          dispatch(setUserInfo(user))
+          //dispatch(setUserInfo(user))
          return dispatch(authSuccess());
        }
        return dispatch(logOutSuccess());
@@ -108,6 +107,7 @@
  };
  
  export const setUserInfo: ActionCreator<actionTypes.UserSetAction> = (user: apiModels.UserItem) => {
-   return { type: actionTypes.AuthTypes.USER_SET, user };
- };
+  return { type: actionTypes.AuthTypes.USER_SET, user };
+};
+
  

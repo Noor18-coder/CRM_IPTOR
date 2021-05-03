@@ -12,7 +12,7 @@ const Login = () => {
       <div className="bg">
         <LeftColmData></LeftColmData>
           <BrowserRouter>
-            {/* <Route exact path="/" component={CompanySelection}></Route> */}
+            <Route exact path="/company-selection" component={CompanySelection}></Route>
             <Route exact path="/" component={LoginForm}></Route>
           </BrowserRouter>
       </div>

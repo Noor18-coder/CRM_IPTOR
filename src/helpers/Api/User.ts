@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
 import * as models from './models';
+
 export class User {
     /** API Method */
    //private static apiMethod: string = 'user.get';

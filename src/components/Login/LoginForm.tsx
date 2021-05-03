@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Nav, Image } from "react-bootstrap";
 import logo from '../../assets/images/iptor_logo.png';
 import LoginFooter from "./Shared/LoginFooter";
 import SubmitButton from "./Shared/SubmitButton";
+import { useHistory } from 'react-router-dom';
 
 import { useSelector, shallowEqual, useDispatch } from "react-redux"
 
@@ -14,8 +15,17 @@ import { AppState } from '../../store/store';
 
 const LoginForm = () => {
 
-  const [authRequest, setValues] = React.useState<AuthRequest | {}>();
 
+  const history = useHistory();
+  
+  const state : AppState = useSelector(
+    (state: AppState) => state
+  );
+
+ 
+
+  const [authRequest, setValues] = React.useState<AuthRequest | {}>();
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...authRequest,
@@ -29,21 +39,24 @@ const LoginForm = () => {
   
   const doClick = () => {
      dispatch(auth(authRequest));
+     history.push('/company-selection');
+
   }
  
 
   return (
     <Container className="login-bg">
+      
       <Row>
         <Col xl={12}>   
         <Image src={logo}  width={55} height={20}></Image>
         <h1>Hi there!  Welcome back... </h1>
           <Form className="line-input">
             <Form.Group>
-              <Form.Label>Email ID</Form.Label>
+              <Form.Label>User ID</Form.Label>
               <Form.Control
                 id='user'
-                type="email"
+                type="text"
                 placeholder="Ex: lynda.clipp@iptor.com"
                 onChange={handleChange}
               />
@@ -67,6 +80,7 @@ const LoginForm = () => {
           <LoginFooter></LoginFooter>
         </Col>  
       </Row>
+
     </Container>
   );
 };

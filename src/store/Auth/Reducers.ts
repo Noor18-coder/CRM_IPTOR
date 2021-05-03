@@ -3,7 +3,7 @@
  */
 
  import { Reducer } from 'redux';
- import { UserItem } from '../../helpers/Api/models';
+ import { UserItem, CompanyInfoItem, CompanyInfoRes } from '../../helpers/Api/models';
  import { AuthTypes, AuthActions, AuthState } from '../Auth/Types';
  
  /**
@@ -19,7 +19,8 @@
        description: '',
        user: '',
        handler: '',
-       language: ''  
+       language: '',
+       currentEnvironment:{}
      } as UserItem
    }
  };

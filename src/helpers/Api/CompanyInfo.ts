@@ -16,7 +16,6 @@ export class CompanyInfo {
       const requestData = new ApiRequest(this.apiMethod);
       const response = await axios.post<CompanyInfoItemResponse>('/api/service', requestData);
       return get(response, 'data.data',[]);
-
     }
   
   }
