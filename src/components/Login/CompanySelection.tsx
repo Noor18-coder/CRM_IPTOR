@@ -86,7 +86,7 @@ const CompanySelection:React.FC = () => {
           <Col xl={12}>   
           <Image src={logo}  width={55} height={20}></Image>
           <h4 style={{ fontSize: '19px' }}>Hi jacek, Please select company</h4>
-          <Card style={{ width: '20rem', border: '0' , marginTop:'60px', padding: '9px'}}>
+          <Card className="company-list">
           <Card.Body className={"middle-container"}>
             <Container className={"scrollable"}>
            
@@ -98,9 +98,9 @@ const CompanySelection:React.FC = () => {
             <Image src={VectorImg} className={'backtologinimg'}  width={16} height={10}></Image>
               <Nav.Link href="#">Back to Login</Nav.Link>
             </Nav.Item>
-            <LoginFooter></LoginFooter>
           </Col>  
         </Row>
+        <LoginFooter></LoginFooter>
       </Container>
     );
 }

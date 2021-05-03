@@ -57,7 +57,7 @@ const LoginForm = () => {
               <Form.Control
                 id='user'
                 type="text"
-                placeholder="Ex: lynda.clipp@iptor.com"
+                placeholder="Username"
                 onChange={handleChange}
               />
             </Form.Group>
@@ -77,10 +77,9 @@ const LoginForm = () => {
               <SubmitButton title={'Login'} onClick= {doClick }/>
             </Form.Group>
           </Form>
-          <LoginFooter></LoginFooter>
         </Col>  
       </Row>
-
+      <LoginFooter></LoginFooter>
     </Container>
   );
 };

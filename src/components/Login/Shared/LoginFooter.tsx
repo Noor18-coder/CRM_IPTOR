@@ -3,8 +3,8 @@ import { Card } from "react-bootstrap";
 
 const LoginFooter = () => {
   return (
-      <Card style={{ width: '18rem', border: '0' , marginTop:'16px', padding: '14px'}}>
-          <Card.Text style={{ color:'#00A3A5' , fontSize: '12px'}}>
+      <Card className="footer">
+          <Card.Text className="login-footer">
           Copyright © 2021 - Iptor Sweden AB  | Privacy Policy  | UK Legal | Code of Conduct
           </Card.Text>
         

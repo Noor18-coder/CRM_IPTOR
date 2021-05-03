@@ -4,7 +4,7 @@ html {
 }
 .bg {
   background-image: url("../../../../assets/images/bg_login.png");
-  height: 100vh;
+  height: 115vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -17,7 +17,7 @@ html {
   width: 336px;
   border-radius: 3px;
   box-shadow: -15.8px 10.6px 46px 0 rgba(0, 0, 0, 0.58);
-  margin-top: -410px;
+  margin-top: -500px;
   margin-right: 2em;
 }
 .forgot-pwd {
@@ -42,7 +42,7 @@ html {
 .login-footer {
   padding: 10px 0;
   bottom: 0;
-  width: 77%;
+  width: 100%;
 }
 .login-footer p {
   font-size: 13px;
@@ -79,7 +79,7 @@ html {
 }
 .left-col-data {
   border-top: 1px solid $White-color;
-  margin-top: 250px;
+  margin-top: 330px;
   padding-left: 2px;
 }
 .site-footer {
@@ -102,4 +102,15 @@ html {
   .left-col-data h1 {
     width: inherit;
   }
+}
+
+.footer {
+  border: 0;
+}
+
+.login-footer {
+  color:#00A3A5; 
+  margin-top:35px;
+  font-size: 11px;
+  padding: 14px;
 }
