@@ -8,100 +8,95 @@ import LoginFooter from './Shared/LoginFooter';
 import VectorImg from '../../assets/images/Vector.png';
 import { CompanyInfoItem } from '../../helpers/Api/models';
 import { AppState } from '../../store';
-import {AuthState } from '../../store/Auth/Types';
+import { AuthState } from '../../store/Auth/Types';
 
-const items:CompanyInfoItem[] = [
-  {
-      "companyCode": "CD",
-      "companyShortName": "DEV116A CD",
-      "name": "CRM; Development"
-  },
-  {
-      "companyCode": "CP",
-      "companyShortName": "DEV116A CP",
-      "name": "CRM; Production"
-  },
-  {
-      "companyCode": "CQ",
-      "companyShortName": "DEV116A CQ",
-      "name": "CRM; Quality control"
-  },
-  {
-      "companyCode": "D1",
-      "companyShortName": "DEV116A D1",
-      "name": "Development, release 11.60 (1)"
-  },
-  {
-      "companyCode": "D2",
-      "companyShortName": "DEV116A D2",
-      "name": "Development, release 11.60 (2)"
-  },
-  {
-      "companyCode": "DV",
-      "companyShortName": "DEV116A DV",
-      "name": "Development, release 11.60"
-  },
-  {
-      "companyCode": "MD",
-      "companyShortName": "DEV116A DV",
-      "name": "MDC/CDM Development 11.60"
-  },
-  {
-      "companyCode": "PR",
-      "companyShortName": "DEV116A PR",
-      "name": "Production, release 11.60"
-  },
-  {
-      "companyCode": "QC",
-      "companyShortName": "DEV116A QC",
-      "name": "Quality control, release 11.60"
-  }
+const items: CompanyInfoItem[] = [
+    {
+        "companyCode": "CD",
+        "companyShortName": "DEV116A CD",
+        "name": "CRM; Development"
+    },
+    {
+        "companyCode": "CP",
+        "companyShortName": "DEV116A CP",
+        "name": "CRM; Production"
+    },
+    {
+        "companyCode": "CQ",
+        "companyShortName": "DEV116A CQ",
+        "name": "CRM; Quality control"
+    },
+    {
+        "companyCode": "D1",
+        "companyShortName": "DEV116A D1",
+        "name": "Development, release 11.60 (1)"
+    },
+    {
+        "companyCode": "D2",
+        "companyShortName": "DEV116A D2",
+        "name": "Development, release 11.60 (2)"
+    },
+    {
+        "companyCode": "DV",
+        "companyShortName": "DEV116A DV",
+        "name": "Development, release 11.60"
+    },
+    {
+        "companyCode": "MD",
+        "companyShortName": "DEV116A DV",
+        "name": "MDC/CDM Development 11.60"
+    },
+    {
+        "companyCode": "PR",
+        "companyShortName": "DEV116A PR",
+        "name": "Production, release 11.60"
+    },
+    {
+        "companyCode": "QC",
+        "companyShortName": "DEV116A QC",
+        "name": "Quality control, release 11.60"
+    }
 ];
 
+interface Props {
+    selectCompany: (company: string) => void
+}
 
-const CompanySelection:React.FC = () => {
+
+const CompanySelection: React.FC<Props> = ({ selectCompany }) => {
     // const items:AuthState = useSelector(
     //     (state: AppState) => state.auth
     //  );
 
-     const [currentState, setCurrentSelection] = React.useState<string>();
+    const [currentState, setCurrentSelection] = React.useState<string>();
 
-     const selectState = (key:string) => {
-          setCurrentSelection(key);
-      }
-
-      React.useEffect(() => {
-          if(currentState){
-             
-          }
-      }, [currentState]);
-
-     const doLogin = (str:string) =>{
-         console.log(str);
-     }
+    const selectState = (key: string) => {
+        setCurrentSelection(key);
+        console.log("CS", key);
+        selectCompany(key);
+    }
 
     return (
         <Container className="login-bg">
-        <Row>
-          <Col xl={12}>   
-          <Image src={logo}  width={55} height={20}></Image>
-          <h4 style={{ fontSize: '19px' }}>Hi jacek, Please select company</h4>
-          <Card className="company-list">
-          <Card.Body className={"middle-container"}>
-            <Container className={"scrollable"}>
-           
-               { items.map((obj:CompanyInfoItem) => {console.log(obj.name); return <Company doClick={selectState} name={obj.name} companyCode={obj.companyCode} companyShortName={obj.companyShortName} />}) } 
-            </Container>
-            </Card.Body> 
-            </Card>
-            <Nav.Item className="back-to-login">
-            <Image src={VectorImg} className={'backtologinimg'}  width={16} height={10}></Image>
-              <Nav.Link href="#">Back to Login</Nav.Link>
-            </Nav.Item>
-          </Col>  
-        </Row>
-        <LoginFooter></LoginFooter>
-      </Container>
+            <Row>
+                <Col xl={12}>
+                    <Image src={logo} width={55} height={20}></Image>
+                    <h4 style={{ fontSize: '19px' }}>Hi jacek, Please select company</h4>
+                    <Card className="company-list">
+                        <Card.Body className={"middle-container"}>
+                            <Container className={"scrollable"}>
+                                {items.map((obj: CompanyInfoItem) => { return <Company doClick={selectState} name={obj.name} companyCode={obj.companyCode} companyShortName={obj.companyShortName} /> })}
+                            </Container>
+                        </Card.Body>
+                    </Card>
+                    <Nav.Item className="back-to-login">
+                        <Image src={VectorImg} className={'backtologinimg'} width={16} height={10}></Image>
+                        <Nav.Link href="#">Back to Login</Nav.Link>
+                    </Nav.Item>
+                </Col>
+            </Row>
+            <LoginFooter></LoginFooter>
+        </Container>
     );
 }
 

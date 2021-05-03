@@ -27,15 +27,52 @@
  };
  
  /** Action to set auth state logged out status */
- export const logOutSuccess: ActionCreator<actionTypes.LogoutSuccessAction> = () => {
+ export const loginWithoutCompanySuccess: ActionCreator<actionTypes.AuthWithoutCompany> = () => {
    return {
-     type: actionTypes.AuthTypes.LOGOUT_SUCCESS
+     type: actionTypes.AuthTypes.LOGIN_WITHOUT_COMPANY
    };
  };
+
+  /** Action to set auth state logged out status */
+  export const logOutSuccess: ActionCreator<actionTypes.LogoutSuccessAction> = () => {
+    return {
+      type: actionTypes.AuthTypes.LOGOUT_SUCCESS
+    };
+  };
 
  
  /** Middleware to handle authentication */
  export const auth: ActionCreator<ThunkAction<
+   Promise<actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction>,
+   AppState,
+   actionTypes.AuthRequest,
+   actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction
+ >> = (authRequest: actionTypes.AuthRequest) => {
+   return async (dispatch: Dispatch, getState) => {
+     const {auth} = getState();
+     dispatch(authStart());
+    
+     try {
+       const response = await axios.post('/api/login', authRequest);
+       if (response.status === 200) {
+          const user = await User.get(response.config.data.user);
+          const companyInfo = await CompanyInfo.get();
+          // if (companyInfo !== undefined && !isEmpty(companyInfo)){
+          //   user.currentEnvironment = companyInfo;
+          // }
+          //dispatch(setUserInfo(user))
+          return dispatch(loginWithoutCompanySuccess());
+       }
+       return dispatch(logOutSuccess());
+     } catch (error) {
+       //alert('Unauthorized Access');
+       return dispatch(logOutSuccess());
+     }
+   };
+ };
+
+ /** Middleware to handle authentication */
+ export const authWithCompany: ActionCreator<ThunkAction<
    Promise<actionTypes.AuthSuccessAction | actionTypes.LogoutSuccessAction>,
    AppState,
    actionTypes.AuthRequest,
@@ -44,22 +81,16 @@
    return async (dispatch: Dispatch, getState) => {
      const {auth} = getState();
      dispatch(authStart());
- 
+      
      if (auth.login) {
        return dispatch(authSuccess());
      }
  
      try {
        const response = await axios.post('/api/login', authRequest);
-       const companyInfo = await CompanyInfo.get();
-        dispatch(setUserInfo(companyInfo))
        if (response.status === 200) {
           const user = await User.get(response.config.data.user);
-          // const companyInfo = await CompanyInfo.get();
-          // if (companyInfo !== undefined && !isEmpty(companyInfo)){
-          //   user.currentEnvironment = companyInfo;
-          // }
-          //dispatch(setUserInfo(user))
+          dispatch(setUserInfo(user))
          return dispatch(authSuccess());
        }
        return dispatch(logOutSuccess());

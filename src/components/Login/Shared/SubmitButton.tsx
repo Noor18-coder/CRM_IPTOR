@@ -2,7 +2,7 @@ import {Button} from 'react-bootstrap';
 
 export interface Props {
     title : string ;
-    onClick: () => void;
+    onClick: (e:React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const SubmitButton:React.FC<Props> = ({

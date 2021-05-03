@@ -5,6 +5,7 @@ import { UserItem } from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
 export enum AuthTypes {
+  LOGIN_WITHOUT_COMPANY = 'LOGIN_WITHOUT_COMPANY',
   AUTH_SUCCESS = 'AUTH_SUCCESS',
   AUTH_START = 'AUTH_START',
   LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
@@ -14,8 +15,11 @@ export enum AuthTypes {
 export interface AuthRequest {
     user: string;
     password: string;
+    company?: string;
   }
   
+/** Authentication success action */
+export interface AuthWithoutCompany extends Action<AuthTypes.LOGIN_WITHOUT_COMPANY> {}
 
 /** Authentication success action */
 export interface AuthSuccessAction extends Action<AuthTypes.AUTH_SUCCESS> {}
@@ -36,10 +40,12 @@ export type AuthActions =
   AuthSuccessAction | 
   AuthStartAction | 
   LogoutSuccessAction | 
-  UserSetAction ;
+  UserSetAction |
+  AuthWithoutCompany;
 
 /** Authentication state definition */
 export interface AuthState {
+  readonly loginWithoutCompany: boolean;
   readonly login: boolean;
   readonly loading: boolean;
   readonly error: boolean;

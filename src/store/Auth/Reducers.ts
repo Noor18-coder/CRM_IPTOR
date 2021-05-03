@@ -11,6 +11,7 @@
   */
  export const createAuthInitialState = () : AuthState => {
    return {
+     loginWithoutCompany:false,
      login: false,
      loading: false,
      error: false,
@@ -51,6 +52,11 @@
        return {
          ...state,
          user: { ...action.user }
+       };
+      case AuthTypes.LOGIN_WITHOUT_COMPANY:
+       return {
+         ...state,
+         loginWithoutCompany:true
        };
      default:
        return state;
