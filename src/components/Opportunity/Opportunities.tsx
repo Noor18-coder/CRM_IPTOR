@@ -1,10 +1,20 @@
-import * as React from "react"
+import * as React from "react";
+import { Dispatch } from "redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from 'react-router'; 
+
+import { OpportunityState } from '../../store/Opportunity/Types';
+import { AppState } from "../../store/store";
+
 import Grid from '../Shared/Grid/Grid';
 import Header from '../Shared/Header/Header';
 import GridFilter from '../Shared/Filter/GridFilter';
-import '../../assets/styles/styles.scss';
+import { getOpportunities } from '../../store/Opportunity/Actions';
 
-const ShowTeams: React.FC = () => {
+const Opportunites: React.FC = () => {
+
+ const state:OpportunityState = useSelector((state: AppState) => state.opportunities);
+ const history = useHistory();
 
   const filters = [
     {
@@ -34,20 +44,33 @@ const ShowTeams: React.FC = () => {
   }];
 
   const onGridSort = (key:String) => {
+  }
 
+  const dispatch: Dispatch<any> = useDispatch();
+
+  React.useEffect(() => {
+    console.log("Loading oppty");
+    dispatch(getOpportunities('',100,0));
+  },[]);
+
+  const openOpptyDetails = (data:any) => {
+    const opptyId = data && data.opportunityId ? data.opportunityId : null;
+    if(opptyId) {
+      history.push({  pathname:  "/opp-details", state: { oppid: opptyId}})
+    }
   }
 
 
   return (
     <div>
       <Header />
-      <section className={"opprtunities"}>
+      <section>
         <div className={"container-fluid"}>
 
           <div className={"row s-header"}>
             <div className={"col col-md-4"}>
               <div className={"page-title"}>
-                Opportunites
+                {'Opportunities' + ( state.opportunities.length)}
               </div>
             </div>
             
@@ -71,10 +94,12 @@ const ShowTeams: React.FC = () => {
           </div>
         </div>
         <GridFilter filters={filters} selectOption={onGridSort} />
-        <Grid />
+        {/* { state.opportunities.length ? console.log(state.opportunities)  : null  } */}
+        {state.opportunities.length ? <Grid rowData={state.opportunities} openOpptyDetails={openOpptyDetails}/>   : null  }
+        
       </section>
     </div>
   );
 }
 
-export default ShowTeams;
+export default Opportunites;

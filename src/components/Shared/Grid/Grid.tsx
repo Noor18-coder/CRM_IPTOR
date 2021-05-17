@@ -9,12 +9,16 @@ import { OpportunitiesList, Data, getFields } from '../../../mocks/opportunity_l
 import { parseCommandLine } from 'typescript';
 
 import Dots from '../../../assets/images/nav-more.svg';
+import { RowClickedEvent } from 'ag-grid-community';
 
-const Grid = () => {
+interface Props {
+  rowData : any[], 
+  openOpptyDetails:  (data:any) => void
+}
 
-  const rowClass = 'my_row';
+const Grid:React.FC<Props> = ({rowData, openOpptyDetails}) => {
+
   const fields = getFields();
-  const rowData: Data[] = OpportunitiesList.getOpportunities(100);
   const headerClass = ['table-cell align-items-center'];
 
   const onGridSizeChanged = (params: any) => {
@@ -24,6 +28,20 @@ const Grid = () => {
   const staticArrayCellClass = ['table-cell', 'justify-content-center'];
 
   const imgDot = () =>  '<img class="nav-more-menu" src="' + Dots + '" alt="...">';
+
+  const defaultColDef = {
+    width: 100,
+    headerComponentParams: {
+        template:
+            '<div class="ag-cell-label-container" role="presentation">' +
+            '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
+            '    <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+            '    <span  ref="eSortAsc" class="asc-icon"></span>' +
+            '    <span ref="eSortDesc" class="desc-icon"></span>' +
+            '  </div>' +
+            '</div>'
+    }
+};
 
   const Column = (obj: any) => {
     const staticArrayCellClass = ['table-cell', 'justify-content-center'];
@@ -39,16 +57,23 @@ const Grid = () => {
     )
   }
 
+  const gridRowClicked = (event:RowClickedEvent) => {
+    openOpptyDetails(event.data);
+  }
+
   return (
     <div className={"lists opportunity-list"}>
       <div className={"table-wrapper"}>
         <div className={"ag-theme-alpine"}>
 
           <AgGridReact
+            defaultColDef={defaultColDef}
             headerHeight={60}
             rowHeight={60}
             domLayout={'autoHeight'}
             rowData={rowData}
+            onRowClicked={gridRowClicked}
+            suppressCellSelection={true}
             onGridSizeChanged={onGridSizeChanged}>
             {fields.map((obj) => { return Column(obj); })}
             <AgGridColumn

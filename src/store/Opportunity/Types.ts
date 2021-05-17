@@ -1,29 +1,19 @@
+/** Authentication Action Types */
+
 import { Action } from 'redux';
+import { OpportunityListItem } from '../../helpers/Api/models';
 
-/** Enum for Opportunities Actions */
+/** Enum for Authentication Actions */
 export enum OpportunityTypes {
-  ADD_OPPORTUNITY = 'ADD_OPPORTUNITY'
+  SAVE_LIST_OPPTY = 'SAVE_LIST_OPPTY'
 }
-
-export interface Opportunity {
-  id: string,
-  dealSize : string,
-  company : string,
-  status: string
-}
-
-/** Opportunity add action */
-
-  export interface OpportunityAdd
-  extends Action<OpportunityTypes.ADD_OPPORTUNITY> {
-    opportunity: Opportunity
-  }
-
-
   
-
-export type OpportunityActions = OpportunityAdd;
-
-export interface OpportunityState {
-  opportunities : Opportunity[]
+/** Authentication success action */
+export interface SaveOpportuntiesAction extends Action<OpportunityTypes.SAVE_LIST_OPPTY> {
+  opportunities:OpportunityListItem[]
 }
+/** Authentication state definition */
+export interface OpportunityState {
+  readonly opportunities:OpportunityListItem[] 
+}
+

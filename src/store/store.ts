@@ -23,7 +23,8 @@ export interface AppState {
   readonly auth : AuthState
 }
 const appReducer = combineReducers({
-  auth: authReducer 
+  auth: authReducer,
+  opportunities:opportunityReducer
 });
 
 const rootReducer = (state: any, action: AppActions) => {

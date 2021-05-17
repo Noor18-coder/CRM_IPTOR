@@ -16,7 +16,7 @@
       margin-bottom: 2px;
     
 
-        .ag-header-cell {
+        .ag-header-cell-label {
           display: flex;
           width: 100%;
           padding: 0 0px 8px 24px;
@@ -28,14 +28,8 @@
           text-transform: uppercase;
           color:#2F3C46;
           
-          .ag-filter-icon{
-            width: 10px;
-               height: 7px;
-               background-position: center;
-               background-size: contain;
-               background-repeat: no-repeat;
-               margin-left: 10px;
-              &.desc{
+        
+              .asc-icon{
                     background: url(../images/down-arrow.svg);
                     width: 10px;
                     height: 7px;
@@ -45,11 +39,17 @@
                     margin-left: 10px;
                 }
                   
-                  &.asc{
+                .desc-icon{
                     background: url(../images/down-arrow.svg);
                     transform: scaleY(-1);
+                    width: 10px;
+                    height: 7px;
+                    background-position: center;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    margin-left: 10px;
                 }
-          }
+          
         }
     }
 

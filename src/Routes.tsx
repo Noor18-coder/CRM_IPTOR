@@ -11,8 +11,8 @@ function Routes() {
     return (
         <Router>
            <Route path="/login" component={LoginForm} exact />
-           {/* <ProtectedRoute  path="/"  component={Opportunities}  exact  /> */}
-           <ProtectedRoute  path="/"  component={OpportunityDetails}  exact  />
+           <ProtectedRoute  path="/"  component={Opportunities}  exact  />
+           <ProtectedRoute  path="/opp-details"  component={OpportunityDetails}  exact  />
         </Router>
     )
 }

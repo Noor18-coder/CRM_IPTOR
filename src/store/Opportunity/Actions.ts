@@ -3,26 +3,32 @@
  */
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-//import axios from 'axios';
-import {OpportunityTypes , OpportunityActions, OpportunityState, Opportunity , OpportunityAdd } from './Types';
+import { OpportunityListItem } from '../../helpers/Api/models';
+import OpportunityList from '../../helpers/Api/OpportunityList'; 
+import {OpportunityTypes , SaveOpportuntiesAction, OpportunityState } from './Types';
+
+/** Action to set auth state logged in status */
+export const saveOpptyList: ActionCreator<SaveOpportuntiesAction> = (opptyList) => {
+  return {
+    type: OpportunityTypes.SAVE_LIST_OPPTY,
+    opportunities:opptyList
+  };
+};
 
 
-export const addOpportunity : ActionCreator<ThunkAction<
+export const getOpportunities : ActionCreator<ThunkAction<
   // The type of the last action to be dispatched - will always be promise<T> for async actions
-  Promise<OpportunityAdd>,
+  Promise<SaveOpportuntiesAction>,
   // The type for the data within the last action
-  Opportunity[],
+  OpportunityListItem[],
   // The type of the parameter for the nested function
   null,
   // The type of the last action to be dispatched
-  OpportunityAdd
->> = (opportunity:Opportunity) => {
+  SaveOpportuntiesAction
+>> = (freeTextSearch: string, limit?: number, offset?: number) => {
   return async (dispatch: Dispatch) => {
-    const addOpportunityAction : OpportunityAdd = {
-      type: OpportunityTypes.ADD_OPPORTUNITY,
-      opportunity:opportunity
-    };
-    return dispatch(addOpportunityAction);
+   const opptyList = await OpportunityList.get(freeTextSearch, limit , offset); 
+    return dispatch(saveOpptyList(opptyList));
   }
     
 };
