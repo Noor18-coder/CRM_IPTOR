@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { Col, Row, Container, Card, Image, Nav, Button } from 'react-bootstrap';
 import './Shared/scss/index.scss';
 import logo from '../../assets/images/iptor_logo.png';
-import Company from './Shared/Company';
+import {Company} from './Shared/Company';
 import LoginFooter from './Shared/LoginFooter';
 import VectorImg from '../../assets/images/Vector.png';
 import { CompanyInfoItem, UserItem } from '../../helpers/Api/models';
@@ -65,7 +65,7 @@ const CompanySelection: React.FC<Props> = ({ selectCompany }) => {
                     </Card>
                     <Nav.Item className="back-to-login">
                         <Image src={VectorImg} className={'backtologinimg'} width={16} height={10}></Image>
-                        <Nav.Link href="#">Back to Login</Nav.Link>
+                        <Nav.Link href="/">Back to Login</Nav.Link>
                     </Nav.Item>
                 </Col>
             </Row>

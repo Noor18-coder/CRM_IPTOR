@@ -114,3 +114,19 @@ html {
   font-size: 11px;
   padding: 14px;
 }
+
+.error {
+  line-height: 19px;
+  color:#FF0201;
+  margin-left: 14px;
+  display: block;
+  font-weight: normal;
+  font-size: 14px;
+  margin-bottom: 0;
+
+}
+
+.alert-icon {
+  position: relative;
+  bottom: 1px;
+}

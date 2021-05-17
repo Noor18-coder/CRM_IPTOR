@@ -2,8 +2,9 @@ import React, { FormEvent } from "react";
 //import "../Login/Shared/scss/LoginForm.css";
 import { Container, Row, Col, Form, Button, Nav, Image } from "react-bootstrap";
 import logo from '../../assets/images/iptor_logo.png';
+import error from '../../assets/images/error.png';
 import LoginFooter from "./Shared/LoginFooter";
-import SubmitButton from "./Shared/SubmitButton";
+import {SubmitButton} from "./Shared/SubmitButton";
 import { Redirect, useHistory } from 'react-router-dom';
 
 import { useSelector, shallowEqual, useDispatch } from "react-redux"
@@ -59,6 +60,7 @@ const LoginForm: React.FC = () => {
               <Col xl={12}>
                 <Image src={logo} width={55} height={20}></Image>
                 <h1>Hi there!  Welcome back... </h1>
+                <p className="error"> <Image className="alert-icon" src={error} width={15} height={12}></Image>&nbsp; Either your password or user id is wrong</p>
                 <Form className="line-input">
                   <Form.Group>
                     <Form.Label>User ID</Form.Label>

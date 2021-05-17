@@ -2,12 +2,12 @@ import React from 'react';
 import { CompanyInfoItem } from '../../../helpers/Api/models';
 import VectorImg from '../../../assets/images/check_circle.svg';
 
-interface Props {
+export interface Props {
     companies: CompanyInfoItem[],
     doClick: (key: string) => void
 }
 
-const Company: React.FC<Props> = ({
+export const Company: React.FC<Props> = ({
     companies,
     doClick
 }) => {
@@ -18,7 +18,7 @@ const Company: React.FC<Props> = ({
                     return (
                         <div className={'company-container'} onClick={() => doClick(obj.companyCode)} key={obj.companyCode}>
                             <div className={'center'}>
-                                <div>{obj.name}</div>
+                                <div className={'test'}>{obj.name}</div>
                                 <img className={'company-selection-img'} style={{ display: obj.selected ? 'block' : 'none' }} src={VectorImg}></img>
                             </div>
                         </div>
@@ -28,5 +28,3 @@ const Company: React.FC<Props> = ({
         </ul>
     )
 };
-
-export default Company;
