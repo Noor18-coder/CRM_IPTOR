@@ -11,6 +11,7 @@ import LEFT_ARROW from '../assets/images/left-arrow.svg'
 import HISTORY from '../assets/images/history.svg';
 import STAR from '../assets/images/star.svg';
 import MORE_V_ELLIPSIS from '../assets/images/more-v-ellipsis.svg';
+import IPTOR_LOGO_ORANGE from '../assets/images/iptor-logo-orange.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -25,7 +26,8 @@ import MORE_V_ELLIPSIS from '../assets/images/more-v-ellipsis.svg';
     LEFT_ARROW:LEFT_ARROW,
     HISTORY:HISTORY,
     STAR:STAR,
-    MORE_V_ELLIPSIS:MORE_V_ELLIPSIS
+    MORE_V_ELLIPSIS:MORE_V_ELLIPSIS,
+    IPTOR_LOGO_ORANGE:IPTOR_LOGO_ORANGE
 };
 
 export default ImageConfig;

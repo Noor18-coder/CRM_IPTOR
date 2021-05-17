@@ -3,7 +3,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 import Opportunities from './components/Opportunity/Opportunities';
 import LoginForm from './components/Login/LoginForm';
-import OpportunityDetails from './components/Opportunity/OpportunityDetails';
+import OpportunityDetails from './components/Opportunity/OpportunityDetails/OpportunityDetails';
 
 
 function Routes() {
