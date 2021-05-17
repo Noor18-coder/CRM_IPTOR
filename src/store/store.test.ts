@@ -1,30 +1,13 @@
-import * as reduxStore from './store';
+import { store } from './store';
 
 describe('Store', () => {
-  it('should create store', () => {
-    const initialState: reduxStore.AppState = {
-      opportunities:{
+  it('should create store and dispatching non-existing action shouldn\'t change the Store', () => {
+    const initialState = store.getState();
 
-      },
-      auth:{
-          loginWithoutCompany:false,
-          login: false,
-          loading: false,
-          error: false,
-          user: {
-            defaultSalesOrderType: '',
-            description: '',
-            user: '',
-            handler: '',
-            language: '',
-            currentEnvironment: []
-          }
-        }
-    };
-    const store = reduxStore.configureStore(initialState);
     store.dispatch({
       type: 'TestAction'
     });
     expect(store.getState()).toEqual(initialState);
   });
 });
+
