@@ -25,9 +25,9 @@ export const getOpportunities : ActionCreator<ThunkAction<
   null,
   // The type of the last action to be dispatched
   SaveOpportuntiesAction
->> = (freeTextSearch: string, limit?: number, offset?: number) => {
+>> = (handler:string, freeTextSearch: string, limit?: number, offset?: number) => {
   return async (dispatch: Dispatch) => {
-   const opptyList = await OpportunityList.get(freeTextSearch, limit , offset); 
+   const opptyList = await OpportunityList.get(handler, freeTextSearch, limit , offset); 
     return dispatch(saveOpptyList(opptyList));
   }
     

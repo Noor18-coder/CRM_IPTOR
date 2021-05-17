@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 
 import { OpportunityState } from '../../store/Opportunity/Types';
 import { AppState } from "../../store/store";
+import { AuthState } from '../../store/Auth/Types';
 
 import Grid from '../Shared/Grid/Grid';
 import Header from '../Shared/Header/Header';
@@ -14,6 +15,7 @@ import { getOpportunities } from '../../store/Opportunity/Actions';
 const Opportunites: React.FC = () => {
 
  const state:OpportunityState = useSelector((state: AppState) => state.opportunities);
+ const authState:AuthState = useSelector((state: AppState) => state.auth);
  const history = useHistory();
 
   const filters = [
@@ -49,8 +51,7 @@ const Opportunites: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
 
   React.useEffect(() => {
-    console.log("Loading oppty");
-    dispatch(getOpportunities('',100,0));
+    dispatch(getOpportunities(authState.user.handler,'',20,0));
   },[]);
 
   const openOpptyDetails = (data:any) => {
@@ -70,7 +71,7 @@ const Opportunites: React.FC = () => {
           <div className={"row s-header"}>
             <div className={"col col-md-4"}>
               <div className={"page-title"}>
-                {'Opportunities' + ( state.opportunities.length)}
+                {'Opportunities'}
               </div>
             </div>
             
@@ -93,10 +94,10 @@ const Opportunites: React.FC = () => {
             </div>
           </div>
         </div>
-        <GridFilter filters={filters} selectOption={onGridSort} />
-        {/* { state.opportunities.length ? console.log(state.opportunities)  : null  } */}
-        {state.opportunities.length ? <Grid rowData={state.opportunities} openOpptyDetails={openOpptyDetails}/>   : null  }
-        
+        <div className={"container-fluid"}>
+          <GridFilter filters={filters} selectOption={onGridSort} />
+          {state.opportunities.length ? <Grid rowData={state.opportunities} openOpptyDetails={openOpptyDetails}/>   : null  }
+        </div>
       </section>
     </div>
   );

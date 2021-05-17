@@ -4,7 +4,8 @@ import { render } from 'react-dom';
 import { AgGridReact, AgGridColumn } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import { OpportunitiesList, Data, getFields } from '../../../mocks/opportunity_list.mocks';
+
+import OpportunityGridOptions from '../../../config/OpportunityGrid';
 //import { Column } from './Column';
 import { parseCommandLine } from 'typescript';
 
@@ -18,7 +19,7 @@ interface Props {
 
 const Grid:React.FC<Props> = ({rowData, openOpptyDetails}) => {
 
-  const fields = getFields();
+  const fields = OpportunityGridOptions;
   const headerClass = ['table-cell align-items-center'];
 
   const onGridSizeChanged = (params: any) => {
@@ -78,7 +79,7 @@ const Grid:React.FC<Props> = ({rowData, openOpptyDetails}) => {
             {fields.map((obj) => { return Column(obj); })}
             <AgGridColumn
             cellRenderer={imgDot}
-            width={60}
+            width={30}
             suppressAutoSize={true}></AgGridColumn>
           </AgGridReact>
         </div>

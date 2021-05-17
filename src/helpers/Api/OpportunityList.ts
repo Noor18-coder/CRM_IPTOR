@@ -15,8 +15,8 @@ export default class OpportunityList {
    * @param offset pagination offset
    * @returns Array of business patners and control object
    */
-  static async get(freeTextSearch: string, limit?: number, offset?: number): Promise<OpportunityListItem[]> {
-    const params: OpportunityListParams = { handler:'inprajos'}
+  static async get(handler:string, freeTextSearch: string, limit?: number, offset?: number): Promise<OpportunityListItem[]> {
+    const params: OpportunityListParams = { handler:handler}
     const requestData = new ApiRequest<OpportunityListParams>(this.apiMethod, params, { freeTextSearch, limit, offset });
     const response = await axios.post<OpportunityListResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
