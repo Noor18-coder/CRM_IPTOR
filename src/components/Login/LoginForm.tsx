@@ -22,6 +22,7 @@ const LoginForm: React.FC = () => {
 
 
   const [authRequest, setValues] = React.useState<AuthRequest | {}>();
+  const [company, setCompany] = React.useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -38,13 +39,15 @@ const LoginForm: React.FC = () => {
   }
 
   const selectCompany = (company: string) => {
-    setValues({
-      ...authRequest,
-      company: company
-    });
-    dispatch(authWithCompany(authRequest));
-
+    setCompany(company);
   }
+
+  React.useEffect(() => {
+
+    const params = {...authRequest, company:company};
+    dispatch(authWithCompany(params));
+
+  }, [company]);
 
   return (
     <>

@@ -5,7 +5,21 @@ describe('Store', () => {
     const initialState: reduxStore.AppState = {
       opportunities:{
 
-      }
+      },
+      auth:{
+          loginWithoutCompany:false,
+          login: false,
+          loading: false,
+          error: false,
+          user: {
+            defaultSalesOrderType: '',
+            description: '',
+            user: '',
+            handler: '',
+            language: '',
+            currentEnvironment: []
+          }
+        }
     };
     const store = reduxStore.configureStore(initialState);
     store.dispatch({

@@ -38,7 +38,8 @@
 export interface CompanyInfoItem {
   companyCode : string,
   companyShortName : string,
-  name : string
+  name : string, 
+  selected: boolean
 }; 
 
 export interface CompanyInfoRes {
@@ -47,6 +48,6 @@ export interface CompanyInfoRes {
 
 export interface CompanyInfoItemResponse {
   IptorAPI: string;
-  data: CompanyInfoRes;
+  items: CompanyInfoItem[];
   id: string;
 }

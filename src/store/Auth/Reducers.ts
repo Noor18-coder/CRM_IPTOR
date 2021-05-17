@@ -21,7 +21,7 @@
        user: '',
        handler: '',
        language: '',
-       currentEnvironment:{}
+       currentEnvironment: []
      } as UserItem
    }
  };

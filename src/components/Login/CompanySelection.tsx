@@ -1,80 +1,54 @@
 import React from 'react';
-import { useSelector, shallowEqual, useDispatch, useStore } from "react-redux"
+import { useSelector } from "react-redux"
 import { Col, Row, Container, Card, Image, Nav, Button } from 'react-bootstrap';
 import './Shared/scss/index.scss';
 import logo from '../../assets/images/iptor_logo.png';
 import Company from './Shared/Company';
 import LoginFooter from './Shared/LoginFooter';
 import VectorImg from '../../assets/images/Vector.png';
-import { CompanyInfoItem } from '../../helpers/Api/models';
+import { CompanyInfoItem, UserItem } from '../../helpers/Api/models';
 import { AppState } from '../../store';
-import { AuthState } from '../../store/Auth/Types';
-
-const items: CompanyInfoItem[] = [
-    {
-        "companyCode": "CD",
-        "companyShortName": "DEV116A CD",
-        "name": "CRM; Development"
-    },
-    {
-        "companyCode": "CP",
-        "companyShortName": "DEV116A CP",
-        "name": "CRM; Production"
-    },
-    {
-        "companyCode": "CQ",
-        "companyShortName": "DEV116A CQ",
-        "name": "CRM; Quality control"
-    },
-    {
-        "companyCode": "D1",
-        "companyShortName": "DEV116A D1",
-        "name": "Development, release 11.60 (1)"
-    },
-    {
-        "companyCode": "D2",
-        "companyShortName": "DEV116A D2",
-        "name": "Development, release 11.60 (2)"
-    },
-    {
-        "companyCode": "DV",
-        "companyShortName": "DEV116A DV",
-        "name": "Development, release 11.60"
-    },
-    {
-        "companyCode": "MD",
-        "companyShortName": "DEV116A DV",
-        "name": "MDC/CDM Development 11.60"
-    },
-    {
-        "companyCode": "PR",
-        "companyShortName": "DEV116A PR",
-        "name": "Production, release 11.60"
-    },
-    {
-        "companyCode": "QC",
-        "companyShortName": "DEV116A QC",
-        "name": "Quality control, release 11.60"
-    }
-];
 
 interface Props {
     selectCompany: (company: string) => void
 }
 
-
 const CompanySelection: React.FC<Props> = ({ selectCompany }) => {
-    // const items:AuthState = useSelector(
-    //     (state: AppState) => state.auth
-    //  );
 
-    const [currentState, setCurrentSelection] = React.useState<string>();
+    // Fetching companies list from the redux-store.
+    const state: UserItem = useSelector(
+        (state: AppState) => state.auth.user
+    );
 
+    // Assign the same list to local state variable.
+    const [user, setsUser] = React.useState<any>(state.currentEnvironment);
+    const [company, setCurrentCompany] = React.useState<string>();
+
+    //
     const selectState = (key: string) => {
-        setCurrentSelection(key);
-        console.log("CS", key);
+        if (key === company) {
+            return;
+        }
+        
+        const newList = user.map((item:CompanyInfoItem) => {
+            if (item.companyCode === key || item.companyCode == company) {
+                const updatedItem = {
+                    ...item,
+                    selected: !item.selected,
+                };
+                return updatedItem;
+            }
+            return item;
+        });
+        setsUser(newList);
+        setCurrentCompany(key);
         selectCompany(key);
     }
+
+
+    React.useEffect(() => {
+
+    }, [company]);
 
     return (
         <Container className="login-bg">
@@ -85,7 +59,7 @@ const CompanySelection: React.FC<Props> = ({ selectCompany }) => {
                     <Card className="company-list">
                         <Card.Body className={"middle-container"}>
                             <Container className={"scrollable"}>
-                                {items.map((obj: CompanyInfoItem) => { return <Company doClick={selectState} name={obj.name} companyCode={obj.companyCode} companyShortName={obj.companyShortName} /> })}
+                                <Company companies={user} doClick={selectState} ></Company>
                             </Container>
                         </Card.Body>
                     </Card>
