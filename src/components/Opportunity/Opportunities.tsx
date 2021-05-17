@@ -1,38 +1,78 @@
 import * as React from "react"
-import { useSelector, shallowEqual, useDispatch } from "react-redux"
-import { AddOpportunity } from './AddOpportunity';
-
-import { addOpportunity  } from "../../store/Opportunity/Actions";
-import { Dispatch } from "redux"
-import { AppState } from '../../store/store';
-import { OpportunityCard } from './OpportunityCard';
-import { Opportunity } from "../../store/Opportunity/Types";
-
+import Grid from '../Shared/Grid/Grid';
+import Header from '../Shared/Header/Header';
+import GridFilter from '../Shared/Filter/GridFilter';
+import '../../assets/styles/styles.scss';
 
 const ShowTeams: React.FC = () => {
- 
 
-  const state : AppState = useSelector(
-    (state: AppState) => state
-  );
+  const filters = [
+    {
+      value:'all',
+      name:'All',
+      active:true
+    },
+    {
+      value:'one',
+      name:'One',
+      active:false
+    },
+    {
+    value:'two',
+    name:'Two',
+    active:false
+  },
+  {
+    value:'three',
+    name:'Three',
+    active:false
+  },
+  {
+    value:'four',
+    name:'Four',
+    active:false
+  }];
 
- 
+  const onGridSort = (key:String) => {
 
-  const dispatch: Dispatch<any> = useDispatch()
+  }
 
-  const saveOppty = React.useCallback(
-    (opportunity: Opportunity) => dispatch(addOpportunity(opportunity)),
-    [dispatch]
-  )
 
   return (
     <div>
-        <h1>Opportunities</h1>
-       <AddOpportunity saveOppty={saveOppty} />
-       {/* {state.loading ? <h3>Loading</h3> : null} */}
-   { state.opportunities.opportunities.map((oppty: Opportunity) => <OpportunityCard opportunity={oppty} /> )}   
-      {/* {console.log(teams)} */}
+      <Header />
+      <section className={"opprtunities"}>
+        <div className={"container-fluid"}>
 
+          <div className={"row s-header"}>
+            <div className={"col col-md-4"}>
+              <div className={"page-title"}>
+                Opportunites
+              </div>
+            </div>
+            
+            <div className={"col col-md-4"}>
+              <div className={"navbar-search-overlap"}>
+                <form role="search">
+                  <div className={"form-group"}>
+                    <div className={"input-search"}>
+                      <i className={"input-search-icon wb-search"} aria-hidden="true"></i>
+                      <input type="text" className={"form-control"} name="site-search" placeholder="Search" />
+                      <button type="button" className={"search-settings-button"}></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div className={"col col-md-4 justify-content-end"}>
+              <button className={"btn add-opportunity"} data-toggle="modal" data-target="#myModal2">+ New Opportunity</button>
+            </div>
+          </div>
+        </div>
+        <GridFilter filters={filters} selectOption={onGridSort} />
+        <Grid />
+      </section>
     </div>
   );
 }

@@ -14,6 +14,7 @@ import LeftColmData from './Shared/LeftColmData';
 import { auth, authWithCompany, logOutSuccess} from "../../store/Auth/Actions";
 import { AuthRequest } from "../../store/Auth/Types";
 import { AppState } from "../../store/store";
+import { Redirect } from "react-router";
 
 const LoginForm: React.FC = () => {
   const state: AppState = useSelector((state: AppState) => state);
@@ -60,7 +61,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <>
-    { state.auth.loginWithoutCompany ? <CompanySelection selectCompany={selectCompany} backToLogin={backToLogin}/> :
+    { state.auth.login ? <Redirect to="/" /> : (state.auth.loginWithoutCompany ? <CompanySelection selectCompany={selectCompany} backToLogin={backToLogin}/> :
       <div className="main-wrapper loginpage">
           <LeftColmData></LeftColmData>
           <>
@@ -110,7 +111,7 @@ const LoginForm: React.FC = () => {
           </div> 
           </> 
         </div>
-      }
+    )}
     </>
   );
 };

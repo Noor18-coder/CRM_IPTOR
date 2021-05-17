@@ -1,0 +1,153 @@
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
+
+.ag-theme-alpine {
+    .ag-header {
+        // or write CSS selectors to make customisations beyond what the parameters support
+        background-color: #eef0f2;
+        border: transparent;
+        
+    }
+
+    .ag-header-row {
+      display: grid;
+      grid-template-columns: 11% 10% 20% 15% 10% 10% 10% 10% 4%;
+      grid-template-rows: 100% auto;
+      margin-bottom: 2px;
+    
+
+        .ag-header-cell {
+          display: flex;
+          width: 100%;
+          padding: 0 0px 8px 24px;
+          font-family: Open Sans;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 16px;
+          text-transform: uppercase;
+          color:#2F3C46;
+          
+          .ag-filter-icon{
+            width: 10px;
+               height: 7px;
+               background-position: center;
+               background-size: contain;
+               background-repeat: no-repeat;
+               margin-left: 10px;
+              &.desc{
+                    background: url(../images/down-arrow.svg);
+                    width: 10px;
+                    height: 7px;
+                    background-position: center;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    margin-left: 10px;
+                }
+                  
+                  &.asc{
+                    background: url(../images/down-arrow.svg);
+                    transform: scaleY(-1);
+                }
+          }
+        }
+    }
+
+    
+    .ag-row{
+      display: grid;
+      grid-template-columns: 13% 10% 20% 15% 10% 10% 10% 10% 4%;
+      grid-template-rows: 100% auto;
+      margin-bottom: 2px;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      border-radius: 4px;
+      background-color: #fff;
+      border:2px solid #EEF0F2;
+
+      &:hover{
+          border: 1px solid #00A3A5;
+          box-sizing: border-box;
+          border-radius: 4px;
+      }
+
+      .ag-cell{
+
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          padding: 10px 0px 10px 24px;
+          border-radius: inherit;
+          font-family: Open Sans;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 19px;
+          /* identical to box height */
+          text-transform: capitalize;
+          color: #2F3C46;
+
+          .o-name{
+             font-weight: 600;     
+          }
+
+          .o-number{
+              font-style: normal;
+              font-weight: normal;
+              font-size: 12px;
+              line-height: 16px;
+              text-transform: uppercase;
+              display: block;
+              color: #6D899D;
+          }
+
+          .o-forecast{
+              font-weight: 600;  
+          }
+
+          .o-quarter{
+              font-weight: 600;  
+          }
+
+          .o-size{
+              font-weight: 600;  
+          }
+
+          .o-stage{
+              font-weight: 600;  
+              background: #EEF0F2;
+              border-radius: 22px;
+              font-style: normal;
+              font-weight: bold;
+              font-size: 14px;
+              line-height: 19px;
+              display: flex;
+              align-items: center;
+              text-align: center;
+              text-transform: uppercase;
+              color: #2F3C46;
+              padding: 6.4px 24px;
+              display: inline-block;
+          }
+        }
+    }
+      
+    .ag-root-wrapper {
+      border: transparent;
+    }
+
+   
+   
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .ag-body-viewport::-webkit-scrollbar {
+        display: none;
+    }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .ag-body-viewport {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+   
+}
