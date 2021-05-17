@@ -1,4 +1,5 @@
 export * from './UserItem';
 export * from './CompanyInfo';
 export * from './ApiRequestControls';
-export * from './Opportunity';      
+export * from './Opportunity';   
+export * from './OpportunityDetails';   
