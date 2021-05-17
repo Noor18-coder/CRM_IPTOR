@@ -8,7 +8,7 @@ import errorIcon from "../../assets/images/error.png";
 
 import LoginFooter from "./Shared/LoginFooter";
 import { SubmitButton } from "./Shared/SubmitButton";
-import CompanySelection from "./CompanySelection";
+import {CompanySelection} from "./CompanySelection";
 import LeftColmData from './Shared/LeftColmData';
 
 import { auth, authWithCompany, logOutSuccess} from "../../store/Auth/Actions";
@@ -47,7 +47,6 @@ const LoginForm: React.FC = () => {
   };
 
   const backToLogin= () => {
-    console.log('Back to Login Clicked..');
     dispatch(logOutSuccess());
   }
 

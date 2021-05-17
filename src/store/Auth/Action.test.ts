@@ -83,6 +83,10 @@ describe('AuthActions', () => {
       {
         type: types.AuthTypes.AUTH_START
       },
+    
+        {
+          type: types.AuthTypes.AUTH_ERROR
+        },
       {
         type: types.AuthTypes.LOGOUT_SUCCESS
       }
@@ -101,6 +105,9 @@ describe('AuthActions', () => {
     const expectedAction = [
       {
         type: types.AuthTypes.AUTH_START
+      },
+      {
+        type: types.AuthTypes.AUTH_ERROR
       },
       {
         type: types.AuthTypes.LOGOUT_SUCCESS
@@ -142,6 +149,9 @@ describe('AuthActions', () => {
         type: types.AuthTypes.AUTH_START
       },
       {
+        type: types.AuthTypes.AUTH_ERROR
+      },
+      {
         type: types.AuthTypes.LOGOUT_SUCCESS
       }
     ];
@@ -160,6 +170,9 @@ describe('AuthActions', () => {
         type: types.AuthTypes.AUTH_START
       },
       {
+        type: types.AuthTypes.AUTH_ERROR
+      },
+      {
         type: types.AuthTypes.LOGOUT_SUCCESS
       }
     ];
@@ -175,6 +188,9 @@ describe('AuthActions', () => {
     const expectedAction = [
       {
         type: types.AuthTypes.AUTH_START
+      },
+      {
+        type: types.AuthTypes.AUTH_ERROR
       },
       {
         type: types.AuthTypes.LOGOUT_SUCCESS
@@ -196,8 +212,11 @@ describe('AuthActions', () => {
         type: types.AuthTypes.AUTH_START
       },
       {
-        type: types.AuthTypes.LOGOUT_SUCCESS,
-      }
+         type: types.AuthTypes.AUTH_ERROR
+      },
+      {
+        type : types.AuthTypes.LOGOUT_SUCCESS
+      },
     ];
 
     await store.dispatch<any>(actions.authWithCompany(authRequest));

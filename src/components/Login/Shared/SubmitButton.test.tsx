@@ -17,12 +17,12 @@ describe('<SubmitButton /> ', () => {
 
   it("should render the submit button", () => {
     wrapper = shallow(<SubmitButton {...props} />);
-    expect(wrapper.find('.btn-login').length).toEqual(1);
+    expect(wrapper.find('.iptor-login-btn').length).toEqual(1);
   });
 
   it("should call the function on button click ", () => {
     wrapper = shallow(<SubmitButton {...props} />);
-    wrapper.find('.btn-login').simulate('click');
+    wrapper.find('.iptor-login-btn').simulate('click');
     expect(props.onClick).toHaveBeenCalled();
   });
   

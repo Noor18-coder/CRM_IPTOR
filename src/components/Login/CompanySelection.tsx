@@ -11,12 +11,12 @@ import { CompanyInfoItem, UserItem } from "../../helpers/Api/models";
 import { AppState } from "../../store";
 import LeftColmData from './Shared/LeftColmData';
 
-interface Props {
+export interface Props {
   selectCompany: (company: string) => void;
   backToLogin : () => void
 }
 
-const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }) => {
+export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }) => {
   // Fetching companies list from the redux-store.
   const state: UserItem = useSelector((state: AppState) => state.auth.user);
 
@@ -48,29 +48,29 @@ const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }) => {
   return (
     <div className="main-wrapper companypage">
       <LeftColmData></LeftColmData>
-      <p className="mobile-backto-login"  onClick={backToLogin}>
-        <a className="txt-link">
+      <p className={"mobile-backto-login"}  onClick={backToLogin}>
+        <a className={"txt-link"}>
           Back to Login
         </a>
       </p>
-      <div className="login-panel-container">
+      <div className={"login-panel-container"}>
         <Image
-          className="login-form-logo"
+          className={"login-form-logo"}
           src={logo}
           alt="Iptor"
           title="Iptor"
         ></Image>
-        <p className="username-txt">
-          <span className="user-txt">Hi Jacek!</span>
-          <span className="company-txt">Please Select Company</span>
+        <p className={"username-txt"}>
+          <span className={"user-txt"}>Hi Jacek!</span>
+          <span className={"company-txt"}>Please Select Company</span>
         </p>
 
-        <div className="companylist-container">
-        <Company companies={user} doClick={selectState}></Company>
+        <div className={"companylist-container"}>
+         <Company companies={user} doClick={selectState}></Company>
         </div>
 
-        <p className="desk-backto-login" onClick={backToLogin}>
-          <a className="txt-link">
+        <p className={"desk-backto-login"} onClick={backToLogin}>
+          <a className={"txt-link"}>
             Back to Login
           </a>
         </p>
@@ -80,4 +80,3 @@ const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }) => {
   );
 };
 
-export default CompanySelection;
