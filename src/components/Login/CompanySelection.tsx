@@ -46,7 +46,6 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
   };
 
   return (
-    <body className="company">
     <div className="main-wrapper companypage">
       <LeftColmData></LeftColmData>
       <p className={"mobile-backto-login"}  onClick={backToLogin}>
@@ -62,7 +61,7 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
           title="Iptor"
         ></Image>
         <p className={"username-txt"}>
-          <span className={"user-txt"}>Hi Jacek!</span>
+          <span className={"user-txt"}>Hi {state.text},</span>
           <span className={"company-txt"}>Please Select Company</span>
         </p>
 
@@ -78,7 +77,6 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
         <LoginFooter></LoginFooter>
       </div>
     </div>
-    </body>
   );
 };
 

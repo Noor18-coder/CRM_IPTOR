@@ -9,7 +9,7 @@ import * as apiModels from '../../helpers/Api/models';
 import { AppState } from '../store';
 import { isEmpty } from 'lodash';
 import { User, CompanyInfo } from '../../helpers/Api';
-import { CompanyInfoItem } from '../../helpers/Api/models';
+import { CompanyInfoItem,UserItem  } from '../../helpers/Api/models';
 
 
 
@@ -62,10 +62,9 @@ export const auth: ActionCreator<ThunkAction<
     try {
       const response = await axios.post('/api/login', authRequest);
       if (response.status === 200) {
-        //const user = await User.get(response.config.data.user);
-        const user = {
-          currentEnvironment: {}
-        }
+        const user = await User.getUserProfile();
+        user.handler = user.user;
+        
         const companyInfo = await CompanyInfo.get();
         const newArray = companyInfo.items.map((obj: CompanyInfoItem) => { return { ...obj, selected: false } });
         if (companyInfo !== undefined && !isEmpty(companyInfo)) {

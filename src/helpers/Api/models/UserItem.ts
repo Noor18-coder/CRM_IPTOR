@@ -4,6 +4,7 @@ export interface UserItem {
   user: string;
   handler: string;
   defaultSalesOrderType: string;
+  text:string;
   description: string;
   language: string;
   currentEnvironment?: CompanyInfoItem[]

@@ -62,7 +62,6 @@ const LoginForm: React.FC = () => {
   return (
     <>
     { state.auth.login ? <Redirect to="/" /> : (state.auth.loginWithoutCompany ? <CompanySelection selectCompany={selectCompany} backToLogin={backToLogin}/> :
-      <body className="login">
       <div className="main-wrapper loginpage">
           <LeftColmData></LeftColmData>
           <>
@@ -112,7 +111,6 @@ const LoginForm: React.FC = () => {
           </div> 
           </> 
         </div>
-        </body>
     )}
     </>
   );

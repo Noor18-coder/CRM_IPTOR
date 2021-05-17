@@ -18,6 +18,7 @@
      user: {
        defaultSalesOrderType: '',
        description: '',
+       text:'',
        user: '',
        handler: '',
        language: '',

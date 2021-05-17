@@ -6,6 +6,7 @@ export class UserMock {
         return {
            
         user: faker.name.findName(),
+        text:faker.name.firstName(),
         handler: faker.name.findName(),
         defaultSalesOrderType: faker.random.alphaNumeric(7),
         description: faker.name.firstName(7) + " " + faker.name.lastName,
