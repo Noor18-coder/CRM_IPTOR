@@ -15,18 +15,6 @@ export class CompanyInfoMock {
     };
   }
 
-  // companyMock = (): apiModels.CompanyInfoItem => {
-  //   return {
-  //       companyCode : faker.random.alphaNumeric(7),
-  //       companyShortName : faker.company.companyName(),
-  //       name : faker.company.companyName(), 
-  //       selected: faker.random.boolean()
-  //     }
-
-  // };
-
-
-
   static getCompanies(num: number): apiModels.CompanyInfoItem[] {
     return Array(num).fill({
       companyCode: faker.random.alphaNumeric(7),

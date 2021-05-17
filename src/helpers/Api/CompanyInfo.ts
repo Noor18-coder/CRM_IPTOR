@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CompanyInfoItem, CompanyInfoItemResponse } from './models';
+import { CompanyInfoItemResponse } from './models';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
 

@@ -9,7 +9,7 @@ import * as apiModels from '../../helpers/Api/models';
 import { AppState } from '../store';
 import { isEmpty } from 'lodash';
 import { User, CompanyInfo } from '../../helpers/Api';
-import { CompanyInfoItem, CompanyInfoRes } from '../../helpers/Api/models';
+import { CompanyInfoItem } from '../../helpers/Api/models';
 
 
 
@@ -41,6 +41,13 @@ export const logOutSuccess: ActionCreator<actionTypes.LogoutSuccessAction> = () 
   };
 };
 
+/** Action to set auth state logged out status */
+export const authServiceFailure: ActionCreator<actionTypes.AuthServiceErrorAction> = () => {
+  return {
+    type: actionTypes.AuthTypes.AUTH_ERROR
+  };
+};
+
 
 /** Middleware to handle authentication */
 export const auth: ActionCreator<ThunkAction<
@@ -50,7 +57,6 @@ export const auth: ActionCreator<ThunkAction<
   actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction
 >> = (authRequest: actionTypes.AuthRequest) => {
   return async (dispatch: Dispatch, getState) => {
-    const { auth } = getState();
     dispatch(authStart());
 
     try {
@@ -68,9 +74,11 @@ export const auth: ActionCreator<ThunkAction<
         dispatch(setUserInfo(user))
         return dispatch(loginWithoutCompanySuccess());
       }
+      dispatch(authServiceFailure());
       return dispatch(logOutSuccess());
     } catch (error) {
       //alert('Unauthorized Access');
+      dispatch(authServiceFailure());
       return dispatch(logOutSuccess());
     }
   };
@@ -98,9 +106,11 @@ export const authWithCompany: ActionCreator<ThunkAction<
         dispatch(setUserInfo(user))
         return dispatch(authSuccess());
       }
+      dispatch(authServiceFailure());
       return dispatch(logOutSuccess());
     } catch (error) {
       //alert('Unauthorized Access');
+      dispatch(authServiceFailure());
       return dispatch(logOutSuccess());
     }
   };

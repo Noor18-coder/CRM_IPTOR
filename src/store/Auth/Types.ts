@@ -9,7 +9,8 @@ export enum AuthTypes {
   AUTH_SUCCESS = 'AUTH_SUCCESS',
   AUTH_START = 'AUTH_START',
   LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
-  USER_SET = 'USER_SET'
+  USER_SET = 'USER_SET',
+  AUTH_ERROR = 'AUTH_ERROR'
 }
 
 export interface AuthRequest {
@@ -30,6 +31,9 @@ export interface AuthStartAction extends Action<AuthTypes.AUTH_START> {}
 /** Logout success action */
 export interface LogoutSuccessAction extends Action<AuthTypes.LOGOUT_SUCCESS> {}
 
+/** Logout success action */
+export interface AuthServiceErrorAction extends Action<AuthTypes.AUTH_ERROR> {}
+
 /** User set action */
 export interface UserSetAction extends Action<AuthTypes.USER_SET> {
   user: UserItem
@@ -41,7 +45,8 @@ export type AuthActions =
   AuthStartAction | 
   LogoutSuccessAction | 
   UserSetAction |
-  AuthWithoutCompany;
+  AuthWithoutCompany |
+  AuthServiceErrorAction;
 
 /** Authentication state definition */
 export interface AuthState {

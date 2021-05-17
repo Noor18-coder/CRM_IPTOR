@@ -1,0 +1,163 @@
+.desk-backto-login {
+    .txt-link {
+        @include text-link($persian-green, $persian-green, 0.8);
+        display: inline-block;
+        padding-left: 32px;
+        position: relative;
+
+        font: {
+            size: $base-font-size + 4;
+            weight: $font-weight-semibold;
+        }
+
+        &::before {
+            position: absolute;
+            content: '';
+            background: url("../../../../assets/images/back-arrow-btn.svg") no-repeat;
+            background-size: contain;
+            height: 24px;
+            width: 24px;
+            left: 0;
+            top: -3px;
+            display: block;
+        }
+
+        &:hover {
+            @include transition;
+
+            &::before {
+                animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+                transform: translate3d(0, 0, 0);
+                backface-visibility: hidden;
+                perspective: 1000px;
+            }
+        }
+    }
+}
+
+.mobile-backto-login {
+    .txt-link {
+        @include text-link($white, $white, 0.8);
+        display: inline-block;
+        margin-top: 16px;
+        padding-left: 32px;
+        position: relative;
+
+        font: {
+            size: $base-font-size + 4;
+            weight: $font-weight-semibold;
+        }
+
+        &::before {
+            position: absolute;
+            content: '';
+            background: url("../../../../assets/images/chevron-left-white.svg") no-repeat;
+            background-size: contain;
+            height: 13px;
+            width: 10px;
+            left: 16px;
+            top: 3px;
+            display: block;
+        }
+
+        &:hover {
+            @include transition;
+
+            &::before {
+                animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+                transform: translate3d(0, 0, 0);
+                backface-visibility: hidden;
+                perspective: 1000px;
+            }
+        }
+    }
+}
+
+.text-link {
+    @include text-link($bermuda-gray, $bermuda-gray, 0.5);
+}
+
+form {
+    .form-group {
+
+        label {
+            font: {
+                size: $base-font-size;
+                weight: $font-weight-regular;
+            }
+
+            color: $blue-bayoux;
+            margin-bottom: 4px;
+        }
+
+        input[type=text],
+        input[type=password] {
+            border: solid 1px $blue-bayoux;
+            @include border-radius($border-radius);
+        }
+
+        &:last-child {
+            margin-bottom: 100px !important;
+            border-bottom: solid 1px red;
+        }
+
+
+    }
+
+    .iptor-login-btn {
+        width: 100%;
+        background-color: $persian-green;
+        border: none;
+        color: white;
+        padding: 12px 32px;
+        text-decoration: none;
+        margin-top: 16px;
+        cursor: pointer;
+        @include transition;
+        @include border-radius($border-radius);
+        text-transform: uppercase;
+
+        font: {
+            size: $base-font-size - 2;
+        }
+
+        &:hover {
+            background: rgba($persian-green, 0.9);
+        }
+    }
+
+    .forgotpswd a{
+        font: {
+            size: $base-font-size - 2;
+        }
+
+        color: $persian-green;
+        text-align: right;
+    }
+}
+
+
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(1px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-2px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(1px, 0, 0);
+    }
+}

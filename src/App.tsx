@@ -1,13 +1,12 @@
 import React from 'react';
-import Opportunities from './components/Opportunity/Opportunities';
-import LandingPage from './components/Login/Shared/LandingPage';
-//import Login from './components/Login/Login';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './components/Login/Shared/scss/iptor.scss';
+import LoginForm from './components/Login/LoginForm';
 
 function App() {
   return (
     <div className="App">
-      {/* <Opportunities />  */}
-      <LandingPage/>
+       <LoginForm/>
     </div>
   );      
 }

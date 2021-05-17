@@ -1,14 +1,10 @@
 import React from "react";
-import { Card } from "react-bootstrap";
 
 const LoginFooter = () => {
   return (
-      <Card className="footer">
-          <Card.Text className="login-footer">
-          Copyright © 2021 - Iptor Sweden AB  | Privacy Policy  | UK Legal | Code of Conduct
-          </Card.Text>
-        
-      </Card>
+    <p className="login-copyrights">Copyright &copy; 2021 - Iptor Sweden AB | <a className="text-link" href="#">Privacy
+    Policy</a> | <a className="text-link" href="#">UK Legal?</a> | <a className="text-link" href="#">Code
+    of Conduct</a> </p>
   );
 };
 

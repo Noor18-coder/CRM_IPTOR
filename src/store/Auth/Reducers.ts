@@ -3,7 +3,7 @@
  */
 
  import { Reducer } from 'redux';
- import { UserItem, CompanyInfoItem, CompanyInfoRes } from '../../helpers/Api/models';
+ import { UserItem } from '../../helpers/Api/models';
  import { AuthTypes, AuthActions, AuthState } from '../Auth/Types';
  
  /**
@@ -42,7 +42,11 @@
        };
  
      case AuthTypes.LOGOUT_SUCCESS:
-       return state; //maintained in root reducer
+         return {
+          ...state,
+          login: false,
+          loginWithoutCompany: false
+        }; //maintained in root reducer
      case AuthTypes.AUTH_START:
        return {
          ...state,
@@ -58,6 +62,11 @@
          ...state,
          loginWithoutCompany:true
        };
+       case AuthTypes.AUTH_ERROR:
+        return {
+          ...state,
+          error:true
+        };
      default:
        return state;
    }

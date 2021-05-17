@@ -1,97 +1,116 @@
-import React, { FormEvent } from "react";
-//import "../Login/Shared/scss/LoginForm.css";
-import { Container, Row, Col, Form, Button, Nav, Image } from "react-bootstrap";
-import logo from '../../assets/images/iptor_logo.png';
-import error from '../../assets/images/error.png';
+import React from "react";
+import { Dispatch } from "redux";
+import { Form, Nav, Image } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+
+import logo from "../../assets/images/iptor-logo-orange.svg";
+import errorIcon from "../../assets/images/error.png";
+
 import LoginFooter from "./Shared/LoginFooter";
-import {SubmitButton} from "./Shared/SubmitButton";
-import { Redirect, useHistory } from 'react-router-dom';
-
-import { useSelector, shallowEqual, useDispatch } from "react-redux"
-
-import { auth, authWithCompany } from '../../store/Auth/Actions';
-import { AuthState, AuthRequest } from '../../store/Auth/Types';
-import { Dispatch } from "redux"
-import { AppState } from '../../store/store';
+import { SubmitButton } from "./Shared/SubmitButton";
 import CompanySelection from "./CompanySelection";
+import LeftColmData from './Shared/LeftColmData';
+
+import { auth, authWithCompany, logOutSuccess} from "../../store/Auth/Actions";
+import { AuthRequest } from "../../store/Auth/Types";
+import { AppState } from "../../store/store";
 
 const LoginForm: React.FC = () => {
-
-  const state: AppState = useSelector(
-    (state: AppState) => state
-  );
-
+  const state: AppState = useSelector((state: AppState) => state);
 
   const [authRequest, setValues] = React.useState<AuthRequest | {}>();
-  const [company, setCompany] = React.useState<string>('');
+  const [company, setCompany] = React.useState<string>("");
+  const [error, setError] = React.useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...authRequest,
       [e.currentTarget.id]: e.currentTarget.value,
-    })
-  }
+    });
+    setError(false);
+  };
 
   const dispatch: Dispatch<any> = useDispatch();
-
   const doClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(auth(authRequest));
-  }
+    const user = (document.getElementById('user') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+    if (user === '' || password === '') {
+      setError(true);
+    } else {
+      dispatch(auth(authRequest));
+    }
+  };
 
   const selectCompany = (company: string) => {
     setCompany(company);
+  };
+
+  const backToLogin= () => {
+    console.log('Back to Login Clicked..');
+    dispatch(logOutSuccess());
   }
 
   React.useEffect(() => {
-
-    const params = {...authRequest, company:company};
-    dispatch(authWithCompany(params));
+    if (company) {
+      const params = { ...authRequest, company: company };
+      dispatch(authWithCompany(params));
+    }
 
   }, [company]);
 
   return (
     <>
-      {
-        state.auth.loginWithoutCompany ? <CompanySelection selectCompany={selectCompany} /> :
-          <Container className="login-bg">
+    { state.auth.loginWithoutCompany ? <CompanySelection selectCompany={selectCompany} backToLogin={backToLogin}/> :
+      <div className="main-wrapper loginpage">
+          <LeftColmData></LeftColmData>
+          <>
+   
+          <div className="login-panel-container">
+            <Image
+              src={logo}
+              className="login-form-logo"
+              alt="Iptor"
+              title="Iptor"
+            ></Image>
+            <p className="welcome-txt">
+              <span className="hi-txt">Hi there!</span>
+              <span className="welcomeback-txt">Welcome back...</span>
+            </p>
+            {error || state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; Either your password or user id is wrong</p> : null}
+            <div className="form-placeholder-container">
+              <Form>
+                <Form.Group>
+                  <Form.Label>User ID</Form.Label>
+                  <Form.Control
+                    className="form-control"
+                    placeholder="lynda.john"
+                    id="user"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </Form.Group>
 
-            <Row>
-              <Col xl={12}>
-                <Image src={logo} width={55} height={20}></Image>
-                <h1>Hi there!  Welcome back... </h1>
-                <p className="error"> <Image className="alert-icon" src={error} width={15} height={12}></Image>&nbsp; Either your password or user id is wrong</p>
-                <Form className="line-input">
-                  <Form.Group>
-                    <Form.Label>User ID</Form.Label>
-                    <Form.Control
-                      id='user'
-                      type="text"
-                      placeholder="Username"
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-
-                  <Form.Group>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      id='password'
-                      onChange={handleChange}
-                      placeholder="Password" />
-                  </Form.Group>
-                  <Nav.Item className="forgot-pwd">
-                    <Nav.Link href="#">Forgot Password?</Nav.Link>
-                  </Nav.Item>
-                  <Form.Group>
-                    <SubmitButton title={'Login'} onClick={doClick} />
-                  </Form.Group>
-                </Form>
-              </Col>
-            </Row>
-
+                <Form.Group>
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    className="form-control"
+                    placeholder="Enter password"
+                    type="password"
+                    id="password"
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <Nav.Item className="forgotpswd">
+                  <Nav.Link href="#">Forgot Password?</Nav.Link>
+                </Nav.Item>
+                <SubmitButton title={"Login"} onClick={doClick} />
+              </Form>
+            </div>
             <LoginFooter></LoginFooter>
-          </Container>
+          </div> 
+          </> 
+        </div>
       }
     </>
   );
