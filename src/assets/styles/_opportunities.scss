@@ -1,0 +1,202 @@
+.s-header{
+
+    padding: 16px 0px;
+    border-bottom: 1px solid #DAE2E7;
+
+    .col{
+        align-items: center;
+        display: flex;
+    }
+
+    .navbar-search-overlap{
+
+        .form-group{
+            margin: 0px;
+        }
+
+        .input-search{
+
+            position: relative;
+            width: 455px;
+            height: 48px;
+
+            .input-search-icon{
+                position: absolute;
+                top: 12px;
+                left: 16px;
+                background-color: transparent;
+                height: 24px;
+                width: 24px;
+                color: #b4bdce;
+                transition: none;
+                font-size: 16px;
+                padding-left: 13px;
+                background: url(../images/input-search-icon.svg);
+                background-size: contain;
+            }
+
+            .form-control{
+                height: 48px;
+                background: #FFFFFF;
+                border-radius: 33px;
+                border: 1px solid #ecf0fa;
+                padding-left: 56px;
+                font-family: Open Sans;
+                font-style: italic;
+                font-weight: normal;
+                font-size: 16px;
+                line-height: 22px;
+                /* identical to box height */
+
+                text-transform: capitalize;
+                border: none;
+                outline: none;
+                color: #6D899D;
+
+                &:active,&:focus,&:hover,&:visited{
+                    border: none;
+                    outline: none;
+                    box-shadow: 0px 0px 0px 0px;
+                }
+            }
+
+            .search-settings-button{
+
+                
+
+                position: absolute;
+                top: 12px;
+                right: 16px;
+                background-color: transparent;
+                height: 24px;
+                width: 24px;
+                color: #b4bdce;
+                transition: none;
+                font-size: 16px;
+                padding-left: 13px;
+                background: url(../images/input-search-settings-icon.svg);
+                background-size: contain;
+                border: none;
+                outline: none;
+
+                &:active,&:focus,&:hover,&:visited{
+                    border: none;
+                    outline: none;
+                }
+
+            }
+
+        }
+
+    }
+
+
+    .page-title{
+
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 25px;
+        /* identical to box height */
+        color: #6D899D;
+
+    }
+
+
+    .add-opportunity{
+        width: 203px;
+        height: 48px;
+        background: #EB617C;
+        border-radius: 4px;   
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        justify-content: center;
+    }
+
+
+    .navbar-filter{
+
+
+        ul{
+
+            list-style: none;
+            padding-left: 0px;
+
+            li{
+
+                float: left;
+                margin-right: 24px;
+
+                .btn{
+
+                    padding:14px 1px;
+                    font-family: Open Sans;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 22px;
+                    /* identical to box height */
+                    text-align: center;
+                    text-transform: uppercase;
+                    color: #6D899D;
+                    text-decoration: none;
+                    border:none;
+                    background-color: transparent;
+
+                    &.btn-active{
+                        background: #2F3C46;
+                        border-radius: 24px;
+                        padding:14px 31px;
+                        font-weight: bold;
+                        color: #FFFFFF;
+                    }
+
+
+                    &:active,&:focus,&:hover,&:visited{
+                        border: none;
+                        outline: none;
+                        box-shadow: 0px 0px 0px 0px;
+                    }
+
+                }
+
+                &:active,&:focus,&:hover,&:visited,&:focus-visible{
+                    border: none;
+                    outline: none;
+                    box-shadow: 0px 0px 0px 0px;
+                }
+
+                &.contain-dropdown{
+
+                    .s-icon{
+                        background: url(../images/down-arrow.svg);
+                        width: 10px;
+                        height: 7px;
+                        background-position: center;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        margin-left: 5px;
+                        display: inline-block;
+                    }
+                     
+                  
+
+                }
+
+            }
+
+        }
+
+
+    }
+
+}
