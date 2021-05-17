@@ -1,8 +1,6 @@
 @import 'reset';
 @import 'mixins';
 @import 'global-variables';
-@import 'common-styles';
-
 
 /* width */
 ::-webkit-scrollbar {
@@ -26,13 +24,19 @@
 }
 
 body {
-    background: url("../../../../assets/images/bg_login.png") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    color: $tundora;
+    background: $mercury;
+    text-rendering: optimizeLegibility;
 
+    &.login,
+    &.company {
+        background: url("../../../../assets/images/bg_login.png") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    color: $tundora;
 
     font: {
         size: 16px;
@@ -132,7 +136,7 @@ body {
             height: 900px;
             position: relative;
 
-            .mobile-backto-login{
+            .mobile-backto-login {
                 display: none;
             }
 
@@ -250,22 +254,67 @@ body {
         }
     }
 
-    .company-container {
-        position: relative;
-        cursor: pointer;
-      }
-      .company-container .center .company-selection-img {
-        width:20px;
-        height: 20px;
-        right:10px;
-        top: 0px;
-        position:absolute;
-        display:none;
-      }
+    footer {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: $geyser;
+        text-align: right;
 
+
+        p {
+            padding: 8px 16px 7px 16px;
+            color: $bermuda-gray;
+            display: inline-block;
+
+            font: {
+                size: $base-font-size;
+                family: $base-font-family;
+                weight: $font-weight-regular;
+            }
+
+            img {
+                width: 44px;
+                height: auto;
+                margin-right: 20px;
+                vertical-align: middle;
+            }
+            position: relative;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 70px;
+                    top: 8px;
+                    bottom: 8px;
+                    width: 2px;
+                    background: $bermuda-gray;
+                }
+        }
+    }
+
+    @import 'header';
+    @import 'accordion';
+    @import 'opportunity-details';
+    @import 'common-styles';
+    @import 'staging-arrow';
     @import 'mediaqueries';
 
 }
+
+.company-container {
+    position: relative;
+    cursor: pointer;
+  }
+  .company-container .center .company-selection-img {
+    width:20px;
+    height: 20px;
+    right:10px;
+    top: 0px;
+    position:absolute;
+    display:none;
+  }
 
 .error {
     line-height:22px;

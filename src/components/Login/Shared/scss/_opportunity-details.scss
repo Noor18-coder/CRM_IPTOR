@@ -1,0 +1,170 @@
+.main-wrapper {
+
+    &.opportunity {
+        .pagelvl-actionrow {
+            padding: 24px 0;
+
+            .rgt-actionitem {
+                ul li {
+                    margin-left: 16px;
+                }
+            }
+        }
+
+        .sec-product-desc {
+            background: $white;
+            @include border-radius($border-radius);
+            padding: 16px 24px;
+            margin-bottom: 24px;
+
+            .prod-name {
+                width: 30%;
+
+                p {
+                    font: {
+                        size: $base-font-size + 10;
+                        weight: $font-weight-bold;
+                    }
+
+                    line-height: 26px;
+                    color: $blue-bayoux;
+
+                    span {
+                        display: block;
+
+                        font: {
+                            size: $base-font-size + 2;
+                            weight: $font-weight-regular;
+                        }
+
+                    }
+                }
+            }
+
+            .mid-sec {
+                width: 50%;
+
+                ul {
+                    display: grid;
+                    grid-template-columns: 33.3% 33.3% 33.3%;
+                    grid-template-rows: 100% auto;
+
+                    li {
+                        width: 100%;
+                        margin-right: 32px;
+
+                        font: {
+                            size: $base-font-size;
+                            weight: $font-weight-light;
+                        }
+
+                        line-height: 26px;
+                        color: $blue-bayoux;
+                        text-transform: capitalize;
+
+                        span {
+                            display: block !important;
+
+                            font: {
+                                size: $base-font-size + 10;
+                                weight: $font-weight-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .sec-status {
+                width: 20%;
+                text-align: right;
+
+                ul {
+                    margin-top: 12px;
+
+                    li {
+                        &.grade {
+                            background: $mercury;
+                            padding: 8px 16px;
+                            position: relative;
+                            @include border-radius(20px);
+
+                            font: {
+                                size: $base-font-size + 2;
+                                weight: $font-weight-bold;
+                            }
+
+                            color: $limed-spruce;
+                            margin-right: 60px;
+
+                            &::after {
+                                position: absolute;
+                                content: '';
+                                width: 1px;
+                                top: 5px;
+                                right: -30px;
+                                bottom: 5px;
+                                background: $limed-spruce;
+                            }
+                        }
+
+                        &.status {
+                            color: $persian-green;
+
+                            font: {
+                                size: $base-font-size + 4;
+                                weight: $font-weight-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .opp-product-mobilecard{
+            display: none;
+        }
+
+        .sec-staging {
+            background: $white;
+            @include border-radius($border-radius);
+            margin-bottom: 24px;
+
+            .title-row {
+                padding: 16px 24px;
+                border-bottom: solid 1px $geyser;
+
+                .lft-col {
+                    display: flex;
+                    align-items: center;
+
+                    font: {
+                        size: $base-font-size + 4;
+                        weight: $font-weight-regular;
+                    }
+                }
+
+                .rgt-col {
+                    display: flex;
+                    align-items: center;
+
+                    font: {
+                        size: $base-font-size;
+                        weight: $font-weight-regular;
+                    }
+
+                    .ghost-btn {
+                        margin-left: 16px;
+                    }
+                }
+            }
+
+            .staging-highlight {
+                padding: 24px;
+            }
+        }
+
+        .sec-info-accordion {
+            
+        }
+    }
+}

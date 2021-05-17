@@ -161,3 +161,15 @@ form {
         transform: translate3d(1px, 0, 0);
     }
 }
+
+.ghost-btn{
+    @include text-link($persian-green, $persian-green, 0.8);
+    color: $persian-green;
+    border: solid 1px $persian-green;
+    padding: 11px 16px;
+    @include border-radius($border-radius);
+    &:hover{
+        background: $persian-green;
+        color: $white;
+    }
+}

@@ -3,6 +3,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 import Opportunities from './components/Opportunity/Opportunities';
 import LoginForm from './components/Login/LoginForm';
+import OpportunityDetails from './components/Opportunity/OpportunityDetails';
 
 
 function Routes() {
@@ -10,7 +11,8 @@ function Routes() {
     return (
         <Router>
            <Route path="/login" component={LoginForm} exact />
-           <ProtectedRoute  path="/"  component={Opportunities}  exact  />
+           {/* <ProtectedRoute  path="/"  component={Opportunities}  exact  /> */}
+           <ProtectedRoute  path="/"  component={OpportunityDetails}  exact  />
         </Router>
     )
 }

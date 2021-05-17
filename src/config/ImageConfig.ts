@@ -7,6 +7,10 @@ import NAV_NOTIFICATION_ICON from '../assets/images/nav-notifications-icon.svg';
 import NAV_SEARCH_ICON from '../assets/images/nav-search-icon.svg';
 import NAV_REPORTS_ICON from '../assets/images/nav-report-icon.svg';
 import NAV_PROFILE_ICON from '../assets/images/user-profile-icon.svg';
+import LEFT_ARROW from '../assets/images/left-arrow.svg'
+import HISTORY from '../assets/images/history.svg';
+import STAR from '../assets/images/star.svg';
+import MORE_V_ELLIPSIS from '../assets/images/more-v-ellipsis.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -17,7 +21,11 @@ import NAV_PROFILE_ICON from '../assets/images/user-profile-icon.svg';
     NAV_CUSTOMER_ICON:NAV_CUSTOMER_ICON,
     NAV_NOTIFICATION_ICON:NAV_NOTIFICATION_ICON,
     NAV_SEARCH_ICON:NAV_SEARCH_ICON,
-    NAV_PROFILE_ICON:NAV_PROFILE_ICON
+    NAV_PROFILE_ICON:NAV_PROFILE_ICON,
+    LEFT_ARROW:LEFT_ARROW,
+    HISTORY:HISTORY,
+    STAR:STAR,
+    MORE_V_ELLIPSIS:MORE_V_ELLIPSIS
 };
 
 export default ImageConfig;

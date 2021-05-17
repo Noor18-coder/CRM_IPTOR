@@ -1,0 +1,112 @@
+.accordion {
+    max-width: 100%;
+}
+
+.accordion .card {
+    position: relative;
+    margin-bottom: 16px;
+    @include border-radius($border-radius);
+    border: solid 1px $geyser;
+}
+
+.accordion li div {
+    display: none;
+    padding: 12px 24px 12px 24px;
+    background: $white;
+    color: $limed-spruce;
+    border-top: solid 1px $geyser;
+    -webkit-border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.accordion a {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    padding: 28px 0px;
+    text-decoration: none;
+
+    font: {
+        size: $base-font-size + 4;
+        weight: $font-weight-bold;
+    }
+
+    color: $limed-spruce;
+    text-indent: 15px;
+    user-select: none;
+    background: $white;
+    @include border-radius($border-radius);
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.accordion a:after {
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid #4a6e78;
+    border-bottom: 1px solid #4a6e78;
+    position: absolute;
+    right: 32px;
+    content: " ";
+    top: 32px;
+    transform: rotate(45deg);
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.accordion div {
+    font-size: 13px;
+    font-size: 0.8125rem;
+    line-height: 2;
+    // padding: 10px;
+}
+
+.accordion a.active:after {
+    transform: rotate(228deg);
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.accr-body-container {
+    >ul {
+        &.bdy-list-item {
+            li {
+                color: $limed-spruce;
+                line-height: 22px;
+                border: none;
+                margin-right: 60px;
+                margin-bottom: 0;
+                text-transform: capitalize;
+
+                font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-semibold;
+                }
+
+                span {
+                    display: block;
+                    text-transform: capitalize;
+
+                    font: {
+                        size: $base-font-size;
+                        weight: $font-weight-regular;
+                    }
+                }
+
+                &:first-child {
+                    width: 200px;
+                }
+            }
+        }
+    }
+}
