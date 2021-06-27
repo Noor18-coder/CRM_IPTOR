@@ -27,7 +27,16 @@ export interface OpportunityListItem {
 
 export interface OpportunityListParams {
   handler: string;
-  selectHandler?: string
+  selectHandler?: string;
+  selectCloseDateFrom?: string;
+  selectCloseDateTo?: string;
+  selectStageFrom?: string;
+  selectStageTo?:string;
+}
+
+export interface OpportunityFilterItem {
+  value:string;
+  selectParam:string;
 }
 
 export interface OpportunityListResponse {

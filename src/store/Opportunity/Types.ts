@@ -1,7 +1,7 @@
 /** Authentication Action Types */
 
 import { Action } from 'redux';
-import { OpportunityListItem } from '../../helpers/Api/models';
+import { OpportunityListItem, OpportunityFilterItem } from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
 export enum OpportunityTypes {
@@ -16,7 +16,7 @@ export interface SaveOpportuntiesAction extends Action<OpportunityTypes.SAVE_LIS
 
 /** Authentication success action */
 export interface SaveOpportunityFilterAction extends Action<OpportunityTypes.SAVE_OPPTY_FILTERS> {
-  filter:string
+  filter:OpportunityFilterItem[]
 }
 
 export type OpportunityActions = SaveOpportuntiesAction | SaveOpportunityFilterAction;
@@ -24,6 +24,6 @@ export type OpportunityActions = SaveOpportuntiesAction | SaveOpportunityFilterA
 /** Authentication state definition */
 export interface OpportunityState {
   readonly opportunities:OpportunityListItem[] 
-  readonly opportunityFilters: Set<string>
+  readonly opportunityFilters: OpportunityFilterItem[]
 }
 

@@ -22,7 +22,6 @@ const initialState = createUsersData();
  * @param action auth actions
  */
 const usersReducer: Reducer<UsersData, SaveUserAction> = (state = initialState, action) => {
-    console.log(action.type);
     switch (action.type) {
         case UserActionTypes.SAVE_USERS:
             return {

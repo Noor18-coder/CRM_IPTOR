@@ -5,14 +5,13 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { RowClickedEvent } from 'ag-grid-community';
 
-import { OpportunityListItem, UserItem } from '../../../helpers/Api/models';
+import { OpportunityListItem, UserItem, OpportunityFilterItem } from '../../../helpers/Api/models';
 
 import { useSelector, useDispatch } from "react-redux";
 import { OpportunityState } from '../../../store/Opportunity/Types';
 import { AppState } from "../../../store/store";
 import { UsersData } from '../../../store/Users/Types';
 
-import { Filter } from '../Filter/Filter';
 interface result {
   items: OpportunityListItem[],
   load: boolean
@@ -21,16 +20,14 @@ interface result {
 interface Props {
   col: any;
   gridRowClicked: (data: any) => void;
-  getDataRows: (start: number, sortString: string, filter: string) => Promise<result>
+  getDataRows: (start: number, sortString: string, filter?: OpportunityFilterItem) => Promise<result>,
+  refresh:boolean
 }
 
-const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
+const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) => {
 
   const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
   const usersData:UsersData = useSelector((state:AppState) => state.users);
-
-  const [filter, setFilter] = React.useState<string>('all');
-  const [filters, setFilters] = React.useState<string[]>([]);
   const [gridApi, setGridApi] = React.useState<any>();
   const [gridColumnApi, setGridColumnApi] = React.useState(null);
 
@@ -38,18 +35,12 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
     params.api.sizeColumnsToFit();
   };
 
-  const onFilter = (key: string) => {
-    if (key === filter) {
-      return;
-    }
-
-
-    setFilter(key);
-
+  const onFilter = () => {
+     
     if (gridApi) {
       gridApi.setRowData([]);
       gridApi.onFilterChanged();
-      const dataSource = getDataSource(key, gridApi);
+      const dataSource = getDataSource(gridApi);
       gridApi.setDatasource(dataSource);
     }
   }
@@ -58,23 +49,21 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
   const onGridReady = (params: any) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
-    const dataSource = getDataSource('all', params);
+    const dataSource = getDataSource(params);
     params.api.setDatasource(dataSource);
   }
 
-  const getDataSource = (filterd: string, params: any) => {
+  const getDataSource = ( params: any, filterd?: OpportunityFilterItem) => {
     return {
       rowCount: null,
       getRows: async (params: any) => {
-        console.log(params.startRow);
         let orderByString = '';
         if (params && params.sortModel && params.sortModel[0]) {
           orderByString = params.sortModel[0].colId + ' ' + params.sortModel[0].sort;
         }
+        
         const data: result = await getDataRows(params.startRow, orderByString, filterd);
-
-
-
+        
         if (data && data.load) {
           const rows = data.items;
           params.successCallback(rows, undefined);
@@ -119,9 +108,12 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
     gridRowClicked(event.data);
   }
 
+  React.useEffect(() => {
+    onFilter();
+  },[refresh]);
+
   return (
     <>
-      <Filter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} />
       <div className={"lists opportunity-list"}>
         <div className={"table-wrapper"}>
           <div className={"ag-theme-alpine"}>
