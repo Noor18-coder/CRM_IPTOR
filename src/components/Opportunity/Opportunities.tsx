@@ -6,10 +6,11 @@ import { useHistory } from 'react-router';
 import { OpportunityState } from '../../store/Opportunity/Types';
 import { AppState } from "../../store/store";
 import { AuthState } from '../../store/Auth/Types';
+import { getUsersInfo } from '../../store/Users/Actions';
 
 import Grid from '../Shared/Grid/Grid';
 import Header from '../Shared/Header/Header';
-import { getOpportunities } from '../../store/Opportunity/Actions';
+import { UsersData } from '../../store/Users/Types';
 
 import OpportunityList from '../../helpers/Api/OpportunityList';
 import ColumnDefs from '../../config/OpportunityGrid';
@@ -23,13 +24,32 @@ interface result {
   load: boolean
 }
 
-const Opportunites: React.FC = () => {
+const Opportunities: React.FC = () => {
 
   const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
   const authState: AuthState = useSelector((state: AppState) => state.auth);
-  const [filter, setFilter] = React.useState<string>('all');
+  const usersData:UsersData = useSelector((state:AppState) => state.users);
+
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
+ 
+
+  const newColumns = ColumnDefs.map((obj:any) => {
+    if(obj.field == "handler"){
+      obj.cellRenderer = (params:any) => {
+        let cellValue =  getName(params.value);
+        cellValue = cellValue ? cellValue : params.value;
+        return cellValue;
+      }
+      return obj;
+    }
+    return obj;
+  });
+
+  const getName = (str:string) => {
+    const userObj = usersData.users.find((obj) => obj.handler === str);
+    return userObj?.description;
+  }
 
   const openOpptyDetails = (data: any) => {
     const opptyId = data && data.opportunityId ? data.opportunityId : null;
@@ -74,6 +94,11 @@ const Opportunites: React.FC = () => {
     return res;
   }
 
+  
+  React.useEffect(() => {
+    dispatch(getUsersInfo());
+  }, []);
+
 
 
   return (
@@ -109,11 +134,10 @@ const Opportunites: React.FC = () => {
           </div>
         </div>
         <div className={"container-fluid"}>
-          {/* <GridFilter filters={filters} selectOption={onGridSort} /> */}
-          <Grid col={ColumnDefs} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid>
+          { usersData.users && usersData.users.length ? <Grid col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> : null }
         </div>
       </section>
     </div>
   );
 }
-export default Opportunites;
+export default Opportunities;

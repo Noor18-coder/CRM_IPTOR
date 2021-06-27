@@ -3,38 +3,20 @@ import { GridOptions, ColDef } from 'ag-grid-community';
 import { AgGridReact, AgGridColumn } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import { GridFilter, Option } from '../../Shared/Filter/GridFilter';
 import { RowClickedEvent } from 'ag-grid-community';
 
-import { OpportunityListItem, CompanyInfoItem } from '../../../helpers/Api/models';
-
+import { OpportunityListItem, UserItem } from '../../../helpers/Api/models';
 
 import { useSelector, useDispatch } from "react-redux";
 import { OpportunityState } from '../../../store/Opportunity/Types';
 import { AppState } from "../../../store/store";
+import { UsersData } from '../../../store/Users/Types';
 
 import { Filter } from '../Filter/Filter';
 interface result {
   items: OpportunityListItem[],
   load: boolean
 }
-
-const initFilters = ['all', 'PLBARMAC','PLMARKAN'];
-//   {
-//     value: 'all',
-//     name: 'All',
-//     active: true
-//   },
-//   {
-//     value: 'PLBARMAC',
-//     name: 'PLBARMAC',
-//     active: false
-//   },
-//   {
-//     value: 'PLMARKAN',
-//     name: 'PLMARKAN',
-//     active: false
-//   }];
 
 interface Props {
   col: any;
@@ -45,6 +27,7 @@ interface Props {
 const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
 
   const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
+  const usersData:UsersData = useSelector((state:AppState) => state.users);
 
   const [filter, setFilter] = React.useState<string>('all');
   const [filters, setFilters] = React.useState<string[]>([]);
@@ -60,26 +43,7 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
       return;
     }
 
-    // const newList = filters.map((item: string) => {
-    //   if (item === filter) {
-    //     const updatedItem = {
-    //       ...item,
-    //       active: !item.active,
-    //     };
-    //     return updatedItem;
-    //   }
 
-    //   if (item.value === key) {
-    //     const updatedItem = {
-    //       ...item,
-    //       active: !item.active,
-    //     };
-    //     return updatedItem;
-    //   }
-    //   return item;
-    // });
-
-    //setFilters(newList);
     setFilter(key);
 
     if (gridApi) {
@@ -88,7 +52,6 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
       const dataSource = getDataSource(key, gridApi);
       gridApi.setDatasource(dataSource);
     }
-
   }
 
 
@@ -114,18 +77,10 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
 
         if (data && data.load) {
           const rows = data.items;
-          // const opptyTypeList = new Set( rows.map((obj) => obj.oppRecordType ));
-          // const newList = [...filters,...Array.from(opptyTypeList)]
-          // console.log(filters);
-          // console.log(newList);
-          // setFilters(newList);
           params.successCallback(rows, undefined);
         } else {
           const rows = data.items;
           const count = params.startRow + rows.length;
-          // const opptyTypeList = new Set( rows.map((obj) => obj.oppRecordType ));
-          // const newList = [...filters,...Array.from(opptyTypeList)]
-          // setFilters(newList);
           params.successCallback(rows, count);
         }
       }
@@ -145,10 +100,7 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
         '</div>'
     }
   };
-
-
-
-
+  
   const defaultGridOptions = {
     headerHeight: 60,
     rowHeight: 60,
@@ -166,7 +118,6 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
   const onRowClick = (event: RowClickedEvent) => {
     gridRowClicked(event.data);
   }
-
 
   return (
     <>

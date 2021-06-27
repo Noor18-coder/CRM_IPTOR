@@ -10,6 +10,9 @@ import {authReducer} from './Auth/Reducers';
 import { OpportunityState } from './Opportunity/Types';
 import { AuthState, AuthActions } from './Auth/Types';
 
+import usersReducer from './Users/Reducers';
+import { SaveUserAction, UsersData } from './Users/Types';
+
 const persistConfig = {
   key: 'root',
   storage: storageSession,
@@ -20,11 +23,13 @@ export type AppActions = AuthActions;
 
 export interface AppState {
   readonly opportunities: OpportunityState;
-  readonly auth : AuthState
+  readonly auth : AuthState,
+  readonly users: UsersData
 }
 const appReducer = combineReducers({
   auth: authReducer,
-  opportunities:opportunityReducer
+  opportunities:opportunityReducer,
+  users:usersReducer
 });
 
 const rootReducer = (state: any, action: AppActions) => {

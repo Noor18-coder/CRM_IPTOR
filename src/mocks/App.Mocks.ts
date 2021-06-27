@@ -2,6 +2,7 @@ import thunk from 'redux-thunk';
 import configureStore, { MockStore, MockStoreCreator } from "redux-mock-store"; 
 import { createAuthInitialState } from '../store/Auth/Reducers';
 import { createOpportunityInitialState } from '../store/Opportunity/Reducers';
+import {createUsersData } from '../store/Users/Reducers';
 import { AppState } from '../store';
 
 export class AppMock {
@@ -17,7 +18,8 @@ export class AppMock {
   static createAppInitialState = () : AppState => {
     return {
       auth: createAuthInitialState(),
-      opportunities:createOpportunityInitialState()
+      opportunities:createOpportunityInitialState(),
+      users:createUsersData()
     };
   };
 
