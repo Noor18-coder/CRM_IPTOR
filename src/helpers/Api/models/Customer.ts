@@ -5,17 +5,20 @@ export interface BusinessPartnerListItem {
     internalName: string,
     area: string,
     addressLine1: string,
-    alias: string,
-    companyRegistrationNumber: number,
     country: string,
     creationDate: Date,
-    businessPartnerCategory1: number,
     postalCode: string,
+    industry: string,
+    owner: string,
+    numberOfActiveOpportunities: number,
+    active: boolean
 }
 
 export interface BusinessPartnerListParams {
     businessPartnerTextSearch?: string;
-    searchField?: string
+    searchField?: string;
+    includeInactive?: boolean;
+    crmAttributesTextSearch?: string;
 }
 
 export interface BusinessPartnerFilterItem {

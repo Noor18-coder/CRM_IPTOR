@@ -5,7 +5,7 @@ import { get } from 'lodash';
 
 export default class BusinessPartnerList {
     /** API Method */
-    private static apiMethod: string = 'businessPartners.get';
+    private static apiMethod: string = 'crmBusinessPartners.get';
 
     /**
      * Helper function to fetch Business Partner Info
@@ -18,7 +18,9 @@ export default class BusinessPartnerList {
     static async get(freeTextSearch: string, limit?: number, offset?: number, orderBy?: string, otherparams?: BusinessPartnerListParams): Promise<BusinessPartnerListResponse> {
         let params: BusinessPartnerListParams = {
             businessPartnerTextSearch: otherparams?.businessPartnerTextSearch,
-            searchField: otherparams?.searchField
+            searchField: otherparams?.searchField,
+            includeInactive: otherparams?.includeInactive,
+            crmAttributesTextSearch: otherparams?.crmAttributesTextSearch
         };
         const requestData = new ApiRequest<BusinessPartnerListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });
         const response = await axios.post<BusinessPartnerListResponse>('/api/service', requestData);

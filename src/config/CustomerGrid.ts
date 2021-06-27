@@ -8,7 +8,7 @@ const CustomerGridOptions = [{
         return params.value ? params.value : '';
     }
 }, {
-    field: 'country',
+    field: 'area',
     sortable: true,
     headerName: 'Region',
     cellRenderer: (params: any) => {
@@ -16,7 +16,7 @@ const CustomerGridOptions = [{
     }
 },
 {
-    field: 'accountOwner',
+    field: 'owner',
     sortable: true,
     headerName: 'Account Owner',
     cellRenderer: (params: any) => {
@@ -33,7 +33,7 @@ const CustomerGridOptions = [{
     }
 },
 {
-    field: 'activeOpp',
+    field: 'numberOfActiveOpportunities',
     sortable: true,
     headerName: 'Active Opportunity',
     cellRenderer: (params: any) => {
@@ -43,7 +43,7 @@ const CustomerGridOptions = [{
 },
 {
     field: '',
-    sortable: true,
+    sortable: false,
     suppressAutoSize: true,
     width: 30,
     headerName: '',

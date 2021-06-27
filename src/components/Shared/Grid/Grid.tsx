@@ -139,8 +139,12 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
               noRowsOverlayComponentParams={{
                   noRowsMessageFunc: () => 'No Records Found',
                 }}
-
-                      >
+              rowClassRules={{
+                'inactive-customer': function (params) {
+                    var activeCustomer = params.data && params.data.active;
+                    return activeCustomer === false;
+                },
+              }}>
             </AgGridReact>
           </div>
         </div>

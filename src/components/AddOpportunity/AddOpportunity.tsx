@@ -43,8 +43,8 @@ const AddOpportunity:React.FC<Props> = ({closeDrawer}) => {
 
        closeDrawer();
 
-       if (true) {
-          history.push({ pathname: "/opp-details", state: { oppid: '202100059730' } })
+       if (opptyId) {
+          history.push({ pathname: "/opp-details", state: { oppid: opptyId} })
         }
       
     }

@@ -53,12 +53,9 @@ const BusinessPartners: React.FC = () => {
     }
 
     const newColumns = ColumnDefs.map((obj: any) => {
-        if (obj.field == "handler") {
-            obj.cellRenderer = (params: any) => {
-                let cellValue = params.value;
-                return cellValue;
-            }
-            return obj;
+        obj.cellRenderer = (params: any) => {
+            let cellValue = params.value;
+            return cellValue;
         }
         return obj;
     });
@@ -70,10 +67,11 @@ const BusinessPartners: React.FC = () => {
         };
         const filters: BusinessPartnerListParams = {
             businessPartnerTextSearch: '',
-            searchField: ''
+            searchField: '',
+            includeInactive: true,
+            crmAttributesTextSearch: searchText
         }
-
-        const data: any = await BusinessPartnerList.get(searchText, 20, start, orderBy, filters);
+        const data: any = await BusinessPartnerList.get('', 20, start, orderBy, filters);
         if (data && data.data && data.data.items && data.control?.total) {
             res.items = data.data.items;
             dispatch(saveBusinessPartnerList(res.items));
@@ -97,6 +95,7 @@ const BusinessPartners: React.FC = () => {
         if (str.length === 0) {
             setSearchText('');
             setRefresh(!refresh);
+            setLoader(true)
         }
     }
 
