@@ -82,21 +82,49 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
     return (
         <div className={"row s-header "}>
             <div className={"col filter-class"}>
-                <div className={"navbar-filter"}>
-                    <div className=" toggle-btn-group">
-                    <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
-                    <button className={classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                <div className={"d-lg-block d-none"} >
+                    <div className={'row'}>
+                        <div className={'col-2'}>
+                            <div className="toggle-btn-group">
+                                <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
+                                <button className={classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                            </div>
+                        </div>
+                        <div className={'col-10'}>
+                         
+                            <ScrollMenu
+                                    data={menuItems}
+                                    arrowLeft={ArrowLeft}
+                                    itemClass={'btn filter-items'}
+                                    itemClassActive={'btn-active'}
+                                    arrowRight={ArrowRight}
+                                    menuClass="custom-menu">
+                            </ScrollMenu>
+                        </div>
                     </div>
-                    <ScrollMenu
-                            data={menuItems}
-                            arrowLeft={ArrowLeft}
-                            itemClass={'btn filter-items'}
-                            itemClassActive={'btn-active'}
-                            arrowRight={ArrowRight}
-                            menuClass="custom-menu">
-                    </ScrollMenu> 
+                </div>
+                <div className={"d-lg-none d-block"} >
+                    <div className={"row"}>
+                        <div className="col-12">
+                            <div className=" toggle-btn-group">
+                                <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
+                                <button className={'my-btn ' +  classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                            </div>
+                        </div>
+                        <div className={'col-12'}>
+                            <ScrollMenu
+                                data={menuItems}
+                                arrowLeft={ArrowLeft}
+                                itemClass={'btn filter-items'}
+                                itemClassActive={'btn-active'}
+                                arrowRight={ArrowRight}
+                                menuClass="custom-menu">
+                            </ScrollMenu> 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
       );
 }
+

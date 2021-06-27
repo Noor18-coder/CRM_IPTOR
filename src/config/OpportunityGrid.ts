@@ -9,7 +9,7 @@ const OpportunityGridOptions = [{
           return params.value;
         }
       },{
-        field: 'name',
+        field: 'desc',
         sortable: true,
         headerName: 'Name & Number',
         cellRenderer: (params: any) => {
