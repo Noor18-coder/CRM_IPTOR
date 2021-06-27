@@ -13,9 +13,10 @@ export interface containerProps {
     containerType: string;
     containerData?: any;
     groupType?: string;
+    contactId?: string;
 }
 
-const Container: React.FC<containerProps> = ({ containerType, containerData, groupType }) => {
+const Container: React.FC<containerProps> = ({ containerType, containerData, groupType, contactId }) => {
 
   const state:AppState = useSelector((state: AppState) => state);
 
@@ -28,11 +29,11 @@ const Container: React.FC<containerProps> = ({ containerType, containerData, gro
               {state.addBusinessPartner.loader ? <Loader /> : null}
               {isMobile || isTablet ? (state.addBusinessPartner.addBusinessPartnerWindowActive ?
                   containerType === 'add' ? <AddCustomer /> :
-                  containerType === 'edit' && < EditCustomer groupType={groupType} /> :
+                  containerType === 'edit' && < EditCustomer groupType={groupType} contactId={contactId} /> :
                   null) :
                   <Drawer anchor={'right'} open={state.addBusinessPartner.addBusinessPartnerWindowActive}>
                       {containerType === 'add' && <AddCustomer />}
-                      {containerType === 'edit' && <EditCustomer groupType={groupType} />}
+                      {containerType === 'edit' && <EditCustomer groupType={groupType} contactId={contactId} />}
                   </Drawer>}
           </CustomerContextProvider>
     </React.Fragment>

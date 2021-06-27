@@ -15,12 +15,15 @@ import { Attributes } from '../../helpers/Api/Attributes';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import AddCustomerApi from '../../helpers/Api/AddCustomer';
+import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 
 import { Context } from '../AddCustomer/CustomerContext';
 import DefaultFields from '../../helpers/utilities/customerDefaultFields'
+import ContactFields from '../../helpers/utilities/contactDefaultFields'
 
 interface Props {
-    groupType: any
+    groupType: any,
+    contactId?: string
 }
 
 const EditCustomer: React.FC<Props> = (data) => {
@@ -30,6 +33,7 @@ const EditCustomer: React.FC<Props> = (data) => {
     const [attributes, setAttributes] = React.useState<UserDefinedField[]>();
     const [attributeValues, setAttributeValues] = React.useState<UserDefinedFieldsValueDropDown>();
     const [defaultFields, setDefaultFields] = React.useState<any>();
+    const [contactFields, setContactFields] = React.useState<any>();
     const [customerFields, setCustomerFields] = React.useState<any>({});
     const [selectedCountry, setSelectedCountry] = React.useState<any>();
     const [selectedArea, setSelectedArea] = React.useState<any>();
@@ -37,25 +41,42 @@ const EditCustomer: React.FC<Props> = (data) => {
     const history = useHistory();
     const contextValue = React.useContext(Context);
     const key = data.groupType;
+    const contactId = data.contactId
 
     const getAttributes = async () => {
         dispatch(setBusinessPartnerLoader(true));
         if (key === 'default fields') {
             const defaultField = DefaultFields
-            defaultField && defaultField.map((item: any) => {
-                if (_.has(customerData, item.attributeType)) {
-                    _.set(item, 'attributeValue', customerData[item.attributeType]);
-                }
-                if (item.attributeType === 'country') {
-                    const selectedCountry = state.enviornmentConfigs.crmCountryInfo.filter(el => el.country === item.attributeValue)
-                    setSelectedCountry(selectedCountry)
-                }
-                if (item.attributeType === 'area') {
-                    const selectedArea = state.enviornmentConfigs.crmAreaInfo.filter(el => el.area === item.attributeValue)
-                    setSelectedArea(selectedArea)
-                }
-            })
-            setDefaultFields(defaultField);
+            if (customerData) {
+                defaultField && defaultField.map((item: any) => {
+                    if (_.has(customerData.data, item.attributeType)) {
+                        _.set(item, 'attributeValue', customerData.data[item.attributeType]);
+                    }
+                    if (item.attributeType === 'country') {
+                        const selectedCountry = state.enviornmentConfigs.crmCountryInfo.filter(el => el.country === item.attributeValue)
+                        setSelectedCountry(selectedCountry)
+                    }
+                    if (item.attributeType === 'area') {
+                        const selectedArea = state.enviornmentConfigs.crmAreaInfo.filter(el => el.area === item.attributeValue)
+                        setSelectedArea(selectedArea)
+                    }
+                })
+             setDefaultFields(defaultField);
+            }
+        }
+        else if (key === 'contact fields') {
+            const contactField = ContactFields
+            if (customerData) {
+                contactField && contactField.map((item: any) => {
+                    debugger
+                    let selectedContactData = customerData.contactsData.filter((item: any) => item.contactId === contactId)
+                    console.log(selectedContactData)
+                    if (_.has(selectedContactData[0], item.attributeType)) {
+                        _.set(item, 'attributeValue', selectedContactData[0][item.attributeType]);
+                    }
+                })
+                setContactFields(contactField);
+            }
         }
         else {
             const attributes = state.enviornmentConfigs.customerAttributes
@@ -71,8 +92,8 @@ const EditCustomer: React.FC<Props> = (data) => {
     }
 
     const getAttributesValues = async () => {
-        {customerData &&
-            OpportunityDetailsApi.getCustomerGroupInfo(customerData.businessPartner).then((data) => {
+        {customerData && attributes &&
+            OpportunityDetailsApi.getCustomerGroupInfo(customerData.data.businessPartner).then((data) => {
                 attributes && attributes.map((item) => {
                     if (data.some(ele => ele.attributeType === item.attributeType)) {
                         let object = data.find(obj => obj.attributeType === item.attributeType)
@@ -112,6 +133,12 @@ const EditCustomer: React.FC<Props> = (data) => {
             newArray[elementIndex].attributeValue = e.currentTarget.value;
             setDefaultFields(newArray);
         }
+        if (contactFields) {
+            const elementIndex = contactFields.findIndex((element: any) => element.attributeType == e.currentTarget.id);
+            let newArray = [...contactFields];
+            newArray[elementIndex].attributeValue = e.currentTarget.value;
+            setContactFields(newArray);
+        }
     }
 
     const updateCustomer = async () => {
@@ -120,12 +147,12 @@ const EditCustomer: React.FC<Props> = (data) => {
             let withoutValueAttributes = attributes.filter(item => item.valueId === undefined)
             let withValueAttributes = attributes.filter(item => item.valueId !== undefined)
             Promise.all(withValueAttributes.map((obj) => {
-                return Attributes.updateAttributes(customerData.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '', obj.valueId ? obj.valueId : '');
+                return Attributes.updateAttributes(customerData.data.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '', obj.valueId ? obj.valueId : '');
             })).then((data) => {
                 return data;
             });
             Promise.all(withoutValueAttributes.map((obj) => {
-                return AddCustomerApi.addAttributes(customerData.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '');
+                return AddCustomerApi.addAttributes(customerData.data.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '');
             })).then((data) => {
                 return data;
             });
@@ -135,10 +162,18 @@ const EditCustomer: React.FC<Props> = (data) => {
             defaultFields && defaultFields.map((item: any) => {
                 customerFields[item.attributeType] = item.attributeValue
             })
-            customerFields.businessPartner = customerData.businessPartner
+            customerFields.businessPartner = customerData.data.businessPartner
             AddCustomerApi.update(customerFields);
         }
-        history.push({ pathname: "/cust-details", state: { custId: customerData.businessPartner } })
+        if (contactFields) {
+            contactFields && contactFields.map((item: any) => {
+                customerFields[item.attributeType] = item.attributeValue
+            })
+            customerFields.contactId = contactId
+            console.log(customerFields)
+            CustomerDetailsApi.updateContactDetails(customerFields);
+        }
+        history.push({ pathname: "/cust-details", state: { custId: customerData.data.businessPartner } })
         setTimeout(function () {
             window.location.reload(false)
             dispatch(setBusinessPartnerLoader(false));
@@ -150,6 +185,11 @@ const EditCustomer: React.FC<Props> = (data) => {
         dispatch(resetBusinessPartnerData());
         dispatch(setBusinessPartnerWindowActive(false));
         dispatch(setBusinessPartnerLoader(false));
+        if (key === 'contact fields') {
+            ContactFields && ContactFields.map((item: any) => {
+                _.set(item, 'attributeValue', '');
+            })
+        }
     }
 
     React.useEffect(() => {
@@ -209,19 +249,40 @@ const EditCustomer: React.FC<Props> = (data) => {
                                                 </div>)
                                             }
                                         }) :
-                                        attributes?.length && attributes.map((obj: UserDefinedField) => {
-                                            if (obj.valuesExist) {
-                                                return (
-                                                    <SelectItem description={obj.description} attributeId={obj.attributeId} attributeType={obj.attributeType} options={attributeValues} value={obj.attributeValue} onSelect={onInputValueChange} />
-                                                )
-                                            }
-                                            else {
-                                                return (<div className="form-group oppty-form-elements">
-                                                    <label className="opp-label">{obj.description}</label>
-                                                    <input type="text" className="form-control" placeholder={'Give' + ' ' + obj.description} id={obj.attributeType} value={obj.attributeValue} onChange={onInputValueChange} />
-                                                </div>)
-                                            }
-                                        })
+                                        key === 'contact fields' ?
+                                            contactFields?.length && contactFields.map((obj: UserDefinedField) => {
+                                                if (obj.valuesExist) {
+                                                    return (
+                                                        <SelectItem description={obj.description} attributeId={obj.attributeId} attributeType={obj.attributeType} options={attributeValues} value={obj.attributeValue} onSelect={onInputValueChange} />
+                                                    )
+                                                }
+                                                else if (obj.readOnly) {
+                                                    return (<div className="form-group oppty-form-elements">
+                                                        <label className="opp-label">{obj.description}</label>
+                                                        <p>{obj.attributeValue}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                                else {
+                                                    return (<div className="form-group oppty-form-elements">
+                                                        <label className="opp-label">{obj.description}</label>
+                                                        <input type="text" className="form-control" placeholder={'Give' + ' ' + obj.description} id={obj.attributeType} value={obj.attributeValue} onChange={onInputValueChange} />
+                                                    </div>)
+                                                }
+                                            }) :
+                                            attributes?.length && attributes.map((obj: UserDefinedField) => {
+                                                if (obj.valuesExist) {
+                                                    return (
+                                                        <SelectItem description={obj.description} attributeId={obj.attributeId} attributeType={obj.attributeType} options={attributeValues} value={obj.attributeValue} onSelect={onInputValueChange} />
+                                                    )
+                                                }
+                                                else {
+                                                    return (<div className="form-group oppty-form-elements">
+                                                        <label className="opp-label">{obj.description}</label>
+                                                        <input type="text" className="form-control" placeholder={'Give' + ' ' + obj.description} id={obj.attributeType} value={obj.attributeValue} onChange={onInputValueChange} />
+                                                    </div>)
+                                                }
+                                            })
                                     }
                                     
                                 </div>

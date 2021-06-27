@@ -52,7 +52,7 @@ export const DisplayGroup: React.FC<Props> = ({ title, data }) => {
         <div className='more-info-group-container'>
             <div className='more-info-group-name'>
                 <span>{title}</span>
-                <span className="group-icon"><Image src={ImageConfig.EDIT_ICON} alt="Edit" title="Edit" onClick={toggleDrawer(true, title)} /></span>
+                <span className="group-icon"><Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, title)} /></span>
             </div>
             <div className="accr-body-container">
                 {data.map((obj: any) => {

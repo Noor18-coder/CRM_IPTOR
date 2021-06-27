@@ -5,7 +5,9 @@
  import { AddBusinessPartnerDefaultParams , UserDefinedFieldReduxParams } from '../../helpers/Api/models';
  import {
     SaveBusinessPartnerParamAction, SetAddBusinessPartnerLoaderAction, SetAddBusinessPartnerDrawerActive,
-    RemoveBusinessPartnerDataAction, SaveBusinessPartnerAddAttributeAction, AddBusinessPartnerTypes, SetEditBusinessPartnerDrawerGroup } from './Types';
+    RemoveBusinessPartnerDataAction, SaveBusinessPartnerAddAttributeAction, AddBusinessPartnerTypes,
+    SetEditBusinessPartnerDrawerGroup, SetBusinessPartnerContactId
+} from './Types';
  
  /** Action to set auth state logged in status */
  export const saveOpportunityParams : ActionCreator<SaveBusinessPartnerParamAction> = (businessPartner:AddBusinessPartnerDefaultParams) => {
@@ -40,6 +42,13 @@ export const setBusinessPartnerWindowGroup: ActionCreator<SetEditBusinessPartner
     return {
         type: AddBusinessPartnerTypes.SET_BUSINESS_PARTNER_WINDOW_GROUP,
         businessPartnerWindowGroup: businessPartnerWindowGroup
+    };
+};
+
+export const setBusinessPartnerContactId: ActionCreator<SetBusinessPartnerContactId> = (businessPartnerContactId: string) => {
+    return {
+        type: AddBusinessPartnerTypes.SET_BUSINESS_PARTNER_CONTACT_ID,
+        businessPartnerContactId: businessPartnerContactId
     };
 };
 

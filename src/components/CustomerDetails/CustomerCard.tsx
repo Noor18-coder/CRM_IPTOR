@@ -103,14 +103,14 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                             <span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p>
                           </li>
                           <li className="list-inline-item">
-                            <Image  src={ImageConfig.EDIT_ICON} alt="Edit" title="Edit" onClick={toggleDrawer(true, 'default fields')}/>
+                            <Image  src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'default fields')}/>
                           </li> 
                      </ul>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
-                </Accordion>
-                <Container containerType='edit' containerData={props.data} groupType={state.addBusinessPartner.businessPartnerWindowGroup} />
+           </Accordion>
+           <Container containerType='edit' containerData={props} groupType={state.addBusinessPartner.businessPartnerWindowGroup} contactId={state.addBusinessPartner.businessPartnerContactId} />
         </section>
 
         <section className="sec-info-accordion">
@@ -172,7 +172,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
 
        <section className="d-flex sec-customer-desc">
             <div className="cust-group">
-              <p>Product Family</p>
+              <p>{i18n.t('appFromIptor')}</p>
             </div>
             {props.data.APP_FROM_IPTOR?
             props.data.APP_FROM_IPTOR.map((name: any) => {

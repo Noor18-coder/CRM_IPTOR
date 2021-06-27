@@ -23,8 +23,9 @@ export interface UserDefinedField {
     initialValueN: number,
     protectData: boolean,
     valuesExist: boolean,
-    attributeValue?: string
-    valueId?: string
+    attributeValue?: string,
+    valueId?: string,
+    readOnly?: boolean
 }
 
 export interface UserDefinedFieldParam {

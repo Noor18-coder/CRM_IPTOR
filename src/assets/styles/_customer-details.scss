@@ -402,3 +402,39 @@ padding-left: 221px;
 .edit-subtitle {
     text-transform: capitalize;
 }
+
+.contact-left-card {
+    width: 75%;
+    display: inline-block;
+}
+
+.contact-right-card {
+    width: 25%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+}
+
+.action-icon {
+    &:hover{
+        cursor: pointer
+    }
+}
+
+.right-align{
+    text-align: right
+}
+
+.contact-footer {
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.active-text {
+    font-weight: 700;
+    font-size: 16px;
+    color: #2F3C46;
+}
+.active-box{
+    top: 0
+}

@@ -14,7 +14,8 @@
          addBusinessPartnerWindowActive:false,
          businessPartnerDefaultParams:{},
          attributes: [],
-         businessPartnerWindowGroup: ''
+         businessPartnerWindowGroup: '',
+         businessPartnerContactId: ''
      }
  };
  
@@ -52,6 +53,11 @@
                  ...state,
                  businessPartnerWindowGroup: action.businessPartnerWindowGroup
              };
+         case AddBusinessPartnerTypes.SET_BUSINESS_PARTNER_CONTACT_ID:
+             return {
+                 ...state,
+                 businessPartnerContactId: action.businessPartnerContactId
+             };
          case AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_DATA:
             return {...state,
                 loader:false,
@@ -59,7 +65,8 @@
                 businessPartnerDefaultParams:{},
                 attributes:[],
                 items: [],
-                businessPartnerWindowGroup: ''
+                businessPartnerWindowGroup: '',
+                businessPartnerContactId: ''
             }
 
         default:

@@ -64,6 +64,10 @@ export interface  CustomerDetailsContactsGroupItem {
   linkedin ?:string
 };
 
+export interface CustomerDetailsContactsGroupItemResponse {
+    data: CustomerDetailsContactsGroupItem[]
+}
+
 export interface  CrmCountry {
   country: string,
   description: string,
