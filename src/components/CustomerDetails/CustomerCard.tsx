@@ -3,7 +3,9 @@ import {Accordion, Card, Image}  from 'react-bootstrap';
 import ImageConfig from '../../config/ImageConfig';
 import { AllContactsAccordian } from './AllContactDetails'
 import { useMediaQuery } from 'react-responsive';
+import * as models from '../../helpers/Api/models';
 import { CustomerDetailsDefault, CustomerDetailsGroupItem, CustomerDetailsContactsGroupItem } from  '../../helpers/Api/models';
+import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 
 export interface Data {
   data:CustomerDetailsDefault,
@@ -16,6 +18,17 @@ const CustomerCard:React.FC<Data> = (props) =>   {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
   const OwnerObj = props.ownerData.find((obj) => obj.attributeType === 'OWNER_ID');
   const ownerName= OwnerObj?.attributeValue;
+  const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<models.CustomerDetailsDefault[]>([]);
+
+  React.useEffect(() => {
+    Promise.all(props.data.subsidiaryEntities.map((id: any) => {
+      return CustomerDetailsApi.get(id);
+    })).then((entityData) => {
+      setsubsidiaryEntities(entityData);
+      return entityData;
+    });
+
+  },[]);
     return (
       <>
         <section className="sec-info-accordion">
@@ -98,11 +111,11 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         </div>
         {props.data.APP_FROM_IPTOR?
         props.data.APP_FROM_IPTOR.map((name: any) => {
-        <div className="group-sec">
+        return ( <div className="group-sec">
           <ul className="list-inline">
           <li className="list-inline-item"><span className="cust-info">{name}</span> </li>
           </ul>
-        </div>
+        </div>)
           }):null}
  
         {/* <div className="sec-status">
@@ -133,14 +146,14 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         <div className="cust-name">
           <p>Subsidiary - Entity</p>
         </div>
-        <div className="group-sec">
+        {subsidiaryEntities? subsidiaryEntities.map((data: CustomerDetailsDefault) => {
+        return (<div className="group-sec">
           <ul className="list-inline">
-          {/* <li className="list-inline-item"><span className="cust-info">Astra Zeneca Pharma - Sweden</span> </li>
-          <li className="list-inline-item"><span className="cust-info">Astra Zeneca Pharma - Sweden</span></li>
-          <li className="list-inline-item"><span className="cust-info">+ more</span></li> */}
+          <li className="list-inline-item"><span className="cust-info">{data.name +' - ' +data.area}</span> </li>
           </ul>
-        </div>
-        
+        </div>)
+          }):null}
+    
         {/* <div className="sec-status">
         <ul className="list-inline"><li className="list-inline-item">
         <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 

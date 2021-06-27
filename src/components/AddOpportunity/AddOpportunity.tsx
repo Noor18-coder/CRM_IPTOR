@@ -20,7 +20,8 @@ const AddOpportunity:React.FC = () => {
     const history = useHistory();
     const dispatch:Dispatch<any> = useDispatch();
     
-    const createOpportunity = async (items: string[]) => {
+    const createOpportunity = async (items: Item[]) => {
+        
         dispatch(setOpportunityLoader(true));
         const opportunity: AddOpportunityDefaultParams = state.addOpportunity.opportunityDefaultParams;
         opportunity.handler = state.auth.user.handler;
@@ -34,7 +35,7 @@ const AddOpportunity:React.FC = () => {
             return data;
         });
         
-        Promise.all(state.addOpportunity.items.map((item: Item) => {
+        Promise.all(items.map((item: Item) => {
             return AddOpportunityApi.addItem(opptyId, item.item, 1, item.stockingUnit);
         })).then((data) => {
             return data;

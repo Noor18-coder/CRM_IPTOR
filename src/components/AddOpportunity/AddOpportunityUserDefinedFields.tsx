@@ -7,7 +7,7 @@ import ImageConfig from '../../config/ImageConfig';
 import { OpportunityType, UserDefinedField, UserDefinedFieldsValueDropDown, DropDownValues, DropDownValue, AddOpportunityDefaultParams, UserDefinedFieldReduxParams} from '../../helpers/Api/models';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import {saveOpportunityParams, saveOpportunityAttributes, setOpportunityLoader} from '../../store/AddOpportunity/Actions';
-import DatePicker from '../Shared/Picker/DatePicker';
+import DateInput from '../Shared/Picker/DateInput';
 
 interface Props {
     changeStep: (num: number) => void
@@ -24,10 +24,10 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
 
     React.useEffect(() => {
         const oppRecordType = state.addOpportunity.opportunityDefaultParams.oppRecordType || '';
-       const part:UserDefinedFieldReduxParams = {  attributeType:"OPP_RECORD_TYPE",attributeValue:oppRecordType};
-        setAttributesSet([part]);
+        const opptyTypeAttribute:UserDefinedFieldReduxParams = {  attributeType:"OPP_RECORD_TYPE",attributeValue:oppRecordType};
+        setAttributesSet([opptyTypeAttribute]);
         
-        const selectedOpportunityRecordType = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => { return obj.description.toLowerCase() === oppRecordType?.toLowerCase() })
+        const selectedOpportunityRecordType = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => { return obj.oppRecordType.toLowerCase() === oppRecordType?.toLowerCase() })
         const fields = selectedOpportunityRecordType?.MANDATORY_FIELDS || [];
         setMandatoryFields(fields);
         getAttributes(fields);
@@ -106,7 +106,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
 
     const validateAttrubutes = () => {
         let check = true;
-        if(mandatoryFields.length !== attributesSet.length){
+        if(mandatoryFields.length !== (attributesSet.length -1) ){
            return false;
         }
         mandatoryFields.forEach((field:string) => {
@@ -156,7 +156,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
 
                                 <div className="form-group oppty-form-elements">
                                     <label className="opp-label">Close Date</label>
-                                     <DatePicker id={'endDate'} onDateSelect={onDateChange} />
+                                     <DateInput id={'endDate'} onDateSelect={onDateChange} />
                                 </div>
 
                                 {(attributes?.length) ?

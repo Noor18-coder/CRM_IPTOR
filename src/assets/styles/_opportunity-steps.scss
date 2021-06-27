@@ -146,8 +146,11 @@
                     display: none;
                 }
 
-                .steps-one-forms {
-                    //   display: none;
+                .react-datepicker-wrapper,
+                .react-datepicker__input-container,
+                .react-datepicker__input-container input {
+                    display: block;
+                    width: 100%;
                 }
 
                 .steps-two-forms {

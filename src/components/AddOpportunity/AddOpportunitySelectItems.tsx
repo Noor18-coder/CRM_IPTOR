@@ -11,7 +11,7 @@ import * as models from '../../helpers/Api/models';
 
 interface Props {
     changeStep: (num: number) => void,
-    createOpportunity: (items: string[]) => void
+    createOpportunity: (items: models.Item[]) => void
 }
 
 const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportunity }) => {
@@ -24,8 +24,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportun
 
     const onNextButtonClick = () => {
         const filterItems: models.Item[] = items?.filter((obj: models.Item) => selectedItems.indexOf(obj.item) > -1) || [];
-        dispatch(setOpportunityItems(filterItems))
-        createOpportunity(selectedItems);
+        createOpportunity(filterItems);
     }
 
     const fetchItems = async (searchstr: string) => {
