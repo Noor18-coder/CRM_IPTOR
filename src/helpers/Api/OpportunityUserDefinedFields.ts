@@ -8,6 +8,8 @@ export default class AddOpportunityFields {
   private static attributesFileName: string = 'SROMOPH';
   private static apiGetAttributeType: string = 'mopAttributeType.get';
   private static apiGetAttributeValues: string = "mopAttributeValues.get";
+  private static industryAttributesFileName: string = 'SRONAM';
+
 
   /**
    * Helper function to fetch Opportunity default info
@@ -28,7 +30,7 @@ export default class AddOpportunityFields {
   static async getAllFieldsValues(fields: apiModels.UserDefinedField[]) {
     //let data:apiModels.UserDefinedFieldsValueDropDown = { data : {}};
 
-    let data:apiModels.UserDefinedFieldsValueDropDown =  await Promise.all(fields.map(async (obj:apiModels.UserDefinedFieldValuesParams) => {
+      let data: apiModels.UserDefinedFieldsValueDropDown = await Promise.all(fields.map(async (obj: apiModels.UserDefinedFieldValuesParams) => {
           const values = await this.getAttributeValues(obj.attributeId);
           const items = values.items ? values.items : [];
           const c:apiModels.DropDownValues = {
@@ -59,9 +61,15 @@ export default class AddOpportunityFields {
     return response.data.data;
   }
 
-  static async getAttributeValues(attributeId: string){
+    static async getAttributeValues(attributeId: string) {
     const requestData = new ApiRequest<apiModels.UserDefinedFieldValuesParams>(this.apiGetAttributeValues, { attributeId:attributeId});
     const response = await axios.post<apiModels.UserDefinedFieldValuesResponse>('/api/service', requestData);
+    return response.data.data;
+  }
+
+  static async getIndustryInfo(attributeType: string) {
+    const requestData = new ApiRequest<apiModels.UserDefinedFieldParam>(this.apiGetAttributeType, { parentFile: this.industryAttributesFileName, attributeType: attributeType });
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return response.data.data;
   }
 }

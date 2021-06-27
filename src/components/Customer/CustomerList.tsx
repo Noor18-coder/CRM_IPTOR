@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from 'react-responsive'
+import _ from 'lodash';
 
 import Header from '../Shared/Header/Header';
 import FooterMobile from '../Shared/Footer/FooterMobile';
@@ -16,7 +17,12 @@ import { BusinessPartnerListItem, BusinessPartnerListParams } from '../../helper
 import { saveBusinessPartnerList, saveBusinessPartnerFilters, saveBusinessPartnersFilters } from '../../store/Customer/Actions';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import BusinessPartnerListMobile from './CustomerListMobile';
-import { useHistory } from 'react-router'; 
+import { useHistory } from 'react-router';
+
+import * as models from '../../helpers/Api/models';
+import OpportunityUserDefinedFields from '../../helpers/Api/OpportunityUserDefinedFields';
+import CustomerList from '../../helpers/Api/CustomerList';
+import { GridFilter } from '../../components/Shared/Filter/GridFilter';
 
 
 interface result {
@@ -27,7 +33,6 @@ interface result {
 export interface SelectOptionMethod {
     value: string;
     selectParam: string;
-    handler: string;
 }
 
 const BusinessPartners: React.FC = () => {
@@ -42,6 +47,10 @@ const BusinessPartners: React.FC = () => {
     const [searchFieldValue, setSearchField] = React.useState<string>('');
     const [refresh, setRefresh] = React.useState<boolean>(false);
     const [filter, selectFilter] = React.useState<SelectOptionMethod>();
+
+    const [industryId, setIndustryId] = React.useState<string>('');
+    const [industryDetails, setIndustryDetails] = React.useState<models.DropDownValue[]>([]);
+    const [areaDetails, setAreaDetails] = React.useState<models.AreaListItem[]>([]);
 
     const history = useHistory();
 
@@ -69,7 +78,15 @@ const BusinessPartners: React.FC = () => {
             businessPartnerTextSearch: '',
             searchField: '',
             includeInactive: true,
-            crmAttributesTextSearch: searchText
+            crmAttributesTextSearch: searchText,
+            industry: '',
+            area: '',
+        }
+        if (filter?.selectParam == 'industry') {
+            filters.industry = filter?.value;
+        }
+        if (filter?.selectParam == 'area') {
+            filters.area = filter?.value;
         }
         const data: any = await BusinessPartnerList.get('', 20, start, orderBy, filters);
         if (data && data.data && data.data.items && data.control?.total) {
@@ -104,7 +121,6 @@ const BusinessPartners: React.FC = () => {
             selectFilter({
                 value: '',
                 selectParam: '',
-                handler: ''
             });
             setSearchText(searchFieldValue);
             setRefresh(!refresh);
@@ -113,11 +129,48 @@ const BusinessPartners: React.FC = () => {
     }
 
     React.useEffect(() => {
-        //dispatch(saveOpportunityFilters(OpportunityFilterOpions))
         if (state.businesspartners.length === 0)
             setLoader(true)
+        OpportunityUserDefinedFields.getIndustryInfo('INDUSTRY').then((data) => {
+            setIndustryId(data.attributeId)
+        });
+        
     }, []);
 
+    React.useEffect(() => {
+        CustomerList.getAreas().then((data) => {
+            setAreaDetails(data.data.items)
+        });
+        OpportunityUserDefinedFields.getAttributeValues(industryId).then((data) => {
+            if(data)
+                setIndustryDetails(data.items)
+        });
+    }, [industryId]);
+
+    React.useEffect(() => {
+        _.forEach(industryDetails, function (obj) {
+            _.set(obj, 'value', obj.valueField);
+            _.set(obj, 'selectParam', 'industry');
+        });
+        _.forEach(areaDetails, function (obj) {
+            _.set(obj, 'value', obj.area);
+            _.set(obj, 'selectParam', 'area');
+        });
+        let filterArray = [...areaDetails, ...industryDetails]
+        console.log(filterArray)
+        dispatch(saveBusinessPartnerFilters(filterArray))
+    }, [areaDetails, industryDetails]);
+
+    const onFilter = (obj: SelectOptionMethod) => {
+       if (filter?.selectParam === obj.selectParam && filter.value === obj.value) {
+            selectFilter({ ...filter, selectParam: '', value: '' });
+        } else {
+            selectFilter(obj);
+        }
+        const re = !refresh;
+        setRefresh(re);
+        setLoader(true)
+    }
 
     return (
         <div>
@@ -147,12 +200,15 @@ const BusinessPartners: React.FC = () => {
                     </div>
                     {((isMobile || isTablet) && searchText.length) && loader ? <Loader component='opportunity' /> : ''}
                     {((isMobile || isTablet) ?
-                        <BusinessPartnerListMobile refresh={refresh} gridRowClicked={openBusinessPartnerDetails} getDataRows={fetchOppty} />
+                        <React.Fragment>
+                            <GridFilter filters={Array.from(state.businessPartnerFilters)} selected={filter} selectOption={onFilter} />
+                            <BusinessPartnerListMobile refresh={refresh} gridRowClicked={openBusinessPartnerDetails} getDataRows={fetchOppty} />
+                        </React.Fragment>
                         : <React.Fragment>
+                            <GridFilter filters={Array.from(state.businessPartnerFilters)} selected={filter} selectOption={onFilter} />
                             {loader && <Loader component='opportunity' />}
                             <Grid refresh={refresh} col={newColumns} gridRowClicked={openBusinessPartnerDetails} getDataRows={fetchOppty} ></Grid>
                         </React.Fragment>
-                        
                     )}
                 </div>
             </section>

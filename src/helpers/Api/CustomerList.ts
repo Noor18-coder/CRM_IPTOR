@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { BusinessPartnerListItem, BusinessPartnerListParams, BusinessPartnerFilterItem, BusinessPartnerListResponse } from './models/Customer';
+import { BusinessPartnerListItem, BusinessPartnerListParams, BusinessPartnerFilterItem, BusinessPartnerListResponse, AreaListParams, AreaListResponse } from './models/Customer';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
 
 export default class BusinessPartnerList {
     /** API Method */
     private static apiMethod: string = 'crmBusinessPartners.get';
-
+    private static areaApiMethod: string = 'areas.get';
     /**
      * Helper function to fetch Business Partner Info
      * API Method: businessPartnerInfo.get
@@ -20,10 +20,18 @@ export default class BusinessPartnerList {
             businessPartnerTextSearch: otherparams?.businessPartnerTextSearch,
             searchField: otherparams?.searchField,
             includeInactive: otherparams?.includeInactive,
-            crmAttributesTextSearch: otherparams?.crmAttributesTextSearch
+            crmAttributesTextSearch: otherparams?.crmAttributesTextSearch,
+            industry: otherparams?.industry,
+            area: otherparams?.area
         };
         const requestData = new ApiRequest<BusinessPartnerListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });
         const response = await axios.post<BusinessPartnerListResponse>('/api/service', requestData);
         return get(response,'data');
+    }
+
+    static async getAreas() {
+        const requestData = new ApiRequest<AreaListParams>(this.areaApiMethod);
+        const response = await axios.post<AreaListResponse>('/api/service', requestData);
+        return get(response, 'data');
     }
 }

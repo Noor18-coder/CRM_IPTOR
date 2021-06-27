@@ -19,6 +19,8 @@ export interface BusinessPartnerListParams {
     searchField?: string;
     includeInactive?: boolean;
     crmAttributesTextSearch?: string;
+    industry?: string;
+    area?: string;
 }
 
 export interface BusinessPartnerFilterItem {
@@ -35,4 +37,21 @@ export interface BusinessPartnerListResponse {
             items: BusinessPartnerListItem[]
         }
     
+}
+
+export interface AreaListItem {
+    area: string,
+    description: string
+}
+
+export interface AreaListParams {
+    area?: string;
+    description?: string
+}
+
+export interface AreaListResponse {
+    data: {
+        items: AreaListItem[]
+    }
+
 }

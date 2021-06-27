@@ -17,16 +17,16 @@ const BusinessPartnerCard: React.FC<React.PropsWithChildren<OppProps>> = (props)
                 </div>
             </div>
             <div className="d-flex justify-content-between owner-row">
-                  <div className="lft-col">
-                        Owner <span className="customer-card-text"></span>
-                  </div>
-                  <div className="rgt-col">
-                        Industry <span className="customer-card-text"></span>
-                  </div>
+                <div className="lft-col p-0">
+                    Owner <span className="customer-card-text">{props.businesspartner.owner}</span>
+                </div>
+                <div className="rgt-col">
+                    Industry <span className="customer-card-text">{props.businesspartner.industry}</span>
+                </div>
             </div>
             <div className="d-flex justify-content-between location-row">
-                  <div className="lft-col">
-                        Active Opp - <span className="customer-card-text"></span>
+                  <div className="lft-col p-0">
+                    <span className="display-inline"> Active Opp - </span> <span className="customer-card-text display-inline">{props.businesspartner.numberOfActiveOpportunities}</span>
                   </div>
                   <div className="rgt-col">
                         <img src={ImageConfig.NAV_MORE_DOTS} alt="More" title="More" />

@@ -167,18 +167,20 @@ const Opportunities: React.FC = () => {
     setSearchField(str)
     if(str.length === 0){
       setSearchText('');
-      setRefresh(!refresh);
+        setRefresh(!refresh);
+        setLoader(true)
     }
   }
 
   const searchOpportunity = (event:React.KeyboardEvent<HTMLInputElement>) => {
     
-    if(event.key == 'Enter' && searchFieldValue.length > 3){
+    if(event.key == 'Enter' && searchFieldValue.length > 0){
       selectFilter({ value: '',
         selectParam: '',
         handler:''});
       setSearchText(searchFieldValue);
-      setRefresh(!refresh);
+        setRefresh(!refresh);
+        setLoader(true)
     }
 
   }
@@ -219,7 +221,7 @@ const Opportunities: React.FC = () => {
               <button className={"btn add-opportunity"} onClick={toggleDrawer(true)}>+ New</button>
             </div>}
           </div>
-           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
+           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} component='opportunity' /> 
            {loader && <Loader component='opportunity'/>}
            { usersData.users && usersData.users.length ? ((isMobile || isTablet) ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
           </div>

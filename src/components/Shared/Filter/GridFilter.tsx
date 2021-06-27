@@ -2,6 +2,7 @@ import React from 'react';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Image} from 'react-bootstrap';
 import ImageConfig from '../../../config/ImageConfig';
+import _ from 'lodash';
 
 export interface Option {
     value: string;
@@ -22,7 +23,8 @@ export interface SelectOptionMethod {
 interface Props {
     filters: Option[],
     selectOption: (key: SelectOptionMethod) => void,
-    selected?: Option
+    selected?: Option,
+    component?: string
 }
 
 interface MenuItemPRops {
@@ -39,7 +41,7 @@ const MenuItem: React.FC<MenuItemPRops> = ({ obj, selected, onSelect }) => {
 };
 
 export const Menu = (list: Option[], selectOption: any, selected?: Option) => {
-    let updatedList = [...new Set(list)]
+    const updatedList = [...new Map(list.map(item => [JSON.stringify(item), item])).values()];
     return updatedList.map(el => {
         return <MenuItem obj={el} key={el.value} selected={selected} onSelect={selectOption} />;
     });
@@ -60,7 +62,7 @@ const ArrowLeft = Arrow({ text: '', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '', className: 'arrow-next' });
 
 
-export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = initialFilter}) => {
+export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = initialFilter, component}) => {
      const [handler, setHandler] = React.useState<string>('all');
     const [selectedFilter, setFilter] = React.useState<Option>(selected);
 
@@ -86,13 +88,16 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
             <div className={"col filter-class"}>
                 <div className={"d-lg-block d-none"} >
                     <div className={'row'}>
-                        <div className={'col-2'}>
-                            <div className="toggle-btn-group">
-                                <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
-                                <button className={classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                        {component === 'opportunity' && 
+                            <div className={'col-2'}>
+                                <div className="toggle-btn-group">
+                                    <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
+                                    <button className={classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                                </div>
                             </div>
-                        </div>
-                        <div className={'col-10'}>
+                        }
+                        
+                        <div className={component === 'opportunity' ? 'col-10' : 'col-9'}>
                             <ScrollMenu
                                 data={menuItems}
                                 arrowLeft={ArrowLeft}
@@ -109,12 +114,14 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                 </div>
                 <div className={"d-lg-none d-block"} >
                     <div className={"row"}>
-                        <div className="col-12">
-                            <div className=" toggle-btn-group">
-                                <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
-                                <button className={'my-btn ' +  classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                        {component === 'opportunity' && 
+                            <div className="col-12">
+                                <div className=" toggle-btn-group">
+                                    <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
+                                    <button className={'my-btn ' + classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div className={'col-12 add-btn'}>
                         <Image src={ImageConfig.ADD_ICON}/>
                             <ScrollMenu
