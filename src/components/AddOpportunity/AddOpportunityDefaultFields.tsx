@@ -7,7 +7,7 @@ import { AppState } from "../../store/store";
 import ImageConfig from '../../config/ImageConfig';
 import * as models from '../../helpers/Api/models';
 import { OpportunityTypeList } from './OpportunityTypeList';
-
+import { Context } from './AddOpportunityContext';
 
 import { AddOpportunityDefaultParams, CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
 
@@ -27,7 +27,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     const [selectedOpportunityType, selectOpportunityType] = React.useState('');
     const [customerContacts, setCustomerContacts] = React.useState<CustomerDetailsContactsGroupItem[]>([]);
     const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
-    
+    const contextValue = React.useContext(Context);
 
     const onChangeCustomerInput = () => { }
 
@@ -36,13 +36,17 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
         return data.data.items;
     }
 
+    const loadCustomerContacts = async (customerId:string) => {
+        const customerContactsData = await CustomerDetailsApi.getAllContactDetails(customerId);
+        setCustomerContacts(customerContactsData);
+    }
+
     const onSearchItemSelect = async (data: any) => {
         const selectItem:BusinessPartnerListItem = data[0];
         setOpportunityField({
             ...opportunity,
             customer: selectItem.businessPartner});
-        const customerContactsData = await CustomerDetailsApi.getAllContactDetails(selectItem.businessPartner);
-        setCustomerContacts(customerContactsData);
+        loadCustomerContacts(selectItem.businessPartner);
     }
 
     const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
@@ -86,6 +90,15 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
        dispatch(setOpportunityContacts(selectedContact));
         
     }
+
+    React.useEffect(() => {
+        if(contextValue?.customerId){
+            setOpportunityField({
+                ...opportunity,
+                customer: contextValue.customerId});
+            loadCustomerContacts(contextValue.customerId);
+        }
+    }, []);
     
 
     return (
@@ -109,7 +122,8 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                             </div>
                             <div className="form-group oppty-form-elements">
                                 <label className="opp-label">Select Customer</label>
-                                <AsyncSearchInput onChange={onChangeCustomerInput} onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
+                                {contextValue?.customerName && contextValue?.customerId  ?  <input type="text" className="form-control" placeholder="" contentEditable={false} value={contextValue.customerName} /> :
+                                <AsyncSearchInput onChange={onChangeCustomerInput} onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} /> }
                             </div>
 
                             <div className="form-group oppty-form-elements">
@@ -146,8 +160,8 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                             </div>
                         </form>
                     </div>
-                    <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={ onNextButtonClick}>
-                        <a className="stepone-next-btn" href="#">
+                    <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
+                        <a className="stepone-next-btn">
                             Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
                         </a>
                     </div>
