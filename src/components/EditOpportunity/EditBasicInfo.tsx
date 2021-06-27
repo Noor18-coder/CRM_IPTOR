@@ -17,7 +17,11 @@ import DateInput from '../Shared/Picker/DateInput';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 
 
-const EditBasicInfo: React.FC = () => {
+interface Props {
+    reloadOpportunityDetailsPage : () => void
+}
+const EditBasicInfo: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
+
     const state: AppState = useSelector((state: AppState) => state);
     const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, ['opportunityId', 'area', 'handler', 'reason', 'endDate', 'probability', 'oppRecordType', 'estimatedValue', 'stage', 'currency', 'desc', 'customer']);
     const dispatch: Dispatch<any> = useDispatch();
@@ -86,7 +90,7 @@ const EditBasicInfo: React.FC = () => {
 
     const onNextButtonClick = async () => {
         const data = await AddOpportunityApi.update(opportunity);
-        console.log(data);
+        reloadOpportunityDetailsPage();
     }
 
     const searchCustomers = async (key: string) => {

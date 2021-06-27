@@ -80,17 +80,17 @@ export default class AddOpportunityApi {
    * @param freeTextSearch search term
    * 
    */
-   static async addContacts(params:AddCustomerContactParams): Promise<AxiosResponse> {
+   static async addContact(params:AddCustomerContactRequestParams): Promise<AxiosResponse> {
     const request:AddCustomerContactRequestParams  = {
       contactParentFile:this.saveAttributeValueMethodFile,
-      contactParentId:params.contactPArentId,
+      contactParentId:params.contactParentId,
       contactPerson:params.contactPerson,
+      contactDC:params.contactDC,
       phone:params.phone,
       mobile:params.mobile,
-      contactDC:'',
-      whatsApp:'',
-      linkedin:'',
-      fax:'',
+      whatsApp:params.whatsApp,
+      linkedin:params.email,
+      fax:params.fax,
       email:params.email
     }
 

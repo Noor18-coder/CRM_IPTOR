@@ -27,13 +27,13 @@ export interface AddCustomerContactRequestParams {
     contactParentFile?:string;
     contactParentId?:string;
     contactPerson?:string
-    contactDC:string;
-    whatsApp:string;
-    phone:number;
-    mobile:string;
-    linkedin:string;
-    fax:string;
-    email:string
+    contactDC?:string;
+    whatsApp?:string;
+    phone?:number;
+    mobile?:string;
+    linkedin?:string;
+    fax?:string;
+    email?:string
 }
 
 
@@ -54,13 +54,13 @@ export interface AddCustomerContactResponseParams {
 
 
 export interface AddCustomerContactParams {
-    contactPArentId?:string;
+    contactParentId?:string;
     contactPerson?:string
-    phone:number;
-    mobile:string;
-    linkedin:string;
-    fax:string;
-    email:string
+    phone?:number;
+    mobile?:string;
+    linkedin?:string;
+    fax?:string;
+    email?:string
 };
 
 export interface AddOpportunityField {

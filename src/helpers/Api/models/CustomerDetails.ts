@@ -47,7 +47,7 @@ export interface CustomerDetailsDefaultResponse {
 
 
 export interface  CustomerDetailsContactsGroupItem {
-  contactId: number,
+  contactId: string,
   contactPerson: string,
   email: string,
   phone: number,
@@ -59,7 +59,9 @@ export interface  CustomerDetailsContactsGroupItem {
   DO_NOT_CONTACT: boolean,
   NO_LONGER_AT_COMP: boolean,
   OPTED_OUT_OF_EMAIL: boolean,
-  PRIMARY_CONTACT: boolean
+  PRIMARY_CONTACT: boolean,
+  mobile ?:string,
+  linkedin ?:string
 };
 
 export interface  CrmCountry {

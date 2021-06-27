@@ -11,10 +11,11 @@ export interface ContactProps {
 
 interface Props {
     title: string,
-    data: OpportunityContact[]
+    data: OpportunityContact[],
+    openAddContactForm: () => void
 }
 
-export const ContactAccordian: React.FC<Props> = ({ title, data }) => {
+export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactForm }) => {
     const [activeClass , setActiveClass] = React.useState("");
     const toggleAccordion = () => {
       setActiveClass(activeClass === "" ? "active" : "");
@@ -24,7 +25,7 @@ export const ContactAccordian: React.FC<Props> = ({ title, data }) => {
             <Card className="add-details">
                 <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                     {title}
-                    <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 
+                    <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" onClick={openAddContactForm}/> 
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
                     <div className="accr-body-container">

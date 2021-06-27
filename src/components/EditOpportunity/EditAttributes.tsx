@@ -11,7 +11,13 @@ import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields
 import { Attributes } from '../../helpers/Api/Attributes';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 
-const EditOpportunity: React.FC = () => {
+
+
+interface Props {
+    reloadOpportunityDetailsPage : () => void
+}
+const EditAttributes: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
+
     const state: AppState = useSelector((state: AppState) => state);
     const [attributes, setFields] = React.useState<models.AttributeField[]>();
     const [attributeValues, setAttributeValues] = React.useState<models.UserDefinedFieldsValueDropDown>();
@@ -82,6 +88,7 @@ const EditOpportunity: React.FC = () => {
         Promise.all(attributesForUpdate.map((obj: UpdateAttributeParams) => {
             return Attributes.updateAttribute(obj.attributeType, obj.valueId, obj.attributeValue);
         })).then((data) => {
+            reloadOpportunityDetailsPage();
             return data;
         });
 
@@ -89,6 +96,7 @@ const EditOpportunity: React.FC = () => {
         Promise.all(attributesForAdd.map((obj: AttributeValueAndType) => {
             return Attributes.addAttribute('opportunity', opptyId, obj.attributeType, obj.attributeValue);
         })).then((data) => {
+            reloadOpportunityDetailsPage();
             return data;
         });
     }
@@ -155,4 +163,4 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attribute
     );
 }
 
-export default EditOpportunity;
+export default EditAttributes;

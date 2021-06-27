@@ -100,6 +100,15 @@ const OpportunityDetails: React.FC = (props: any) => {
     const openOpportunityBasicEdit = () => {
         dispatch(openOpportunityForm({open:true,groupName:'opportunity_defaults'}))
     }
+    
+    const openAddContactForm = () => {
+        dispatch(openOpportunityForm({open:true,groupName:'add_contact'}))
+    }
+
+    const reloadOpportunity = () => {
+        fetchOpportunityDetails(opptyId);
+
+    }
 
 
     return (
@@ -115,12 +124,12 @@ const OpportunityDetails: React.FC = (props: any) => {
                         {opptyDataBasicGroup?.length ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} openEditOpportunity={openOpportunityBasicEdit} /> : null}
                         {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} openEditForm={openEditForm}/> : null} 
                         <ProductAccordian title={'Products & Modules'} data={opptyDataProductInfo} />
-                        <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} />                         
+                        <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} openAddContactForm={openAddContactForm}/>                         
                     </section>
                 </div>
             </section> }
             <Footer />
-            <Container />
+            <Container reloadOpportunityDetailsPage={reloadOpportunity}/>
         </>
     )
 }

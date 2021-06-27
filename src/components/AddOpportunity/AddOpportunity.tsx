@@ -43,7 +43,7 @@ const AddOpportunity:React.FC = () => {
 
         Promise.all(state.addOpportunity.contacts.map((contact:CustomerDetailsContactsGroupItem) => {
             const params:AddCustomerContactParams = {
-                contactPArentId:opptyId,
+                contactParentId:opptyId,
                 contactPerson:contact.contactPerson,
                 phone:contact.phone,
                 mobile:'',
@@ -51,7 +51,7 @@ const AddOpportunity:React.FC = () => {
                 fax:contact.fax,
                 email:contact.email
             };
-            return AddOpportunityApi.addContacts(params);
+            return AddOpportunityApi.addContact(params);
         })).then((data) => {
             return data;
         });

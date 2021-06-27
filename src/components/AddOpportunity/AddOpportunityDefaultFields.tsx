@@ -84,7 +84,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     }
 
     const onCustomerContactSelect = (e: React.ChangeEvent< HTMLSelectElement> ) => {
-        const selectedContactId = parseInt(e.currentTarget.value);
+        const selectedContactId = e.currentTarget.value;
 
         const selectedContact = customerContacts.filter((obj:CustomerDetailsContactsGroupItem) => { return obj.contactId == selectedContactId });
        dispatch(setOpportunityContacts(selectedContact));
