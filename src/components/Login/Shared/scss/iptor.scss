@@ -1,6 +1,6 @@
 @import 'reset';
 @import 'mixins';
-@import 'global-variables';
+@import '../../../../assets/styles/_global-variables';
 @import "~bootstrap/scss/bootstrap";
 
 /* width */
@@ -312,7 +312,7 @@ body {
     @import 'opportunity-details';
     @import 'common-styles';
     @import 'staging-arrow';
-    @import 'mediaqueries';
+    @import '../../../../assets/styles/mediaqueries';
 
 }
 

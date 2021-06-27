@@ -1,0 +1,45 @@
+// BORDER RADIUS @include border-radius($border-radius);
+@mixin border-radius($radius) {
+    border-radius: $radius;
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+}
+
+
+// TEXT LINK STYLING START - @include text-link($white, $cerulean, 0.5)
+@mixin text-link ($txtcolor, $hovercolor, $alpha) {
+    text-decoration: none;
+    outline: none;
+    border: none;
+    @include transition;
+    color: $txtcolor;
+
+    //NORMAL AND AFTER CLICK
+    &:visited,
+    &:focus {
+        color: $txtcolor;
+    }
+
+    &:hover{
+        cursor: pointer;
+    }
+
+    //HOVER AND PRESS
+    &:hover,
+    &:active {
+        text-decoration: none;
+        color: rgba($hovercolor, $alpha);
+    }
+}
+
+// TEXT LINK STYLING END
+
+
+// TRANSITION START - @include transition;
+@mixin transition($what: all, $length: $animation-speed, $easing: ease-in-out) {
+    -moz-transition: $what $length $easing;
+    -o-transition: $what $length $easing;
+    -webkit-transition: $what $length $easing;
+    -ms-transition: $what $length $easing;
+    transition: $what $length $easing;
+}

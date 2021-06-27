@@ -2,8 +2,10 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from 'react-router';
+import { useMediaQuery } from 'react-responsive'
 
 import { getStartDateOfQuarter, getEndDateOfQuarter } from '../../helpers/utilities/lib';
+import OpportunityListMobile from './OpportunityListMobile';
 
 import { OpportunityState } from '../../store/Opportunity/Types';
 import { AppState } from "../../store/store";
@@ -20,11 +22,13 @@ import {OpportunityFilterOpions} from '../../config/OpportunityFilterOptions';
 
 import { OpportunityListItem, OpportunityListParams, OpportunityFilterItem } from '../../helpers/Api/models';
 import { saveOpptyList, saveOpptyFilters, saveOpportunityFilters } from '../../store/Opportunity/Actions';
+import Footer from "../Shared/Footer/Footer";
+import { GridFilter } from '../../components/Shared/Filter/GridFilter';
 import Search from '../Shared/Search/Search';
 import ImageConfig from '../../config/ImageConfig';
+import FooterMobile from '../Shared/Footer/FooterMobile';
 
 
-import { GridFilter } from '../../components/Shared/Filter/GridFilter';
 export interface SelectOptionMethod {
   value: string;
   selectParam: string;
@@ -37,6 +41,10 @@ interface result {
 }
 
 const Opportunities: React.FC = () => {
+  
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
+  const isDesktop = useMediaQuery({ minWidth: 992 })
 
   const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
   const authState: AuthState = useSelector((state: AppState) => state.auth);
@@ -131,7 +139,6 @@ const Opportunities: React.FC = () => {
   }, []);
 
   const onFilter = (obj: SelectOptionMethod) => {
-    console.log(refresh);
     const re = !refresh;
     setRefresh(re);
     selectFilter(obj);
@@ -162,33 +169,33 @@ const Opportunities: React.FC = () => {
   return (
     <div>
       <Header />
-      <section>
+      <section className="opportunities">
         <div className={"container-fluid"}>
 
           <div className={"row s-header"}>
-            <div className={"col col-md-4"}>
+    
+            { isMobile ? null : <div className={"col col-md-4"}>
               <div className={"page-title"}>
-                {'Opportunities'}
               </div>
-            </div>
+            </div> }
 
             <div className={"col col-md-4"}>
               <Search onChange={searchStart} onSearchItemSelect={openOpptyDetails} onSearch={searchOpportunity} />
             </div>
 
-            <div className={"col col-md-4 justify-content-end"}>
+            { isMobile ? null : <div className={"col col-md-4 justify-content-end"}>
               <button className={"btn add-opportunity"} data-toggle="modal" data-target="#myModal2">+ New</button>
-            </div>
+            </div>}
           </div>
-        </div>
-        <div className={"container-fluid"}>
-           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
-          {usersData.users && usersData.users.length ? <Grid col={newColumns} refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> : null}
-        </div>
+          <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
+          { usersData.users && usersData.users.length && (isMobile || isTablet) ? <OpportunityListMobile gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid>  }
+          </div>
       </section>
+   
       <footer style={{position: "fixed"}}>
-      <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor"/> &copy; All Content Copyright 2021 </p>
+        <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor"/> &copy; All Content Copyright 2021 </p>
       </footer>
+      { (isMobile || isTablet) ? <FooterMobile /> : null }
     </div>
   );
 }
