@@ -7,22 +7,23 @@ export interface Option {
 }
 
 interface Props {
-    filters: Option[],
-    selectOption: (key:string) => void
+    filters: string[],
+    selectOption: (key:string) => void,
+    selected:string
 }
 
 
-export const GridFilter:React.FC<Props> = ({filters ,selectOption}) => {
+export const Filter:React.FC<Props> = ({filters ,selected, selectOption}) => {
     return (
         <div className={"row s-header"}>
             <div className={"col"}>
                 <div className={"navbar-filter"}>
                     <ul>
-                        { filters.map((obj:Option, index:any) => {
-                            const classes = 'btn ' + (obj.active === true ? 'btn-active' : '');
+                        { filters.map((obj:string, index:any) => {
+                            const classes = 'btn ' + (obj === selected ? 'btn-active' : '');
                             return (
-                                <li key={obj.value}>    
-                                    <button className={classes} onClick={() => selectOption(obj.value)}>{obj.name}</button>
+                                <li key={obj}>    
+                                    <button className={classes} onClick={() => selectOption(obj)}>{obj}</button>
                                 </li>
                             );
                         })}

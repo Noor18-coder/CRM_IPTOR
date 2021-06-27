@@ -3,14 +3,15 @@
  */
 
  import { Reducer } from 'redux';
- import { SaveOpportuntiesAction, OpportunityTypes, OpportunityState } from './Types';
+ import { OpportunityActions , OpportunityTypes, OpportunityState } from './Types';
  
  /**
   * Initial State
   */
   export const createOpportunityInitialState = (): OpportunityState => {
      return {
-         opportunities: []
+         opportunities: [],
+         opportunityFilters: new Set(['all'])
      }
  };
  
@@ -21,13 +22,18 @@
   * @param state auth state object
   * @param action auth actions
   */
-  const opportunityReducer: Reducer<OpportunityState, SaveOpportuntiesAction> = (state = initialState, action) => {
+  const opportunityReducer: Reducer<OpportunityState, OpportunityActions> = (state = initialState, action) => {
      switch (action.type) {
          case OpportunityTypes.SAVE_LIST_OPPTY : 
                      return {
             ...state,
-            opportunities: action.opportunities
-          };
+            opportunities: [...state.opportunities, ...action.opportunities]
+          }; 
+          case OpportunityTypes.SAVE_OPPTY_FILTERS : 
+            return {
+                ...state,
+                opportunityFilters: state.opportunityFilters.add(action.filter)
+            };
          default:
              return state;
      }

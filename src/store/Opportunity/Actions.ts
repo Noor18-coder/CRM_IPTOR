@@ -5,13 +5,21 @@ import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { OpportunityListItem } from '../../helpers/Api/models';
 import OpportunityList from '../../helpers/Api/OpportunityList'; 
-import {OpportunityTypes , SaveOpportuntiesAction, OpportunityState } from './Types';
+import {OpportunityTypes , SaveOpportuntiesAction, SaveOpportunityFilterAction } from './Types';
 
 /** Action to set auth state logged in status */
 export const saveOpptyList: ActionCreator<SaveOpportuntiesAction> = (opptyList) => {
   return {
     type: OpportunityTypes.SAVE_LIST_OPPTY,
     opportunities:opptyList
+  };
+};
+
+/** Action to set auth state logged in status */
+export const saveOpptyFilters: ActionCreator<SaveOpportunityFilterAction> = (filter:string) => {
+  return {
+    type: OpportunityTypes.SAVE_OPPTY_FILTERS,
+    filter:filter
   };
 };
 

@@ -2,7 +2,7 @@
   "name": "react-typescript-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://sepdvs137.rd.ibs.net:8219",
+  "proxy": "http://aperio.iptor-pd.com:8219",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",

@@ -1,93 +1,191 @@
-
-import React, { useState } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
+import { GridOptions, ColDef } from 'ag-grid-community';
 import { AgGridReact, AgGridColumn } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-
-import OpportunityGridOptions from '../../../config/OpportunityGrid';
-//import { Column } from './Column';
-import { parseCommandLine } from 'typescript';
-
-import Dots from '../../../assets/images/nav-more.svg';
+import { GridFilter, Option } from '../../Shared/Filter/GridFilter';
 import { RowClickedEvent } from 'ag-grid-community';
 
-interface Props {
-  rowData : any[], 
-  openOpptyDetails:  (data:any) => void
+import { OpportunityListItem, CompanyInfoItem } from '../../../helpers/Api/models';
+
+
+import { useSelector, useDispatch } from "react-redux";
+import { OpportunityState } from '../../../store/Opportunity/Types';
+import { AppState } from "../../../store/store";
+
+import { Filter } from '../Filter/Filter';
+interface result {
+  items: OpportunityListItem[],
+  load: boolean
 }
 
-const Grid:React.FC<Props> = ({rowData, openOpptyDetails}) => {
+const initFilters = ['all', 'PLBARMAC','PLMARKAN'];
+//   {
+//     value: 'all',
+//     name: 'All',
+//     active: true
+//   },
+//   {
+//     value: 'PLBARMAC',
+//     name: 'PLBARMAC',
+//     active: false
+//   },
+//   {
+//     value: 'PLMARKAN',
+//     name: 'PLMARKAN',
+//     active: false
+//   }];
 
-  const fields = OpportunityGridOptions;
-  const headerClass = ['table-cell align-items-center'];
+interface Props {
+  col: any;
+  gridRowClicked: (data: any) => void;
+  getDataRows: (start: number, sortString: string, filter: string) => Promise<result>
+}
+
+const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows }) => {
+
+  const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
+
+  const [filter, setFilter] = React.useState<string>('all');
+  const [filters, setFilters] = React.useState<string[]>([]);
+  const [gridApi, setGridApi] = React.useState<any>();
+  const [gridColumnApi, setGridColumnApi] = React.useState(null);
 
   const onGridSizeChanged = (params: any) => {
     params.api.sizeColumnsToFit();
   };
 
-  const staticArrayCellClass = ['table-cell', 'justify-content-center'];
+  const onFilter = (key: string) => {
+    if (key === filter) {
+      return;
+    }
 
-  const imgDot = () =>  '<img class="nav-more-menu" src="' + Dots + '" alt="...">';
+    // const newList = filters.map((item: string) => {
+    //   if (item === filter) {
+    //     const updatedItem = {
+    //       ...item,
+    //       active: !item.active,
+    //     };
+    //     return updatedItem;
+    //   }
+
+    //   if (item.value === key) {
+    //     const updatedItem = {
+    //       ...item,
+    //       active: !item.active,
+    //     };
+    //     return updatedItem;
+    //   }
+    //   return item;
+    // });
+
+    //setFilters(newList);
+    setFilter(key);
+
+    if (gridApi) {
+      gridApi.setRowData([]);
+      gridApi.onFilterChanged();
+      const dataSource = getDataSource(key, gridApi);
+      gridApi.setDatasource(dataSource);
+    }
+
+  }
+
+
+  const onGridReady = (params: any) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+    const dataSource = getDataSource('all', params);
+    params.api.setDatasource(dataSource);
+  }
+
+  const getDataSource = (filterd: string, params: any) => {
+    return {
+      rowCount: null,
+      getRows: async (params: any) => {
+        console.log(params.startRow);
+        let orderByString = '';
+        if (params && params.sortModel && params.sortModel[0]) {
+          orderByString = params.sortModel[0].colId + ' ' + params.sortModel[0].sort;
+        }
+        const data: result = await getDataRows(params.startRow, orderByString, filterd);
+
+
+
+        if (data && data.load) {
+          const rows = data.items;
+          // const opptyTypeList = new Set( rows.map((obj) => obj.oppRecordType ));
+          // const newList = [...filters,...Array.from(opptyTypeList)]
+          // console.log(filters);
+          // console.log(newList);
+          // setFilters(newList);
+          params.successCallback(rows, undefined);
+        } else {
+          const rows = data.items;
+          const count = params.startRow + rows.length;
+          // const opptyTypeList = new Set( rows.map((obj) => obj.oppRecordType ));
+          // const newList = [...filters,...Array.from(opptyTypeList)]
+          // setFilters(newList);
+          params.successCallback(rows, count);
+        }
+      }
+    };
+  }
 
   const defaultColDef = {
     width: 100,
     headerComponentParams: {
-        template:
-            '<div class="ag-cell-label-container" role="presentation">' +
-            '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-            '    <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
-            '    <span  ref="eSortAsc" class="asc-icon"></span>' +
-            '    <span ref="eSortDesc" class="desc-icon"></span>' +
-            '  </div>' +
-            '</div>'
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
+        '    <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '    <span ref="eSortAsc" class="asc-icon"></span>' +
+        '    <span ref="eSortDesc" class="desc-icon"></span>' +
+        '  </div>' +
+        '</div>'
     }
-};
+  };
 
-  const Column = (obj: any) => {
-    const staticArrayCellClass = ['table-cell', 'justify-content-center'];
 
-    return (
-      <AgGridColumn
-        field={obj.field}
-        sortable={obj.sortable}
-        headerName={obj.headerName}
-        cellClass={staticArrayCellClass}
-        cellRenderer={obj.cellRender}
-      ></AgGridColumn>
-    )
+
+
+  const defaultGridOptions = {
+    headerHeight: 60,
+    rowHeight: 60,
+    domLayout: 'autoHeight',
+    suppressCellSelection: true,
+    onGridSizeChanged: onGridSizeChanged,
+    rowModelType: 'infinite',
+    paginationPageSize: 20,
+    cacheBlockSize: 20,
+    infiniteInitialRowCount: 1,
+    onGridReady: onGridReady,
+    gridRowClicked: gridRowClicked
+  };
+
+  const onRowClick = (event: RowClickedEvent) => {
+    gridRowClicked(event.data);
   }
 
-  const gridRowClicked = (event:RowClickedEvent) => {
-    openOpptyDetails(event.data);
-  }
 
   return (
-    <div className={"lists opportunity-list"}>
-      <div className={"table-wrapper"}>
-        <div className={"ag-theme-alpine"}>
-
-          <AgGridReact
-            defaultColDef={defaultColDef}
-            headerHeight={60}
-            rowHeight={60}
-            domLayout={'autoHeight'}
-            rowData={rowData}
-            onRowClicked={gridRowClicked}
-            suppressCellSelection={true}
-            onGridSizeChanged={onGridSizeChanged}>
-            {fields.map((obj) => { return Column(obj); })}
-            <AgGridColumn
-            cellRenderer={imgDot}
-            width={30}
-            suppressAutoSize={true}></AgGridColumn>
-          </AgGridReact>
+    <>
+      <Filter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} />
+      <div className={"lists opportunity-list"}>
+        <div className={"table-wrapper"}>
+          <div className={"ag-theme-alpine"}>
+            <AgGridReact
+              defaultColDef={defaultColDef}
+              columnDefs={col}
+              onRowClicked={onRowClick}
+              gridOptions={defaultGridOptions}>
+            </AgGridReact>
+          </div>
         </div>
       </div>
-    </div>
-
+    </>
   );
 
-};
+}
 
-export default Grid;
+export default Grids;
