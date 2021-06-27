@@ -1,13 +1,14 @@
 import React from 'react';
 import {Accordion, Card, Image}  from 'react-bootstrap';
 import ImageConfig from '../../config/ImageConfig';
-import {GroupSection} from '../CustomerDetails/Shared/GroupSection';
+import { AllContactsAccordian } from './AllContactDetails'
 import { useMediaQuery } from 'react-responsive';
-import { CustomerDetailsDefault, CustomerDetailsGroupItem } from  '../../helpers/Api/models';
+import { CustomerDetailsDefault, CustomerDetailsGroupItem, CustomerDetailsContactsGroupItem } from  '../../helpers/Api/models';
 
 export interface Data {
   data:CustomerDetailsDefault,
-  ownerData:CustomerDetailsGroupItem[]
+  ownerData:CustomerDetailsGroupItem[],
+  contactsData:CustomerDetailsContactsGroupItem[]
 }
 
 const CustomerCard:React.FC<Data> = (props) =>   {
@@ -28,7 +29,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                  <ul className="list-inline bdy-list-item">
                   <li className="list-inline-item"><span>Contact Address</span>{props.data.addressLine1},<p>{props.data.addressLine2}</p></li>
                   <li className="list-inline-item"><span>Region</span>{props.data.area}<p>&nbsp;</p></li>
-                  <li className="list-inline-item"><span>Phone Number</span>&nbsp;<p>&nbsp;</p></li>
+                  <li className="list-inline-item"><span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p></li>
                   {/* <li className="list-inline-item">
                   <Image  src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li> */}
                 </ul></Card.Body>
@@ -56,7 +57,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
       <div className="customer-details d-flex justify-content-between">
         <div className="lft-col">
            <span>
-           +46 93801093
+           {/* +46 93801093 */}--
          </span>
         </div>
 
@@ -69,7 +70,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
 
         <div className="lft-col">
            <span>
-           Tomcoudyzer@iptor.com
+           {/* Tomcoudyzer@iptor.com */}--
          </span>
         </div>
 
@@ -82,8 +83,8 @@ const CustomerCard:React.FC<Data> = (props) =>   {
            <div className="accr-body-container">  
                <ul className="list-inline bdy-list-item">
                <li className="list-inline-item"><span>Account owner</span>{ownerName}</li>
-               <li className="list-inline-item"><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />&nbsp; &nbsp;+46 93801093</li>
-               <li className="list-inline-item"><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" />&nbsp;&nbsp; tomcoudyzer@iptor.com</li>
+               <li className="list-inline-item"><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />--</li>
+               <li className="list-inline-item"><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" />--</li>
                {/* <li className="list-inline-item">
                <Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li> */}
              </ul></div>
@@ -91,18 +92,19 @@ const CustomerCard:React.FC<Data> = (props) =>   {
        </section> }
 
 
-      <section className="d-flex sec-customer-desc">
+       <section className="d-flex sec-customer-desc">
         <div className="cust-name">
-          <p>Product family</p>
+          <p>Product Family</p>
         </div>
+        {props.data.APP_FROM_IPTOR?
+        props.data.APP_FROM_IPTOR.map((name: any) => {
         <div className="group-sec">
           <ul className="list-inline">
-          <li className="list-inline-item"><span className="cust-info">DC1</span> </li>
-          <li className="list-inline-item"><span className="cust-info">CRM</span></li>
-          <li className="list-inline-item"><span className="cust-info">ERP</span></li>
+          <li className="list-inline-item"><span className="cust-info">{name}</span> </li>
           </ul>
         </div>
-        
+          }):null}
+ 
         {/* <div className="sec-status">
         <ul className="list-inline"><li className="list-inline-item">
         <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 
@@ -111,35 +113,21 @@ const CustomerCard:React.FC<Data> = (props) =>   {
       </section>
 
       <section className="sec-info-accordion">
-          <Accordion  defaultActiveKey="0">
-          <Card className="contact-class">
-          <Accordion.Toggle as={Card.Link} eventKey="1">
-            All Contact
-            <span className="cust-info"><span>03 CONTACTS</span></span>
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="1">
-            <Card className="accordian-card">
-            <Card.Body>
-                <div className="left-card">
-                <p><b>Manne C Petersson</b></p>
-                <p>Associate - Sales</p>
-                <p>mannecp@astrazeneca.com</p>
-                <p>0435-592234</p>
-                <p>Dadalvagen 33, KINSLINGE,</p>
-                <p>289 00, Sweden </p>
-                </div>
-                <div className="right-card">  
-                </div>
-            </Card.Body>
-            <Card.Footer className="text-muted">
-            </Card.Footer>
-           </Card>
-            </Accordion.Collapse>
-          </Card>
-          </Accordion>
+      <AllContactsAccordian title={' All Contact'} contactData={props.contactsData} />
         </section>
 
-        <GroupSection  groupName={"Opportinities"}/>
+        <section className="d-flex sec-customer-desc">
+        <div className="cust-name">
+          <p>Opportinities</p>
+        </div>
+        <div className="group-sec">
+          <ul className="list-inline">
+          <li className="list-inline-item"><span className="cust-info">{props.data.numberOfActiveOpportunities ? props.data.numberOfActiveOpportunities :0} ACTIVE</span> </li>
+          <li className="list-inline-item"><span className="cust-info">{props.data.numberOfInactiveOpportunities? props.data.numberOfInactiveOpportunities :0} CLOSED</span></li>
+          <li className="list-inline-item"><span className="cust-info">{props.data.numberOfActiveOpportunities ? props.data.numberOfActiveOpportunities :0 + props.data.numberOfInactiveOpportunities? props.data.numberOfInactiveOpportunities :0} TOTAL</span></li>
+          </ul>
+        </div>
+      </section>
 
         <section className="d-flex sec-customer-desc">
         <div className="cust-name">
@@ -147,9 +135,9 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         </div>
         <div className="group-sec">
           <ul className="list-inline">
-          <li className="list-inline-item"><span className="cust-info">Astra Zeneca Pharma - Sweden</span> </li>
+          {/* <li className="list-inline-item"><span className="cust-info">Astra Zeneca Pharma - Sweden</span> </li>
           <li className="list-inline-item"><span className="cust-info">Astra Zeneca Pharma - Sweden</span></li>
-          <li className="list-inline-item"><span className="cust-info">+ more</span></li>
+          <li className="list-inline-item"><span className="cust-info">+ more</span></li> */}
           </ul>
         </div>
         

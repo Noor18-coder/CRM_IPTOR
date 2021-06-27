@@ -16,7 +16,25 @@ export interface CustomerDetailsDefault {
     debtor: number,
     invoiceAddressNumber: number,
     currency: string
-   
+    isParent: boolean,
+    active: boolean,
+    numberOfActiveOpportunities: number,
+    numberOfInactiveOpportunities: number,
+    phone: string,
+    subsidiaryEntities:[],
+    APP_FROM_IPTOR:[],
+    CURRENT_SYSTEM: string,
+    CUST_CLASSIFICATION: string,
+    CUSTOMER_AT_RISK: boolean,
+    DC1_VERSION: [],
+    DO_NOT_CONTACT: boolean,
+    GLOBAL_PARENT: number,
+    IBS_ASW_RELEASE: number,
+    INDUSTRY: string,
+    OWNER_ID: string,
+    PERP_USE_MAINT_CONV: boolean,
+    REFERENCEABLE: boolean,
+    TYPE:[]   
 };
 
 export interface CustomerDetailsParams {
@@ -36,6 +54,16 @@ export interface  CustomerDetailsGroupItem {
     valueId: string,
     attributeValue: string,
     description:string
+};
+
+export interface  CustomerDetailsContactsGroupItem {
+  contactId: number,
+  contactPerson: string,
+  email: string,
+  phone: number,
+  fax: string,
+  businessPartner: number,
+  role: string
 };
 
   export interface CustomerDetailsItemParams {

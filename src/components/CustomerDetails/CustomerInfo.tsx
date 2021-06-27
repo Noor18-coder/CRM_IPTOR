@@ -24,7 +24,7 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
       <section className="customer-mobilecard">
       <div className="d-flex justify-content-between customer-row">
         <div className="lft-custname" onClick={backToOpportunityList}>
-        <p>{props.data.internalName}<span className="location">{props.data.country}</span></p>
+        <p>{props.data.name}<span className="location">{props.data.area}</span></p>
         </div>
         <div className="rgt-actioncol">
           <ul className="list-inline ">
@@ -42,7 +42,7 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
 
         <div className="right-data">
           <p><span><label className="switch">
-        <input type="checkbox" checked/>
+        <input type="checkbox" checked={props.data.active}/>
         <span className="slider round"></span>
         </label></span></p>
         </div>
@@ -54,7 +54,7 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
 
         <div className="right-data">
           <p><span><label className="switch">
-        <input type="checkbox"/>
+        <input type="checkbox"  checked={props.data.isParent}/>
         <span className="slider round"></span>
         </label></span></p>
         </div>
@@ -74,16 +74,16 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
       <NavSection backToOpportunityList={backToOpportunityList} />
       <section className="d-flex justify-content-between sec-customer-addr">
           <div className="cust-name">
-            <p>{props.data.internalName}<span>{props.data.country}</span></p>
+            <p>{props.data.name}<span>{props.data.area}</span></p>
           </div>
           <div className="mid-sec">
             <ul className="list-inline">
             <li className="list-inline-item"> <span>Active <label className="switch">
-            <input type="checkbox" checked/>
+            <input type="checkbox" checked={props.data.active}/>
             <span className="slider round"></span>
             </label> </span> </li>
             <li className="list-inline-item"><span className="p-left">Parent Group <label className="switch">
-            <input type="checkbox"/>
+            <input type="checkbox" checked={props.data.isParent}/>
             <span className="slider round"></span>
             </label> </span></li>
             </ul>
