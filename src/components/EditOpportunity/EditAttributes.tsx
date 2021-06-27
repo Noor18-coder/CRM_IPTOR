@@ -83,7 +83,7 @@ const EditAttributes: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
             }
         });
 
-        const opptyId = state.opportuntyDetails.attributes[0].rootId;
+        const opptyId = state.opportuntyDetails.opportunityDefaultParams.opportunityId;
 
         Promise.all(attributesForUpdate.map((obj: UpdateAttributeParams) => {
             return Attributes.updateAttribute(obj.attributeType, obj.valueId, obj.attributeValue);
@@ -126,9 +126,7 @@ const EditAttributes: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
                 </form>
             </div>
             <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
-                <a className="stepone-next-btn">
-                    Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
-                </a>
+                 <a className="stepone-next-btn done">SAVE</a>
             </div>
     
         </>

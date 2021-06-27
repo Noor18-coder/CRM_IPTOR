@@ -18,9 +18,9 @@ import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm 
 
 
 interface Props {
-    reloadOpportunityDetailsPage : () => void
+    reloadOpportunityDetailsPage: () => void
 }
-const EditBasicInfo: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
+const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
 
     const state: AppState = useSelector((state: AppState) => state);
     const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, ['opportunityId', 'area', 'handler', 'reason', 'endDate', 'probability', 'oppRecordType', 'estimatedValue', 'stage', 'currency', 'desc', 'customer']);
@@ -110,46 +110,46 @@ const EditBasicInfo: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
 
     return (
         <>
-            <div>
-                <form>
-                    {
-                        fields?.length ?
-                            fields.map((obj: models.AddOpportunityField) => {
+           
+                <div className="steps-one-forms">
+                    <form>
+                        {
+                            fields?.length ?
+                                fields.map((obj: models.AddOpportunityField) => {
 
-                                if (obj.asyncSearch) {
-                                    return (
-                                        <div className="form-group oppty-form-elements">
-                                            <label className="opp-label">{obj.description}</label>
-                                            <AsyncSearchInput  onChange={onInputChange} onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
-                                        </div>
-                                    )
-                                } else if (obj.dateInput) {
-                                    return (
-                                        <div className="form-group oppty-form-elements">
-                                            <label className="opp-label">{obj.description}</label>
-                                            <DateInput id={'endDate'} onDateSelect={(value: string) => onDateChange(obj.attributeType, value)} />
-                                        </div>
-                                    )
+                                    if (obj.asyncSearch) {
+                                        return (
+                                            <div className="form-group oppty-form-elements">
+                                                <label className="opp-label">{obj.description}</label>
+                                                <AsyncSearchInput onChange={onInputChange} onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
+                                            </div>
+                                        )
+                                    } else if (obj.dateInput) {
+                                        return (
+                                            <div className="form-group oppty-form-elements">
+                                                <label className="opp-label">{obj.description}</label>
+                                                <DateInput id={'endDate'} onDateSelect={(value: string) => onDateChange(obj.attributeType, value)} />
+                                            </div>
+                                        )
 
-                                } else if (obj.valuesExist) {
-                                    return <SelectItem description={obj.description} selected={getValue(obj.attributeType)} attributeType={obj.attributeType} options={getValues(obj.reduxKey)} onSelect={onInputValueChange} />
+                                    } else if (obj.valuesExist) {
+                                        return <SelectItem description={obj.description} selected={getValue(obj.attributeType)} attributeType={obj.attributeType} options={getValues(obj.reduxKey)} onSelect={onInputValueChange} />
 
-                                } else {
-                                    return (
-                                        <div className="form-group oppty-form-elements">
-                                            <label className="opp-label">{obj.description}</label>
-                                            <input type="text" value={getValue(obj.attributeType)} className="form-control" placeholder={obj.description + " : " + obj.valueFormat} id={obj.attributeType} onChange={onInputValueChange} />
-                                        </div>
-                                    )
-                                }
-                            }) : null}
-                </form>
-            </div>
-            <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
-                <a className="stepone-next-btn">
-                    Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
-                </a>
-            </div>
+                                    } else {
+                                        return (
+                                            <div className="form-group oppty-form-elements">
+                                                <label className="opp-label">{obj.description}</label>
+                                                <input type="text" value={getValue(obj.attributeType)} className="form-control" placeholder={obj.description + " : " + obj.valueFormat} id={obj.attributeType} onChange={onInputValueChange} />
+                                            </div>
+                                        )
+                                    }
+                                }) : null}
+                    </form>
+                </div>
+                <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
+                    <a className="stepone-next-btn done">SAVE</a>
+                </div>
+            
         </>
     )
 }
