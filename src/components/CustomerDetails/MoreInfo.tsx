@@ -60,7 +60,7 @@ export const DisplayGroup: React.FC<Props> = ({ title, data }) => {
                         <ul className="list-inline bdy-list-item">
                             <li className="list-inline-item">
                                 <span>{obj.description}</span>
-                                {obj.attributeValue ? obj.attributeValue : "--"}
+                                {obj.attributeValue ? obj.attributeValue === "N" ? "No" : obj.attributeValue === 'Y' ? "Yes" : obj.attributeValue : "--"}
                             </li>
                         </ul>
                     )

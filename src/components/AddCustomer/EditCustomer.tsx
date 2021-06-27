@@ -123,6 +123,20 @@ const EditCustomer: React.FC<Props> = (data) => {
         }
     }
 
+    const onCheckboxValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (attributes) {
+            const elementIndex = attributes.findIndex((element) => element.attributeType == e.currentTarget.id);
+            let newArray = [...attributes];
+            if (e.currentTarget.checked) {
+                newArray[elementIndex].attributeValue = 'Y';
+            }
+            else {
+                newArray[elementIndex].attributeValue = 'N';
+            }
+            setAttributes(newArray);
+        }
+    }
+
     const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (attributes) {
             const elementIndex = attributes.findIndex((element) => element.attributeType == e.currentTarget.id);
@@ -186,7 +200,7 @@ const EditCustomer: React.FC<Props> = (data) => {
             window.location.reload(false)
             dispatch(setBusinessPartnerLoader(false));
             dispatch(setBusinessPartnerWindowActive(false));
-        }, 1000);
+        }, 3000);
     }
 
     const closeAction = () => {
@@ -283,6 +297,14 @@ const EditCustomer: React.FC<Props> = (data) => {
                                                     return (
                                                         <SelectItem description={obj.description} attributeId={obj.attributeId} attributeType={obj.attributeType} options={attributeValues} value={obj.attributeValue} onSelect={onInputValueChange} />
                                                     )
+                                                }
+                                                else if (obj.valueFormatDesc === "BOOLEAN") {
+                                                    return (<div className="form-group oppty-form-elements">
+                                                        <span className="checkbox-label">{obj.description} <label className="switch">
+                                                            <input type="checkbox" id={obj.attributeType} checked={obj.attributeValue === 'N' ? false : true} onChange={onCheckboxValueChange} />
+                                                            <span className="slider round"></span>
+                                                        </label> </span>
+                                                    </div>)
                                                 }
                                                 else {
                                                     return (<div className="form-group oppty-form-elements">
