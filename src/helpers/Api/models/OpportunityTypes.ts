@@ -13,3 +13,14 @@ export interface OpportunityTypeResponse {
     }
   }
 }
+
+export interface DefaultOpportunityInfo {
+    currentDate?: string,
+    language?: string,
+    user?: string,
+    currencyLDA?: string
+}
+
+export interface DefaultOpportunityInfoResponse {
+    data: DefaultOpportunityInfo
+}

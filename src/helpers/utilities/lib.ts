@@ -33,3 +33,7 @@ export const getEndDateOfQuarter = (quarter_name:number) => {
   const formatDate = moment(endDate).format('YYYY-MM-DD');
   return formatDate;
 }
+
+export const validEmail = new RegExp(
+    '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+);

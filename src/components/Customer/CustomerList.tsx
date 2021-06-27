@@ -17,12 +17,14 @@ import { BusinessPartnerListItem, BusinessPartnerListParams } from '../../helper
 import { saveBusinessPartnerList, saveBusinessPartnerFilters, saveBusinessPartnersFilters } from '../../store/Customer/Actions';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import BusinessPartnerListMobile from './CustomerListMobile';
+import { setBusinessPartnerWindowActive } from '../../store/AddCustomer/Actions';
 import { useHistory } from 'react-router';
 
 import * as models from '../../helpers/Api/models';
 import OpportunityUserDefinedFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import CustomerList from '../../helpers/Api/CustomerList';
 import { GridFilter } from '../../components/Shared/Filter/GridFilter';
+import Container from '../AddCustomer/Container'
 
 
 interface result {
@@ -149,7 +151,6 @@ const BusinessPartners: React.FC = () => {
             _.set(obj, 'selectParam', 'area');
         });
         let filterArray = [...areaDetails, ...industryDetails]
-        console.log(filterArray)
         dispatch(saveBusinessPartnerFilters(filterArray))
     }, [areaDetails, industryDetails]);
 
@@ -163,6 +164,10 @@ const BusinessPartners: React.FC = () => {
         setRefresh(re);
         setLoader(true)
     }
+
+    const toggleDrawer = (open: boolean) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        dispatch(setBusinessPartnerWindowActive(true));
+    };
 
     return (
         <div>
@@ -187,7 +192,7 @@ const BusinessPartners: React.FC = () => {
                             </div>
                         </div>
                         {isMobile ? null : <div className={"col col-md-4 justify-content-end"}>
-                            <button className={"btn add-opportunity"} data-toggle="modal" data-target="#myModal2">+ New</button>
+                            <button className={"btn add-opportunity"} onClick={toggleDrawer(true)}>+ New</button>
                         </div>}
                     </div>
                     {((isMobile || isTablet) && searchText.length) && loader ? <Loader component='opportunity' /> : ''}
@@ -209,6 +214,7 @@ const BusinessPartners: React.FC = () => {
                 <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor" /> &copy; All Content Copyright 2021 </p>
             </footer>
             { (isMobile || isTablet) ? <FooterMobile /> : null}
+            <Container />
         </div>
         )
 }

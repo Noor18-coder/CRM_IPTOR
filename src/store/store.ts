@@ -16,11 +16,13 @@ import { AppLoadingActions , InitialConfigState } from './InitialConfiguration/T
 import configReducer from './InitialConfiguration/Reducers';
 import {   AddOpportunityState } from './AddOpportunity/Types';
 import addOpportunityReducer from './AddOpportunity/Reducers';
+import { AddBusinessPartnerState } from './AddCustomer/Types';
+import addBusinessPartnerReducer from './AddCustomer/Reducers';
 
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['auth','enviornmentConfigs', 'addOpportunity'] // which reducer want to store
+  whitelist: ['auth','enviornmentConfigs', 'addOpportunity', 'addBusinessPartner'] // which reducer want to store
 };
 
 export type AppActions = AuthActions;
@@ -32,6 +34,9 @@ export interface AppState {
   readonly businesspartners: BusinessPartnerState,
   readonly enviornmentConfigs:InitialConfigState,
   readonly addOpportunity: AddOpportunityState
+  readonly addBusinessPartner: AddBusinessPartnerState,
+
+
 }
 const appReducer = combineReducers({
   auth: authReducer,
@@ -39,7 +44,9 @@ const appReducer = combineReducers({
   opportunities: opportunityReducer,
   businesspartners: businessPartnerReducer,
   enviornmentConfigs: configReducer,
-  addOpportunity: addOpportunityReducer
+  addOpportunity: addOpportunityReducer,
+  addBusinessPartner: addBusinessPartnerReducer
+
 });
 
 const rootReducer = (state: any, action: AppActions) => {

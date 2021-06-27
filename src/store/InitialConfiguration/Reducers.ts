@@ -12,7 +12,9 @@ export const createInitalConfigDefaultState = ():InitialConfigState => {
     return {
         crmOpportunityTypes: [],
         crmOpportunityStage: [],
-        currency:[]
+        currency: [],
+        defaultOpprtunityInfo: {},
+        crmCountryInfo: []
     }
 };
 
@@ -39,6 +41,16 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
             return {
                 ...state,
                 currency: action.currencies
+            };
+        case AppLoadingTypes.SAVE_OPPORTUNITY_DEFAULT:
+            return {
+                ...state,
+                defaultOpprtunityInfo: action.defaultOppInfo
+            };
+        case AppLoadingTypes.SAVE_COUNTRY_INFO:
+            return {
+                ...state,
+                crmCountryInfo: action.countries
             };
         default:
             return state;

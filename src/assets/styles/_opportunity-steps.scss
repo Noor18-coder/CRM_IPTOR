@@ -36,8 +36,6 @@
 
 
     .sliding-panel {
-
-
         top: 0;
         background: #fff;
         width: 550px;
@@ -52,6 +50,10 @@
                 position: absolute;
                 right: 24px;
                 top: 24px;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
 
             .mob-steps-back {
@@ -60,7 +62,6 @@
         }
 
         .all-opportunity-steps-container {
-
             overflow-y: auto;
             padding-right: 24px;
             // border: solid 1px red;
@@ -127,9 +128,6 @@
                                 }
                             }
                         }
-
-
-
                     }
                 }
             }
@@ -177,7 +175,7 @@
                             background: url(../images/uncheck_circle.svg) no-repeat 94% 25px;
                         }
 
-                        input[type="radio"]:checked+label {
+                        input[type="radio"]:checked + label {
                             background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
                             border: solid 1px $persian-green;
                             color: $limed-spruce;
@@ -186,8 +184,6 @@
                                 weight: $font-weight-semibold;
                             }
                         }
-
-
                     }
                 }
             }
@@ -213,7 +209,6 @@
                         &:hover {
                             background: $aqua-spring;
                         }
-
                     }
                 }
             }
@@ -242,7 +237,6 @@
                         &:hover {
                             background: $aqua-spring;
                         }
-
                     }
                 }
             }
@@ -401,4 +395,53 @@
     font-size: $base-font-size + 4;
     font-weight: $font-weight-bold !important;
 
+}
+
+.add-subtitle {
+    font-size: $base-font-size + 6;
+    font-weight: $font-weight-semibold;
+}
+
+.oppty-form-elements label.cust-label {
+    font-size: $base-font-size + 4;
+    font-weight: $font-weight-semibold;
+    margin-bottom: 8px;
+    color: #2F3C46;
+}
+
+.customer-btn {
+    background: #EB617C;
+    color: $white;
+    padding: 12px 24px;
+    display: block;
+    text-align: center;
+    @include border-radius($border-radius);
+    position: relative;
+
+    font: {
+        family: $base-font-family;
+        size: $base-font-size;
+        weight: $font-weight-semibold;
+    }
+
+    &:hover {
+        text-decoration: none;
+        outline: none;
+        border: none;
+        color: #fff;
+    }
+}
+
+.input-icon-container {
+    position: relative;
+
+    .input-icon {
+        padding: 12px 50px;
+    }
+
+    .currency-sign {
+        position: absolute;
+        left: 15px;
+        top: 42px;
+    }
 }

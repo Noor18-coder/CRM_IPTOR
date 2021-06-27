@@ -382,3 +382,14 @@ padding-left: 221px;
         }
     }
 }
+
+.disable-link {
+    pointer-events: none;
+    cursor: default;
+    background: #eb617c99;
+}
+
+.error-text {
+    margin-top: 5px;
+    color: #eb617c;
+}

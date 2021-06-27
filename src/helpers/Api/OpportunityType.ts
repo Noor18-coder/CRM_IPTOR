@@ -6,6 +6,7 @@ import { get } from 'lodash';
 export default class OpportunityType {
   /** API Method */
   private static apiMethod: string = 'crmOpportunityTypes.get';
+  private static defaultApiMethod: string = 'mopOpportunityDefaults.get';
 
   /**
    * Helper function to fetch Business Partner Info
@@ -19,5 +20,11 @@ export default class OpportunityType {
     const requestData = new ApiRequest(this.apiMethod);
     const response = await axios.post<models.OpportunityTypeResponse>('/api/service', requestData);
     return get(response, 'data.data.items',[]);
-  }
+    }
+
+    static async getDefault(): Promise<models.DefaultOpportunityInfo> {
+        const requestData = new ApiRequest(this.defaultApiMethod);
+        const response = await axios.post<models.DefaultOpportunityInfoResponse>('/api/service', requestData);
+        return get(response, 'data.data', {});
+    }
 }
