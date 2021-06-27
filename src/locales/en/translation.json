@@ -24,5 +24,7 @@
   "area": "Area",
   "selectCountry": "Select country",
   "selectArea": "Select area",
-  "giveNumber": "Give phone number"
+  "giveNumber": "Give phone number",
+  "editCustomer": "Edit Customer",
+  "update":  "Update"
 }

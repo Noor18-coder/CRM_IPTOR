@@ -1,11 +1,17 @@
 import React from 'react';
-import {Accordion, Card, Image}  from 'react-bootstrap';
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
+import { Accordion, Card, Image } from 'react-bootstrap';
+import { useMediaQuery } from 'react-responsive';
+
 import ImageConfig from '../../config/ImageConfig';
 import { AllContactsAccordian } from './AllContactDetails'
-import { useMediaQuery } from 'react-responsive';
 import * as models from '../../helpers/Api/models';
 import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, Area } from  '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+
+import Container from '../AddCustomer/Container';
+import { setBusinessPartnerWindowActive } from '../../store/AddCustomer/Actions';
 
 export interface Data {
   data:CustomerDetailsDefault,
@@ -20,6 +26,8 @@ const CustomerCard:React.FC<Data> = (props) =>   {
   const numberOfInactiveOpportunities = props.data.numberOfInactiveOpportunities? props.data.numberOfInactiveOpportunities :0;
   const numberOfActiveOpportunities = props.data.numberOfActiveOpportunities ? props.data.numberOfActiveOpportunities :0;
   const [area, setArea] = React.useState<models.Area[]>([]);
+
+  const dispatch: Dispatch<any> = useDispatch();
 
   React.useEffect(() => {      
   CustomerDetailsApi.getOwnerDetailsByName(props.data.OWNER_ID).then((data) => {
@@ -42,29 +50,43 @@ const CustomerCard:React.FC<Data> = (props) =>   {
   const [activeClass , setActiveClass] = React.useState("");
   const toggleAccordion = () => {
     setActiveClass(activeClass === "" ? "active" : "");
-  }
+    }
+
+    const toggleDrawer = (open: boolean) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        dispatch(setBusinessPartnerWindowActive(true));
+    };
+
     return (
       <>
         <section className="sec-info-accordion">
           <Accordion  defaultActiveKey="0">
-          <Card className="cust-details">
-            <Accordion.Toggle className={activeClass} onClick={toggleAccordion}  as={Card.Link} eventKey="1">
-            Contact Address
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="1">
-              <Card.Body className="accr-body-container">  
-                 <ul className="list-inline bdy-list-item">
-                  <li className="list-inline-item"><span>Contact Address</span>{props.data.addressLine1},<p>{props.data.addressLine2}</p></li>
-                  <li className="list-inline-item"><span>Region</span>{area? area.map((data: Area) => {
-                                                        return data.description
-                                                          }): '--'}<p>&nbsp;</p></li>
-                  <li className="list-inline-item"><span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p></li>
-                  {/* <li className="list-inline-item">
-                  <Image  src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li> */}
-                </ul></Card.Body>
-            </Accordion.Collapse>
-          </Card>
+              <Card className="cust-details">
+                <Accordion.Toggle className={activeClass} onClick={toggleAccordion}  as={Card.Link} eventKey="1">
+                    Contact Address
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="1">
+                  <Card.Body className="accr-body-container">  
+                     <ul className="list-inline bdy-list-item">
+                          <li className="list-inline-item">
+                            <span>Contact Address</span>{props.data.addressLine1},<p>{props.data.addressLine2}</p>
+                          </li>
+                          <li className="list-inline-item">
+                              <span>Region</span>{area ? area.map((data: Area) => {
+                              return data.description
+                              }) : '--'}<p>&nbsp;</p>
+                          </li>
+                          <li className="list-inline-item">
+                            <span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p>
+                          </li>
+                          {/*<li className="list-inline-item">*/}
+                          {/*  <Image  src={ImageConfig.EDIT_ICON} alt="edit" title="edit" onClick={toggleDrawer(true)}/>*/}
+                          {/*</li> */}
+                     </ul>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
           </Accordion>
+          <Container containerType='edit' containerData={props.data} />
         </section>
 
 

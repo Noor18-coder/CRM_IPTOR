@@ -214,7 +214,7 @@ const BusinessPartners: React.FC = () => {
                 <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor" /> &copy; All Content Copyright 2021 </p>
             </footer>
             { (isMobile || isTablet) ? <FooterMobile /> : null}
-            <Container />
+            <Container containerType='add'/>
         </div>
         )
 }

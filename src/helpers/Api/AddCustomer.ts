@@ -6,6 +6,7 @@ import { get } from 'lodash';
 export default class AddCustomerApi {
   /** API Method */
   private static apiMethod: string = 'crmBusinessPartner.add';
+  private static updateApiMethod: string = 'crmBusinessPartner.update';
   private static saveAttributeValueMethod: string = 'mopAttribute.add';
   private static saveAttributeValueMethodFile: string = 'SRONAM';
 
@@ -15,6 +16,12 @@ export default class AddCustomerApi {
    * */
   static async add(businessPartner: AddBusinessPartnerDefaultParams): Promise<AddBusinessPartnerResponse> {
     const requestData = new ApiRequest<AddBusinessPartnerDefaultParams>(this.apiMethod, businessPartner);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  }
+
+  static async update(businessPartner: AddBusinessPartnerDefaultParams): Promise<AddBusinessPartnerResponse> {
+    const requestData = new ApiRequest<AddBusinessPartnerDefaultParams>(this.updateApiMethod, businessPartner);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
   }
