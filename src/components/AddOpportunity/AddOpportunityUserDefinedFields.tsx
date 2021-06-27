@@ -6,9 +6,8 @@ import { AppState } from "../../store/store";
 import ImageConfig from '../../config/ImageConfig';
 import { OpportunityType, UserDefinedField, UserDefinedFieldsValueDropDown, DropDownValues, DropDownValue, AddOpportunityDefaultParams, UserDefinedFieldReduxParams} from '../../helpers/Api/models';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
-import {saveOpportunityParams, saveOpportunityAttributes} from '../../store/AddOpportunity/Actions';
+import {saveOpportunityParams, saveOpportunityAttributes, setOpportunityLoader} from '../../store/AddOpportunity/Actions';
 import DatePicker from '../Shared/Picker/DatePicker';
-
 
 interface Props {
     changeStep: (num: number) => void
@@ -17,17 +16,14 @@ interface Props {
 const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     const state: AppState = useSelector((state: AppState) => state);
     const dispatch: Dispatch<any> = useDispatch();
-
-
-    const [step, setStep] = React.useState<number>(1);
-    const [attributes, setAttributes] = React.useState<UserDefinedField[]>();
+     const [attributes, setAttributes] = React.useState<UserDefinedField[]>();
     const [attributeValues, setAttributeValues] = React.useState<UserDefinedFieldsValueDropDown>();
-    const [loading, setLoading] = React.useState<boolean>(false);
-    const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
+     const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
     const [attributesSet, setAttributesSet] = React.useState<UserDefinedFieldReduxParams[]>([]);
     const [mandatoryFields, setMandatoryFields] = React.useState<string[]>([]);
 
     React.useEffect(() => {
+        
         const oppRecordType = state.addOpportunity.opportunityDefaultParams.oppRecordType;
         const selectedOpportunityRecordType = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => { return obj.description.toLowerCase() === oppRecordType?.toLowerCase() })
         const fields = selectedOpportunityRecordType?.MANDATORY_FIELDS || [];
@@ -36,9 +32,8 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     }, []);
 
     const getAttributes = async (fields: string[]) => {
-        setLoading(true);
+        dispatch(setOpportunityLoader(true));
         const attributes = await AddOpportunityFields.getAllFields(fields);
-        console.log(attributes);
         attributes.sort(function (a, b) {
             return a.sequence - b.sequence;
         });
@@ -46,8 +41,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
         setAttributes(attributes);
         const attributeValues = await AddOpportunityFields.getAllFieldsValues(attributesWithValues);
         setAttributeValues(attributeValues);
-        console.log(attributeValues);
-        setLoading(false);
+        dispatch(setOpportunityLoader(false));
     }
 
     const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
@@ -83,7 +77,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
             dispatch(saveOpportunityParams(opportunity));
             dispatch(saveOpportunityAttributes(attributesSet));
         }else{
-            alert("Something is missing");
+            alert("Please enter all mandatory fields.");
         }
         
     }
@@ -129,24 +123,23 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
         <>
             <div className="opportunity-step-circles">
                 <ul className="list-inline step-circles">
-                    <li className="list-inline-item circle-stepone steps"><span className="num">1</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
-                    <li className="list-inline-item circle-steptwo steps active"><span className="num">2</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
-                    <li className="list-inline-item circle-stepthree steps"><span className="num">3</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
+                    <li className="list-inline-item circle-stepone steps active"><span className="num checked">1</span>
+                        <span><img src={ImageConfig.STEP_CHECK_ICON} /></span>
+                    </li>
+                    <li className="list-inline-item circle-steptwo steps active"><span className="num">2</span></li>
+                    <li className="list-inline-item circle-stepthree steps"><span className="num">3</span></li>
                 </ul>
             </div>
             <div className="opportunity-forms">
                 <p className="stepone-title">Opportunity Details</p>
-                {loading ? <div>Form is Loading</div> :
+                { state.addOpportunity.loader ? <div>Form is Loading</div> :
                 <>
                 <div className="all-opportunity-steps-container">
                     <div className="steps-two-forms">
                         
                             <form>
                                 <div className="form-group oppty-form-elements">
-                                    <label>Opportunity Currency</label>
+                                    <label className="opp-label">Opportunity Currency</label>
                                     <select className="form-control iptor-dd" id="currency" onChange={setOpportunityDefaultParam}>
                                         <option disabled selected>Select currency</option>
                                         <option value={'EUR'}>EUR</option>
@@ -157,27 +150,23 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                                 </div>
 
                                 <div className="form-group oppty-form-elements">
-                                    <label>Total Deal Price</label>
+                                    <label className="opp-label">Total Deal Price</label>
                                     <input type="text" className="form-control" placeholder="Enter Total Deal Price" id="estimatedValue" onChange={setOpportunityDefaultParam} />
                                 </div>
 
                                 <div className="form-group oppty-form-elements">
-                                    <label>Close Date</label>
+                                    <label className="opp-label">Close Date</label>
                                      <DatePicker id={'endDate'} onDateSelect={onDateChange} />
                                 </div>
 
                                 {(attributes?.length) ?
-
-
                                     attributes.map((obj: UserDefinedField) => {
-
                                         if (obj.valuesExist === false) {
                                             return (<div className="form-group oppty-form-elements">
-                                                <label>{obj.description}</label>
+                                                <label className="opp-label">{obj.description}</label>
                                                 <input type="text" className="form-control" placeholder={obj.description + " : " + obj.valueFormat} id={obj.attributeType}   onBlur={setValue}/>
                                             </div>)
                                         }
-
                                         if (obj.valuesExist) {
                                             return (
                                                 <SelectItem description={obj.description} attributeId={obj.attributeId} attributeType={obj.attributeType} options={attributeValues} onSelect={onInputValueChange} />

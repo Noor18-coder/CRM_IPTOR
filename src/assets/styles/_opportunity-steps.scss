@@ -137,8 +137,8 @@
                 color: $bermuda-gray;
 
                 font: {
-                    size: $base-font-size + 4;
-                    weight: $font-weight-regular;
+                    size: $base-font-size + 6;
+                    weight: $font-weight-semibold;
                 }
             }
 
@@ -186,8 +186,6 @@
             }
 
             .opportunity-type-container {
-                
-                margin-top: 12px;
                 
                 .opptytype-list-item {
                     padding-bottom: 16px;
@@ -348,4 +346,19 @@
             }
         }
     }
+}
+.oppty-form-elements label.opp-label {
+    font-size: $base-font-size + 4;
+    color: #506574;
+    font-weight: $font-weight-semibold;
+    margin-bottom: 8px;
+}
+.opt-field {
+    font-size: $base-font-size + 2;
+    font-weight: 400;
+    font-style: italic;
+}
+.opp-header-text {
+    font-size: $base-font-size + 4;
+    font-weight: $font-weight-semibold;
 }

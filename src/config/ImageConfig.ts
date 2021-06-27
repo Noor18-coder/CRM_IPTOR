@@ -26,6 +26,7 @@ import CLOSE_BTN from '../assets/images/close.svg';
 import CHEVRON_LEFT from '../assets/images/chevron-left-black.svg';
 import CHEVRON_LEFT_WHITE from '../assets/images/chevron-left-white.svg';
 import CHEVRON_RIGHT_WHITE from '../assets/images/chevron-right-white.svg';
+import STEP_CHECK_ICON from '../assets/images/steps-completed-check.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -55,7 +56,8 @@ import CHEVRON_RIGHT_WHITE from '../assets/images/chevron-right-white.svg';
     CLOSE_BTN:CLOSE_BTN,
     CHEVRON_LEFT:CHEVRON_LEFT,
     CHEVRON_LEFT_WHITE:CHEVRON_LEFT_WHITE,
-    CHEVRON_RIGHT_WHITE:CHEVRON_RIGHT_WHITE
+    CHEVRON_RIGHT_WHITE: CHEVRON_RIGHT_WHITE,
+    STEP_CHECK_ICON: STEP_CHECK_ICON
 };
 
 export default ImageConfig;

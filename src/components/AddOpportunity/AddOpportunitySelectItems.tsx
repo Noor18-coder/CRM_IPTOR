@@ -2,13 +2,12 @@ import React from 'react';
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store/store";
+import { setOpportunityItems, setOpportunityLoader} from '../../store/AddOpportunity/Actions';
 
 import ImageConfig from '../../config/ImageConfig';
 import ItemsList from './ItemsList';
-import { AddOpportunityDefaultParams } from '../../helpers/Api/models';
 import Item from '../../helpers/Api/Items';
 import * as models from '../../helpers/Api/models';
-import { findIndex } from 'lodash';
 
 interface Props {
     changeStep: (num: number) => void,
@@ -17,20 +16,23 @@ interface Props {
 
 const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportunity}) => {
     const state: AppState = useSelector((state: AppState) => state);
+    const dispatch: Dispatch<any> = useDispatch();
+
     const [searchText, setSearchText] = React.useState<string>('');
-    const [loading, setLoading] = React.useState<boolean>(false);
     const [items, setItems] = React.useState<models.Item[]>();
     const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
 
     const onNextButtonClick = () => {
+        const filterItems:models.Item[] = items?.filter((obj:models.Item) => selectedItems.indexOf(obj.item) > -1) || [];
+        dispatch(setOpportunityItems(filterItems))
         createOpportunity(selectedItems);
     }
 
     const fetchItems = async (searchstr:string) => {
-        setLoading(true);
+        dispatch(setOpportunityLoader(true));
         const data = await Item.get(searchstr, 0, 50);
         setItems(data.data.items);
-        setLoading(false);
+        dispatch(setOpportunityLoader(false));
     }
 
     const onSelect = (item:string) => {
@@ -68,24 +70,25 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportun
         <>
             <div className="opportunity-step-circles">
                 <ul className="list-inline step-circles">
-                    <li className="list-inline-item circle-stepone steps"><span className="num">1</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
-                    <li className="list-inline-item circle-steptwo steps"><span className="num">2</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
-                    <li className="list-inline-item circle-stepthree steps active"><span className="num">3</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
+                    <li className="list-inline-item circle-stepone steps active"><span className="num checked">1</span>
+                        <span><img src={ImageConfig.STEP_CHECK_ICON} /></span></li>
+                    <li className="list-inline-item circle-steptwo steps active"><span className="num checked">2</span>
+                        <span><img src={ImageConfig.STEP_CHECK_ICON} /></span>
+                    </li>
+                    <li className="list-inline-item circle-stepthree steps active"><span className="num">3</span></li>
                 </ul>
                
                
                 <div className="steps-three-forms">
-                   
-                        <div className="form-group oppty-form-elements">
-                            <input type="text" className="form-control search-ipbox" placeholder="Search Item" onChange={searchStart} onKeyPress={searchOpportunity} />
-                        </div>
+                    <div className="form-group oppty-form-elements">
+                        <input type="text" className="form-control search-ipbox" placeholder="Search Item" onChange={searchStart} onKeyPress={searchOpportunity} />
+                    </div>
 
-                        { loading ?  <div>Loading Items</div> : 
-                        <div className="radiobtn-collection">
-                            <p className="title">Select opportunity type</p>
+                    
+
+                        { state.addOpportunity.loader ?  <div>Loading Items</div> : 
+                        <div className="radiobtn-collection oppty-form-elements">
+                            <p className="title">Select Product and Modules</p>
 
                             <div className="opportunity-type-container">
                                 { 
@@ -94,6 +97,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportun
                             </div>
                         </div> }
                   
+               
                 </div>
 
                 <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={ onNextButtonClick}>

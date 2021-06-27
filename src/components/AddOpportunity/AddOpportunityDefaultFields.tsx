@@ -20,7 +20,6 @@ interface Props {
 }
 
 const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
-
     const state: AppState = useSelector((state: AppState) => state);
     const dispatch: Dispatch<any> = useDispatch();
     const [selectedOpportunityType, selectOpportunityType] = React.useState('');
@@ -81,12 +80,9 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
         <>
             <div className="opportunity-step-circles">
                 <ul className="list-inline step-circles">
-                    <li className="list-inline-item circle-stepone steps active"><span className="num">1</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
-                    <li className="list-inline-item circle-steptwo steps"><span className="num">2</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
-                    <li className="list-inline-item circle-stepthree steps"><span className="num">3</span>
-                        <span className="checked"><img src="../assets/images/steps-completed-check.svg" /></span></li>
+                    <li className="list-inline-item circle-stepone steps active"><span className="num">1</span></li>
+                    <li className="list-inline-item circle-steptwo steps"><span className="num">2</span></li>
+                    <li className="list-inline-item circle-stepthree steps"><span className="num">3</span></li>
                 </ul>
             </div>
             <div className="opportunity-forms">
@@ -96,16 +92,16 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                     <div className="steps-one-forms">
                         <form>
                             <div className="form-group oppty-form-elements">
-                                <p className="title">Opportunity Name</p>
+                                <label className="opp-label">Opportunity Name</label>
                                 <input type="text" className="form-control" placeholder="Give opportunity a name" id="desc" onChange={onInputValueChange} />
                             </div>
                             <div className="form-group oppty-form-elements">
-                                <p className="title">Select Customer</p>
+                                <label className="opp-label">Select Customer</label>
                                 <AsyncSearchInput onChange={onChangeCustomerInput} onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
                             </div>
 
                             <div className="form-group oppty-form-elements">
-                                <label>Add customer contact <span className="float-right font-italic opt-field">(Optional field)</span></label>
+                                <label className="opp-label">Add customer contact <span className="opt-field">(Optional field)</span></label>
                                 <select className="form-control iptor-dd" id="slct-stage">
                                     {/* <option disabled selected>Type or Select a customer</option> */}
                                     {/* {state.customers.customers.map((obj: models.CustomerListItem) => {
@@ -115,7 +111,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                             </div>
 
                             <div className="form-group oppty-form-elements">
-                                <label>Select Stage</label>
+                                <label className="opp-label">Select Stage</label>
                                 <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange}>
                                     <option disabled selected>Select stage</option>
                                     {state.enviornmentConfigs.crmOpportunityStage.map((obj: models.StageInfo) => {
@@ -124,8 +120,8 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                                 </select>
                             </div>
 
-                            <div className="radiobtn-collection">
-                                <p className="title">Select opportunity type</p>
+                            <div className="radiobtn-collection oppty-form-elements">
+                                <label className="opp-label">Select opportunity type</label>
                                 <div className="opportunity-type-container">
                                     {state.enviornmentConfigs.crmOpportunityTypes.length ?
                                         <OpportunityTypeList opptyTypes={state.enviornmentConfigs.crmOpportunityTypes} doClick={onOpportunityTypeSelect} selected={selectedOpportunityType} /> 

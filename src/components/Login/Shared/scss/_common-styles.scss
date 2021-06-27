@@ -91,7 +91,7 @@ form {
         }
 
         input[type=text],
-        input[type=password] {
+        input[type=password], select {
             border: solid 1px $blue-bayoux;
             @include border-radius($border-radius);
         }

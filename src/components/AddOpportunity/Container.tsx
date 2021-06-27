@@ -1,48 +1,36 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { Dispatch } from "redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import AddOpportunity from './AddOpportunity';
+import Loader from '../Shared/Loader/Loader';
+import { AppState } from "../../store/store";
 
+const Container:React.FC = () => {
 
-interface Props {
-  open:boolean,
-  onChange: (open: boolean) => void
-}
+  const state:AppState = useSelector((state: AppState) => state);
+  const dispatch:Dispatch<any> = useDispatch();
 
-
-
-const Container:React.FC<Props> = ({open, onChange}) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
   const isDesktop = useMediaQuery({ minWidth: 992 });
-
   const [isOpen, setState] = React.useState(false);
 
-  const closeDrawer = (open:boolean) => (event:React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
-    setState(false);
-    onChange(false);
+  const closeDrawer = () => (event:React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+    dispatch(setOpportunityWindowActive(false))
   };
-
-  const removeDrawer = () => {
-    setState(false);
-    onChange(false);
-  }
-
-  React.useEffect(() => {
-    if(open){
-      setState(true)
-    }
-  }, [open]);
-
-
+  
   return (
-        <React.Fragment>
-         { isMobile || isTablet ? <AddOpportunity closeDrawer={removeDrawer} /> :  
-          <Drawer anchor={'right'} open={isOpen} onClose={closeDrawer(false)}>
-            <AddOpportunity closeDrawer={removeDrawer}/>
-          </Drawer> }
-        </React.Fragment>
+    <React.Fragment>
+      {state.addOpportunity.loader ? <Loader /> : null}
+      { isMobile || isTablet ? <AddOpportunity  /> :  
+      <Drawer anchor={'right'} open={state.addOpportunity.addOpptyWindowActive} onClose={closeDrawer()}>
+        <AddOpportunity />
+      </Drawer> }
+    </React.Fragment>
 
   );
 }

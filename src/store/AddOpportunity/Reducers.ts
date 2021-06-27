@@ -11,8 +11,10 @@
  export const createAddOpportunitInitialState = (): AddOpportunityState => {
      return {
          loader:false,
+         addOpptyWindowActive:false,
          opportunityDefaultParams:{},
-         attributes:[]
+         attributes:[],
+         items:[]
      }
  };
  
@@ -35,8 +37,31 @@
                  ...state,
                  attributes: action.attributes
              };
- 
-         default:
+        case AddOpportunityTypes.SET_ADD_OPPORTUNITY_LOADER:
+                return {
+                    ...state,
+                    loader: action.loader
+                };
+        case AddOpportunityTypes.SET_ADD_OPPORTUNITY_WINDOW:
+            return {
+                ...state,
+                addOpptyWindowActive: action.addOpptyWindowActive
+            };
+        case AddOpportunityTypes.SAVE_ADD_OPPTY_ITEMS: 
+            return {
+                ...state,
+                items:action.items
+            }
+        case AddOpportunityTypes.RESET_OPPORTUNITY_DATA:
+            console.log(action.type)
+            return {...state,
+                loader:false,
+                addOpptyWindowActive:false,
+                opportunityDefaultParams:{},
+                attributes:[],
+                items:[]}
+
+        default:
              return state;
      }
  };

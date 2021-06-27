@@ -22,6 +22,7 @@ import {OpportunityFilterOpions} from '../../config/OpportunityFilterOptions';
 
 import { OpportunityListItem, OpportunityListParams, OpportunityFilterItem } from '../../helpers/Api/models';
 import { saveOpptyList, saveOpptyFilters, saveOpportunityFilters } from '../../store/Opportunity/Actions';
+import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
 import Footer from "../Shared/Footer/Footer";
 import { GridFilter } from '../../components/Shared/Filter/GridFilter';
 import Search from '../Shared/Search/Search';
@@ -52,6 +53,8 @@ const Opportunities: React.FC = () => {
   const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
   const authState: AuthState = useSelector((state: AppState) => state.auth);
   const usersData: UsersData = useSelector((state: AppState) => state.users);
+  const addOpptyState:AppState = useSelector((state: AppState) => state);
+
   const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
   const [searchText, setSearchText] = React.useState<string>('');
@@ -59,7 +62,7 @@ const Opportunities: React.FC = () => {
   const [loader, setLoader] = React.useState<boolean>(false);
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
-  const [addOpportunityActive, setAddOpportunityActive] = React.useState<boolean>(false);
+  //const [addOpportunityActive, setAddOpportunityActive] = React.useState<boolean>(false);
 
     
 
@@ -181,16 +184,8 @@ const Opportunities: React.FC = () => {
   }
 
   const toggleDrawer = (open:boolean) => (event:React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
-    setAddOpportunityActive(!addOpportunityActive);
+    dispatch(setOpportunityWindowActive(true));
   };
-
-  
-  const toggleDrawer1 = (open:boolean) => {
-   setAddOpportunityActive(open);
-  };
-
-
-
 
   return (
     <div>
@@ -234,7 +229,7 @@ const Opportunities: React.FC = () => {
         <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor"/> &copy; All Content Copyright 2021 </p>
       </footer>
       { (isMobile || isTablet) ? <FooterMobile /> : null }
-      <Container open={addOpportunityActive} onChange={toggleDrawer1}/>
+      <Container />
     </div>
   );
 }
