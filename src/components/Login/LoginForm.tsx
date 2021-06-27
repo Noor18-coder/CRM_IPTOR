@@ -101,9 +101,9 @@ const LoginForm: React.FC = () => {
                     onChange={handleChange}
                   />
                 </Form.Group>
-                <Nav.Item className="forgotpswd">
+                {/* <Nav.Item className="forgotpswd">
                   <Nav.Link href="#">Forgot Password?</Nav.Link>
-                </Nav.Item>
+                </Nav.Item> */}
                 <SubmitButton title={"Login"} onClick={doClick} />
               </Form>
             </div>

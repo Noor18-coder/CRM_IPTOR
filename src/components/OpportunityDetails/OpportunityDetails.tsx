@@ -2,11 +2,12 @@ import React from 'react'
 import Header from '../Shared/Header/Header'
 import Footer from '../Shared/Footer/Footer'
 import InfoAccordion from './InfoAccordion';
-import Actions from './Actions';
+import OpportunityActions from './OpportunityActions';
 import OpportunityInfo from './OpportunityInfo';
 import OpportunityInfoMobile from './OpportunityInfoMobile';
 import { OpportunityDetailsDefault, OpportunityDetailsGroupItem } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
+import {useHistory} from "react-router-dom";
 
 const OpportunityDetails: React.FC = (props: any) => {
     const opptyId = props.location.state.oppid;
@@ -26,13 +27,17 @@ const OpportunityDetails: React.FC = (props: any) => {
         });
     }, []);
 
+    const history = useHistory();
+    const backToOpportunityList= () => {
+        history.goBack()
+      }
 
     return (
         <>
             <Header />
             <section className="main-wrapper opportunity">
                 <div className="container-fluid">
-                    <Actions />
+                    <OpportunityActions backToOpportunityList={backToOpportunityList} />
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
                     {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">

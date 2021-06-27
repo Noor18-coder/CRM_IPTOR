@@ -1,8 +1,38 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
+import { Dispatch } from "redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import ImageConfig from '../../../config/ImageConfig';
+import { getIntialsFromFullName } from '../../../helpers/utilities/lib';
+
+import { UserItem } from "../../../helpers/Api/models";
+import { logOut } from "../../../store/Auth/Actions";
+import { AppState } from "../../../store/store";
+import { OverlayTrigger, Popover, Image} from 'react-bootstrap'
+
 const Header = () => {
+
+    const state:UserItem = useSelector((state: AppState) => state.auth.user);
+
+    const dispatch: Dispatch<any> = useDispatch();
+
+    const userProfileActions = () => {
+        dispatch(logOut());
+    }
+
+    const popover = (
+        <Popover id="popover-basic">
+          <Popover.Content>
+            { state.description}
+          </Popover.Content>
+          <Popover.Content>
+            <a onClick={userProfileActions} role="button">
+            Logout <Image height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor"/>              
+            </a>
+          </Popover.Content>
+        </Popover>
+      );
+
     return (
         <>
             <nav className={"site-navbar navbar navbar-default bg-black"} role="navigation">
@@ -10,11 +40,10 @@ const Header = () => {
                 <div className={"navbar-container container-fluid"}>
                     <div className={"navbar-header"}>
                         <div className={"navbar-brand navbar-brand-center navbar-sec-logo"}>
-                            <img className={"navbar-brand-logo"} src={ImageConfig.LogoImage} title={"iptor"} />
+                            <img className={"navbar-brand-logo"} src={ImageConfig.IPTOR_ICON} title={"iptor"} />
                         </div>
                         <div className={"navbar-brand navbar-brand-center navbar-sec-flag"}>
-                            <img className={"navbar-br/and-logo"} src={ImageConfig.SWE_FLAG} title={"iptor"} />
-                            <span className={"navbar-brand-text hidden-xs-down"}>swe</span>
+                            <span className={"navbar-brand-text hidden-xs-down"}> ( companyName - Region)</span>
                         </div>
                     </div>
 
@@ -80,14 +109,9 @@ const Header = () => {
                                 </span>
                             </a>
                         </li>
-                        <li className={"nav-item no-p"}>
-                            <a className={"nav-link navbar-avatar"} href="#" aria-expanded="false" data-animation="scale-up" role="button">
-                                <span className={"avatar avatar-online"}>
-                                    <img src={ImageConfig.NAV_PROFILE_ICON} alt={"..."} />
-                                    <i></i>
-                                </span>
-                            </a>
-                        </li>
+                        <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+                            <button className="logout"> { getIntialsFromFullName(state.description) }</button>
+                        </OverlayTrigger>
                     </ul>
                 </div>
             </nav>

@@ -12,6 +12,8 @@ import HISTORY from '../assets/images/history.svg';
 import STAR from '../assets/images/star.svg';
 import MORE_V_ELLIPSIS from '../assets/images/more-v-ellipsis.svg';
 import IPTOR_LOGO_ORANGE from '../assets/images/iptor-logo-orange.svg';
+import LOGOUT_ICON from '../assets/images/logout_icon.svg';
+import IPTOR_ICON from '../assets/images/iptor_icon.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -27,7 +29,9 @@ import IPTOR_LOGO_ORANGE from '../assets/images/iptor-logo-orange.svg';
     HISTORY:HISTORY,
     STAR:STAR,
     MORE_V_ELLIPSIS:MORE_V_ELLIPSIS,
-    IPTOR_LOGO_ORANGE:IPTOR_LOGO_ORANGE
+    IPTOR_LOGO_ORANGE:IPTOR_LOGO_ORANGE,
+    LOGOUT_ICON:LOGOUT_ICON,
+    IPTOR_ICON:IPTOR_ICON
 };
 
 export default ImageConfig;

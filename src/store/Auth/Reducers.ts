@@ -61,12 +61,14 @@
       case AuthTypes.LOGIN_WITHOUT_COMPANY:
        return {
          ...state,
-         loginWithoutCompany:true
+         loginWithoutCompany:true,
+         loading: false
        };
        case AuthTypes.AUTH_ERROR:
         return {
           ...state,
-          error:true
+          error:true,
+          loading: false
         };
      default:
        return state;

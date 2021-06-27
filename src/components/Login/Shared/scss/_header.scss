@@ -100,13 +100,19 @@
 
             .navbar-brand-text{
                 color: #fff;
-                text-transform: uppercase;
                 margin-left: 10px;
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 16px;
+                color: #FFFFFF;
+                margin-top: 5px;
             }
         }
 
         .navbar-sec-flag{
-            border-left: solid #E5E5E5 1px;
+            border-left: solid  #E8E8E8 1px;
             padding-left: 20px;
         }
     }
