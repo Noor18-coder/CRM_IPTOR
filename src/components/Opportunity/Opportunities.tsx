@@ -20,7 +20,7 @@ import {OpportunityFilterOpions} from '../../config/OpportunityFilterOptions';
 
 import { OpportunityListItem, OpportunityListParams, OpportunityFilterItem } from '../../helpers/Api/models';
 import { saveOpptyList, saveOpptyFilters, saveOpportunityFilters } from '../../store/Opportunity/Actions';
-import Footer from "../Shared/Footer/Footer";
+import Search from '../Shared/Search/Search';
 import ImageConfig from '../../config/ImageConfig';
 
 
@@ -43,6 +43,7 @@ const Opportunities: React.FC = () => {
   const usersData: UsersData = useSelector((state: AppState) => state.users);
   const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
+  const [searchText, setSearchText] = React.useState<string>('');
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -92,7 +93,19 @@ const Opportunities: React.FC = () => {
       filters.selectStageFrom = filter?.value;
       filters.selectStageTo = filter?.value;
     }
-    
+
+    if (filter?.selectParam == 'selectQtr') {
+      let qtr = filter.value[1];
+      const qtrNum = parseInt(qtr);
+
+      filters.selectCloseDateFrom = getStartDateOfQuarter(qtrNum);
+      filters.selectCloseDateTo = getEndDateOfQuarter(qtrNum);
+    }
+
+    if(searchText.length){
+      filters.searchField = searchText;
+    }
+    console.log(filters);
     const data: any = await OpportunityList.get(authState.user.handler, '', 20, start, orderBy, filters);
 
     if (data && data.data && data.control?.more) {
@@ -124,6 +137,25 @@ const Opportunities: React.FC = () => {
     selectFilter(obj);
   }
 
+  const searchStart = () => {
+    //const re = !refresh;
+    //setRefresh(re);
+  }
+
+  const searchOpportunity = async (searchTextStr:string) => {
+    const filters: OpportunityListParams = {
+      handler: '',
+      searchField:  searchTextStr
+    }
+    const data:any = await OpportunityList.get(authState.user.handler, '', 20, 0, '', filters);
+    if(data && data.data && data.data.items){
+     return data.data.items;
+    }else{
+      return [];
+    }
+
+  }
+
 
 
 
@@ -141,17 +173,7 @@ const Opportunities: React.FC = () => {
             </div>
 
             <div className={"col col-md-4"}>
-              <div className={"navbar-search-overlap"}>
-                <form role="search">
-                  <div className={"form-group"}>
-                    <div className={"input-search"}>
-                      <i className={"input-search-icon wb-search"} aria-hidden="true"></i>
-                      <input type="text" className={"form-control"} name="site-search" placeholder="Search" />
-                      <button type="button" className={"search-settings-button"}></button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+              <Search onChange={searchStart} onSearchItemSelect={openOpptyDetails} onSearch={searchOpportunity} />
             </div>
 
             <div className={"col col-md-4 justify-content-end"}>

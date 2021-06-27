@@ -32,6 +32,7 @@ export interface OpportunityListParams {
   selectCloseDateTo?: string;
   selectStageFrom?: string;
   selectStageTo?:string;
+  searchField?:string
 }
 
 export interface OpportunityFilterItem {
