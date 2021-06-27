@@ -103,7 +103,7 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
   const defaultGridOptions = {
     headerHeight: 60,
     rowHeight: 60,
-    domLayout: 'autoHeight',
+    domLayout: 'normal',
     suppressCellSelection: true,
     onGridSizeChanged: onGridSizeChanged,
     rowModelType: 'infinite',
@@ -111,6 +111,7 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
     cacheBlockSize: 20,
     infiniteInitialRowCount: 1,
     onGridReady: onGridReady,
+    suppressHorizontalScroll:true,
     gridRowClicked: gridRowClicked
   };
 

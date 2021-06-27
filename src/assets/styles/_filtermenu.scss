@@ -1,51 +1,50 @@
-
 .menu-item {
-    user-select: none;
-    cursor: pointer;
-    border: 1px transparent solid;
-  }
-
-  .scroll-menu-arrow {
-    //padding-top: 20px;
-    cursor: pointer;
-  }
-  
-  .scroll-menu-arrow--disabled {
-    visibility: hidden;
-  }
-  
-.arrow-next {
-    position: relative;
-    left:20px;
-    align-items: center;
-    background-position: center;
-    background-size: contain;
-    height: 14px;
-    width: 8px;
-    background-repeat: no-repeat;
-    background:  url(../images/right-arrow.png);
+  user-select: none;
+  cursor: pointer;
+  border: 1px transparent solid;
 }
 
-  
+.scroll-menu-arrow {
+  //padding-top: 20px;
+  cursor: pointer;
+}
+
+.scroll-menu-arrow--disabled {
+  visibility: hidden;
+}
+
+.arrow-next {
+  position: relative;
+  left: 20px;
+  align-items: center;
+  background-position: center;
+  background-size: contain;
+  height: 14px;
+  width: 8px;
+  background-repeat: no-repeat;
+  background: url(../images/right-arrow.png);
+}
+
+
 .arrow-prev {
-    position: relative;
-    right:25px;
-    margin-left: 40px;
-    align-items: center;
-    background-position: center;
-    background-size: contain;
-    height: 14px;
-    width: 8px;
-    background-repeat: no-repeat;
-    background:  url(../images/left-arrow.png);
+  position: relative;
+  right: 25px;
+  margin-left: 40px;
+  align-items: center;
+  background-position: center;
+  background-size: contain;
+  height: 14px;
+  width: 8px;
+  background-repeat: no-repeat;
+  background: url(../images/left-arrow.png);
 }
 
 .toggle-btn-group {
   display: flex;
   width: 100%;
-  top:20px;
-  bottom:20px;
-  padding-left: 10px;
+  padding-left: 0px;
+  width: 200px;
+  position: relative;
 
   .switch-txt-btn {
     height: 40px;
@@ -60,13 +59,20 @@
     box-sizing: border-box;
     font-weight: 700;
     z-index: 1000;
+    position: relative;
+
     &:first-child {
       position: sticky;
-      left: 60px;
+      left: 0px;
+    }
+
+    &:nth-child(2) {
+      position: absolute;
+      left: 67px;
     }
 
     &.active {
-      margin-left: 4px;
+      margin-left: 0px;
       color: white;
       background-color: #506574;
       z-index: 1001;
@@ -74,16 +80,16 @@
 
     .left-align {
       position: absolute;
-      left:20px;
+      left: 20px;
       width: 100%;
     }
-    
+
     .right-align {
       position: absolute;
-      right:20px;
+      right: 20px;
       width: 100%;
     }
-   
+
   }
 }
 
@@ -137,7 +143,7 @@
   font-weight: 700;
 
   &:hover {
-    color:white;
+    color: white;
   }
 
   &:focus {
@@ -156,8 +162,8 @@
 }
 
 .filter-class {
-     margin-right: 24px;
-     padding-top: 9px;
+  margin-right: 24px;
+  padding-top: 9px;
 }
 
 .menu-wrapper--inner {
@@ -169,7 +175,7 @@
     .col {
       display: block;
     }
-  } 
+  }
 }
 
 @media (max-width: 767.98px) {
@@ -177,8 +183,6 @@
     display: block !important;
 
     .toggle-btn-group {
-     
-    
       .switch-txt-btn {
         padding-right: 10px;
         width: 100px;
@@ -186,13 +190,13 @@
         &:first-child {
           left: 10px;
           padding-left: 0px;
+          z-index: 1000;
         }
 
         &.my-btn {
           position: absolute;
-
           padding-right: 0px !important;
-          left:92px;
+          left: 92px;
         }
       }
     }

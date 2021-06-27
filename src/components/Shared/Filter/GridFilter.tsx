@@ -1,8 +1,15 @@
 import React from 'react';
+import { Dispatch } from "redux";
+import { useSelector, useDispatch } from "react-redux";
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Image} from 'react-bootstrap';
 import ImageConfig from '../../../config/ImageConfig';
 import _ from 'lodash';
+
+
+import { useHistory } from 'react-router';
+import { AppState } from "../../../store/store";
+import { setOpportunityWindowActive } from '../../../store/AddOpportunity/Actions';
 
 export interface Option {
     value: string;
@@ -63,7 +70,9 @@ const ArrowRight = Arrow({ text: '', className: 'arrow-next' });
 
 
 export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = initialFilter, component}) => {
-     const [handler, setHandler] = React.useState<string>('all');
+    const state:AppState = useSelector((state: AppState) => state);
+    const dispatch: Dispatch<any> = useDispatch();
+    const [handler, setHandler] = React.useState<string>('all');
     const [selectedFilter, setFilter] = React.useState<Option>(selected);
 
     const selectFilter = (obj:Option) => {
@@ -76,6 +85,11 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
         setHandler(handler);
         const params = {...selected, handler:handler};
         selectOption(params);
+    }
+
+    const openCreateOpportunityForm = () => {
+        if(component == 'opportunity')
+            dispatch(setOpportunityWindowActive(true));
     }
 
     const menuItems = Menu(filters, selectFilter, selected);
@@ -123,7 +137,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                             </div>
                         }
                         <div className={'col-12 add-btn'}>
-                        <Image src={ImageConfig.ADD_ICON}/>
+                        <Image src={ImageConfig.ADD_ICON} onClick={openCreateOpportunityForm}/>
                             <ScrollMenu
                                 data={menuItems}
                                 arrowLeft={ArrowLeft}

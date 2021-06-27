@@ -26,8 +26,8 @@ const Container:React.FC = () => {
   return (
     <React.Fragment>
       {state.addOpportunity.loader ? <Loader /> : null}
-      { isMobile || isTablet ? <AddOpportunity  /> :  
-      <Drawer anchor={'right'} open={state.addOpportunity.addOpptyWindowActive} onClose={closeDrawer()}>
+      {  isMobile || isTablet ? (state.addOpportunity.addOpptyWindowActive ? <AddOpportunity  />  : null ) :  
+      <Drawer anchor={'right'} open={state.addOpportunity.addOpptyWindowActive}>
         <AddOpportunity />
       </Drawer> }
     </React.Fragment>

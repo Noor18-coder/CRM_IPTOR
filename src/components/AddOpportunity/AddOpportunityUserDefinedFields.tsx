@@ -23,8 +23,10 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     const [mandatoryFields, setMandatoryFields] = React.useState<string[]>([]);
 
     React.useEffect(() => {
+        const oppRecordType = state.addOpportunity.opportunityDefaultParams.oppRecordType || '';
+       const part:UserDefinedFieldReduxParams = {  attributeType:"OPP_RECORD_TYPE",attributeValue:oppRecordType};
+        setAttributesSet([part]);
         
-        const oppRecordType = state.addOpportunity.opportunityDefaultParams.oppRecordType;
         const selectedOpportunityRecordType = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => { return obj.description.toLowerCase() === oppRecordType?.toLowerCase() })
         const fields = selectedOpportunityRecordType?.MANDATORY_FIELDS || [];
         setMandatoryFields(fields);
@@ -123,20 +125,18 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
         <>
             <div className="opportunity-step-circles">
                 <ul className="list-inline step-circles">
-                    <li className="list-inline-item circle-stepone steps active"><span className="num checked">1</span>
-                        <span><img src={ImageConfig.STEP_CHECK_ICON} /></span>
-                    </li>
+                    <li className="list-inline-item circle-stepone steps active"><span><img src={ImageConfig.STEP_CHECK_ICON}></img></span></li>
                     <li className="list-inline-item circle-steptwo steps active"><span className="num">2</span></li>
                     <li className="list-inline-item circle-stepthree steps"><span className="num">3</span></li>
                 </ul>
             </div>
             <div className="opportunity-forms">
                 <p className="stepone-title">Opportunity Details</p>
-                { state.addOpportunity.loader ? <div>Form is Loading</div> :
-                <>
-                <div className="all-opportunity-steps-container">
+                
+                <div className="">
                     <div className="steps-two-forms">
-                        
+                    { state.addOpportunity.loader ? <div>Form is Loading</div> :
+                        <>
                             <form>
                                 <div className="form-group oppty-form-elements">
                                     <label className="opp-label">Opportunity Currency</label>
@@ -174,14 +174,16 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                                         }
                                     }) : null}
                             </form>
+                            <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={ onNextButtonClick}>
+                                <a className="stepone-next-btn">
+                                    Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
+                                </a>
+                            </div> 
+                        </> }
                     </div>
-                </div> 
-                <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={ onNextButtonClick}>
-                    <a className="stepone-next-btn">
-                        Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
-                    </a>
                 </div>
-            </>}
+               
+               
             </div>
         </>
     )

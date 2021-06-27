@@ -29,18 +29,18 @@
 
 
 
-    
+
 .sliding-panel-container {
-    
+
 
 
 
     .sliding-panel {
-        
-   
+
+
         top: 0;
         background: #fff;
-        width: 400px;
+        width: 550px;
         z-index: 1041;
 
         .title-row {
@@ -54,100 +54,97 @@
                 top: 24px;
             }
 
-            .mob-steps-back{
-                position: absolute;
-                left: 12px;
-                top: 20px;
+            .mob-steps-back {
+                display: none;
             }
         }
 
         .all-opportunity-steps-container {
-            
+
             overflow-y: auto;
             padding-right: 24px;
 
-        .opportunity-step-circles {
-            padding: 32px 24px 24px 24px;
+            .opportunity-step-circles {
+                padding: 32px 24px 24px 24px;
 
-            .step-circles {
-                .steps {
-                    @include border-radius(50%);
-                    width: 51px;
-                    height: 51px;
-                    background: $mercury;
-                    color: $gull-gray;
-                    margin-right: 26px;
-                    position: relative;
-
-                    font: {
-                        size: $base-font-size + 8;
-                    }
-
-                    text-align: center;
-                    padding-top: 8px;
-
-                    &.active {
-                        background: $aqua-spring;
-                        border: solid 1px $persian-green;
-                        color: $persian-green;
+                .step-circles {
+                    .steps {
+                        @include border-radius(50%);
+                        width: 51px;
+                        height: 51px;
+                        background: $mercury;
+                        color: $gull-gray;
+                        margin-right: 26px;
+                        position: relative;
 
                         font: {
                             size: $base-font-size + 8;
-                            weight: $font-weight-semibold;
                         }
-                    }
 
-                    &::after {
-                        position: absolute;
-                        content: '';
-                        height: 1px;
-                        width: 31px;
-                        background: $geyser;
-                        left: 50px;
-                        top: 26px;
-                    }
+                        text-align: center;
+                        padding-top: 8px;
 
-                    &:last-child {
+                        &.active {
+                            background: $aqua-spring;
+                            border: solid 1px $persian-green;
+                            color: $persian-green;
+
+                            font: {
+                                size: $base-font-size + 8;
+                                weight: $font-weight-semibold;
+                            }
+                        }
+
                         &::after {
-                            display: none;
+                            position: absolute;
+                            content: '';
+                            height: 1px;
+                            width: 31px;
+                            background: $geyser;
+                            left: 50px;
+                            top: 26px;
                         }
-                    }
 
-                    &.circle-stepone,
-                    &.circle-steptwo,
-                    &.circle-stepthree {
-                        .checked {
-                            display: none;
-                            img{
-                                width: 20px;
-                                height: auto;
+                        &:last-child {
+                            &::after {
+                                display: none;
+                            }
+                        }
+
+                        &.circle-stepone,
+                        &.circle-steptwo,
+                        &.circle-stepthree {
+                            .checked {
+                                display: none;
+
+                                img {
+                                    width: 20px;
+                                    height: auto;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        .opportunity-forms {
-            padding-left: 24px;
+            .opportunity-forms {
+                padding-left: 24px;
 
-            .stepone-title,
-            .steptwo-title,
-            .stepthree-title {
-                color: $bermuda-gray;
+                .stepone-title,
+                .steptwo-title,
+                .stepthree-title {
+                    color: $bermuda-gray;
 
-                font: {
-                    size: $base-font-size + 6;
-                    weight: $font-weight-semibold;
+                    font: {
+                        size: $base-font-size + 6;
+                        weight: $font-weight-semibold;
+                    }
                 }
-            }
 
-            .steptwo-title,
-            .stepthree-title {
-                display: none;
-            }
-
-           
+                .steptwo-title,
+                .stepthree-title {
+                    display: none;
+                }
 
                 .steps-one-forms {
                     //   display: none;
@@ -186,7 +183,7 @@
             }
 
             .opportunity-type-container {
-                
+
                 .opptytype-list-item {
                     padding-bottom: 16px;
 
@@ -213,7 +210,7 @@
 
             .step-nextbtn-with-arrow {
                 margin-top: 24px;
-                margin-bottom:20px;
+                margin-bottom: 20px;
 
                 .stepone-next-btn {
                     background: $limed-spruce;
@@ -242,7 +239,7 @@
                         border: none;
                     }
 
-                    &.done{
+                    &.done {
                         background: $mandy;
                     }
                 }
@@ -347,17 +344,20 @@
         }
     }
 }
+
 .oppty-form-elements label.opp-label {
     font-size: $base-font-size + 4;
     color: #506574;
     font-weight: $font-weight-semibold;
     margin-bottom: 8px;
 }
+
 .opt-field {
     font-size: $base-font-size + 2;
     font-weight: 400;
     font-style: italic;
 }
+
 .opp-header-text {
     font-size: $base-font-size + 4;
     font-weight: $font-weight-semibold;

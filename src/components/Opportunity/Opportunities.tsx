@@ -69,6 +69,7 @@ const Opportunities: React.FC = () => {
   const newColumns = ColumnDefs.map((obj: any) => {
     if (obj.field == "handler") {
       obj.cellRenderer = (params: any) => {
+
         let cellValue = getName(params.value);
         cellValue = cellValue ? cellValue : params.value;
         return cellValue;
@@ -140,7 +141,6 @@ const Opportunities: React.FC = () => {
     return res;
   }
 
-
   React.useEffect(() => {
     dispatch(getUsersInfo());
       dispatch(saveOpportunityFilters(OpportunityFilterOpions))
@@ -186,6 +186,7 @@ const Opportunities: React.FC = () => {
   }
 
   const toggleDrawer = (open:boolean) => (event:React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+    
     dispatch(setOpportunityWindowActive(true));
   };
 
@@ -223,7 +224,7 @@ const Opportunities: React.FC = () => {
           </div>
            <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} component='opportunity' /> 
            {loader && <Loader component='opportunity'/>}
-           { usersData.users && usersData.users.length ? ((isMobile || isTablet) ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
+           { usersData.users && usersData.users.length ? ((isMobile || isTablet) ?(  addOpptyState.addOpportunity.addOpptyWindowActive === false ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : null) : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
           </div>
       </section>
    

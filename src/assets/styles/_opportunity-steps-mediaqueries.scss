@@ -1,8 +1,11 @@
+@import "global-variables.scss";
+@import "mixins.scss";
+
 @media (max-width: 320px) {
     .sliding-panel-container {
         position: absolute;
-        top:0;
-        bottom:0;
+        top: 0;
+        bottom: 0;
         width: 100%;
         z-index: 1000;
 
@@ -15,6 +18,13 @@
 
                 .panel-close-icon {
                     display: none;
+                }
+
+                .mob-steps-back {
+                    display: block;
+                    position: absolute;
+                    left: 12px;
+                    top: 20px;
                 }
             }
 
@@ -79,6 +89,8 @@
 
         }
     }
+
+
 }
 
 
@@ -86,8 +98,8 @@
 @media (min-width: 321px) and (max-width: 767.98px) {
     .sliding-panel-container {
         position: absolute;
-        top:0;
-        bottom:0;
+        top: 0;
+        bottom: 0;
         width: 100%;
         z-index: 1000;
 
@@ -97,9 +109,27 @@
 
             .title-row {
                 padding-left: 40px;
+                font-size: 16px;
+                font-weight: 400;
+                padding-left: 48px;
+                padding-bottom: 16px;
 
                 .panel-close-icon {
                     display: none;
+                }
+
+                .opp-header-text {
+                    font-size: $base-font-size !important;
+                    font-weight: $font-weight-semibold !important;
+                    color: $tundora
+                }
+
+
+                .mob-steps-back {
+                    display: block;
+                    position: absolute;
+                    left: 18px;
+                    top: 25px;
                 }
             }
 
@@ -107,42 +137,55 @@
                 position: absolute;
                 top: 17px;
                 right: 10px;
-                padding: 0;
+                padding: 0 !important;
 
                 .step-circles {
                     .steps {
-                        width: 32px;
-                        height: 32px;
-                        padding-top: 8px;
-                        margin-right: 10px;
-                        position: relative;
+                        width: 32px !important;
+                        height: 32px !important;
+                        padding-top: 8px !important;
+                        margin-right: 10px !important;
+                        position: relative !important;
 
                         font: {
-                            size: $base-font-size;
+                            size: $base-font-size !important;
                         }
 
                         &.active {
                             font: {
-                                size: $base-font-size;
+                                size: $base-font-size !important;
                             }
                         }
 
                         &::after {
-                            width: 14px;
-                            left: 31px;
-                            top: 14px;
+                            width: 11px !important;
+                            left: 31px !important;
+                            top: 15px !important;
                         }
 
                         .num {
-                            position: absolute;
-                            top: 8px;
-                            left: 11px;
+                            position: absolute !important;
+                            top: 4px !important;
+                            left: 11px !important;
                         }
 
                         .checked {
                             position: absolute;
                             top: 5px;
                             left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .all-opportunity-steps-container {
+                background: $mercury;
+
+                .opportunity-type-container {
+
+                    .opptytype-list-item {
+                        li{
+                            background: $white;
                         }
                     }
                 }
@@ -160,8 +203,6 @@
                     height: calc(100vh - 210px);
                 }
             }
-
-
         }
     }
 }
@@ -169,7 +210,7 @@
 @media (max-width: 767.98px) and (orientation:landscape) {
     .sliding-panel-container {
         position: absolute;
-        top:0;
+        top: 0;
 
         .sliding-panel {
             width: 100%;
@@ -238,6 +279,7 @@
 
         }
     }
+
 }
 
 // Medium devices (tablets, 768px and up)
@@ -400,6 +442,7 @@
 
             .title-row {
                 padding-left: 40px;
+
                 .panel-close-icon {
                     display: none;
                 }

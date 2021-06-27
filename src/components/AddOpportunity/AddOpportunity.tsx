@@ -65,7 +65,7 @@ const AddOpportunity:React.FC = () => {
             <div className="sliding-panel-container">
                 <div className="sliding-panel">
                     <div className="title-row opp-header-text">
-                        {/*<img src={ImageConfig.CHEVRON_LEFT} className="mob-steps-back" />*/}
+                        <img src={ImageConfig.CHEVRON_LEFT} className="mob-steps-back" onClick={closeAction} />
                     Add New Opportunity
                     <a className="panel-close-icon" onClick={closeAction} >
                             <img src={ImageConfig.CLOSE_BTN} /></a>

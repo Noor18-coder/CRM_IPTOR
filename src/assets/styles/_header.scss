@@ -2,7 +2,6 @@
     background-color: #2F3C46;
 }
 
-
 .navbar{
     height: 80px;
     box-sizing: border-box;
@@ -34,6 +33,7 @@
                         justify-content: center;
                         align-items: center;
                         
+                
                         i{
                             font-family: 'Open Sans';
                             font-style: normal;
@@ -46,10 +46,10 @@
 
                         .notifications-badge{
                             position: absolute;
-                            height: 16px;
-                            width: 16px;
-                            right: 38px;
-                            top: 13px;
+                            height: 8px;
+                            width: 8px;
+                            right: 42px;
+                            top: 16px;
                             border-radius: 0px;
                             background: #EB617C;
                             font-family: Open Sans;
@@ -60,8 +60,11 @@
                             color: #FFFFFF;
                             border-radius: 50%;
                             text-align: center;
+
                         }
+
                     }
+
                 }
 
                 &.no-p{
@@ -71,11 +74,14 @@
                 &.active{
                     border-bottom: solid #fff 4px;
                 }
+
             }
         }
     }
 
+
     .navbar-header{
+
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -108,13 +114,18 @@
                 line-height: 16px;
                 color: #FFFFFF;
                 margin-top: 5px;
+
             }
+
+            
+
         }
 
         .navbar-sec-flag{
             border-left: solid  #E8E8E8 1px;
             padding-left: 20px;
         }
+
     }
 
 

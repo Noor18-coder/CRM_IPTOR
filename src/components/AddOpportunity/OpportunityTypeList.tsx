@@ -14,7 +14,7 @@ export const OpportunityTypeList: React.FC<Props> = ({ opptyTypes, doClick, sele
     <ul className="opptytype-list-item">
       {opptyTypes.map((obj:OpportunityType) => {
         return (
-          <li key={obj.description}  onClick={() => doClick(obj.description)}>
+          <li key={obj.description}  onClick={() => doClick(obj.oppRecordType)}>
             <div
               className={"company-container"}
               key={obj.description}
@@ -23,7 +23,7 @@ export const OpportunityTypeList: React.FC<Props> = ({ opptyTypes, doClick, sele
                 <div className={"test"}>{obj.oppRecordType}</div>
                 <Image
                   className={"company-selection-img"}
-                  style={{ display: obj.description  === selected ? "block" : "none" }}
+                  style={{ display: obj.oppRecordType  === selected ? "block" : "none" }}
                   src={VectorImg}
                   alt="company"
                   title="company"
