@@ -17,8 +17,11 @@ import * as models from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import {NavSection} from '../Shared/DetailsNav/NavSection';
 import Loader from '../Shared/Loader/Loader';
+import Container from '../EditOpportunity/Container';
 
 import {setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
+import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm} from '../../store/OpportunityDetails/Actions';
+
 
 
 
@@ -43,9 +46,11 @@ const OpportunityDetails: React.FC = (props: any) => {
         dispatch(setLoadingMask());
         const opptyDetails:models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opptyId);
         setDefaultOpptyDetails(opptyDetails);
+        dispatch(saveOpportunityDetails(opptyDetails));
         getBasicInfo(opptyDetails);
         const attributeValues:models.AttributeValueObject[] =  await OpportunityDetailsApi.getGroupInfo(opptyId);
         setOpptyDataForMoreInfoGroup(attributeValues);
+        dispatch(saveOpportunityAttributes(attributeValues));
         dispatch(removeLoadingMask());
         setLoading(false);
     }
@@ -88,6 +93,15 @@ const OpportunityDetails: React.FC = (props: any) => {
         history.goBack()
       }
 
+      const openEditForm = (groupName:string) => {
+        dispatch(openOpportunityForm({open:true,groupName:groupName}))
+    }
+
+    const openOpportunityBasicEdit = () => {
+        dispatch(openOpportunityForm({open:true,groupName:'opportunity_defaults'}))
+    }
+
+
     return (
         <>
             <Header page={1}/>
@@ -98,14 +112,15 @@ const OpportunityDetails: React.FC = (props: any) => {
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
                     {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">
-                        {opptyDataBasicGroup?.length ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} /> : null}
-                        {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} /> : null} 
+                        {opptyDataBasicGroup?.length ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} openEditOpportunity={openOpportunityBasicEdit} /> : null}
+                        {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} openEditForm={openEditForm}/> : null} 
                         <ProductAccordian title={'Products & Modules'} data={opptyDataProductInfo} />
                         <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} />                         
                     </section>
                 </div>
             </section> }
             <Footer />
+            <Container />
         </>
     )
 }

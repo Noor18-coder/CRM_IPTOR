@@ -9,7 +9,9 @@ export class Attributes {
   private static opportunityAttributesFileName: string = 'SROMOPH';
   private static customersAttributesFileName: string = 'SRONAM';
   private static attributeMethod : string = 'mopAttributeTypes.get';
-  private static updateAttributeMethod: string = 'mopAttribute.update';
+  private static addAttributeMethod : string = 'mopAttribute.add';
+  private static updateAttributeMethod : string = 'mopAttribute.update';
+
 
   
   static async getOpportunityAttributes():Promise<apiModels.AttributeResponse>{
@@ -24,17 +26,43 @@ export class Attributes {
     return get(response, 'data.data.items', []);
   }
 
-    static async updateAttributes(businessPartnerId: string, attributeType: string, attributeValue: string | number, valueId: string): Promise<apiModels.AddBusinessPartnerResponse> {
-        const params: apiModels.SaveAttributeFieldParam = {
-            attributeType: attributeType,
-            parentFile: this.customersAttributesFileName,
-            parentId: businessPartnerId,
-            attributeValue: attributeValue,
-            valueId: valueId
-        }
-        const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.updateAttributeMethod, params);
-        const response = await axios.post<AxiosResponse>('/api/service', requestData);
-        return get(response, 'data');
+  static async updateAttributes(businessPartnerId: string, attributeType: string, attributeValue: string | number, valueId: string): Promise<apiModels.AddBusinessPartnerResponse> {
+    const params: apiModels.SaveAttributeFieldParam = {
+        attributeType: attributeType,
+        parentFile: this.customersAttributesFileName,
+        parentId: businessPartnerId,
+        attributeValue: attributeValue,
+        valueId: valueId
+    }
+    const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.updateAttributeMethod, params);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+}
+
+
+
+   
+  static async addAttribute(type: string, parentId:string, attributeType: string, attributeValue: string | number): Promise<any> {
+    const filename = type === 'opportunity' ? this.opportunityAttributesFileName : this.customersAttributesFileName;
+    const params: apiModels.SaveAttributeFieldParam = {
+      attributeType: attributeType,
+      parentFile: this.opportunityAttributesFileName,
+      parentId: parentId,
+      attributeValue: attributeValue
+    }
+    const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.addAttributeMethod, params);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
   }
 
+  static async updateAttribute( attributeType: string, valueId: string, attributeValue: string | number): Promise<any> {
+    const params: apiModels.SaveAttributeFieldParam = {
+      valueId: valueId,
+      attributeValue: attributeValue, 
+     attributeType: attributeType
+    }
+    const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.updateAttributeMethod, params);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  }
 }

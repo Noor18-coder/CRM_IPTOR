@@ -20,7 +20,7 @@ export interface AttributeField {
 
 export interface AttributeParams {
     parentFile: string;
-    attributeType?:string;
+    attributeType?: string;
 }
 
 export interface AttributeResponse {
@@ -28,15 +28,15 @@ export interface AttributeResponse {
 }
 
 export interface IAttributesList {
-    group:string;
+    group: string;
     items: AttributeField[]
 }
-  
+
 export interface AttributeValueObject {
     parentFile: string;
-    parentId :string;
-    attributeType : string;
-    rootId : string;
+    parentId: string;
+    attributeType: string;
+    rootId: string;
     group: string;
     valueId: string;
     attributeValue: string;
@@ -44,16 +44,26 @@ export interface AttributeValueObject {
 }
 
 export interface AttributeValuesResponse {
-    data:{
-      items: AttributeValueObject[]
-    } 
+    data: {
+        items: AttributeValueObject[]
+    }
 }
 
 export interface SaveAttributeFieldParam {
-    parentFile: string;
-    parentId: string;
+    parentFile?: string;
+    parentId?: string;
+    attributeType?: string;
+    attributeValue?: string | number;
+    valueId?: string;
+}
+
+export interface UpdateAttributeParams {
     attributeType: string;
     attributeValue: string | number;
     valueId: string;
 }
 
+export interface AttributeValueAndType {
+    attributeType: string,
+    attributeValue: string | number
+}

@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
-import { AddOpportunityDefaultParams, AddOpportunityResponse, SaveUserDefinedFieldParam, AddItemToOpportunityParams, AddItemToOpportunityResponse, AddCustomerContactParams, AddCustomerContactRequestParams } from './models';
+import { AddOpportunityDefaultParams, AddOpportunityResponse, SaveUserDefinedFieldParam, AddItemToOpportunityParams, AddItemToOpportunityResponse, AddCustomerContactParams, AddCustomerContactRequestParams} from './models';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
 
 export default class AddOpportunityApi {
   /** API Method */
-  private static apiMethod: string = 'mopOpportunity.add';
+  private static opportinityAddMethod: string = 'mopOpportunity.add';
+  private static opportunitUpdateMethod: string = 'mopOpportunity.update';
   private static saveAttributeValueMethod: string = 'mopAttribute.add';
   private static saveAttributeValueMethodFile: string = 'SROMOPH';
   private static saveItemMethod: string = 'mopItem.add';
@@ -13,13 +14,25 @@ export default class AddOpportunityApi {
   private static saveContactMethod: string = 'mopContact.add';
 
   /**
-   * Helper function to fetch Business Partner Info
-   * API Method: mopOpportunity.get
-   * @param freeTextSearch search term
+   * Helper function to create an opportunity.
+   * API Method: mopOpportunity.add
+   * @param opportunity: Object contains all required fields to create opportunity.
    * 
    */
   static async add(opportunity: AddOpportunityDefaultParams): Promise<AddOpportunityResponse> {
-    const requestData = new ApiRequest<AddOpportunityDefaultParams>(this.apiMethod, opportunity);
+    const requestData = new ApiRequest<AddOpportunityDefaultParams>(this.opportinityAddMethod, opportunity);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  }
+
+  /**
+   * Helper function to create an opportunity.
+   * API Method: mopOpportunity.add
+   * @param opportunity: Object contains all required fields to create opportunity.
+   * 
+   */
+   static async update(opportunity: AddOpportunityDefaultParams): Promise<AddOpportunityResponse> {
+    const requestData = new ApiRequest<AddOpportunityDefaultParams>(this.opportunitUpdateMethod, opportunity);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
   }

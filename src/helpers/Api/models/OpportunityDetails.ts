@@ -6,32 +6,32 @@ export interface OpportunityDetailsDefault {
     opportunityId: string,
     desc: string,
     customer: string,
-    customerType: number,
+    customerType?: number,
     customerName: string,
     handler: string,
-    salesman: string,
+    salesman?: string,
     area: string,
     stage: string,
-    probability: number,
-    reason: string,
-    estimatedValue: number,
-    currentValue: number,
+    probability?: number,
+    reason?: string,
+    estimatedValue?: number,
+    currentValue?: number,
     currency: string,
-    activ: boolean,
+    activ?: boolean,
     endDate: string,
-    authority: boolean,
+    authority?: boolean,
     oppRecordType: string,
-    logExist: boolean,
-    noteExist: boolean,
-    contactExist: boolean,
-    taskExist: boolean,
-    itemExist: boolean,
-    attributeExist: boolean,
-    totalOpportunityValue:number,
-    totalOpportunityCost:number,
-    totalPsValue: number,
-    totIncrementalOppValue: number,
-    totalOpportunityNetValue: number
+    logExist?: boolean,
+    noteExist?: boolean,
+    contactExist?: boolean,
+    taskExist?: boolean,
+    itemExist?: boolean,
+    attributeExist?: boolean,
+    totalOpportunityValue?:number,
+    totalOpportunityCost?:number,
+    totalPsValue?: number,
+    totIncrementalOppValue?: number,
+    totalOpportunityNetValue?: number
    
 };
 
@@ -83,4 +83,10 @@ export interface OpportunityDetailsParams {
   export interface OpportunityMoreInfoSection {
     title: string,
     data: IStringList
+  }
+
+  
+  export interface OpportunityEditOptions {
+    open:boolean;
+    groupName ?:string;
   }

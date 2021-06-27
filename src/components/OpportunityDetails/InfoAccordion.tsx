@@ -3,15 +3,18 @@ import { Accordion, Card } from 'react-bootstrap';
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store/store";
+import ImageConfig from '../../config/ImageConfig';
+
 
 import { OpportunityDetailsGroupItem, OpportunityDetailsBasicInfo, OpportunityMoreInfoSection, AttributeField, IAttributesList, AttributeValueObject } from '../../helpers/Api/models';
 
 interface Props {
   title: string,
-  data: OpportunityDetailsBasicInfo[]
+  data: OpportunityDetailsBasicInfo[],
+  openEditOpportunity: () => void
 }
 
-export const InfoAccordion: React.FC<Props> = ({ title, data }) => {
+export const InfoAccordion: React.FC<Props> = ({ title, data, openEditOpportunity }) => {
   const [activeClass , setActiveClass] = React.useState("");
   const toggleAccordion = () => {
     setActiveClass(activeClass === "" ? "active" : "");
@@ -21,6 +24,8 @@ export const InfoAccordion: React.FC<Props> = ({ title, data }) => {
     <Card>
       <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
         {title}
+        <img src={ImageConfig.EDIT_ICON}  onClick={openEditOpportunity} />
+      
       </Accordion.Toggle>
       <Accordion.Collapse eventKey="1">
         <div className="accr-body-container">
@@ -44,11 +49,12 @@ export const InfoAccordion: React.FC<Props> = ({ title, data }) => {
 
 interface GroupAccordianProps {
   title: string,
-  data: AttributeValueObject[]
+  data: AttributeValueObject[],
+  openEditForm: (groupName:string) => void
 }
 
 
-export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data }) => {
+export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data , openEditForm }) => {
   const state: AppState = useSelector((state: AppState) => state);
   const [moreInformationGroups, setMoreInformationGroups] = React.useState<IAttributesList[]>();
   const [activeClass , setActiveClass] = React.useState("");
@@ -78,7 +84,7 @@ export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data
             <>
             { moreInformationGroups?.length ? (
               moreInformationGroups.map((key:IAttributesList) => {
-                return <DisplayGroup title={key.group} fields={key.items} data={data} />
+                return <DisplayGroup title={key.group} fields={key.items} data={data} openEditForm={openEditForm}/>
               })) : null }
             
           </>
@@ -92,11 +98,12 @@ export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data
 interface GroupData {
   title: string,
   fields: AttributeField[],
-  data:AttributeValueObject[]
+  data:AttributeValueObject[],
+  openEditForm: (key:string) => void
 }
 
 
-export const DisplayGroup: React.FC<GroupData> = ({ title, fields ,data }) => {
+export const DisplayGroup: React.FC<GroupData> = ({ title, fields ,data, openEditForm }) => {
 
   const getValue = (attributeType:string) => {
      const obj = data.find((obj:AttributeValueObject) => {return obj.attributeType === attributeType});
@@ -109,6 +116,8 @@ export const DisplayGroup: React.FC<GroupData> = ({ title, fields ,data }) => {
     <div className='more-info-group-container'>
       <div className='more-info-group-name'>
         {title}
+        <img src={ImageConfig.EDIT_ICON}  onClick={() => openEditForm(title)}/>
+      
       </div>
       <div className="accr-body-container">
 

@@ -3,9 +3,9 @@ export interface AddOpportunityDefaultParams {
     handler?: string;
     reason?: string;
     endDate?: string;
-    probability?: string;
+    probability?: number;
     oppRecordType?: string;
-    estimatedValue?: string;
+    estimatedValue?: number;
     stage?: string;
     mustYN?: string;
     salesman?: string;
@@ -61,4 +61,15 @@ export interface AddCustomerContactParams {
     linkedin:string;
     fax:string;
     email:string
+};
+
+export interface AddOpportunityField {
+    description: string;
+    valueFormatDesc: string;
+    attributeType: string;
+    valueFormat: string;
+    valuesExist?: boolean;
+    reduxKey?:string;
+    asyncSearch?:boolean;
+    dateInput?:boolean
 };
