@@ -8,6 +8,7 @@ export default class CustomerDetailsApi {
   private static apiMethod: string = 'crmBusinessPartner.get';
   private static apiUserMethod: string = 'crmUser.get';
   private static apiAllContactsMethod: string = 'mopContactsDC1.get';
+  private static apiContactAddMethod: string = 'mopContactDC1.add';
   private static apiContactUpdateMethod: string = 'mopContactDC1.update';
   private static apiCountriesMethod: string = 'crmCountries.get';
   private static apiAreasMethod: string = 'areas.get';
@@ -34,6 +35,12 @@ export default class CustomerDetailsApi {
     const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
     }
+
+  static async addContactDetails(businessPartner: apiModels.CustomerDetailsContactsGroupItem): Promise<apiModels.CustomerDetailsContactsGroupItem[]> {
+    const requestData = new ApiRequest<apiModels.CustomerDetailsContactsGroupItem>(this.apiContactAddMethod, businessPartner);
+    const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+  }
 
   static async updateContactDetails(businessPartner: apiModels.CustomerDetailsContactsGroupItem): Promise<apiModels.CustomerDetailsContactsGroupItem[]> {
         const requestData = new ApiRequest<apiModels.CustomerDetailsContactsGroupItem>(this.apiContactUpdateMethod, businessPartner);

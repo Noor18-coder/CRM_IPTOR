@@ -438,3 +438,20 @@ padding-left: 221px;
 .active-box{
     top: 0
 }
+
+.add-img {
+    position: absolute;
+    right: 59px;
+    top: 24px;
+}
+
+.disabled-card {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.checkbox-label {
+    font-size: 18px;
+    color: #506574;
+    font-weight: 600;
+    margin-bottom: 8px;
+}

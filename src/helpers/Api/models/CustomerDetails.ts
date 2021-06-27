@@ -48,6 +48,7 @@ export interface CustomerDetailsDefaultResponse {
 
 export interface  CustomerDetailsContactsGroupItem {
   contactId: string,
+  contactDC: string,
   contactPerson: string,
   email: string,
   phone: number,
@@ -61,7 +62,8 @@ export interface  CustomerDetailsContactsGroupItem {
   OPTED_OUT_OF_EMAIL: boolean,
   PRIMARY_CONTACT: boolean,
   mobile ?:string,
-  linkedin ?:string
+  linkedin ?:string,
+  ACTIVE: boolean
 };
 
 export interface CustomerDetailsContactsGroupItemResponse {

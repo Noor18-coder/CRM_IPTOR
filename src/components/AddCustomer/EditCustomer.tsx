@@ -68,15 +68,18 @@ const EditCustomer: React.FC<Props> = (data) => {
             const contactField = ContactFields
             if (customerData) {
                 contactField && contactField.map((item: any) => {
-                    debugger
-                    let selectedContactData = customerData.contactsData.filter((item: any) => item.contactId === contactId)
-                    console.log(selectedContactData)
+                    let selectedContactData = customerData.contactsData.filter((item: any) => item.contactDC === contactId)
                     if (_.has(selectedContactData[0], item.attributeType)) {
                         _.set(item, 'attributeValue', selectedContactData[0][item.attributeType]);
                     }
                 })
                 setContactFields(contactField);
             }
+        }
+        else if (key === 'add contact fields') {
+            const contactField = ContactFields
+            let filteredArr = contactField.filter(item => item.attributeType !== 'role')
+            setContactFields(filteredArr);
         }
         else {
             const attributes = state.enviornmentConfigs.customerAttributes
@@ -169,9 +172,14 @@ const EditCustomer: React.FC<Props> = (data) => {
             contactFields && contactFields.map((item: any) => {
                 customerFields[item.attributeType] = item.attributeValue
             })
-            customerFields.contactId = contactId
-            console.log(customerFields)
-            CustomerDetailsApi.updateContactDetails(customerFields);
+            if (contactId !== '') {
+                customerFields.contactDC = contactId
+                CustomerDetailsApi.updateContactDetails(customerFields);
+            }
+            else {
+                customerFields.businessPartner = customerData.data.businessPartner
+                CustomerDetailsApi.addContactDetails(customerFields);
+            }
         }
         history.push({ pathname: "/cust-details", state: { custId: customerData.data.businessPartner } })
         setTimeout(function () {
@@ -249,7 +257,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                                                 </div>)
                                             }
                                         }) :
-                                        key === 'contact fields' ?
+                                        (key === 'contact fields' || key === 'add contact fields') ?
                                             contactFields?.length && contactFields.map((obj: UserDefinedField) => {
                                                 if (obj.valuesExist) {
                                                     return (
@@ -284,10 +292,9 @@ const EditCustomer: React.FC<Props> = (data) => {
                                                 }
                                             })
                                     }
-                                    
                                 </div>
                                 <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={updateCustomer}>
-                                    <Link className={'customer-btn'} to="#"> {i18n.t('update')} </Link>
+                                    <Link className={'customer-btn'} to="#">{key === 'add contact fields' ? i18n.t('addContact') : i18n.t('update')}</Link>
                                 </div>
                             </div>
                         </div>

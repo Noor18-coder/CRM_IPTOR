@@ -68,6 +68,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         setCustomerMoreInfoGroup(response);
   });
       dispatch(setBusinessPartnerLoader(false));
+      dispatch(setBusinessPartnerWindowActive(false));
   }, []);
 
   const [activeClass , setActiveClass] = React.useState("");
