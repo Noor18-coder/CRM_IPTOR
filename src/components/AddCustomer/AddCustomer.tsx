@@ -41,6 +41,7 @@ const AddCustomer: React.FC = () => {
         customerFields.primaryCurrency = state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA
         customerFields.language = state.enviornmentConfigs.defaultOpprtunityInfo.language;
         customerFields.type = 1;
+        customerFields.active = false
 
         const data = await AddCustomerApi.add(customerFields);
         const customerId = data.data.businessPartner;
@@ -91,7 +92,7 @@ const AddCustomer: React.FC = () => {
     }, []);
 
     React.useEffect(() => {
-        if (customerFields?.name && customerFields?.addressLine1 && customerFields?.country && customerFields?.EMAIL && customerFields?.area)
+        if (customerFields?.name && customerFields?.addressLine1 && customerFields?.country && customerFields?.EMAIL && customerFields?.area && customerFields?.phone)
             setIsSubmit(true);
     }, [customerFields]);
 

@@ -3,7 +3,7 @@ import * as models from './models';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
 
-export default class OpportunityType {
+export class OpportunityType {
   /** API Method */
   private static apiMethod: string = 'crmOpportunityTypes.get';
   private static defaultApiMethod: string = 'mopOpportunityDefaults.get';

@@ -7,30 +7,26 @@ import Loader from '../Shared/Loader/Loader';
 import { useMediaQuery } from 'react-responsive';
 import FooterMobile from '../Shared/Footer/FooterMobile';
 
-import { getOpportunityTypes, saveOpportunityStages, getCurrencies, getOppDefaults, getCountries} from '../../store/InitialConfiguration/Actions';
+import {setLoadingMask, loadInitialConfig, getOpportunityTypes,saveOpportunityStages, getCurrencies, getOppDefaults, getCountries } from '../../store/InitialConfiguration/Actions';
 
 const Dashboard:React.FC = () => {
     const state: AppState = useSelector((state: AppState) => state);
     const dispatch: Dispatch<any> = useDispatch();
-    const [loader, setLoader] = React.useState<boolean>(false);
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
 
     React.useEffect(() => {
-        setLoader(true);
-        dispatch(saveOpportunityStages());
-        dispatch(getOpportunityTypes());
-        dispatch(getCurrencies());
+        dispatch(loadInitialConfig());
         dispatch(getOppDefaults());
         dispatch(getCountries());
-        setLoader(false);
     },[]);
 
     return (
        <>
-            {loader && <Loader component='opportunity'/>}
+            { state.enviornmentConfigs.error && <div><h1>Error Occurred!!!</h1></div>}
+            {state.enviornmentConfigs.loadingMask && <Loader component='opportunity'/>}
             <Header page={0}/>
-            <h1>Dashboard</h1>
+            { state.enviornmentConfigs.error ? <div><h1>Error Occurred!!!</h1></div> : <h1> Dashboard </h1>}
             { (isMobile || isTablet) ? <FooterMobile /> : null}
        </>
     )

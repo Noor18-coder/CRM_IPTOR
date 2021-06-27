@@ -8,11 +8,15 @@ import { AppLoadingTypes, AppLoadingActions, InitialConfigState } from './Types'
 /**
  * Initial State
  */
-export const createInitalConfigDefaultState = ():InitialConfigState => {
+export const createInitalConfigDefaultState = (): InitialConfigState => {
     return {
         crmOpportunityTypes: [],
         crmOpportunityStage: [],
         currency: [],
+        loadingMask: false,
+        error:false,
+        customerAttributes:[],
+        opportunityAttributes:[],
         defaultOpprtunityInfo: {},
         crmCountryInfo: []
     }
@@ -41,6 +45,27 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
             return {
                 ...state,
                 currency: action.currencies
+            };
+        case AppLoadingTypes.SET_LOADING_MASK:
+            return {
+                ...state,
+                loadingMask: true
+            };
+        case AppLoadingTypes.REMOVE_LOADING_MASK:
+            return {
+                ...state,
+                loadingMask: false
+            };
+        
+        case AppLoadingTypes.SAVE_CUSTOMER_ATTRIBUTES: 
+            return {
+                ...state,
+                customerAttributes: action.attributes
+            };
+        case AppLoadingTypes.SAVE_OPPORTUNITY_ATTRIBUTES: 
+            return {
+                ...state,
+                opportunityAttributes: action.attributes
             };
         case AppLoadingTypes.SAVE_OPPORTUNITY_DEFAULT:
             return {

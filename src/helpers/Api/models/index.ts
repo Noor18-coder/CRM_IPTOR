@@ -14,5 +14,6 @@ export * from './AddOpportunity';
 export * from './Items';
 export * from './OpportunityAttributes';
 export * from './Currency';
+export * from './Attributes';
 export * from './AddCustomer';
 export * from './Countries';

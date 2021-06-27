@@ -2,39 +2,77 @@
  * Opportunity Actions and Middleware definition
  */
 import { ActionCreator, Dispatch } from 'redux';
-import { CurrencyInfo } from '../../helpers/Api/CurrencyInfo';
-import { CountryInfo } from '../../helpers/Api/Countries';
+import { ThunkAction } from 'redux-thunk';
 import * as models from '../../helpers/Api/models';
-import OpportunityType from '../../helpers/Api/OpportunityType';
-import { StagesInfo } from '../../helpers/Api/StagesInfo';
+import { CountryInfo } from '../../helpers/Api/Countries';
 import { AppLoadingTypes, SaveOpportunityTypes, SaveOpportunityStages, SaveOpportunityCurrencies, SaveOpportunityDefault, SaveCountryInfo } from './Types';
 
+import * as actionTypes from './Types';
+import { AppState } from '../store';
+import { isEmpty } from 'lodash';
+import { OpportunityType, StagesInfo, CurrencyInfo, Attributes } from '../../helpers/Api';
 
 /** Action to set auth state logged in status */
-export const saveOpptyTypes: ActionCreator<SaveOpportunityTypes> = (opportunityTypes: models.OpportunityType[]) => {
+export const saveOpptyTypes: ActionCreator<actionTypes.SaveOpportunityTypes> = (opportunityTypes: models.OpportunityType[]) => {
   return {
-    type: AppLoadingTypes.SAVE_OPPORTUNITY_TYPES,
+    type: actionTypes.AppLoadingTypes.SAVE_OPPORTUNITY_TYPES,
     opportunityTypes: opportunityTypes
   };
 };
 
 /** Action to set auth state logged in status */
-export const saveOpptyStages: ActionCreator<SaveOpportunityStages> = (stages: models.StageInfo[]) => {
+export const saveOpptyStages: ActionCreator<actionTypes.SaveOpportunityStages> = (stages: models.StageInfo[]) => {
   return {
-    type: AppLoadingTypes.SAVE_OPPORTUNITY_STAGES,
+    type: actionTypes.AppLoadingTypes.SAVE_OPPORTUNITY_STAGES,
     stages: stages
   };
 };
 
 /** Action to set auth state logged in status */
-export const saveCurrencies: ActionCreator<SaveOpportunityCurrencies> = (currencies: models.CurrencyItem[]) => {
+export const saveCurrencies: ActionCreator<actionTypes.SaveOpportunityCurrencies> = (currencies: models.CurrencyItem[]) => {
   return {
-    type: AppLoadingTypes.SAVE_CURRENCIES,
+    type: actionTypes.AppLoadingTypes.SAVE_CURRENCIES,
     currencies: currencies
   };
 };
 
 /** Action to set auth state logged in status */
+export const saveOpportunityAttributes: ActionCreator<actionTypes.SaveOpportunityAttributes> = (attributes: models.AttributeField[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SAVE_OPPORTUNITY_ATTRIBUTES,
+    attributes: attributes
+  };
+};
+
+/** Action to set auth state logged in status */
+export const saveCustomerAttributes: ActionCreator<actionTypes.SaveCustomerAttributes> = (attributes: models.AttributeField[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SAVE_CUSTOMER_ATTRIBUTES,
+    attributes: attributes
+  };
+};
+
+/** Action to set auth state logged in status */
+export const setLoadingMask: ActionCreator<actionTypes.SetLoadingMaskAction> = (currencies: models.CurrencyItem[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SET_LOADING_MASK
+  };
+};
+
+/** Action to set auth state logged in status */
+export const removeLoadingMask: ActionCreator<actionTypes.RemoveLoadingMaskAction> = (currencies: models.CurrencyItem[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.REMOVE_LOADING_MASK
+  };
+};
+
+/** Action to set auth state logged in status */
+export const setErrorMessage: ActionCreator<actionTypes.SetErrorMessageAction> = (currencies: models.CurrencyItem[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SET_ERROR_MSG
+  };
+}
+
 export const saveDefaultOpportunity: ActionCreator<SaveOpportunityDefault> = (defaultOppInfo: models.DefaultOpportunityInfo) => {
     return {
         type: AppLoadingTypes.SAVE_OPPORTUNITY_DEFAULT,
@@ -71,6 +109,39 @@ export const getCurrencies = () => {
   }
 }
 
+/** Middleware to handle authentication */
+export const loadInitialConfig: ActionCreator<ThunkAction<
+Promise<actionTypes.RemoveLoadingMaskAction | undefined>,
+AppState,
+undefined,
+actionTypes.RemoveLoadingMaskAction | actionTypes.SaveOpportunityTypes
+>> = () => {
+return async (dispatch: Dispatch, getState) => {
+  dispatch(setLoadingMask());
+
+  try {
+    Promise.all([
+      StagesInfo.get(),
+      OpportunityType.get(),
+      CurrencyInfo.get(),
+      Attributes.getOpportunityAttributes(),
+      Attributes.getCustomerAttributes()
+    ]).then((response:any) => {
+       dispatch(saveOpptyStages(response[0].items));
+      dispatch(saveOpptyTypes(response[1]));
+      dispatch(saveCurrencies(response[2]));
+      dispatch(saveOpportunityAttributes(response[3]))
+      dispatch(saveCustomerAttributes(response[4]))
+      return dispatch(removeLoadingMask());
+    }).catch((error:any) => {
+        dispatch(setErrorMessage());
+        return dispatch(removeLoadingMask());
+      })
+    } catch(e:any) {
+      dispatch(setErrorMessage());
+      return dispatch(removeLoadingMask());
+    }
+}};
 export const getOppDefaults = () => {
     return async (dispatch: Dispatch) => {
         const items = await OpportunityType.getDefault();
