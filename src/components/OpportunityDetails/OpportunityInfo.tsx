@@ -2,8 +2,6 @@ import React from 'react'
 import { OpportunityDetailsDefault } from '../../helpers/Api/models';
 import {getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import Staging from './Staging';
-import InfoAccordion from './InfoAccordion'
-
 
 export interface Data {
   data:OpportunityDetailsDefault

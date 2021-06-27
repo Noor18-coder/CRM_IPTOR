@@ -1,3 +1,7 @@
+import Opportunities from "../../../components/Opportunity/Opportunities";
+import {Product, ProductResponse } from './Product';
+import { OpportunityContact } from './Contacts';
+
 export interface OpportunityDetailsDefault {
     opportunityId: string,
     desc: string,
@@ -31,7 +35,7 @@ export interface OpportunityDetailsDefault {
    
 };
 
-export interface OpportunityDetailsGroupItem {
+export interface  OpportunityDetailsGroupItem {
   parentFile: string;
   parentId: string;
   attributeType: string,
@@ -41,6 +45,11 @@ export interface OpportunityDetailsGroupItem {
   attributeValue: string,
   description:string
 };
+
+export interface OpportunityInfoDetails {
+  contactInfo: OpportunityContact[];
+  productInfo: Product[];
+}
 
   
 export interface OpportunityDetailsParams {

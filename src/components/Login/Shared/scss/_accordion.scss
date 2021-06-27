@@ -112,3 +112,97 @@
         }
     }
 }
+
+.accordian-card {
+    margin-left: 28px;
+    width: 30%
+}
+.left-card {
+    width: 80%;
+    display: inline-block
+}
+.right-card {
+    width: 20%;
+    display: inline-block;
+    vertical-align: top
+}
+.padding-28 {
+    padding: 28px
+}
+.card-delete {
+    padding-right:20px
+}
+
+.product-row
+{
+    padding: 24px 16px 0 16px;
+    background: #EEF0F2;
+    width: 100%;
+    .lft-col {
+        color: $o-black;
+
+        font: {
+            size: $base-font-size;
+        }
+
+        span {
+            padding-top: 4px;
+            display: block;
+
+            font: {
+                size: $base-font-size + 2;
+                weight: $font-weight-bold;
+            }
+        }
+    }
+
+    .rgt-col {
+        color: $o-black;
+
+        font: {
+            size: $base-font-size;
+        }
+
+        text-align: right;
+
+        span {
+            padding-top: 4px;
+            display: block;
+
+            font: {
+                size: $base-font-size + 2;
+                weight: $font-weight-bold;
+            }
+        }
+    }
+}
+
+.icon {
+    font: {
+        size: $base-font-size + 2;
+        weight: $font-weight-bold -100;
+    }
+    line-height: 22px;
+    padding-bottom: 24px;
+    padding-top: 20px;
+}
+
+.icon-class{
+    background: #DAE2E7;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2F3C46;
+}
+
+.del-icon {
+    margin-right:28px;
+    margin-left:28px;
+}
+
+.mr-6 {
+    margin-right: 5px;
+}
+
+.mr-10 {
+    margin: 10px;
+}

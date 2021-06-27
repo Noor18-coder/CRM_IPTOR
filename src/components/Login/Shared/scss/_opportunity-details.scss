@@ -66,7 +66,7 @@
                             display: block !important;
 
                             font: {
-                                size: $base-font-size;
+                                size: $base-font-size + 4;
                                 weight: $font-weight-semibold;
                             }
                         }
@@ -246,4 +246,16 @@
     color: #DAE2E7;
     padding-left: 172px;
     padding-top: 17px;
+}
+
+.prod-class {
+    padding-top: 1.7rem;
+    padding-bottom: 1.7rem;
+    background: #EEF0F2;
+    margin-top: 9px;
+    margin-bottom: 9px;
+}
+
+.prod-revenue-class {
+    background: #EEF0F2;
 }

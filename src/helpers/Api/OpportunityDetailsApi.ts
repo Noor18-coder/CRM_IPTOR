@@ -7,7 +7,9 @@ export default class OpportunityDetailsApi {
   /** API Method */
   private static apiMethod: string = 'mopOpportunity.get';
   private static attributesFileName: string = 'SROMOPH';
-   private static apiGroupMethod: string = 'mopAttributes.get';
+  private static apiGroupMethod: string = 'mopAttributes.get';
+  private static apiContactMethod: string = 'mopContacts.get';
+  private static apiItemsMethod: string = 'mopItems.get';
 
   /**
    * Helper function to fetch Opportunity default info
@@ -23,6 +25,18 @@ export default class OpportunityDetailsApi {
   static async getGroupInfo(opportunityId: string): Promise<apiModels.OpportunityDetailsGroupItem[]> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsGroupItemParams>(this.apiGroupMethod, { parentId : opportunityId, parentFile: this.attributesFileName});
     const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+  }
+
+  static async getOpportunityContact(rootId: string): Promise<apiModels.OpportunityContact[]> {
+    const requestData = new ApiRequest<apiModels.OpportunityContactsParams>(this.apiContactMethod, { rootId : rootId});
+    const response = await axios.post<apiModels.OpportunityContactsResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+  }
+
+  static async getOpportunityItems(rootId: string): Promise<apiModels.Product[]> {
+    const requestData = new ApiRequest<apiModels.ProductParams>(this.apiItemsMethod, { rootId : rootId});
+    const response = await axios.post<apiModels.ProductResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }
 }
