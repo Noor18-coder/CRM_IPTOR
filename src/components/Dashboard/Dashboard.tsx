@@ -7,7 +7,7 @@ import Loader from '../Shared/Loader/Loader';
 import { useMediaQuery } from 'react-responsive';
 import FooterMobile from '../Shared/Footer/FooterMobile';
 
-import { getOpportunityTypes,saveOpportunityStages } from '../../store/InitialConfiguration/Actions';
+import { getOpportunityTypes,saveOpportunityStages, getCurrencies} from '../../store/InitialConfiguration/Actions';
 
 const Dashboard:React.FC = () => {
     const state: AppState = useSelector((state: AppState) => state);
@@ -20,6 +20,7 @@ const Dashboard:React.FC = () => {
         setLoader(true);
         dispatch(saveOpportunityStages());
         dispatch(getOpportunityTypes());
+        dispatch(getCurrencies());
         setLoader(false);
     },[]);
 

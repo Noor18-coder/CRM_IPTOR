@@ -21,13 +21,14 @@ const CustomerCard:React.FC<Data> = (props) =>   {
   const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<models.CustomerDetailsDefault[]>([]);
 
   React.useEffect(() => {
+  if(props.data.subsidiaryEntities) {
     Promise.all(props.data.subsidiaryEntities.map((id: any) => {
       return CustomerDetailsApi.get(id);
     })).then((entityData) => {
       setsubsidiaryEntities(entityData);
       return entityData;
     });
-
+  }
   },[]);
     return (
       <>

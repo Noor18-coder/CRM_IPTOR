@@ -14,7 +14,8 @@
          addOpptyWindowActive:false,
          opportunityDefaultParams:{},
          attributes:[],
-         items:[]
+         items:[],
+         contacts:[]
      }
  };
  
@@ -52,14 +53,21 @@
                 ...state,
                 items:action.items
             }
+        case AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS:
+            return {
+                ...state,
+                contacts:action.contacts
+            }
         case AddOpportunityTypes.RESET_OPPORTUNITY_DATA:
-            console.log(action.type)
-            return {...state,
+           return {...state,
                 loader:false,
                 addOpptyWindowActive:false,
                 opportunityDefaultParams:{},
                 attributes:[],
-                items:[]}
+                items:[],
+                contacts:[]
+            }
+       
 
         default:
              return state;

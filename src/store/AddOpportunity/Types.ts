@@ -1,7 +1,7 @@
 /** Authentication Action Types */
 
 import { Action } from 'redux';
-import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams , Item} from '../../helpers/Api/models';
+import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams , Item, CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
 export enum AddOpportunityTypes {
@@ -9,6 +9,7 @@ export enum AddOpportunityTypes {
   CLEAR_ADD_DEFAULT_OBJECTS = 'CLEAR_ADD_DEFAULT_OBJECTS',
   SAVE_ADD_OPPTY_ATTRIBUTE = 'SAVE_ADD_OPPTY_ATTRIBUTE',
   SAVE_ADD_OPPTY_ITEMS = 'SAVE_ADD_OPPTY_ITEMS',
+  SAVE_ADD_OPPTY_CONTACTS = 'SAVE_ADD_OPPTY_CONTACTS',
   SET_ADD_OPPORTUNITY_LOADER = 'SET_ADD_OPPORTUNITY_LOADER',
   RESET_OPPORTUNITY_DATA = 'RESET_OPPORTUNITY_DATA',
   SET_ADD_OPPORTUNITY_WINDOW = 'SET_ADD_OPPORTUNITY_WINDOW'
@@ -47,12 +48,19 @@ export interface SetAddOpportunityDrawerActive extends Action<AddOpportunityType
   addOpptyWindowActive:boolean
 }
 
+/** Authentication success action */
+export interface SetAddOpportunityContacts extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS> {
+  contacts:CustomerDetailsContactsGroupItem[]
+}
+
+
 export type AddOpportunityReduxActions = SaveOpportuntyParamAction |
                                   SaveOpportuntyAddAttributeAction |
                                   SetAddOpportunityLoaderAction | 
                                   SetAddOpportunityDrawerActive |
                                   SaveOpportuntyAddItemsAction | 
-                                  RemoveOpportunityDataAction;
+                                  RemoveOpportunityDataAction |
+                                  SetAddOpportunityContacts ;
 
 /** Authentication state definition */
 export interface AddOpportunityState {
@@ -60,7 +68,7 @@ export interface AddOpportunityState {
   readonly loader: boolean,
   readonly opportunityDefaultParams: AddOpportunityDefaultParams,
   readonly attributes:UserDefinedFieldReduxParams[],
-  readonly items: Item[]
-
+  readonly items: Item[],
+  readonly contacts: CustomerDetailsContactsGroupItem[]
 }
 

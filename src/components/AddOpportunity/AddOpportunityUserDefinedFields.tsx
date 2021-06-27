@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store/store";
 
 import ImageConfig from '../../config/ImageConfig';
-import { OpportunityType, UserDefinedField, UserDefinedFieldsValueDropDown, DropDownValues, DropDownValue, AddOpportunityDefaultParams, UserDefinedFieldReduxParams} from '../../helpers/Api/models';
+import { OpportunityType, UserDefinedField, UserDefinedFieldsValueDropDown, DropDownValues, DropDownValue, AddOpportunityDefaultParams, UserDefinedFieldReduxParams, CurrencyItem} from '../../helpers/Api/models';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import {saveOpportunityParams, saveOpportunityAttributes, setOpportunityLoader} from '../../store/AddOpportunity/Actions';
 import DateInput from '../Shared/Picker/DateInput';
@@ -142,10 +142,10 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                                     <label className="opp-label">Opportunity Currency</label>
                                     <select className="form-control iptor-dd" id="currency" onChange={setOpportunityDefaultParam}>
                                         <option disabled selected>Select currency</option>
-                                        <option value={'EUR'}>EUR</option>
-                                        <option value={'SEK'}>SEK</option>
-                                        <option value={'INR'}>INR</option>
-                                        <option value={'USD'}>USD</option>
+                                        {
+                                        state.enviornmentConfigs.currency.map((obj:CurrencyItem) => {
+                                        return <option value={obj.currency}>{obj.currency}</option>
+                                    })}
                                     </select>
                                 </div>
 

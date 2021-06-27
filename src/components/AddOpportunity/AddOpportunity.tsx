@@ -11,7 +11,7 @@ import ImageConfig from '../../config/ImageConfig';
 import { AppState } from "../../store/store";
 import { setOpportunityWindowActive , setOpportunityLoader , resetOpportunityData} from '../../store/AddOpportunity/Actions';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
-import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams, Item} from '../../helpers/Api/models';
+import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams, Item, AddCustomerContactParams, AddCustomerContactRequestParams, CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
 
 
 const AddOpportunity:React.FC = () => {
@@ -40,6 +40,22 @@ const AddOpportunity:React.FC = () => {
         })).then((data) => {
             return data;
         });
+
+        Promise.all(state.addOpportunity.contacts.map((contact:CustomerDetailsContactsGroupItem) => {
+            const params:AddCustomerContactParams = {
+                contactPArentId:opptyId,
+                contactPerson:contact.contactPerson,
+                phone:contact.phone,
+                mobile:'',
+                linkedin:'',
+                fax:contact.fax,
+                email:contact.email
+            };
+            return AddOpportunityApi.addContacts(params);
+        })).then((data) => {
+            return data;
+        });
+
 
         dispatch(setOpportunityWindowActive(false));
         dispatch(setOpportunityLoader(false));

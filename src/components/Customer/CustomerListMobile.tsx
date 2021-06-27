@@ -31,6 +31,7 @@ const BusinessPartnerListMobile: React.FC<Props> = ({ gridRowClicked, getDataRow
   const [businessPartners, setBusinesspartners] = React.useState<BusinessPartnerListItem[]>([]);
   const [loader, setLoader] = React.useState<boolean>(false);
   const [listData, setlistData] = React.useState<boolean>(false);
+  const history = useHistory();
 
 
   // To handle pagination. 
@@ -80,7 +81,12 @@ const BusinessPartnerListMobile: React.FC<Props> = ({ gridRowClicked, getDataRow
     return handlerName;
   }
 
-  const openBusinessPartnerDetails = () => {}
+    const openBusinessPartnerDetails = (obj: BusinessPartnerListItem) => {
+        const custId = obj && obj.businessPartner ? obj.businessPartner : null;
+        if (custId) {
+            history.push({ pathname: "/cust-details", state: { custId: custId } })
+        }
+    }
 
   return (
     <>
@@ -88,11 +94,11 @@ const BusinessPartnerListMobile: React.FC<Props> = ({ gridRowClicked, getDataRow
         {loader && <Loader />}
         {businessPartners.length > 0 && businessPartners?.map((obj, index) => {
           if (index + 1 === businessPartners.length) {
-              return <div className="card-section" onClick={() => openBusinessPartnerDetails()} ref={lastBusinessPartnerElement}>
+              return <div className="card-section" onClick={() => openBusinessPartnerDetails(obj)} ref={lastBusinessPartnerElement}>
                         <BusinessPartnerCard businesspartner={obj} />
                      </div>
           } else {
-              return <div className="card-section" onClick={() => openBusinessPartnerDetails()} >
+              return <div className="card-section" onClick={() => openBusinessPartnerDetails(obj)} >
                         <BusinessPartnerCard businesspartner={obj} />
                      </div>
             }

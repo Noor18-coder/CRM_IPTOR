@@ -11,7 +11,8 @@ import { AppLoadingTypes, AppLoadingActions, InitialConfigState } from './Types'
 export const createInitalConfigDefaultState = ():InitialConfigState => {
     return {
         crmOpportunityTypes: [],
-        crmOpportunityStage: []
+        crmOpportunityStage: [],
+        currency:[]
     }
 };
 
@@ -33,6 +34,11 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
             return {
                 ...state,
                 crmOpportunityStage: action.stages
+            };
+        case AppLoadingTypes.SAVE_CURRENCIES:
+            return {
+                ...state,
+                currency: action.currencies
             };
         default:
             return state;

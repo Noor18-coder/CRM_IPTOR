@@ -3,8 +3,8 @@
  */
  import { ActionCreator, Dispatch } from 'redux';
  import { ThunkAction } from 'redux-thunk';
- import { AddOpportunityDefaultParams , UserDefinedFieldReduxParams, Item } from '../../helpers/Api/models';
- import { SaveOpportuntyParamAction, SetAddOpportunityLoaderAction, SetAddOpportunityDrawerActive, RemoveOpportunityDataAction, SaveOpportuntyAddAttributeAction , SaveOpportuntyAddItemsAction, AddOpportunityState, AddOpportunityTypes} from './Types';
+ import { AddOpportunityDefaultParams , UserDefinedFieldReduxParams, Item , CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
+ import { SaveOpportuntyParamAction, SetAddOpportunityLoaderAction, SetAddOpportunityDrawerActive, RemoveOpportunityDataAction, SaveOpportuntyAddAttributeAction , SaveOpportuntyAddItemsAction, AddOpportunityState, AddOpportunityTypes, SetAddOpportunityContacts} from './Types';
  
  /** Action to set auth state logged in status */
  export const saveOpportunityParams : ActionCreator<SaveOpportuntyParamAction> = (opportunity:AddOpportunityDefaultParams) => {
@@ -46,5 +46,13 @@ export const setOpportunityItems : ActionCreator<SaveOpportuntyAddItemsAction> =
 export const resetOpportunityData : ActionCreator<RemoveOpportunityDataAction> = () => {
   return {
     type: AddOpportunityTypes.RESET_OPPORTUNITY_DATA
+  };
+};
+
+
+export const setOpportunityContacts : ActionCreator<SetAddOpportunityContacts> = (contacts:CustomerDetailsContactsGroupItem[]) => {
+  return {
+    type: AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS,
+    contacts:contacts
   };
 };

@@ -8,11 +8,13 @@ import ImageConfig from '../../config/ImageConfig';
 import * as models from '../../helpers/Api/models';
 import { OpportunityTypeList } from './OpportunityTypeList';
 
-import { AddOpportunityDefaultParams } from '../../helpers/Api/models';
+
+import { AddOpportunityDefaultParams, CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
 
 import { BusinessPartnerListItem,  BusinessPartnerFilterItem } from '../../helpers/Api/models/Customer';
 import CustomerList from '../../helpers/Api/CustomerList';
-import {saveOpportunityParams} from '../../store/AddOpportunity/Actions';
+import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+import {saveOpportunityParams, setOpportunityContacts} from '../../store/AddOpportunity/Actions';
 
 
 interface Props {
@@ -23,6 +25,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     const state: AppState = useSelector((state: AppState) => state);
     const dispatch: Dispatch<any> = useDispatch();
     const [selectedOpportunityType, selectOpportunityType] = React.useState('');
+    const [customerContacts, setCustomerContacts] = React.useState<CustomerDetailsContactsGroupItem[]>([]);
     const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
     
 
@@ -33,12 +36,13 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
         return data.data.items;
     }
 
-    const onSearchItemSelect = (data: any) => {
+    const onSearchItemSelect = async (data: any) => {
         const selectItem:BusinessPartnerListItem = data[0];
         setOpportunityField({
             ...opportunity,
             customer: selectItem.businessPartner});
-        
+        const customerContactsData = await CustomerDetailsApi.getAllContactDetails(selectItem.businessPartner);
+        setCustomerContacts(customerContactsData);
     }
 
     const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
@@ -69,10 +73,19 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     }
 
     const validate = () => {
+        return true;
         if(opportunity?.desc && opportunity?.oppRecordType && opportunity?.customer && opportunity?.stage){
             return true;
         }
         return false;
+    }
+
+    const onCustomerContactSelect = (e: React.ChangeEvent< HTMLSelectElement> ) => {
+        const selectedContactId = parseInt(e.currentTarget.value);
+
+        const selectedContact = customerContacts.filter((obj:CustomerDetailsContactsGroupItem) => { return obj.contactId == selectedContactId });
+       dispatch(setOpportunityContacts(selectedContact));
+        
     }
     
 
@@ -102,11 +115,11 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
 
                             <div className="form-group oppty-form-elements">
                                 <label className="opp-label">Add customer contact <span className="opt-field">(Optional field)</span></label>
-                                <select className="form-control iptor-dd" id="slct-stage">
-                                    {/* <option disabled selected>Type or Select a customer</option> */}
-                                    {/* {state.customers.customers.map((obj: models.CustomerListItem) => {
-                                        return <option>{obj.description}</option>
-                                    })} */}
+                                <select className="form-control iptor-dd" id="customer-contact"  onChange={onCustomerContactSelect}>
+                                    <option disabled selected>Select Customer Contact</option>
+                                     {customerContacts.map((obj: models.CustomerDetailsContactsGroupItem) => {
+                                        return <option value={obj.contactId}>{obj.contactPerson}</option>
+                                    })} 
                                 </select>
                             </div>
 
