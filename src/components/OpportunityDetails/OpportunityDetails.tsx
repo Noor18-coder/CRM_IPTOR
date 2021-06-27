@@ -41,8 +41,10 @@ const OpportunityDetails: React.FC = (props: any) => {
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
                     {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">
-                        {opptyDataBasicGroup ? <InfoAccordion title={'Basic Info'} data={opptyDataBasicGroup} /> : null}
-                        {opptyDataMoreInfoGroup ? <InfoAccordion title={'More Info'} data={opptyDataMoreInfoGroup} /> : null}
+                        {opptyDataBasicGroup ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} /> : null}
+                        {opptyDataMoreInfoGroup ? <InfoAccordion title={'More Information'} data={opptyDataMoreInfoGroup} /> : null}
+                        {opptyDataMoreInfoGroup ? <InfoAccordion title={'Product & Modules'} data={opptyDataMoreInfoGroup} /> : null}
+                        {opptyDataMoreInfoGroup ? <InfoAccordion title={'Contacts'} data={opptyDataMoreInfoGroup} /> : null}
                     </section>
                 </div>
             </section>

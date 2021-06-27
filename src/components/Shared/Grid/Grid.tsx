@@ -82,9 +82,9 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
       template:
         '<div class="ag-cell-label-container" role="presentation">' +
         '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-        '    <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
         '    <span ref="eSortAsc" class="asc-icon"></span>' +
         '    <span ref="eSortDesc" class="desc-icon"></span>' +
+        '    <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
         '  </div>' +
         '</div>'
     }

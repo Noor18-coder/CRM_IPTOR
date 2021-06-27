@@ -21,6 +21,7 @@ import {OpportunityFilterOpions} from '../../config/OpportunityFilterOptions';
 import { OpportunityListItem, OpportunityListParams, OpportunityFilterItem } from '../../helpers/Api/models';
 import { saveOpptyList, saveOpptyFilters, saveOpportunityFilters } from '../../store/Opportunity/Actions';
 import Footer from "../Shared/Footer/Footer";
+import ImageConfig from '../../config/ImageConfig';
 
 
 import { GridFilter } from '../../components/Shared/Filter/GridFilter';
@@ -154,7 +155,7 @@ const Opportunities: React.FC = () => {
             </div>
 
             <div className={"col col-md-4 justify-content-end"}>
-              <button className={"btn add-opportunity"} data-toggle="modal" data-target="#myModal2">+ New Opportunity</button>
+              <button className={"btn add-opportunity"} data-toggle="modal" data-target="#myModal2">+ New</button>
             </div>
           </div>
         </div>
@@ -163,7 +164,9 @@ const Opportunities: React.FC = () => {
           {usersData.users && usersData.users.length ? <Grid col={newColumns} refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> : null}
         </div>
       </section>
-      <Footer />
+      <footer style={{position: "fixed"}}>
+      <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor"/> &copy; All Content Copyright 2021 </p>
+      </footer>
     </div>
   );
 }

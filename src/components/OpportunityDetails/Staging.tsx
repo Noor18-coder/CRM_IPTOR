@@ -16,18 +16,27 @@ const Staging: React.FC<Props> = ({ stage }) => {
 }, []);
   return (
     <>
-    <div className="staging-highlight">
-      <ul className="hbreadcrumb">
-        { stages ?
-          stages.map((obj) => {
-            if (stage == obj.salesStage) {
-              return <li><a href="#" className="active">{obj.salesStage}<span>{obj.description}</span></a></li>
-            }
-            return <li><a href="#">{obj.salesStage}<span>{obj.description}</span></a></li>
-          }): null
-        }
-      </ul>
-    </div>
+    <div className="staging-highlight d-flex justify-content-between title-row">
+        <div className="lft-col">
+          <ul className="hbreadcrumb">
+          { stages ?
+            stages.map((obj) => {
+              if (stage == obj.salesStage) {
+                return <li><a href="#" className="active">{obj.salesStage}<span>{obj.description}</span></a></li>
+              }
+              return <li><a href="#">{obj.salesStage}<span>{obj.description}</span></a></li>
+            }): null
+          }
+          </ul>
+        </div>
+        <div className="rgt-col">
+          <p className="oppt-lost">Opportunity Lost</p>
+          <label className="switch">
+          <input type="checkbox"/>
+          <span className="slider round"></span>
+          </label>
+        </div>
+      </div>
     </>
   )
 }

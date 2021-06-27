@@ -53,13 +53,13 @@ const Arrow: React.FC<ArrowProps> = ({ text, className }) => {
     );
 };
 
-const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
-const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
+const ArrowLeft = Arrow({ text: '', className: 'arrow-prev' });
+const ArrowRight = Arrow({ text: '', className: 'arrow-next' });
 
 
 export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = initialFilter}) => {
    
-    const [handler, setHandler] = React.useState<string>('');
+    const [handler, setHandler] = React.useState<string>('all');
     const [selectedFilter, setFilter] = React.useState<Option>(selected);
 
     const selectFilter = (obj:Option) => {
@@ -81,10 +81,12 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
 
     return (
         <div className={"row s-header"}>
-            <div className={"col"}>
-                <div className={"navbar-filter toggle-btn-group"} style={{display:'inline'}}>
-                    <button className={classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+            <div className={"col filter-class"}>
+                <div className={"navbar-filter"}>
+                    <div className=" toggle-btn-group">
                     <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
+                    <button className={classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                    </div>
                     <ScrollMenu
                             data={menuItems}
                             arrowLeft={ArrowLeft}
