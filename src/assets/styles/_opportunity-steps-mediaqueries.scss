@@ -96,6 +96,8 @@
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 321px) and (max-width: 767.98px) {
+
+
     .sliding-panel-container {
         position: absolute;
         top: 0;
@@ -120,8 +122,8 @@
 
                 .opp-header-text {
                     font-size: $base-font-size !important;
-                    font-weight: $font-weight-semibold !important;
-                    color: $tundora
+                    font-weight: bold;
+                    color: $tundora;
                 }
 
 
@@ -140,6 +142,8 @@
                 padding: 0 !important;
 
                 .step-circles {
+                    position: relative;
+
                     .steps {
                         width: 32px !important;
                         height: 32px !important;
@@ -154,6 +158,10 @@
                         &.active {
                             font: {
                                 size: $base-font-size !important;
+                            }
+
+                            span {
+                                img {}
                             }
                         }
 
@@ -174,6 +182,39 @@
                             top: 5px;
                             left: 6px;
                         }
+
+                        &.circle-stepone,
+                        &.circle-steptwo,
+                        &.circle-stepthree {
+                            text-align: center;
+
+                            img {
+                                position: absolute;
+                                width: 20px;
+                                height: auto;
+                                top: 6px;
+                                left: 6px;
+                            }
+                        }
+
+
+                        &.circle-stepone {
+                            position: absolute !important;
+                            top: 0;
+                            right: 81px;
+                        }
+
+                        &.circle-steptwo {
+                            position: absolute !important;
+                            top: 0;
+                            right: 38px;
+                        }
+
+                        &.circle-stepthree {
+                            position: absolute !important;
+                            top: 0;
+                            right: -4px;
+                        }
                     }
                 }
             }
@@ -184,10 +225,16 @@
                 .opportunity-type-container {
 
                     .opptytype-list-item {
-                        li{
+                        li {
                             background: $white;
                         }
                     }
+                }
+
+
+                .product-items-container {
+                    height: calc(100vh - 260px);
+                    overflow-y: auto;
                 }
             }
 
@@ -203,6 +250,21 @@
                     height: calc(100vh - 210px);
                 }
             }
+        }
+    }
+
+    .opportunity-forms {
+        .steps-one-forms {
+            padding-bottom: 80px;
+        }
+
+        .stepsone-nxtbtn {
+            position: fixed;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            background: $mercury;
+            padding: 24px;
         }
     }
 }

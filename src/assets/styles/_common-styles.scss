@@ -92,7 +92,7 @@ form {
 
         input[type=text],
         input[type=password], select {
-            border: solid 1px $blue-bayoux;
+            border: solid 1px $geyser; 
             @include border-radius($border-radius);
         }
 

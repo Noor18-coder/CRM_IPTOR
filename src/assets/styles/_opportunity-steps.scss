@@ -63,11 +63,15 @@
 
             overflow-y: auto;
             padding-right: 24px;
+            // border: solid 1px red;
+            height: calc(100vh - 65px);
+            background: $white;
 
             .opportunity-step-circles {
                 padding: 32px 24px 24px 24px;
 
                 .step-circles {
+
                     .steps {
                         @include border-radius(50%);
                         width: 51px;
@@ -123,6 +127,9 @@
                                 }
                             }
                         }
+
+
+
                     }
                 }
             }
@@ -186,11 +193,12 @@
             }
 
             .opportunity-type-container {
-                 .opptytype-list-item {
+                .opptytype-list-item {
                     padding-bottom: 16px;
 
                     li {
-                        border: solid 1px $blue-bayoux;
+                        background: $white;
+                        border: solid 1px $geyser;
                         @include border-radius($border-radius);
                         @include transition;
                         padding: 31px 15px;
@@ -211,14 +219,15 @@
             }
 
             .product-items-container {
-                    height:478px;
-                    overflow-y: auto;
+                height: calc(100vh - 380px);
+                overflow-y: auto;
 
                 .opptytype-list-item {
                     padding-bottom: 16px;
 
                     li {
-                        border: solid 1px $blue-bayoux;
+                        background: $white;
+                        border: solid 1px $geyser;
                         @include border-radius($border-radius);
                         @include transition;
                         padding: 31px 15px;
@@ -237,6 +246,7 @@
                     }
                 }
             }
+
             .step-nextbtn-with-arrow {
                 margin-top: 24px;
                 margin-bottom: 20px;
@@ -389,5 +399,6 @@
 
 .opp-header-text {
     font-size: $base-font-size + 4;
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-bold !important;
+
 }
