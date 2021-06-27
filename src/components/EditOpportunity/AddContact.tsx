@@ -23,7 +23,7 @@ interface ContactInfo {
 
 interface Props {
     refresh: () => void,
-    edit:boolean
+    edit: boolean
 }
 
 const AddContact: React.FC<Props> = ({ refresh, edit }) => {
@@ -42,20 +42,20 @@ const AddContact: React.FC<Props> = ({ refresh, edit }) => {
         setCustomerContacts(customerContactsData);
     }
 
-    const onCustomerContactSelect = (e: React.ChangeEvent< HTMLSelectElement> ) => {
+    const onCustomerContactSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
-        const selectedContact:models.CustomerDetailsContactsGroupItem | undefined = customerContacts.find((obj:models.CustomerDetailsContactsGroupItem) => obj.contactId === (e.currentTarget.value));
+        const selectedContact: models.CustomerDetailsContactsGroupItem | undefined = customerContacts.find((obj: models.CustomerDetailsContactsGroupItem) => obj.contactDC === (e.currentTarget.value));
 
-        if(selectedContact){
-            const tempContact:ContactInfo = {
-                contactPerson:selectedContact.contactPerson,
-                contactDC:selectedContact.contactId,
-                whatsApp:'',
-                email:selectedContact.email,
-                phone:selectedContact.phone,
-                mobile:selectedContact?.mobile,
-                linkedin:selectedContact?.linkedin,
-                fax:selectedContact?.fax
+        if (selectedContact) {
+            const tempContact: ContactInfo = {
+                contactPerson: selectedContact.contactPerson,
+                contactDC: selectedContact.contactDC,
+                whatsApp: '',
+                email: selectedContact.email,
+                phone: selectedContact.phone,
+                mobile: selectedContact?.mobile,
+                linkedin: selectedContact?.linkedin,
+                fax: selectedContact?.fax
 
             }
 
@@ -63,8 +63,8 @@ const AddContact: React.FC<Props> = ({ refresh, edit }) => {
         }
     }
 
-    const onInputValueChange = (e:React.ChangeEvent<HTMLInputElement> ) => {
-        if(contact){
+    const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (contact) {
             setContact({
                 ...contact,
                 [e.currentTarget.id]: e.currentTarget.value
@@ -74,16 +74,16 @@ const AddContact: React.FC<Props> = ({ refresh, edit }) => {
 
     const onNextButtonClick = async () => {
         const opptyId = state.opportuntyDetails.opportunityDefaultParams.opportunityId;
-        if(contact){
-            const params:models.AddCustomerContactRequestParams = {
-                contactParentId:opptyId,
-                contactPerson:contact.contactPerson,
-                phone:contact.phone,
-                mobile:contact.mobile,
-                whatsApp:contact.whatsApp,
-                linkedin:contact.linkedin,
-                fax:contact.fax,
-                email:contact.email
+        if (contact) {
+            const params: models.AddCustomerContactRequestParams = {
+                contactParentId: opptyId,
+                contactPerson: contact.contactPerson,
+                phone: contact.phone,
+                mobile: contact.mobile,
+                whatsApp: contact.whatsApp,
+                linkedin: contact.linkedin,
+                fax: contact.fax,
+                email: contact.email
             };
             const data = await AddOpportunityApi.addContact(params);
             refresh();
@@ -94,55 +94,30 @@ const AddContact: React.FC<Props> = ({ refresh, edit }) => {
 
     return (
         <>
-            <div>
-                <form>
+            <div className="card add-contacts">
+                <div className="contact-details">
                     <div className="form-group oppty-form-elements">
                         <label className="opp-label">Select Customer Contact</label>
                         <select className="form-control iptor-dd" id="customer-contact" onChange={onCustomerContactSelect}>
                             <option disabled selected>Select Customer Contact</option>
                             {customerContacts.map((obj: models.CustomerDetailsContactsGroupItem) => {
-                                return <option value={obj.contactId}>{obj.contactPerson}</option>
+                                return <option value={obj.contactDC}>{obj.contactPerson}</option>
                             })}
                         </select>
-
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">Contact Person</label>
-                            <input type="text" value={contact?.contactPerson} className="form-control" placeholder="Contact Person" id="contactPerson" onChange={onInputValueChange}  disabled={edit} />
-                        </div>
-
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">Email</label>
-                            <input type="text" value={contact?.email} className="form-control" placeholder="Email" id="mobile" onChange={onInputValueChange} disabled={edit} />
-                        </div>
-
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">Phone No</label>
-                            <input type="text" value={contact?.phone} className="form-control" placeholder="Phone Number" id="phone" onChange={onInputValueChange} disabled={edit} />
-                        </div>
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">Mobile Number</label>
-                            <input type="text" value={contact?.mobile} className="form-control" placeholder="Mobile Number" id="mobile" onChange={onInputValueChange} disabled={edit} />
-                        </div>
-
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">Whatsapp</label>
-                            <input type="text" value={contact?.whatsApp} className="form-control" placeholder="Whatsapp Number" id="whatsApp" onChange={onInputValueChange} disabled={edit} />
-                        </div>
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">LinkedIn</label>
-                            <input type="text" value={contact?.linkedin} className="form-control" placeholder="Linkedin" id="linkedin" onChange={onInputValueChange} disabled={edit} />
-                        </div>
-                        <div className="form-group oppty-form-elements">
-                            <label className="opp-label">Fax</label>
-                            <input type="text" value={contact?.fax} className="form-control" placeholder="Fax" id="fax" onChange={onInputValueChange} disabled={edit} />
-                        </div>
                     </div>
-                </form>
-            </div>  
+                    <>
+                        <p><b>{contact && contact.contactPerson}</b></p>
+                        <p>Email: {contact && contact.email ? contact?.email : '--'}</p>
+                        <p>Phone: {contact && contact.phone ? contact.phone : '--'}</p>
+                        <p>Mobile: {contact && contact.mobile ? contact.mobile : '--'}</p>
+                        <p>Whatsapp: {contact && contact.whatsApp ? contact.whatsApp : '--'}</p>
+                        <p>Fax: {contact && contact.fax ? contact.fax : '--'}</p>
+                        <p>Linkedin: {contact && contact.linkedin ? contact.linkedin : '--'}</p>
+                    </>
+                </div>
+            </div>
             <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
-                <a className="stepone-next-btn">
-                    Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
-                </a>
+                <a className={ contact ? "stepone-next-btn done" : "stepone-next-btn inactive"}>Done</a>
             </div>
         </>
     )

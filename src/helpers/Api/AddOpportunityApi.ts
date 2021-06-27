@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { AddOpportunityDefaultParams, AddOpportunityResponse, SaveUserDefinedFieldParam, AddItemToOpportunityParams, AddItemToOpportunityResponse, AddCustomerContactParams, AddCustomerContactRequestParams} from './models';
+import { AddOpportunityDefaultParams, AddOpportunityResponse, SaveUserDefinedFieldParam, AddItemToOpportunityParams, AddItemToOpportunityResponse, DeleteCustomerContactParams, AddCustomerContactRequestParams} from './models';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
 
@@ -12,6 +12,7 @@ export default class AddOpportunityApi {
   private static saveItemMethod: string = 'mopItem.add';
   private static saveContactFileName: string = 'SROMOPCH';
   private static saveContactMethod: string = 'mopContact.add';
+  private static deleteCustomerContact = 'mopContact.delete';
 
   /**
    * Helper function to create an opportunity.
@@ -97,6 +98,24 @@ export default class AddOpportunityApi {
     const requestData = new ApiRequest<AddCustomerContactRequestParams>(this.saveContactMethod, request);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     console.log(response);
+    return get(response, 'data');
+  }
+
+  /**
+   * Helper function to fetch Business Partner Info
+   * API Method: mopOpportunity.get
+   * @param freeTextSearch search term
+   * 
+   */
+   static async deleteContact(params:DeleteCustomerContactParams): Promise<AxiosResponse> {
+    const request:DeleteCustomerContactParams  = {
+      contactParentFile:this.saveAttributeValueMethodFile,
+      contactParentId:params.contactParentId,
+      contactId:params.contactId
+    }
+
+    const requestData = new ApiRequest<DeleteCustomerContactParams>(this.deleteCustomerContact, request);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
   }
 }

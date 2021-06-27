@@ -19,7 +19,8 @@ export const createInitalConfigDefaultState = (): InitialConfigState => {
         opportunityAttributes:[],
         defaultOpprtunityInfo: {},
         crmCountryInfo: [],
-        crmAreaInfo: []
+        crmAreaInfo: [],
+        opportunityContactRoles:[]
     }
 };
 
@@ -82,6 +83,11 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
             return {
                 ...state,
                 crmAreaInfo: action.areas
+            };
+        case AppLoadingTypes.SAVE_OPPORTUNITY_CONTACT_ROLES:
+            return {
+                ...state,
+                opportunityContactRoles: action.roles
             };
         default:
             return state;

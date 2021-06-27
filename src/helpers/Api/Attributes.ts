@@ -11,6 +11,8 @@ export class Attributes {
   private static attributeMethod : string = 'mopAttributeTypes.get';
   private static addAttributeMethod : string = 'mopAttribute.add';
   private static updateAttributeMethod : string = 'mopAttribute.update';
+  private static mopAttributeTypeGet: string = 'mopAttributeType.get';
+  private static mopAttributeValues: string = 'mopAttributeValues.get';
 
 
   
@@ -65,4 +67,29 @@ export class Attributes {
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
   }
+
+  static async getAttributeType(attributeType:string, parentFile:string): Promise<AxiosResponse> {
+    const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.mopAttributeTypeGet, {attributeType:attributeType, parentFile:parentFile});
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  } 
+
+  static async getAttributeValues(attributeId: string) {
+    const requestData = new ApiRequest<apiModels.AttributeValuesRequestParam>(this.mopAttributeValues, { attributeId:attributeId});
+    const response = await axios.post<apiModels.UserDefinedFieldValuesResponse>('/api/service', requestData);
+    return response.data.data;
+  }
+
+  static async addAttributes(fileName: string, parentId:string, attributeType: string, attributeValue: string | number): Promise<any> {
+      const params: apiModels.SaveAttributeFieldParam = {
+      attributeType: attributeType,
+      parentFile: fileName,
+      parentId: parentId,
+      attributeValue: attributeValue
+    }
+    const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.addAttributeMethod, params);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  }
+
 }

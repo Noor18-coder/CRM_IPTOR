@@ -1,21 +1,26 @@
 import React from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { Card, Image, Accordion, Form } from 'react-bootstrap';
-import { OpportunityContact } from '../../helpers/Api/models';
+import { DeleteCustomerContactParams, OpportunityContact } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import ImageConfig from '../../config/ImageConfig';
 import * as models from '../../helpers/Api/models';
+import { AppState } from '../../store';
+import { Attributes } from '../../helpers/Api';
 
 export interface ContactProps {
-    data: OpportunityContact
+    data: OpportunityContact,
+    deleteContact: (params:DeleteCustomerContactParams) => void
 }
 
 interface Props {
     title: string,
     data: OpportunityContact[],
-    openAddContactForm: () => void
+    openAddContactForm: () => void,
+    deleteContact:  (params:DeleteCustomerContactParams) => void
 }
 
-export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactForm }) => {
+export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactForm, deleteContact }) => {
     const [activeClass , setActiveClass] = React.useState("");
     const toggleAccordion = () => {
       setActiveClass(activeClass === "" ? "active" : "");
@@ -31,7 +36,7 @@ export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactF
                     <div className="accr-body-container">
                         {data.length ?
                                 data.map((obj: OpportunityContact) => {
-                                    return <ContactCards data={obj}/>
+                                    return <ContactCards data={obj} deleteContact={deleteContact} />
                          }) : <div className="padding-28"> No Contacts Found </div>}
                         </div>
                 </Accordion.Collapse>
@@ -41,17 +46,50 @@ export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactF
 
 }
     
-export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ data }) => {
+export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ data, deleteContact }) => {
+    const state:AppState = useSelector((state: AppState) => state);
     const [contactDetails, setContactDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
+    const [opportunityRole, setOpportunityRole] = React.useState<string | undefined>('');
     React.useEffect(() => {
-        OpportunityDetailsApi.getContactDetails(data.contactId).then((contactData) => {
-            setContactDetails(contactData)
-        });
+        loadContactAttributes();
     }, []);
-    const addressObj = contactDetails.find((obj) => obj.attributeType === 'ADDRESS');
-    data.visitingAddress = addressObj?.attributeValue
-    const roleObj = contactDetails.find((obj) => obj.attributeType === 'ROLE');
-    data.role = roleObj?.attributeValue
+
+    const loadContactAttributes = async () => {
+        const response = await OpportunityDetailsApi.getContactDetails(data.contactId); 
+        console.log("loadContactAttributes:" , response);
+        setContactDetails(response);
+        const addressObj = response.find((obj:any) => obj.attributeType === 'ADDRESS');
+        data.visitingAddress = addressObj?.attributeValue
+        const roleObj = response.find((obj) => obj.attributeType === 'ROLE');
+        setOpportunityRole(roleObj?.attributeValue);
+    }
+
+    const removeContact = () => {
+        const params:DeleteCustomerContactParams = {
+            contactId: data.contactId,
+            contactParentId: data.contactParentId,
+            contactParentFile: data.contactParentFile
+        };
+        deleteContact(params);
+    }
+
+    const changeRole = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+         const newValue = e.currentTarget.value;
+        
+        if(opportunityRole){
+            const roleObj = contactDetails.find((obj) => obj.attributeType === 'ROLE');
+            const valueId =  roleObj?.valueId ? roleObj.valueId : '';
+            const data = await Attributes.updateAttribute('ROLE',  valueId, newValue);
+            setOpportunityRole(newValue);
+        }else{
+           const res = await Attributes.addAttributes('SROMOPCH', data.contactId, 'ROLE', newValue);
+            setOpportunityRole(newValue);
+        }
+     }
+
+
+   
+
     return (
         <Card className="accordian-card">
             <Card.Body>
@@ -63,15 +101,18 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
                     <p>{data.visitingAddress ? data.visitingAddress : '--'}</p>
                 </div>
                 <div className="right-card">
-                    <Image className="card-delete" height="20" src={ImageConfig.DEL_ICON} alt="Iptor" title="Iptor" />
+                    <Image className="card-delete" height="20" src={ImageConfig.DEL_ICON}  onClick={removeContact}  />
                 </div>
             </Card.Body>
             <Card.Footer className="text-muted">
                 <Form>
                     <Form.Group>
                         <Form.Label className="contact-label">Select Opportunity Role</Form.Label>
-                        <Form.Control as="select" className="form-control contact-font">
-                            <option>{data.role}</option>
+                        <Form.Control as="select" className="form-control contact-font" value={opportunityRole} multiple={false} onChange={changeRole}>
+                            { 
+                                 state.enviornmentConfigs.opportunityContactRoles.map((obj:models.DropDownValue) => {
+                                    return <option value={obj.valueField}>{obj.valueField}</option> 
+                                }) } 
                         </Form.Control>
                     </Form.Group>
                 </Form>

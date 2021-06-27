@@ -73,3 +73,9 @@ export interface AddOpportunityField {
     asyncSearch?:boolean;
     dateInput?:boolean
 };
+
+export interface DeleteCustomerContactParams {
+    contactParentFile:string;
+    contactParentId:string;
+    contactId:string;
+}

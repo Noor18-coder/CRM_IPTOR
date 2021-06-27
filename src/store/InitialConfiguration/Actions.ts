@@ -7,7 +7,7 @@ import * as models from '../../helpers/Api/models';
 import { CountryInfo } from '../../helpers/Api/Countries';
 import {
     AppLoadingTypes, SaveOpportunityTypes, SaveOpportunityStages, SaveOpportunityCurrencies,
-    SaveOpportunityDefault, SaveCountryInfo, SaveAreaInfo
+    SaveOpportunityDefault, SaveCountryInfo, SaveAreaInfo, SaveOpportunityContactRoles
 } from './Types';
 
 import * as actionTypes from './Types';
@@ -97,6 +97,13 @@ export const saveAreaInfo: ActionCreator<SaveAreaInfo> = (areas: models.AreaInfo
     };
 };
 
+export const saveOpportunityContactRoles: ActionCreator<SaveOpportunityContactRoles> = (roles: models.DropDownValue[]) => {
+  return {
+      type: AppLoadingTypes.SAVE_OPPORTUNITY_CONTACT_ROLES,
+      roles: roles
+  };
+};
+
 export const getOpportunityTypes = () => {
   return async (dispatch: Dispatch) => {
     const opptyTypes = await OpportunityType.get();
@@ -141,7 +148,7 @@ return async (dispatch: Dispatch, getState) => {
       dispatch(saveCurrencies(response[2]));
       dispatch(saveOpportunityAttributes(response[3]))
       dispatch(saveCustomerAttributes(response[4]))
-      return dispatch(removeLoadingMask());
+       return dispatch(removeLoadingMask());
     }).catch((error:any) => {
         dispatch(setErrorMessage());
         return dispatch(removeLoadingMask());
@@ -170,4 +177,12 @@ export const getAreas = () => {
         const areas = await CountryInfo.getArea();
         dispatch(saveAreaInfo(areas));
     }
+}
+
+export const getOpportunityContactRoles = () => {
+  return async (dispatch: Dispatch) => {
+      const attributeType = await Attributes.getAttributeType('ROLE','SROMOPCH');
+      const roles = await Attributes.getAttributeValues(attributeType.data.attributeId);
+      dispatch(saveOpportunityContactRoles(roles.items));
+  }
 }

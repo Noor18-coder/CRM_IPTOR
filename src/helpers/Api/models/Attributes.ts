@@ -67,3 +67,7 @@ export interface AttributeValueAndType {
     attributeType: string,
     attributeValue: string | number
 }
+
+export interface AttributeValuesRequestParam {
+    attributeId:string;
+} 

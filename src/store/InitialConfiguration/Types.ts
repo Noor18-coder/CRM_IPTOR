@@ -1,7 +1,7 @@
 /** Authentication Action Types */
 
 import { Action } from 'redux';
-import { OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo, AreaInfo} from '../../helpers/Api/models';
+import { OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo, AreaInfo, DropDownValue} from '../../helpers/Api/models';
 
 
 /** Enum for Authentication Actions */
@@ -16,8 +16,9 @@ export enum AppLoadingTypes {
   SAVE_CUSTOMER_ATTRIBUTES = 'SAVE_CUSTOMER_ATTRIBUTES',
   SAVE_OPPORTUNITY_DEFAULT = 'SAVE_OPPORTUNITY_DEFAULT',
   SAVE_COUNTRY_INFO = 'SAVE_COUNTRY_INFO',
-  SAVE_AREA_INFO = 'SAVE_AREA_INFO'
-}
+  SAVE_AREA_INFO = 'SAVE_AREA_INFO',
+  SAVE_OPPORTUNITY_CONTACT_ROLES = 'SAVE_OPPORTUNITY_CONTACT_ROLES'
+ }
 
 /** Authentication success action */
 export interface SaveOpportunityTypes extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_TYPES> {
@@ -60,6 +61,11 @@ export interface SaveOpportunityDefault extends Action<AppLoadingTypes.SAVE_OPPO
   defaultOppInfo: DefaultOpportunityInfo
 }
 
+/** Authentication success action */
+export interface SaveOpportunityContactRoles extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_CONTACT_ROLES> {
+  roles : DropDownValue[]
+}
+
 export interface SaveCountryInfo extends Action<AppLoadingTypes.SAVE_COUNTRY_INFO> {
   countries: CountryInfo[]
 }
@@ -76,7 +82,10 @@ export type AppLoadingActions = SaveOpportunityTypes |
                                 SetErrorMessageAction |
                                 SaveCustomerAttributes | 
                                 SaveOpportunityAttributes |
-                                SaveOpportunityDefault | SaveCountryInfo | SaveAreaInfo;
+                                SaveOpportunityDefault |
+                                SaveCountryInfo | 
+                                SaveAreaInfo |
+                                SaveOpportunityContactRoles;
 
 
 
@@ -92,4 +101,5 @@ export interface InitialConfigState {
   readonly defaultOpprtunityInfo: DefaultOpportunityInfo,
   readonly crmCountryInfo: CountryInfo[],
   readonly crmAreaInfo: AreaInfo[],
+  readonly opportunityContactRoles: DropDownValue[]
 }

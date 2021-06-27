@@ -21,6 +21,8 @@ import Container from '../EditOpportunity/Container';
 
 import {setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm} from '../../store/OpportunityDetails/Actions';
+import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
+
 
 
 
@@ -107,7 +109,11 @@ const OpportunityDetails: React.FC = (props: any) => {
 
     const reloadOpportunity = () => {
         fetchOpportunityDetails(opptyId);
+    }
 
+    const deleteContact = async (params:models.DeleteCustomerContactParams) => {
+       const response = await AddOpportunityApi.deleteContact(params);
+       reloadOpportunity();
     }
 
 
@@ -124,7 +130,7 @@ const OpportunityDetails: React.FC = (props: any) => {
                         {opptyDataBasicGroup?.length ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} openEditOpportunity={openOpportunityBasicEdit} /> : null}
                         {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} openEditForm={openEditForm}/> : null} 
                         <ProductAccordian title={'Products & Modules'} data={opptyDataProductInfo} />
-                        <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} openAddContactForm={openAddContactForm}/>                         
+                        <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} openAddContactForm={openAddContactForm} deleteContact={deleteContact} />                         
                     </section>
                 </div>
             </section> }
