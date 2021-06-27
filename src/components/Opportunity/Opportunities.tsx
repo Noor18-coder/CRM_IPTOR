@@ -52,6 +52,7 @@ const Opportunities: React.FC = () => {
   const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
   const [searchText, setSearchText] = React.useState<string>('');
+  const [searchFieldValue, setSearchField] = React.useState<string>('');
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -113,7 +114,7 @@ const Opportunities: React.FC = () => {
     if(searchText.length){
       filters.searchField = searchText;
     }
-    console.log(filters);
+    
     const data: any = await OpportunityList.get(authState.user.handler, '', 20, start, orderBy, filters);
 
     if (data && data.data && data.control?.more) {
@@ -144,21 +145,20 @@ const Opportunities: React.FC = () => {
     selectFilter(obj);
   }
 
-  const searchStart = () => {
-    //const re = !refresh;
-    //setRefresh(re);
+  const searchStart = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const str = event.target.value;
+    setSearchField(str)
+    if(str.length === 0){
+      setSearchText('');
+      setRefresh(!refresh);
+    }
   }
 
-  const searchOpportunity = async (searchTextStr:string) => {
-    const filters: OpportunityListParams = {
-      handler: '',
-      searchField:  searchTextStr
-    }
-    const data:any = await OpportunityList.get(authState.user.handler, '', 20, 0, '', filters);
-    if(data && data.data && data.data.items){
-     return data.data.items;
-    }else{
-      return [];
+  const searchOpportunity = (event:React.KeyboardEvent<HTMLInputElement>) => {
+    
+    if(event.key == 'Enter'){
+      setSearchText(searchFieldValue);
+      setRefresh(!refresh);
     }
 
   }
@@ -180,7 +180,17 @@ const Opportunities: React.FC = () => {
             </div> }
 
             <div className={"col col-md-4"}>
-              <Search onChange={searchStart} onSearchItemSelect={openOpptyDetails} onSearch={searchOpportunity} />
+              {/* <Search onChange={searchStart} onSearchItemSelect={openOpptyDetails} onSearch={searchOpportunity} /> */}
+              <div className="navbar-search-overlap">
+                <div className="form-group">
+                    <div className="input-search">
+                      <i className="input-search-icon wb-search" aria-hidden="true"></i>
+                      <input type="text" className="form-control sitesearch" onChange={searchStart} value={searchFieldValue} onKeyPress={searchOpportunity}  placeholder="Search" />
+                      <button type="button" className="search-settings-button"></button>
+                    </div>
+                  </div>
+                
+              </div>
             </div>
 
             { isMobile ? null : <div className={"col col-md-4 justify-content-end"}>
@@ -188,7 +198,7 @@ const Opportunities: React.FC = () => {
             </div>}
           </div>
           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
-          { usersData.users && usersData.users.length && (isMobile || isTablet) ? <OpportunityListMobile gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid>  }
+          { usersData.users && usersData.users.length && (isMobile || isTablet) ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid>  }
           </div>
       </section>
    

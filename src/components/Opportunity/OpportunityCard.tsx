@@ -2,7 +2,7 @@
 import { useHistory } from 'react-router';
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import { OpportunityListItem, UserItem, OpportunityFilterItem } from '../../helpers/Api/models';
-
+import ImageConfig from '../../config/ImageConfig';
 
 interface OppProps {
     opportunity: OpportunityListItem;
@@ -63,7 +63,7 @@ interface OppProps {
             {props.opportunity.customer}
           </div>
           <div className="rgt-col">
-            <img src="../assets/images/card-v-ellipsis.svg" alt="More" title="More" />
+            <img src={ImageConfig.NAV_MORE_DOTS} alt="More" title="More" />
           </div>
         </div>
       </>

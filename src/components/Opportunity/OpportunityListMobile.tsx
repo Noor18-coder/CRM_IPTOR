@@ -9,7 +9,8 @@ import OpportunityCard from './OpportunityCard';
 
 interface Props {
   gridRowClicked: (data: any) => void;
-  getDataRows: (start: number, sortString: string, filter?: OpportunityFilterItem) => Promise<result>
+  getDataRows: (start: number, sortString: string, filter?: OpportunityFilterItem) => Promise<result>,
+  refresh:boolean;
 }
 
 interface result {
@@ -18,7 +19,7 @@ interface result {
 }
 
 
-const OpportunityListMobile: React.FC<Props> = ({ gridRowClicked, getDataRows }) => {
+const OpportunityListMobile: React.FC<Props> = ({ gridRowClicked, getDataRows, refresh}) => {
 
   const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
   const usersData: UsersData = useSelector((state: AppState) => state.users);
@@ -41,28 +42,31 @@ const OpportunityListMobile: React.FC<Props> = ({ gridRowClicked, getDataRows })
 
   }, [hasMoreRows]);
 
+  const fetchOpportunities = async () => {
+    let orderByString = '';
+    const data: result = await getDataRows(pageNumber * 20, orderByString);
+    setOpportunities(prevOpportunites => [...prevOpportunites, ...data.items]);
+    setHasMoreRows(data.load);
+  };
+
   React.useEffect(() => {
     setHasMoreRows(false);
-    const fetchOpportunities = async () => {
-      let orderByString = '';
-      const data: result = await getDataRows(pageNumber * 20, orderByString);
-      setOpportunities(prevOpportunites => [...prevOpportunites, ...data.items]);
-      setHasMoreRows(data.load);
-    };
     fetchOpportunities();
   }, [pageNumber]);
 
 
+
   React.useEffect(() => {
-    const fetchOpportunities = async () => {
-      let orderByString = '';
-      const data: result = await getDataRows(pageNumber * 20, orderByString);
-      setOpportunities(data.items);
-      setHasMoreRows(data.load);
-    };
-    fetchOpportunities();
+     fetchOpportunities();
 
   }, []);
+
+  React.useEffect(() => {
+    setHasMoreRows(false);
+    setPageNumber(0);
+    setOpportunities([]);
+    fetchOpportunities();
+  },[refresh]);
 
 
   const getName = (str: string) => {
