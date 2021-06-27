@@ -10,6 +10,8 @@ import LoginFooter from "./Shared/LoginFooter";
 import { CompanyInfoItem, UserItem } from "../../helpers/Api/models";
 import { AppState } from "../../store";
 import LeftColmData from './Shared/LeftColmData';
+import Loader from '../Shared/Loader/Loader'
+
 
 export interface Props {
   selectCompany: (company: string) => void;
@@ -18,16 +20,19 @@ export interface Props {
 
 export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }) => {
   // Fetching companies list from the redux-store.
-  const state: UserItem = useSelector((state: AppState) => state.auth.user);
-
+    const state: UserItem = useSelector((state: AppState) => state.auth.user);
   // Assign the same list to local state variable.
   const [user, setsUser] = React.useState<any>(state.currentEnvironment);
   const [company, setCurrentCompany] = React.useState<string>();
+  const [loader, setLoader] = React.useState<boolean>(false);
+
 
   // Clear the previous selection and send the company name to call login API. 
-  const selectState = (key: string) => {
-    if (key === company) {
-      return;
+    const selectState = (key: string) => {
+        if (state.selectedCompany === '')
+            setLoader(true)
+          if (key === company) {
+            return;
     }
 
     const newList = user.map((item: CompanyInfoItem) => {
@@ -35,7 +40,7 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
         const updatedItem = {
           ...item,
           selected: !item.selected,
-        };
+          };
         return updatedItem;
       }
       return item;
@@ -43,10 +48,12 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
     setsUser(newList);
     setCurrentCompany(key);
     selectCompany(key);
-  };
+    };
+
+    
 
   return (
-    <div className="main-wrapper companypage">
+      <div className="main-wrapper companypage">
       <LeftColmData></LeftColmData>
       <p className={"mobile-backto-login"}  onClick={backToLogin}>
         <a className={"txt-link"}>
@@ -64,7 +71,7 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
           <span className={"user-txt"}>Hi {state.text},</span>
           <span className={"company-txt"}>Please Select Company</span>
         </p>
-
+        {loader && <Loader /> }
         <div className={"companylist-container"}>
          <Company companies={user} doClick={selectState}></Company>
         </div>

@@ -16,12 +16,15 @@ import { AuthRequest } from "../../store/Auth/Types";
 import { AppState } from "../../store/store";
 import { Redirect } from "react-router";
 
-const LoginForm: React.FC = () => {
-  const state: AppState = useSelector((state: AppState) => state);
+import Loader from '../Shared/Loader/Loader'
 
+const LoginForm: React.FC = () => {
+    const state: AppState = useSelector((state: AppState) => state);
   const [authRequest, setValues] = React.useState<AuthRequest | {}>();
   const [company, setCompany] = React.useState<string>("");
   const [error, setError] = React.useState<boolean>(false);
+  const [loader, setLoader] = React.useState<boolean>(false);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -39,7 +42,10 @@ const LoginForm: React.FC = () => {
     if (user === '' || password === '') {
       setError(true);
     } else {
-      dispatch(auth(authRequest));
+        dispatch(auth(authRequest));
+        if (!state.auth.loginWithoutCompany) {
+            setLoader(true)
+        }
     }
   };
 
@@ -48,7 +54,8 @@ const LoginForm: React.FC = () => {
   };
 
   const backToLogin= () => {
-    dispatch(logOutSuccess());
+      dispatch(logOutSuccess());
+      setLoader(false)
   }
 
   React.useEffect(() => {
@@ -60,7 +67,7 @@ const LoginForm: React.FC = () => {
   }, [company]);
 
   return (
-    <>
+      <>
     { state.auth.login ? <Redirect to="/" /> : (state.auth.loginWithoutCompany ? <CompanySelection selectCompany={selectCompany} backToLogin={backToLogin}/> :
       <div className="main-wrapper loginpage">
           <LeftColmData></LeftColmData>
@@ -77,6 +84,7 @@ const LoginForm: React.FC = () => {
               <span className="hi-txt">Hi there!</span>
               <span className="welcomeback-txt">Welcome back...</span>
             </p>
+            {loader && <Loader />}
             {error || state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; Either your password or user id is wrong</p> : null}
             <div className="form-placeholder-container">
               <Form>

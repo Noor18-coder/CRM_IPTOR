@@ -63,8 +63,10 @@
        const response = await axios.post('/api/login', authRequest);
        if (response.status === 200) {
          const user = await User.getUserProfile();
-         user.handler = user.user;
-         
+           user.handler = user.user;
+           if (user.handler == '') {
+               const loader = true
+           }
          const companyInfo = await CompanyInfo.get();
          const newArray = companyInfo.items.map((obj: CompanyInfoItem) => { return { ...obj, selected: false } });
          if (companyInfo !== undefined && !isEmpty(companyInfo)) {

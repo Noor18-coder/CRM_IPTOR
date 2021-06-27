@@ -27,6 +27,8 @@ import { GridFilter } from '../../components/Shared/Filter/GridFilter';
 import Search from '../Shared/Search/Search';
 import ImageConfig from '../../config/ImageConfig';
 import FooterMobile from '../Shared/Footer/FooterMobile';
+import Loader from '../Shared/Loader/Loader'
+
 
 
 export interface SelectOptionMethod {
@@ -53,9 +55,11 @@ const Opportunities: React.FC = () => {
   const [refresh, setRefresh] = React.useState<boolean>(false);
   const [searchText, setSearchText] = React.useState<string>('');
   const [searchFieldValue, setSearchField] = React.useState<string>('');
+  const [loader, setLoader] = React.useState<boolean>(false);
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
 
+    
 
   const newColumns = ColumnDefs.map((obj: any) => {
     if (obj.field == "handler") {
@@ -85,8 +89,7 @@ const Opportunities: React.FC = () => {
     const res: result = {
       items: [],
       load: true
-    };
-
+      };
     const filters: OpportunityListParams = {
       handler: '',
       selectHandler:  ''
@@ -113,10 +116,8 @@ const Opportunities: React.FC = () => {
 
     if(searchText.length){
       filters.searchField = searchText;
-    }
-    
+      }
     const data: any = await OpportunityList.get(authState.user.handler, '', 20, start, orderBy, filters);
-
     if (data && data.data && data.control?.more) {
       res.items = data.data.items;
       dispatch(saveOpptyList(res.items));
@@ -129,20 +130,24 @@ const Opportunities: React.FC = () => {
       }
       dispatch(saveOpptyList(res.items));
        res.load = false;
-    }
+      }
+      setLoader(false)
     return res;
   }
 
 
   React.useEffect(() => {
     dispatch(getUsersInfo());
-    dispatch(saveOpportunityFilters(OpportunityFilterOpions))
+      dispatch(saveOpportunityFilters(OpportunityFilterOpions))
+      if (state.opportunities.length === 0)
+          setLoader(true)
   }, []);
 
   const onFilter = (obj: SelectOptionMethod) => {
     const re = !refresh;
     setRefresh(re);
-    selectFilter(obj);
+      selectFilter(obj);
+      setLoader(true)
   }
 
   const searchStart = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,7 +202,8 @@ const Opportunities: React.FC = () => {
               <button className={"btn add-opportunity"} data-toggle="modal" data-target="#myModal2">+ New</button>
             </div>}
           </div>
-          <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
+           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
+           {loader && <Loader component='opportunity'/>}
            { usersData.users && usersData.users.length ? ((isMobile || isTablet) ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
           </div>
       </section>

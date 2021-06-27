@@ -1,3 +1,102 @@
 body{
     background-color: #eef0f2; //#E5E5E5;
 }
+#loader-overlay {
+    position: fixed;
+    z-index: 9998;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: transparent;
+    cursor: progress;
+}
+#loader_container {
+    z-index: 9999;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+#loader_container_opp {
+    z-index: 9999;
+    position: absolute;
+    top: 63%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+#loader-bg {
+    height: 64px;
+    width: 64px;
+    border-radius: 4px;
+    background-color: #d3d3d3;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+#loader_part_1_cover {
+    position: absolute;
+    width: 31px;
+    height: 7.5px;
+    left: 6px;
+    top: 18px;
+    background: #00a3a5;
+    border-radius: 15.5px;
+}
+#loader_part_2_cover {
+    position: absolute;
+    width: 26px;
+    height: 7.5px;
+    left: 27px;
+    top: 28px;
+    background: #00a3a5;
+    border-radius: 15.5px;
+}
+#loader_part_3_cover {
+    position: absolute;
+    width: 20px;
+    height: 7.5px;
+    left: 22px;
+    top: 38px;
+    background: #00a3a5;
+    border-radius: 15.5px;
+}
+#loader-cover {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #d3d3d3;
+    -webkit-transform-origin: right center;
+    transform-origin: right center;
+    -webkit-animation: loader_animation 2s linear infinite;
+    animation: loader_animation 2s linear infinite;
+}
+@keyframes loader_animation {
+    0% {
+        transform: scaleX(100%);
+    }
+
+    100% {
+        transform: scaleX(0);
+    }
+}
+#loader-text {
+    color: #ffffffbf;
+    font-size: 24px;
+    line-height: 32.68px;
+    font-weight: 600;
+    text-align: center;
+}
+#loader-text_opp {
+    color: #506574d1;
+    font-size: 24px;
+    line-height: 32.68px;
+    font-weight: 600;
+    text-align: center;
+}

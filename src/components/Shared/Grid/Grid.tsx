@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { OpportunityState } from '../../../store/Opportunity/Types';
 import { AppState } from "../../../store/store";
 import { UsersData } from '../../../store/Users/Types';
+import CustomNoRowsOverlay from '../Grid/customNoRowsOverlay'
 
 interface result {
   items: OpportunityListItem[],
@@ -63,7 +64,13 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
         }
         
         const data: result = await getDataRows(params.startRow, orderByString, filterd);
-        
+        if (data.items.length === 0) {
+            gridApi.showNoRowsOverlay();
+        }
+        else {
+            if (gridApi)
+                gridApi.hideOverlay();
+        }
         if (data && data.load) {
           const rows = data.items;
           params.successCallback(rows, undefined);
@@ -71,7 +78,7 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
           const rows = data.items;
           const count = params.startRow + rows.length;
           params.successCallback(rows, count);
-        }
+          }
       }
     };
   }
@@ -121,7 +128,16 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
               defaultColDef={defaultColDef}
               columnDefs={col}
               onRowClicked={onRowClick}
-              gridOptions={defaultGridOptions}>
+              gridOptions={defaultGridOptions}
+              frameworkComponents={{
+                    customNoRowsOverlay: CustomNoRowsOverlay,
+              }}
+              noRowsOverlayComponent={'customNoRowsOverlay'}
+              noRowsOverlayComponentParams={{
+                  noRowsMessageFunc: () => 'No Records Found',
+                }}
+
+                      >
             </AgGridReact>
           </div>
         </div>
