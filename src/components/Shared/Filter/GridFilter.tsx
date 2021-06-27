@@ -10,6 +10,7 @@ import _ from 'lodash';
 import { useHistory } from 'react-router';
 import { AppState } from "../../../store/store";
 import { setOpportunityWindowActive } from '../../../store/AddOpportunity/Actions';
+import { setBusinessPartnerWindowActive } from '../../../store/AddCustomer/Actions';
 
 export interface Option {
     value: string;
@@ -87,9 +88,11 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
         selectOption(params);
     }
 
-    const openCreateOpportunityForm = () => {
+    const openForm = () => {
         if(component == 'opportunity')
             dispatch(setOpportunityWindowActive(true));
+        if (component == 'customer')
+            dispatch(setBusinessPartnerWindowActive(true));
     }
 
     const menuItems = Menu(filters, selectFilter, selected);
@@ -134,8 +137,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                                     <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
                                     <button className={'my-btn ' + classButtonMy} onClick={() => handlerChange('my')}>MY</button>
                                 </div> }
-                                <Image src={ImageConfig.ADD_ICON} onClick={openCreateOpportunityForm}/>
-                            
+                                <Image src={ImageConfig.ADD_ICON} onClick={openForm}/>
                             </div>
                     
                         <div className={'col-12 add-btn'}>

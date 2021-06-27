@@ -198,7 +198,7 @@ const BusinessPartners: React.FC = () => {
                     {((isMobile || isTablet) && searchText.length) && loader ? <Loader component='opportunity' /> : ''}
                     {((isMobile || isTablet) ?
                         <React.Fragment>
-                            <GridFilter filters={Array.from(state.businessPartnerFilters)} selected={filter} selectOption={onFilter} />
+                            <GridFilter filters={Array.from(state.businessPartnerFilters)} selected={filter} selectOption={onFilter} component="customer" />
                             <BusinessPartnerListMobile refresh={refresh} gridRowClicked={openBusinessPartnerDetails} getDataRows={fetchOppty} />
                         </React.Fragment>
                         : <React.Fragment>

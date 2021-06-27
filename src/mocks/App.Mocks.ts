@@ -6,7 +6,6 @@ import { createBusinessPartnerInitialState } from '../store/Customer/Reducer';
 import { createInitalConfigDefaultState } from '../store/InitialConfiguration/Reducers';
 import { createAddOpportunitInitialState } from '../store/AddOpportunity/Reducers';
 import { createAddBusinessPartnerInitialState } from '../store/AddCustomer/Reducers';
-import { createOpportunityDetailsInitialState } from '../store/OpportunityDetails/Reducers';
 import {createUsersData } from '../store/Users/Reducers';
 import { AppState } from '../store';
 
@@ -28,8 +27,7 @@ export class AppMock {
       businesspartners: createBusinessPartnerInitialState(),
       enviornmentConfigs: createInitalConfigDefaultState(),
       addOpportunity: createAddOpportunitInitialState(),
-      addBusinessPartner: createAddBusinessPartnerInitialState(),
-      opportuntyDetails:createOpportunityDetailsInitialState()
+      addBusinessPartner: createAddBusinessPartnerInitialState()
     };
   };
 

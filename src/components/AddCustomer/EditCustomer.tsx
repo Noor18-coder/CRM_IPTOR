@@ -117,8 +117,15 @@ const EditCustomer: React.FC<Props> = (data) => {
     const updateCustomer = async () => {
         dispatch(setBusinessPartnerLoader(true));
         if (attributes) {
-             Promise.all(attributes.map((obj) => {
+            let withoutValueAttributes = attributes.filter(item => item.valueId === undefined)
+            let withValueAttributes = attributes.filter(item => item.valueId !== undefined)
+            Promise.all(withValueAttributes.map((obj) => {
                 return Attributes.updateAttributes(customerData.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '', obj.valueId ? obj.valueId : '');
+            })).then((data) => {
+                return data;
+            });
+            Promise.all(withoutValueAttributes.map((obj) => {
+                return AddCustomerApi.addAttributes(customerData.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '');
             })).then((data) => {
                 return data;
             });
@@ -161,7 +168,7 @@ const EditCustomer: React.FC<Props> = (data) => {
             <div className="sliding-panel-container">
                 <div className="sliding-panel">
                     <div className="title-row opp-header-text">
-                        <img src={ImageConfig.CHEVRON_LEFT} className="mob-steps-back" />
+                        <img src={ImageConfig.CHEVRON_LEFT} className="mob-steps-back" onClick={closeAction} />
                         {i18n.t('editCustomer')}
                         <a className="panel-close-icon" onClick={closeAction}><img src={ImageConfig.CLOSE_BTN} /></a>
                     </div>
