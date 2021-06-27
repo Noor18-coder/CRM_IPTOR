@@ -43,7 +43,7 @@
           text-transform: uppercase;
           color:#2F3C46;
           padding:0px;
-          margin-left:64px;
+          padding-left:12px;
 
             .ag-icon{
                 
@@ -112,12 +112,11 @@
           /* identical to box height */
           text-transform: capitalize;
           color: #2F3C46;
-          text-align: center;
 
           .o-name{
              font-weight: 600;    
              text-align: left; 
-             padding-left:50px;
+             padding-left:5px;
              margin-right:90px
           }
 
@@ -130,20 +129,23 @@
               display: block;
               color: #6D899D;
               text-align: justify; 
-              padding-left:50px;
+              padding-left:5px;
           }
 
           .o-customer {
             text-align: left; 
-            padding-left:60px;
-            margin-right:90px
+          }
+
+          .o-owner {
+            text-align: left; 
           }
           .o-forecast{
               font-weight: 600;  
           }
 
           .o-quarter{
-              font-weight: 600;  
+              font-weight: 600;
+              padding-left:35px;
           }
 
           .o-size{

@@ -11,7 +11,7 @@ const OpportunityGridOptions = [{
       },{
         field: 'name',
         sortable: true,
-        headerName: 'Name and Number',
+        headerName: 'Name & Number',
         cellRenderer: (params: any) => {
           return ' <span class="o-name">' +  params.value + '</span>' +
             '<span class="o-number">' + ( params.data && params.data.opportunityId ? params.data.opportunityId  : '')  + '</span>';
@@ -31,7 +31,7 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Owner',
         cellRenderer: (params: any) => {
-          return params.value;
+          return ' <span class="o-owner">' + params.value + '</span>'
         }
       },
       {
