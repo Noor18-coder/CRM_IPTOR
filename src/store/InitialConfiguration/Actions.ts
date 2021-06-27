@@ -127,7 +127,7 @@ return async (dispatch: Dispatch, getState) => {
       Attributes.getOpportunityAttributes(),
       Attributes.getCustomerAttributes()
     ]).then((response:any) => {
-       dispatch(saveOpptyStages(response[0].items));
+      dispatch(saveOpptyStages(response[0].items));
       dispatch(saveOpptyTypes(response[1]));
       dispatch(saveCurrencies(response[2]));
       dispatch(saveOpportunityAttributes(response[3]))

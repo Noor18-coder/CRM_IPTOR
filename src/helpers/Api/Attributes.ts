@@ -15,12 +15,12 @@ export class Attributes {
   static async getOpportunityAttributes():Promise<apiModels.AttributeResponse>{
     const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile : this.opportunityAttributesFileName});
     const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
-    return get(response, 'data.data', {});
+    return get(response, 'data.data.items', []);
   }
 
-  static async getCustomerAttributes(){
+  static async getCustomerAttributes():Promise<apiModels.AttributeResponse>{
     const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile : this.customersAttributesFileName});
     const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
-    return get(response, 'data.data', {});
+    return get(response, 'data.data.items', []);
   }
 }

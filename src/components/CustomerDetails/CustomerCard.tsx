@@ -1,14 +1,18 @@
 import React from 'react';
 import { Dispatch } from "redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Accordion, Card, Image } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
+import i18n from '../../i18n'
 
 import ImageConfig from '../../config/ImageConfig';
-import { AllContactsAccordian } from './AllContactDetails'
+import { AppState } from "../../store/store";
+import { AllContactsAccordian } from './AllContactDetails';
+import { MoreInfoAccordian } from './MoreInfo'
 import * as models from '../../helpers/Api/models';
 import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, Area } from  '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
 import Container from '../AddCustomer/Container';
 import { setBusinessPartnerWindowActive } from '../../store/AddCustomer/Actions';
@@ -26,12 +30,15 @@ const CustomerCard:React.FC<Data> = (props) =>   {
   const numberOfInactiveOpportunities = props.data.numberOfInactiveOpportunities? props.data.numberOfInactiveOpportunities :0;
   const numberOfActiveOpportunities = props.data.numberOfActiveOpportunities ? props.data.numberOfActiveOpportunities :0;
   const [area, setArea] = React.useState<models.Area[]>([]);
+  const [customerMoreInfoGroup, setCustomerMoreInfoGroup] = React.useState<models.IStringList>();
 
   const dispatch: Dispatch<any> = useDispatch();
+  const state: AppState = useSelector((state: AppState) => state);
+  const customerAttributes = state.enviornmentConfigs.customerAttributes
 
   React.useEffect(() => {      
-  CustomerDetailsApi.getOwnerDetailsByName(props.data.OWNER_ID).then((data) => {
-        setOwnerDetails(data);
+    CustomerDetailsApi.getOwnerDetailsByName(props.data.OWNER_ID).then((data) => {
+            setOwnerDetails(data);
     });
     if(props.data.subsidiaryEntities) {
       Promise.all(props.data.subsidiaryEntities.map((id: any) => {
@@ -45,8 +52,23 @@ const CustomerCard:React.FC<Data> = (props) =>   {
     CustomerDetailsApi.getArea(props.data.area).then((data) => {
       setArea(data);
     });
-    
-  },[]);
+
+  OpportunityDetailsApi.getCustomerGroupInfo(props.data.businessPartner.toString()).then((data) => {
+        customerAttributes.map((item) => {
+            if (!data.some(ele => ele.attributeType === item.attributeType)) {
+                data.push({ attributeType: item.attributeType, group: item.group, attributeValue: '', description: item.description });
+            }
+        });
+        const groups = new Set(data.map((obj) => { return obj.group }));
+        let response: any = {};
+        groups.forEach((group: string) => {
+            const groupName = group.toLowerCase();
+            response[groupName] = data.filter((obj) => obj.group.toLowerCase() === groupName);
+        });
+        setCustomerMoreInfoGroup(response);
+  });
+  }, []);
+
   const [activeClass , setActiveClass] = React.useState("");
   const toggleAccordion = () => {
     setActiveClass(activeClass === "" ? "active" : "");
@@ -62,7 +84,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
           <Accordion  defaultActiveKey="0">
               <Card className="cust-details">
                 <Accordion.Toggle className={activeClass} onClick={toggleAccordion}  as={Card.Link} eventKey="1">
-                    Contact Address
+                    {i18n.t('basicInfo')}
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
                   <Card.Body className="accr-body-container">  
@@ -87,6 +109,10 @@ const CustomerCard:React.FC<Data> = (props) =>   {
               </Card>
           </Accordion>
           <Container containerType='edit' containerData={props.data} />
+        </section>
+
+        <section className="sec-info-accordion">
+            {customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} />}
         </section>
 
 
@@ -139,35 +165,34 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                {/* <li className="list-inline-item">
                <Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li> */}
              </ul></div>
-       
        </section> }
 
 
        <section className="d-flex sec-customer-desc">
-        <div className="cust-group">
-          <p>Product Family</p>
-        </div>
-        {props.data.APP_FROM_IPTOR?
-        props.data.APP_FROM_IPTOR.map((name: any) => {
-        return ( <div className="group-sec">
-          <ul className="list-inline">
-          <li className="list-inline-item"><span className="cust-info">{name}</span> </li>
-          </ul>
-        </div>)
-          }):null}
+            <div className="cust-group">
+              <p>Product Family</p>
+            </div>
+            {props.data.APP_FROM_IPTOR?
+            props.data.APP_FROM_IPTOR.map((name: any) => {
+            return ( <div className="group-sec">
+              <ul className="list-inline">
+              <li className="list-inline-item"><span className="cust-info">{name}</span> </li>
+              </ul>
+            </div>)
+              }):null}
  
-        {/* <div className="sec-status">
-        <ul className="list-inline"><li className="list-inline-item">
-        <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 
-        <Image className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li></ul>
-        </div> */}
+            {/* <div className="sec-status">
+            <ul className="list-inline"><li className="list-inline-item">
+            <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 
+            <Image className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li></ul>
+            </div> */}
       </section>
 
       <section className="sec-info-accordion">
-      <AllContactsAccordian title={' All Contact'} contactData={props.contactsData} />
-        </section>
+        <AllContactsAccordian title={' All Contact'} contactData={props.contactsData} />
+      </section>
 
-        <section className="d-flex sec-customer-desc">
+      <section className="d-flex sec-customer-desc">
         <div className="cust-group">
           <p>Opportunities</p>
         </div>
@@ -180,7 +205,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         </div>
       </section>
 
-        <section className="d-flex sec-customer-desc">
+      <section className="d-flex sec-customer-desc">
         <div className="cust-group">
           <p>Subsidiary - Entity</p>
         </div>

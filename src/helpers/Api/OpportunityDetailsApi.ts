@@ -9,6 +9,7 @@ export default class OpportunityDetailsApi {
   private static attributesFileName: string = 'SROMOPH';
   private static attributesContactFileName: string = 'SROMOPCH';
   private static attributesProductFileName: string = 'SROMOPI';
+  private static customerAttributesFileName: string = 'SRONAM';
   private static apiGroupMethod: string = 'mopAttributes.get';
   private static apiContactMethod: string = 'mopContacts.get';
   private static apiItemsMethod: string = 'mopItems.get';
@@ -20,13 +21,13 @@ export default class OpportunityDetailsApi {
    */
   static async get(opportunityId: string): Promise<apiModels.OpportunityDetailsDefault> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsParams>(this.apiMethod, { opportunityId : opportunityId });
-    const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
+    const response = await axios.post<apiModels.AttributeValuesResponse>('/api/service', requestData);
     return get(response, 'data.data', {});
   }
 
-  static async getGroupInfo(opportunityId: string): Promise<apiModels.OpportunityDetailsGroupItem[]> {
+  static async getGroupInfo(opportunityId: string): Promise<apiModels.AttributeValueObject[]> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsGroupItemParams>(this.apiGroupMethod, { parentId : opportunityId, parentFile: this.attributesFileName});
-    const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
+    const response = await axios.post<apiModels.AttributeValuesResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }
 
@@ -44,12 +45,18 @@ export default class OpportunityDetailsApi {
 
   static async getContactDetails(contactId: string): Promise<apiModels.OpportunityDetailsGroupItem[]> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsGroupItemParams>(this.apiGroupMethod, { parentId: contactId, parentFile: this.attributesContactFileName });
-    const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
+    const response = await axios.post<apiModels.AttributeValuesResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }
   static async getProductDetails(itemId: string): Promise<apiModels.OpportunityDetailsGroupItem[]> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsGroupItemParams>(this.apiGroupMethod, { parentId: itemId, parentFile: this.attributesProductFileName });
-    const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
+    const response = await axios.post<apiModels.AttributeValuesResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
+  }
+
+  static async getCustomerGroupInfo(customerId: string): Promise<apiModels.OpportunityDetailsGroupItem[]> {
+      const requestData = new ApiRequest<apiModels.OpportunityDetailsGroupItemParams>(this.apiGroupMethod, { parentId: customerId, parentFile: this.customerAttributesFileName });
+      const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
+      return get(response, 'data.data.items', []);
   }
 }

@@ -36,12 +36,12 @@ export interface OpportunityDetailsDefault {
 };
 
 export interface  OpportunityDetailsGroupItem {
-  parentFile: string;
-  parentId: string;
+  parentFile?: string;
+  parentId?: string;
   attributeType: string,
-  rootId: string,
+  rootId?: string,
   group: string,
-  valueId: string,
+  valueId?: string,
   attributeValue: string,
   description:string
 };

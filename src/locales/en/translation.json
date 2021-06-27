@@ -26,5 +26,7 @@
   "selectArea": "Select area",
   "giveNumber": "Give phone number",
   "editCustomer": "Edit Customer",
-  "update":  "Update"
+  "update": "Update",
+  "basicInfo": "Basic Info",
+  "moreInfo": "More Info"
 }

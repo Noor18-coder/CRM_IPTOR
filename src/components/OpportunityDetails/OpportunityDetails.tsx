@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { AppState } from "../../store/store";
@@ -14,48 +16,53 @@ import OpportunityInfoMobile from './OpportunityInfoMobile';
 import * as models from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import {NavSection} from '../Shared/DetailsNav/NavSection';
+import Loader from '../Shared/Loader/Loader';
+
+import {setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
+
 
 
 const OpportunityDetails: React.FC = (props: any) => {
-    const usersData: UsersData = useSelector((state: AppState) => state.users);
-
+    const state: AppState = useSelector((state: AppState) => state);
+    const dispatch: Dispatch<any> = useDispatch();
     const opptyId = props.location.state.oppid;
+    const [loading, setLoading] = React.useState<boolean>(false);
     const [defaultOpptyDetail, setDefaultOpptyDetails] = React.useState<models.OpportunityDetailsDefault>();
     const [opptyDataBasicGroup, setOpptyDataForBasicInfoGroup] = React.useState<models.OpportunityDetailsBasicInfo[]>();
-    const [opptyDataMoreInfoGroup, setOpptyDataForMoreInfoGroup] = React.useState<models.IStringList>();
+    const [opptyDataMoreInfoGroup, setOpptyDataForMoreInfoGroup] = React.useState<models.AttributeValueObject[]>();
     const [opptyDataContactInfo, setOpptyDataContactInfo] = React.useState<models.OpportunityContact[]>([]);
     const [opptyDataProductInfo, setOpptyDataProductInfo] = React.useState<models.Product[]>([]);
 
     const getName = (str: string) => {
-        const userObj = usersData.users.find((obj) => obj.handler === str);
+        const userObj = state.users.users.find((obj) => obj.handler === str);
         return userObj?.description ? userObj?.description : '';
     }
 
+    const fetchOpportunityDetails = async (opptyId:string) => {
+        setLoading(true);
+        dispatch(setLoadingMask());
+        const opptyDetails:models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opptyId);
+        setDefaultOpptyDetails(opptyDetails);
+        getBasicInfo(opptyDetails);
+        const attributeValues:models.AttributeValueObject[] =  await OpportunityDetailsApi.getGroupInfo(opptyId);
+        setOpptyDataForMoreInfoGroup(attributeValues);
+        dispatch(removeLoadingMask());
+        setLoading(false);
+    }
+
     React.useEffect(() => {
-        OpportunityDetailsApi.get(opptyId).then((data) => {
-            setDefaultOpptyDetails(data);
-            getBasicInfo(data);
+        
+        fetchOpportunityDetails(opptyId);
+        
+        OpportunityDetailsApi.getOpportunityContact(opptyId).then((data) => {
+            setOpptyDataContactInfo(data);
         });
 
-
-    OpportunityDetailsApi.getGroupInfo(opptyId).then((data) => {
-        const groups = new Set(data.map((obj) => { return obj.group }));
-        let response:any = {};
-        groups.forEach((group:string) => {
-            const groupName = group.toLowerCase();
-            response[groupName] = data.filter((obj) => obj.group.toLowerCase() === groupName);
+        OpportunityDetailsApi.getOpportunityItems(opptyId).then((data) => {
+            setOpptyDataProductInfo(data)
         });
-        setOpptyDataForMoreInfoGroup(response);
-    });
-    OpportunityDetailsApi.getOpportunityContact(opptyId).then((data) => {
-        setOpptyDataContactInfo(data);
-    });
 
-    OpportunityDetailsApi.getOpportunityItems(opptyId).then((data) => {
-        setOpptyDataProductInfo(data)
-    });
-    
-}, []);
+    }, []);
 
     const getBasicInfo = (basicInfo: models.OpportunityDetailsDefault) => {
         const data: models.OpportunityDetailsBasicInfo[] = [];
@@ -84,19 +91,20 @@ const OpportunityDetails: React.FC = (props: any) => {
     return (
         <>
             <Header page={1}/>
-            <section className="main-wrapper opportunity">
+            { loading ?  <Loader component='opportunity'/> :
+                <section className="main-wrapper opportunity">
                 <div className="container-fluid">
                     <NavSection backToOpportunityList={backToOpportunityList} />
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
                     {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">
                         {opptyDataBasicGroup?.length ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} /> : null}
-                        {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} /> : null}
+                        {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} /> : null} 
                         <ProductAccordian title={'Products & Modules'} data={opptyDataProductInfo} />
                         <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} />                         
                     </section>
                 </div>
-            </section>
+            </section> }
             <Footer />
         </>
     )
