@@ -198,7 +198,7 @@ const Opportunities: React.FC = () => {
             </div>}
           </div>
           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} /> 
-          { usersData.users && usersData.users.length && (isMobile || isTablet) ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid>  }
+           { usersData.users && usersData.users.length ? ((isMobile || isTablet) ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
           </div>
       </section>
    

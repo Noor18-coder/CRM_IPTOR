@@ -84,7 +84,7 @@ const LoginForm: React.FC = () => {
                   <Form.Label>User ID</Form.Label>
                   <Form.Control
                     className="form-control"
-                    placeholder="lynda.john"
+                    placeholder="Enter UserId"
                     id="user"
                     type="text"
                     onChange={handleChange}
