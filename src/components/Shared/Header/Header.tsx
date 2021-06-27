@@ -21,13 +21,13 @@ const Header = () => {
     }
 
     const popover = (
-        <Popover id="popover-basic">
+        <Popover id="popover-basic" className="tool-tip">
           <Popover.Content>
             { state.description}
           </Popover.Content>
           <Popover.Content>
             <a onClick={userProfileActions} role="button">
-            Logout <Image height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor"/>              
+            Logout <Image className="logout-image" height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor"/>              
             </a>
           </Popover.Content>
         </Popover>

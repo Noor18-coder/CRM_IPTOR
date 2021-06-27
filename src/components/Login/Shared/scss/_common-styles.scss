@@ -96,12 +96,6 @@ form {
             @include border-radius($border-radius);
         }
 
-        &:last-child {
-            margin-bottom: 100px !important;
-            border-bottom: solid 1px red;
-        }
-
-
     }
 
     .iptor-login-btn {
@@ -172,4 +166,20 @@ form {
         background: $persian-green;
         color: $white;
     }
+}
+
+.tool-tip {
+    transform: translate(1102px, 66px);
+    font-family: Open Sans;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 28px;
+}
+.arrow {
+    left: 30px;
+ }
+
+.logout-image {
+    padding-left: 50px;
+    vertical-align: middle;
 }

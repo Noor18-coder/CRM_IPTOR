@@ -3,6 +3,7 @@ import { OpportunityDetailsDefault } from '../../helpers/Api/models';
 import {getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import ImageConfig from '../../config/ImageConfig';
 import OpportunityStages from '../../config/OpportunityStages';
+import {useHistory} from "react-router-dom";
 export interface Data {
 
   data:OpportunityDetailsDefault
@@ -10,11 +11,15 @@ export interface Data {
 }
 
 const OpportunityInfoMobile:React.FC<Data> = (props) => {
+  const history = useHistory();
+  const backToOpportunityList= () => {
+      history.goBack()
+    }
     return (
         // <!-- SECTION MOBILE PRODUCT NAME CARD START -->
         <section className="opp-product-mobilecard">
         <div className="d-flex justify-content-between product-name-action-row">
-          <div className="lft-prodname">
+          <div className="lft-prodname" onClick={backToOpportunityList}>
             <p>{props.data.customerName}  <span className="id-num">{props.data.customer} </span><span className="location">{props.data.handler}, NA</span></p>
           </div>
           <div className="rgt-actioncol">

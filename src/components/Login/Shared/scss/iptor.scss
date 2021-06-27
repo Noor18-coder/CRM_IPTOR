@@ -1,6 +1,7 @@
 @import 'reset';
 @import 'mixins';
 @import 'global-variables';
+@import "~bootstrap/scss/bootstrap";
 
 /* width */
 ::-webkit-scrollbar {
@@ -353,4 +354,9 @@ body {
     border: none;
     color: #00A3A5;
     background-color: #FFf;
+}
+
+.list-inline {
+    display: inline-block;
+    padding-left: 28px;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion, Card } from 'react-bootstrap'
+import { Accordion, Card} from 'react-bootstrap'
 import { OpportunityDetailsGroupItem } from '../../helpers/Api/models';
 
 interface Props {
@@ -15,15 +15,18 @@ const InfoAccordion: React.FC<Props> = ({ title, data }) => {
           {title}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
-          <Card.Body className="accr-body-container">
-            <ul className="list-inline bdy-list-item">
-              {
-                data.map((obj) => {
-                  return <li className="list-inline-item"><span>{obj.description}</span>{obj.attributeValue ? obj.attributeValue : 'NA'}</li>
-                })
-              }
-            </ul>
-          </Card.Body>
+          <div className="accr-body-container">
+            {data.map((obj) => {
+              return (
+                <ul className="list-inline bdy-list-item">
+                  <li className="list-inline-item">
+                    <span>{obj.description}</span>
+                    {obj.attributeValue ? obj.attributeValue : "NA"}
+                  </li>
+                </ul>
+              );
+            })}
+          </div>
         </Accordion.Collapse>
       </Card>
     </Accordion>
