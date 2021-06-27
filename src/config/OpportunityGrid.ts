@@ -39,7 +39,7 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Stage',
         cellRenderer: (params: any) => {
-          return ' <span class="o-stage">' +  params.value ? params.value : ''+ '</span>'
+          return ' <span class="o-stage">' +  params.value ? ' <span class="stage">' + params.value : ''+ '</span>'
         }
         
       },

@@ -3,6 +3,8 @@ import configureStore, { MockStore, MockStoreCreator } from "redux-mock-store";
 import { createAuthInitialState } from '../store/Auth/Reducers';
 import { createOpportunityInitialState } from '../store/Opportunity/Reducers';
 import { createBusinessPartnerInitialState } from '../store/Customer/Reducer';
+import { createInitalConfigDefaultState } from '../store/InitialConfiguration/Reducers';
+import { createAddOpportunitInitialState } from '../store/AddOpportunity/Reducers';
 import {createUsersData } from '../store/Users/Reducers';
 import { AppState } from '../store';
 
@@ -22,6 +24,8 @@ export class AppMock {
       users: createUsersData(),
       opportunities: createOpportunityInitialState(),
       businesspartners: createBusinessPartnerInitialState(),
+      enviornmentConfigs: createInitalConfigDefaultState(),
+      addOpportunity: createAddOpportunitInitialState()
     };
   };
 

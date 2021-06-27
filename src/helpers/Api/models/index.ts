@@ -7,4 +7,8 @@ export * from './Users';
 export * from './StageInfo'; 
 export * from './Contacts';
 export * from './Product';
-export * from './CustomerDetails'
+export * from './Customer';
+export * from './OpportunityTypes';
+export * from './CustomerDetails';
+export * from './AddOpportunity';
+export * from './UserDefinedFields';

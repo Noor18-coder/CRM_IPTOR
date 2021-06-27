@@ -68,7 +68,7 @@ const OpportunityDetails: React.FC = (props: any) => {
                 case 'stage': data.push({ description: 'Stage', 'attributeValue': value }); break;
                 case 'currency': data.push({ description: 'Currency', 'attributeValue': value }); break;
                 case 'endDate': data.push({ description: 'Close Date', 'attributeValue': value }); break;
-                case 'oppRecordType': data.push({ description: 'Record Type', 'attributeValue': value }); break;
+                case 'oppRecordType': data.push({ description: 'Opportunity Type', 'attributeValue': value }); break;
                 case 'estimatedValue': data.push({ description: 'Opp Value', 'attributeValue': value + '' }); break;
             }
         });

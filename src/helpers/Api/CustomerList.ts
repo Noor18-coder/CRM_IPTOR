@@ -22,6 +22,6 @@ export default class BusinessPartnerList {
         };
         const requestData = new ApiRequest<BusinessPartnerListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });
         const response = await axios.post<BusinessPartnerListResponse>('/api/service', requestData);
-        return get(response, 'data');
+        return get(response,'data');
     }
 }

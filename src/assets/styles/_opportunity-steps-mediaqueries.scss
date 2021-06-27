@@ -1,0 +1,472 @@
+@media (max-width: 320px) {
+    .sliding-panel-container {
+        position: absolute;
+        top:0;
+        bottom:0;
+        width: 100%;
+        z-index: 1000;
+
+        .sliding-panel {
+            width: 100%;
+            // position: relative;
+
+            .title-row {
+                padding-left: 35px;
+
+                .panel-close-icon {
+                    display: none;
+                }
+            }
+
+            .opportunity-step-circles {
+                position: absolute;
+                top: 17px;
+                right: 10px;
+                padding: 0;
+
+                .step-circles {
+                    .steps {
+                        width: 32px;
+                        height: 32px;
+                        padding-top: 8px;
+                        margin-right: 0px;
+                        position: relative;
+
+                        font: {
+                            size: $base-font-size;
+                        }
+
+                        &.active {
+                            font: {
+                                size: $base-font-size;
+                            }
+                        }
+
+                        &::after {
+                            width: 14px;
+                            left: 31px;
+                            top: 14px;
+                        }
+
+                        .num {
+                            position: absolute;
+                            top: 8px;
+                            left: 11px;
+                        }
+
+                        .checked {
+                            position: absolute;
+                            top: 5px;
+                            left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .opportunity-forms {
+                margin-top: 16px;
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+
+                .all-opportunity-steps-container {
+                    height: calc(100vh - 210px);
+                }
+            }
+
+
+        }
+    }
+}
+
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 321px) and (max-width: 767.98px) {
+    .sliding-panel-container {
+        position: absolute;
+        top:0;
+        bottom:0;
+        width: 100%;
+        z-index: 1000;
+
+        .sliding-panel {
+            width: 100%;
+            // position: relative;
+
+            .title-row {
+                padding-left: 40px;
+
+                .panel-close-icon {
+                    display: none;
+                }
+            }
+
+            .opportunity-step-circles {
+                position: absolute;
+                top: 17px;
+                right: 10px;
+                padding: 0;
+
+                .step-circles {
+                    .steps {
+                        width: 32px;
+                        height: 32px;
+                        padding-top: 8px;
+                        margin-right: 10px;
+                        position: relative;
+
+                        font: {
+                            size: $base-font-size;
+                        }
+
+                        &.active {
+                            font: {
+                                size: $base-font-size;
+                            }
+                        }
+
+                        &::after {
+                            width: 14px;
+                            left: 31px;
+                            top: 14px;
+                        }
+
+                        .num {
+                            position: absolute;
+                            top: 8px;
+                            left: 11px;
+                        }
+
+                        .checked {
+                            position: absolute;
+                            top: 5px;
+                            left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .opportunity-forms {
+                margin-top: 16px;
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+
+                .all-opportunity-steps-container {
+                    height: calc(100vh - 210px);
+                }
+            }
+
+
+        }
+    }
+}
+
+@media (max-width: 767.98px) and (orientation:landscape) {
+    .sliding-panel-container {
+        position: absolute;
+        top:0;
+
+        .sliding-panel {
+            width: 100%;
+            // position: relative;
+
+            .title-row {
+                .panel-close-icon {
+                    display: none;
+                }
+            }
+
+            .opportunity-step-circles {
+                position: absolute;
+                top: 17px;
+                right: 10px;
+                padding: 0;
+
+                .step-circles {
+                    .steps {
+                        width: 32px;
+                        height: 32px;
+                        padding-top: 8px;
+                        margin-right: 10px;
+                        position: relative;
+
+                        font: {
+                            size: $base-font-size;
+                        }
+
+                        &.active {
+                            font: {
+                                size: $base-font-size;
+                            }
+                        }
+
+                        &::after {
+                            width: 14px;
+                            left: 31px;
+                            top: 14px;
+                        }
+
+                        .num {
+                            position: absolute;
+                            top: 8px;
+                            left: 11px;
+                        }
+
+                        .checked {
+                            position: absolute;
+                            top: 5px;
+                            left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .opportunity-forms {
+                margin-top: 16px;
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+            }
+
+
+        }
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .sliding-panel-container {
+        .sliding-panel {
+            width: 100%;
+            // position: relative;
+
+            .title-row {
+                .panel-close-icon {
+                    display: none;
+                }
+            }
+
+            .opportunity-step-circles {
+                position: absolute;
+                top: 17px;
+                right: 10px;
+                padding: 0;
+
+                .step-circles {
+                    .steps {
+                        width: 32px;
+                        height: 32px;
+                        padding-top: 8px;
+                        margin-right: 10px;
+                        position: relative;
+
+                        font: {
+                            size: $base-font-size;
+                        }
+
+                        &.active {
+                            font: {
+                                size: $base-font-size;
+                            }
+                        }
+
+                        &::after {
+                            width: 14px;
+                            left: 31px;
+                            top: 14px;
+                        }
+
+                        .num {
+                            position: absolute;
+                            top: 8px;
+                            left: 11px;
+                        }
+
+                        .checked {
+                            position: absolute;
+                            top: 5px;
+                            left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .opportunity-forms {
+                margin-top: 16px;
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+
+                .all-opportunity-steps-container {
+                    height: calc(100vh - 210px);
+                }
+            }
+
+
+        }
+    }
+}
+
+@media (max-width: 991.98px) and (orientation:landscape) {
+    .sliding-panel-container {
+        .sliding-panel {
+            width: 100%;
+            // position: relative;
+
+            .title-row {
+                .panel-close-icon {
+                    display: none;
+                }
+            }
+
+            .opportunity-step-circles {
+                position: absolute;
+                top: 17px;
+                right: 10px;
+                padding: 0;
+
+                .step-circles {
+                    .steps {
+                        width: 32px;
+                        height: 32px;
+                        padding-top: 8px;
+                        margin-right: 10px;
+                        position: relative;
+
+                        font: {
+                            size: $base-font-size;
+                        }
+
+                        &.active {
+                            font: {
+                                size: $base-font-size;
+                            }
+                        }
+
+                        &::after {
+                            width: 14px;
+                            left: 31px;
+                            top: 14px;
+                        }
+
+                        .num {
+                            position: absolute;
+                            top: 8px;
+                            left: 11px;
+                        }
+
+                        .checked {
+                            position: absolute;
+                            top: 5px;
+                            left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .opportunity-forms {
+                margin-top: 16px;
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+
+                .all-opportunity-steps-container {
+                    height: calc(100vh - 210px);
+                }
+            }
+
+
+        }
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .sliding-panel-container {
+        .sliding-panel {
+            width: 100%;
+            // position: relative;
+
+            .title-row {
+                padding-left: 40px;
+                .panel-close-icon {
+                    display: none;
+                }
+            }
+
+            .opportunity-step-circles {
+                position: absolute;
+                top: 17px;
+                right: 10px;
+                padding: 0;
+
+                .step-circles {
+                    .steps {
+                        width: 32px;
+                        height: 32px;
+                        padding-top: 8px;
+                        margin-right: 10px;
+                        position: relative;
+
+                        font: {
+                            size: $base-font-size;
+                        }
+
+                        &.active {
+                            font: {
+                                size: $base-font-size;
+                            }
+                        }
+
+                        &::after {
+                            width: 14px;
+                            left: 31px;
+                            top: 14px;
+                        }
+
+                        .num {
+                            position: absolute;
+                            top: 8px;
+                            left: 11px;
+                        }
+
+                        .checked {
+                            position: absolute;
+                            top: 5px;
+                            left: 6px;
+                        }
+                    }
+                }
+            }
+
+            .opportunity-forms {
+                margin-top: 16px;
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+
+                .all-opportunity-steps-container {
+                    height: calc(100vh - 210px);
+                }
+            }
+
+
+        }
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {}

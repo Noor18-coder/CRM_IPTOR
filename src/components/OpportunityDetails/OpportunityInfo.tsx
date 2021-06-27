@@ -30,7 +30,7 @@ const OpportunityInfo:React.FC<Data> = (props) =>   {
           <ul className="list-inline">
             <li className="list-inline-item">close quarter<span>{getQuarterOfYearFromDate(props.data.endDate)}</span></li>
             <li className="list-inline-item">Opportunity Value<span>{getCurrencySymbol(props.data.currency) + ' ' + props.data.currentValue}</span></li>
-            <li className="list-inline-item">Record Type<span>{props.data.oppRecordType}</span></li>
+            <li className="list-inline-item">Opportunity Type<span>{props.data.oppRecordType}</span></li>
           </ul>
         </div>
 

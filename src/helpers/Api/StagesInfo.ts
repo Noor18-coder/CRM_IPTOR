@@ -15,7 +15,6 @@ export class StagesInfo {
    static async get(): Promise<StageInfoResponse> {
       const requestData = new ApiRequest(this.apiMethod);
       const response = await axios.post<StageInfoResponse>('/api/service', requestData);
-      console.log(response);
       return get(response, 'data.data',[]);
     }
   

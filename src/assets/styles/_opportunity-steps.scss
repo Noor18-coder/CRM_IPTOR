@@ -1,0 +1,323 @@
+.new-opportunity-btn {
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 48px;
+    background: #EB617C;
+    border-radius: 4px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    justify-content: center;
+    box-shadow: none;
+
+    &:hover {
+        color: #fff;
+    }
+
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+
+
+    
+.sliding-panel-container {
+    
+
+
+
+    .sliding-panel {
+        
+   
+        top: 0;
+        background: #fff;
+        width: 400px;
+        z-index: 1041;
+
+        .title-row {
+            padding: 24px;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+            position: relative;
+
+            .panel-close-icon {
+                position: absolute;
+                right: 24px;
+                top: 24px;
+            }
+
+            .mob-steps-back{
+                position: absolute;
+                left: 12px;
+                top: 20px;
+            }
+        }
+
+        .all-opportunity-steps-container {
+            
+            overflow-y: auto;
+            padding-right: 24px;
+
+        .opportunity-step-circles {
+            padding: 32px 24px 24px 24px;
+
+            .step-circles {
+                .steps {
+                    @include border-radius(50%);
+                    width: 51px;
+                    height: 51px;
+                    background: $mercury;
+                    color: $gull-gray;
+                    margin-right: 26px;
+                    position: relative;
+
+                    font: {
+                        size: $base-font-size + 8;
+                    }
+
+                    text-align: center;
+                    padding-top: 8px;
+
+                    &.active {
+                        background: $aqua-spring;
+                        border: solid 1px $persian-green;
+                        color: $persian-green;
+
+                        font: {
+                            size: $base-font-size + 8;
+                            weight: $font-weight-semibold;
+                        }
+                    }
+
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        height: 1px;
+                        width: 31px;
+                        background: $geyser;
+                        left: 50px;
+                        top: 26px;
+                    }
+
+                    &:last-child {
+                        &::after {
+                            display: none;
+                        }
+                    }
+
+                    &.circle-stepone,
+                    &.circle-steptwo,
+                    &.circle-stepthree {
+                        .checked {
+                            display: none;
+                            img{
+                                width: 20px;
+                                height: auto;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .opportunity-forms {
+            padding-left: 24px;
+
+            .stepone-title,
+            .steptwo-title,
+            .stepthree-title {
+                color: $bermuda-gray;
+
+                font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-regular;
+                }
+            }
+
+            .steptwo-title,
+            .stepthree-title {
+                display: none;
+            }
+
+           
+
+                .steps-one-forms {
+                    //   display: none;
+                }
+
+                .steps-two-forms {
+                    display: block;
+                }
+
+                .steps-three-forms {
+                    display: block;
+
+                    .radiogrp-btns {
+                        label {
+                            font: {
+                                weight: $font-weight-semibold;
+                            }
+
+                            padding: 24px;
+                            background: url(../images/uncheck_circle.svg) no-repeat 94% 25px;
+                        }
+
+                        input[type="radio"]:checked+label {
+                            background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
+                            border: solid 1px $persian-green;
+                            color: $limed-spruce;
+
+                            font: {
+                                weight: $font-weight-semibold;
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+            .step-nextbtn-with-arrow {
+                margin-top: 24px;
+                margin-bottom:20px;
+
+                .stepone-next-btn {
+                    background: $limed-spruce;
+                    color: $white;
+                    padding: 12px 24px;
+                    display: block;
+                    text-align: center;
+                    @include border-radius($border-radius);
+                    position: relative;
+
+                    font: {
+                        family: $base-font-family;
+                        size: $base-font-size;
+                        weight: $font-weight-semibold;
+                    }
+
+                    .right-whit-arrow {
+                        position: absolute;
+                        right: 8px;
+                        top: 8px;
+                    }
+
+                    &:hover {
+                        text-decoration: none;
+                        outline: none;
+                        border: none;
+                    }
+
+                    &.done{
+                        background: $mandy;
+                    }
+                }
+
+                .stepstwo-nxtbtn,
+                .stepthree-nxtbtn {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.radiobtn-collection {
+
+    .title {
+        color: $blue-bayoux;
+        margin-bottom: 16px;
+
+        font: {
+            size: $base-font-size + 2;
+            weight: $font-weight-semibold;
+        }
+    }
+
+    .radiogrp-btns {
+        input[type="radio"] {
+            display: none;
+
+            &:not(:disabled)~label {
+                cursor: pointer;
+            }
+        }
+
+        label {
+            height: 100%;
+            display: block;
+            background: white;
+            border: 1px solid $blue-bayoux;
+            @include border-radius($border-radius);
+            padding: 28px 24px;
+            margin-bottom: 1rem;
+            //margin: 1rem;
+            text-align: left;
+            position: relative;
+            color: $blue-bayoux;
+
+            span {
+                display: block;
+                color: $limed-spruce;
+
+                font: {
+                    size: $base-font-size - 5;
+                }
+            }
+        }
+
+        input[type="radio"]:checked+label {
+            background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
+            border: solid 1px $persian-green;
+            color: $limed-spruce;
+
+            font: {
+                weight: $font-weight-semibold;
+            }
+        }
+
+        // input[type="radio"]#control_05:checked+label {
+        //     background: red;
+        //     border-color: red;
+        // }
+    }
+}
+
+
+.radiogrp-btns {
+    .btn-group-toggle {
+        width: 100%;
+
+        label {
+            margin-bottom: 0;
+
+            &.btn-primary {
+                background: $white;
+                border-color: $blue-bayoux;
+
+                &.active {
+                    background: $blue-bayoux;
+                }
+            }
+
+            &.btn-primary:not(:disabled):not(.disabled).active {
+                border-color: transparent;
+                box-shadow: none;
+                outline: none;
+            }
+
+            &.btn-primary:not(:disabled):not(.disabled):active {
+                background: $white;
+                border-color: transparent;
+            }
+        }
+    }
+}

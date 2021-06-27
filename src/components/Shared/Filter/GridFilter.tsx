@@ -39,7 +39,8 @@ const MenuItem: React.FC<MenuItemPRops> = ({ obj, selected, onSelect }) => {
 };
 
 export const Menu = (list: Option[], selectOption: any, selected?: Option) => {
-    return list.map(el => {
+    let updatedList = [...new Set(list)]
+    return updatedList.map(el => {
         return <MenuItem obj={el} key={el.value} selected={selected} onSelect={selectOption} />;
     });
 }
@@ -92,15 +93,16 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                             </div>
                         </div>
                         <div className={'col-10'}>
-                         
                             <ScrollMenu
-                                    data={menuItems}
-                                    arrowLeft={ArrowLeft}
-                                    itemClass={'btn filter-items'}
-                                    itemClassActive={'btn-active'}
-                                    selected={selected.value}
-                                    arrowRight={ArrowRight}
-                                    menuClass="custom-menu">
+                                data={menuItems}
+                                arrowLeft={ArrowLeft}
+                                itemClass={'btn filter-items'}
+                                itemClassActive={'btn-active'}
+                                selected={selected.value}
+                                arrowRight={ArrowRight}
+                                menuClass="custom-menu"
+                                translate={58.8688}
+                            >
                             </ScrollMenu>
                         </div>
                     </div>

@@ -26,3 +26,19 @@ export interface CustomerDetailsParams {
 export interface CustomerDetailsDefaultResponse {
        data: CustomerDetailsDefault[]  
 }
+
+export interface  CustomerDetailsGroupItem {
+    parentFile: string;
+    parentId: string;
+    attributeType: string,
+    rootId: string,
+    group: string,
+    valueId: string,
+    attributeValue: string,
+    description:string
+};
+
+  export interface CustomerDetailsItemParams {
+    parentFile: string, 
+    parentId: string
+  }

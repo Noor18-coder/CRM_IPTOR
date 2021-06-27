@@ -3,15 +3,18 @@ import {Accordion, Card, Image}  from 'react-bootstrap';
 import ImageConfig from '../../config/ImageConfig';
 import {GroupSection} from '../CustomerDetails/Shared/GroupSection';
 import { useMediaQuery } from 'react-responsive';
-import { CustomerDetailsDefault } from  '../../helpers/Api/models';
+import { CustomerDetailsDefault, CustomerDetailsGroupItem } from  '../../helpers/Api/models';
 
 export interface Data {
-  data:CustomerDetailsDefault
+  data:CustomerDetailsDefault,
+  ownerData:CustomerDetailsGroupItem[]
 }
 
 const CustomerCard:React.FC<Data> = (props) =>   {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
+  const OwnerObj = props.ownerData.find((obj) => obj.attributeType === 'OWNER_ID');
+  const ownerName= OwnerObj?.attributeValue;
     return (
       <>
         <section className="sec-info-accordion">
@@ -41,7 +44,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         <div className="lft-col">
             Account owner
            <span>
-             Tom Coudyzer
+           {ownerName}
          </span>
         </div>
         
@@ -78,7 +81,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
            <section className="d-flex justify-content-between sec-customer-desc">
            <div className="accr-body-container">  
                <ul className="list-inline bdy-list-item">
-               <li className="list-inline-item"><span>Account owner</span>Tom Coudyzer</li>
+               <li className="list-inline-item"><span>Account owner</span>{ownerName}</li>
                <li className="list-inline-item"><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />&nbsp; &nbsp;+46 93801093</li>
                <li className="list-inline-item"><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" />&nbsp;&nbsp; tomcoudyzer@iptor.com</li>
                {/* <li className="list-inline-item">
@@ -112,7 +115,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
           <Card className="contact-class">
           <Accordion.Toggle as={Card.Link} eventKey="1">
             All Contact
-            <span className="cust-info">03 CONTACTS</span>
+            <span className="cust-info"><span>03 CONTACTS</span></span>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="1">
             <Card className="accordian-card">

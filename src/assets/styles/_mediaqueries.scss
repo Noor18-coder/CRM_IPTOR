@@ -3,6 +3,59 @@
 // Small devices (landscape phones, 576px and up)
 @media (max-width: 767.98px) {
     .main-wrapper {
+        .sec-customer-desc {
+                display:inherit !important;
+                .cust-name,.group-sec {
+                    width:100% !important;
+                }
+                .group-sec {
+                    border-top: solid 1px $mercury;
+                    padding:16px 0 4px 0;
+                    ul{
+                        margin-bottom: 0;
+                        li{
+                            margin-bottom: 24px;
+                            display: inline-block;
+                            span{
+                                padding-right:16px;
+                                padding-left:16px;
+                                margin-right: 0;
+        
+                            }
+                        }
+                    }
+                }
+               
+                
+                    
+            }
+
+            .sec-info-accordion {
+                .accordion{
+                    .contact-class{
+                        .card-link{
+                            .cust-info{
+                                display: block;
+                                margin-top: 16px;
+                                left: 0;
+                                background: transparent;
+                                padding-left:0;
+                                border-top: solid 1px $mercury;
+                                padding-top: 24px;
+
+                                span{
+                                    background:#EEF0F2;
+                                    padding: 8px 16px;
+                                    border-radius: 24px;
+
+                    
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
 
         &.loginpage {
             height: 100vh;

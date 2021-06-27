@@ -22,6 +22,10 @@ import DEL_ICON from '../assets/images/close.svg';
 import ADD_BTN from '../assets/images/add_btn.svg';
 import PHONE from '../assets/images/phone.svg';
 import MAIL  from '../assets/images/mail.svg';
+import CLOSE_BTN from '../assets/images/close.svg';
+import CHEVRON_LEFT from '../assets/images/chevron-left-black.svg';
+import CHEVRON_LEFT_WHITE from '../assets/images/chevron-left-white.svg';
+import CHEVRON_RIGHT_WHITE from '../assets/images/chevron-right-white.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -47,7 +51,11 @@ import MAIL  from '../assets/images/mail.svg';
     DEL_ICON:DEL_ICON,
     ADD_BTN:ADD_BTN,
     PHONE:PHONE,
-    MAIL:MAIL
+    MAIL:MAIL,
+    CLOSE_BTN:CLOSE_BTN,
+    CHEVRON_LEFT:CHEVRON_LEFT,
+    CHEVRON_LEFT_WHITE:CHEVRON_LEFT_WHITE,
+    CHEVRON_RIGHT_WHITE:CHEVRON_RIGHT_WHITE
 };
 
 export default ImageConfig;

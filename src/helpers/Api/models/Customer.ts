@@ -24,12 +24,12 @@ export interface BusinessPartnerFilterItem {
 }
 
 export interface BusinessPartnerListResponse {
-    data: {
+    
         control?: {
             total: number
         },
         data: {
             items: BusinessPartnerListItem[]
         }
-    }
+    
 }
