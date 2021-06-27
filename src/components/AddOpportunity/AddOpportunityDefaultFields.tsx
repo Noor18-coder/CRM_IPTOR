@@ -14,6 +14,7 @@ import { BusinessPartnerListItem,  BusinessPartnerFilterItem } from '../../helpe
 import CustomerList from '../../helpers/Api/CustomerList';
 import {saveOpportunityParams} from '../../store/AddOpportunity/Actions';
 
+
 interface Props {
     changeStep: (num: number) => void
 }
@@ -24,7 +25,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     const dispatch: Dispatch<any> = useDispatch();
     const [selectedOpportunityType, selectOpportunityType] = React.useState('');
     const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
-
+    
 
     const onChangeCustomerInput = () => { }
 
@@ -38,6 +39,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
         setOpportunityField({
             ...opportunity,
             customer: selectItem.businessPartner});
+        
     }
 
     const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
@@ -45,6 +47,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
           ...opportunity,
           [e.currentTarget.id]: e.currentTarget.value,
         });
+        
     };
 
     const onOpportunityTypeSelect = (type:string) => {
@@ -53,11 +56,24 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
           oppRecordType: type
         });
         selectOpportunityType(type);
+       
     };
 
     const onNextButtonClick = () => {
-        changeStep(2);
-        dispatch(saveOpportunityParams(opportunity));
+        if(validate()){
+            changeStep(2);
+            dispatch(saveOpportunityParams(opportunity));
+        }else {
+            alert('Please fill all mandatory fields.')
+        }
+       
+    }
+
+    const validate = () => {
+        if(opportunity?.desc && opportunity?.oppRecordType && opportunity?.customer && opportunity?.stage){
+            return true;
+        }
+        return false;
     }
     
 
@@ -75,14 +91,12 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
             </div>
             <div className="opportunity-forms">
                 <p className="stepone-title">Opportunity Name &amp; Type</p>
-                <p className="steptwo-title">Opportunity Details</p>
-                <p className="stepthree-title">Select Product &amp; Modules</p>
-
+                
                 <div className="">
                     <div className="steps-one-forms">
                         <form>
                             <div className="form-group oppty-form-elements">
-                                <p className="title">Select opportunity type</p>
+                                <p className="title">Opportunity Name</p>
                                 <input type="text" className="form-control" placeholder="Give opportunity a name" id="desc" onChange={onInputValueChange} />
                             </div>
                             <div className="form-group oppty-form-elements">
@@ -92,7 +106,6 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
 
                             <div className="form-group oppty-form-elements">
                                 <label>Add customer contact <span className="float-right font-italic opt-field">(Optional field)</span></label>
-
                                 <select className="form-control iptor-dd" id="slct-stage">
                                     {/* <option disabled selected>Type or Select a customer</option> */}
                                     {/* {state.customers.customers.map((obj: models.CustomerListItem) => {
@@ -113,7 +126,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
 
                             <div className="radiobtn-collection">
                                 <p className="title">Select opportunity type</p>
-                                <div className="radiogrp-btns">
+                                <div className="opportunity-type-container">
                                     {state.enviornmentConfigs.crmOpportunityTypes.length ?
                                         <OpportunityTypeList opptyTypes={state.enviornmentConfigs.crmOpportunityTypes} doClick={onOpportunityTypeSelect} selected={selectedOpportunityType} /> 
                                         : <div>
@@ -123,7 +136,6 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                                     }
                                 </div>
                             </div>
-
                         </form>
                     </div>
                     <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={ onNextButtonClick}>

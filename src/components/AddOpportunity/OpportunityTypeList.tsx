@@ -11,19 +11,19 @@ export interface Props {
 
 export const OpportunityTypeList: React.FC<Props> = ({ opptyTypes, doClick, selected }) => {
   return (
-    <ul className="companys-list-item">
+    <ul className="opptytype-list-item">
       {opptyTypes.map((obj:OpportunityType) => {
         return (
-          <li key={obj.oppRecordType}  onClick={() => doClick(obj.oppRecordType)}>
+          <li key={obj.description}  onClick={() => doClick(obj.description)}>
             <div
               className={"company-container"}
-              key={obj.oppRecordType}
+              key={obj.description}
             >
               <div className={"center"}>
                 <div className={"test"}>{obj.oppRecordType}</div>
                 <Image
                   className={"company-selection-img"}
-                  style={{ display: obj.oppRecordType  === selected ? "block" : "none" }}
+                  style={{ display: obj.description  === selected ? "block" : "none" }}
                   src={VectorImg}
                   alt="company"
                   title="company"

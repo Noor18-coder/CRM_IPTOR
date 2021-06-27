@@ -11,4 +11,4 @@ export * from './Customer';
 export * from './OpportunityTypes';
 export * from './CustomerDetails';
 export * from './AddOpportunity';
-export * from './UserDefinedFields';
+export * from './OpportunityAttributes';
