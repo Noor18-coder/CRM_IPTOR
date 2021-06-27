@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-
+import { useHistory } from 'react-router';
 import { OpportunityListItem, UserItem, OpportunityFilterItem } from '../../helpers/Api/models';
 import { OpportunityState } from '../../store/Opportunity/Types';
 import { AppState } from "../../store/store";
@@ -27,6 +27,7 @@ const OpportunityListMobile: React.FC<Props> = ({ gridRowClicked, getDataRows, r
   const [hasMoreRows, setHasMoreRows] = React.useState<boolean>(false);
   const [pageNumber, setPageNumber] = React.useState<number>(0);
   const [opportunities, setOpportunities] = React.useState<OpportunityListItem[]>([]);
+  const history = useHistory();
 
   // To handle pagination. 
   const observer = React.useRef<IntersectionObserver>();
@@ -75,15 +76,22 @@ const OpportunityListMobile: React.FC<Props> = ({ gridRowClicked, getDataRows, r
     return handlerName;
   }
 
+  const openOpptyDetails = (obj:OpportunityListItem) => {
+
+      const opptyId = obj && obj && obj.opportunityId;
+      if (opptyId) {
+          history.push({ pathname: "/opp-details", state: { oppid: opptyId } })
+      }
+    }
 
   return (
     <>
       <section className="mobile-cardview-list">
         {opportunities?.map((obj, index) => {
           if (index + 1 === opportunities.length) {
-            return <div  key={obj.opportunityId} className="card-section" ref={lastOpptyElement}><OpportunityCard opportunity={obj} name={getName(obj.handler)} /></div>
+            return <div  key={obj.opportunityId} className="card-section"  onClick={()=>openOpptyDetails(obj)} ref={lastOpptyElement}><OpportunityCard opportunity={obj} name={getName(obj.handler)} /></div>
           } else {
-            return <div key={obj.opportunityId} className="card-section"><OpportunityCard opportunity={obj} name={getName(obj.handler)} /></div>
+            return <div key={obj.opportunityId} className="card-section"  onClick={()=>openOpptyDetails(obj)} ><OpportunityCard opportunity={obj} name={getName(obj.handler)} /></div>
           }
         })}
       </section>

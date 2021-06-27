@@ -17,6 +17,9 @@ import IPTOR_ICON from '../assets/images/iptor_icon.svg';
 import DELETE_ICON from '../assets/images/delete-icon.svg';
 import EDIT_ICON from '../assets/images/edit-icon.svg';
 import NAV_MORE_DOTS from '../assets/images/nav-more.svg';
+import ADD_ICON from '../assets/images/add-icon.svg';
+import DEL_ICON from '../assets/images/close.svg';
+import ADD_BTN from '../assets/images/add_btn.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -37,7 +40,10 @@ import NAV_MORE_DOTS from '../assets/images/nav-more.svg';
     IPTOR_ICON:IPTOR_ICON,
     DELETE_ICON:DELETE_ICON,
     EDIT_ICON:EDIT_ICON,
-    NAV_MORE_DOTS:NAV_MORE_DOTS
+    NAV_MORE_DOTS:NAV_MORE_DOTS,
+    ADD_ICON:ADD_ICON,
+    DEL_ICON:DEL_ICON,
+    ADD_BTN:ADD_BTN
 };
 
 export default ImageConfig;

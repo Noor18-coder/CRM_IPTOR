@@ -13,10 +13,9 @@ export const Company: React.FC<Props> = ({ companies, doClick }) => {
     <ul className="companys-list-item">
       {companies.map((obj) => {
         return (
-          <li key={obj.companyCode}>
+          <li key={obj.companyCode}  onClick={() => doClick(obj.companyCode)}>
             <div
               className={"company-container"}
-              onClick={() => doClick(obj.companyCode)}
               key={obj.companyCode}
             >
               <div className={"center"}>

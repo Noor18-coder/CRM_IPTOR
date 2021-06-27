@@ -11,17 +11,9 @@ interface OppProps {
   
   const OpportunityCard: React.FC<React.PropsWithChildren<OppProps>> = (props) => {
     const history = useHistory();
-
-    const openOpptyDetails = () => {
-    const opptyId = props && props.opportunity && props.opportunity.opportunityId;
-    if (opptyId) {
-        history.push({ pathname: "/opp-details", state: { oppid: opptyId } })
-    }
-    }
-  
     return (
       <>
-        <div className="d-flex justify-content-between title-row" onClick={openOpptyDetails}>
+        <div className="d-flex justify-content-between title-row">
           <div className="lft-col">
             {props.opportunity.name}
             <span>

@@ -95,6 +95,10 @@
       border:2px solid #EEF0F2 !important;
       cursor: pointer;
 
+      &.ag-row-odd {
+          background-color: #FFF ;
+      }
+
       &:hover{
           border: 1px solid #00A3A5 !important;
           box-sizing: border-box;

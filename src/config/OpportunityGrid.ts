@@ -6,14 +6,14 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Types',
         cellRenderer: (params: any) => {
-          return params.value;
+          return params.value ? params.value : '';
         }
       },{
         field: 'desc',
         sortable: true,
         headerName: 'Name & Number',
         cellRenderer: (params: any) => {
-          return ' <span class="o-name">' +  params.value + '</span>' +
+          return ' <span class="o-name">' +   (params.value ? params.value : '') + '</span>' +
             '<span class="o-number">' + ( params.data && params.data.opportunityId ? params.data.opportunityId  : '')  + '</span>';
         }
       },
@@ -22,7 +22,7 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Customer',
         cellRenderer: (params: any) => {
-          return ' <span class="o-customer">' + params.value + '</span>'
+          return ' <span class="o-customer">' + params.value ? params.value : '' + '</span>'
         }
   
       },
@@ -31,7 +31,7 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Owner',
         cellRenderer: (params: any) => {
-          return ' <span class="o-owner">' + params.value + '</span>'
+          return ' <span class="o-owner">' +  params.value ? params.value : '' + '</span>'
         }
       },
       {
@@ -39,7 +39,7 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Stage',
         cellRenderer: (params: any) => {
-          return ' <span class="o-stage">' + params.value + '</span>'
+          return ' <span class="o-stage">' +  params.value ? params.value : ''+ '</span>'
         }
         
       },
@@ -49,15 +49,15 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Close Quarter',
         cellRenderer: (params: any) => {
-          return '<span class="o-quarter">' + getQuarterOfYearFromDate(params.value) + '</span></div>'
+          return '<span class="o-quarter">' + ( params.value ? getQuarterOfYearFromDate(params.value) : '') + '</span></div>'
         }
       },
       {
-        field: 'curValue',
+        field: 'estValue',
         sortable: true,
         headerName: 'Size',
         cellRenderer: (params: any) => {
-          return '<span class="o-size">' + ( params.data && params.data.currency ? getCurrencySymbol(params.data.currency) : '') + ' ' + params.value + '</span></div>'
+          return '<span class="o-size">' + ( params.data && params.data.currency ? getCurrencySymbol(params.data.currency) : '') + ' ' + (params.value === undefined  ?'' :  params.value ) + '</span></div>'
         }
       },
       {
@@ -67,8 +67,8 @@ const OpportunityGridOptions = [{
         width:30,
         headerName: '',
         cellRenderer: (params: any) => {
-          return '<img class="nav-more-menu" src="' + Dots + '" alt="...">';
-        }
+          return '<img class="nav-more-menu" src="' +   Dots + '" alt="..."/>' 
+         }
     }];
 
 

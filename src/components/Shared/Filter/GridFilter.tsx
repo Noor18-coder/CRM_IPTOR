@@ -1,5 +1,7 @@
 import React from 'react';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
+import { Image} from 'react-bootstrap';
+import ImageConfig from '../../../config/ImageConfig';
 
 export interface Option {
     value: string;
@@ -97,6 +99,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                                     arrowLeft={ArrowLeft}
                                     itemClass={'btn filter-items'}
                                     itemClassActive={'btn-active'}
+                                    selected={selected.value}
                                     arrowRight={ArrowRight}
                                     menuClass="custom-menu">
                             </ScrollMenu>
@@ -111,12 +114,14 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                                 <button className={'my-btn ' +  classButtonMy} onClick={() => handlerChange('my')}>MY</button>
                             </div>
                         </div>
-                        <div className={'col-12'}>
+                        <div className={'col-12 add-btn'}>
+                        <Image src={ImageConfig.ADD_ICON}/>
                             <ScrollMenu
                                 data={menuItems}
                                 arrowLeft={ArrowLeft}
                                 itemClass={'btn filter-items'}
                                 itemClassActive={'btn-active'}
+                                selected={selected.value}
                                 arrowRight={ArrowRight}
                                 menuClass="custom-menu">
                             </ScrollMenu> 

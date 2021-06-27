@@ -62,6 +62,7 @@ const OpportunityInfoMobile:React.FC<Data> = (props) => {
           <p className="title">Stage</p>
 
           <div className="stage-lvl">
+          <div className="hscroll-wrapper">
             <ul className="list-inline stage-circles d-flex justify-content-between">
             {
               stages ?
@@ -73,6 +74,7 @@ const OpportunityInfoMobile:React.FC<Data> = (props) => {
               }): null
             }
             </ul>
+            </div>
             <div className="sec-change-approver d-flex justify-content-between">
               <div className="cont">Shared for approval with Lawerence Matthew</div>
               <div className="action-btn">

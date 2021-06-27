@@ -183,3 +183,16 @@ form {
     padding-left: 50px;
     vertical-align: middle;
 }
+
+.hscroll-wrapper {
+    -ms-overflow-style: none;
+    /* for Internet Explorer, Edge */
+    scrollbar-width: none;
+    /* for Firefox */
+    overflow-y: scroll;
+   }
+    
+   .hscroll-wrapper::-webkit-scrollbar {
+    display: none;
+    /* for Chrome, Safari, and Opera */
+   }

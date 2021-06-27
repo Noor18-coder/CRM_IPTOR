@@ -40,9 +40,10 @@ export const Accordian:React.FC<Props> = ({ title, data }) => {
   console.log('38', data);
   return (
     <Accordion defaultActiveKey="0">
-      <Card>
+      <Card className="add-details">
         <Accordion.Toggle as={Card.Link} eventKey="1">
           {title}
+          <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add"/> 
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           { title.toLowerCase() === 'contacts' ? <ContactCards data={data} /> : <ProductCards data={data} />}
@@ -162,7 +163,7 @@ export const ProductCards:React.FC<ContactProps> = ({ data }) => {
               <td className="prod-revenue-class" >
               <div className="d-flex justify-content-between title-row">
               <div className="lft-col">
-              <Image height="20" width="14" src={ImageConfig.DELETE_ICON} alt="delete" title="delete"/>  
+              <Image height="20" width="14" src={ImageConfig.DEL_ICON} alt="delete" title="delete"/>  
              </div>
               <div className="rgt-col">
               <Image height="20" width="14" src={ImageConfig.EDIT_ICON} alt="edit" title="edit"/>

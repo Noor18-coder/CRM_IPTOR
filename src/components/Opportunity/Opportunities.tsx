@@ -144,10 +144,14 @@ const Opportunities: React.FC = () => {
   }, []);
 
   const onFilter = (obj: SelectOptionMethod) => {
+    if(filter?.selectParam === obj.selectParam && filter.value === obj.value){
+      selectFilter({...filter, selectParam:'', value:''});
+    }else {
+      selectFilter(obj);
+    }
     const re = !refresh;
     setRefresh(re);
-      selectFilter(obj);
-      setLoader(true)
+    setLoader(true)
   }
 
   const searchStart = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +165,10 @@ const Opportunities: React.FC = () => {
 
   const searchOpportunity = (event:React.KeyboardEvent<HTMLInputElement>) => {
     
-    if(event.key == 'Enter'){
+    if(event.key == 'Enter' && searchFieldValue.length > 3){
+      selectFilter({ value: '',
+        selectParam: '',
+        handler:''});
       setSearchText(searchFieldValue);
       setRefresh(!refresh);
     }
@@ -181,6 +188,7 @@ const Opportunities: React.FC = () => {
     
             { isMobile ? null : <div className={"col col-md-4"}>
               <div className={"page-title"}>
+                {searchText.length ? 'Showing results for "' + searchText + '"': ''}
               </div>
             </div> }
 
