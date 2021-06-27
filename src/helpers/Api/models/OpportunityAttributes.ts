@@ -22,7 +22,9 @@ export interface UserDefinedField {
     initializeAttribute: boolean,
     initialValueN: number,
     protectData: boolean,
-    valuesExist: boolean
+    valuesExist: boolean,
+    attributeValue?: string
+    valueId?: string
 }
 
 export interface UserDefinedFieldParam {

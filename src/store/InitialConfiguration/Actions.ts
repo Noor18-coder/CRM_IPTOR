@@ -5,7 +5,10 @@ import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as models from '../../helpers/Api/models';
 import { CountryInfo } from '../../helpers/Api/Countries';
-import { AppLoadingTypes, SaveOpportunityTypes, SaveOpportunityStages, SaveOpportunityCurrencies, SaveOpportunityDefault, SaveCountryInfo } from './Types';
+import {
+    AppLoadingTypes, SaveOpportunityTypes, SaveOpportunityStages, SaveOpportunityCurrencies,
+    SaveOpportunityDefault, SaveCountryInfo, SaveAreaInfo
+} from './Types';
 
 import * as actionTypes from './Types';
 import { AppState } from '../store';
@@ -87,6 +90,12 @@ export const saveCountryInfo: ActionCreator<SaveCountryInfo> = (countries: model
     };
 };
 
+export const saveAreaInfo: ActionCreator<SaveAreaInfo> = (areas: models.AreaInfo[]) => {
+    return {
+        type: AppLoadingTypes.SAVE_AREA_INFO,
+        areas: areas
+    };
+};
 
 export const getOpportunityTypes = () => {
   return async (dispatch: Dispatch) => {
@@ -153,5 +162,12 @@ export const getCountries = () => {
     return async (dispatch: Dispatch) => {
         const countries = await CountryInfo.get();
         dispatch(saveCountryInfo(countries));
+    }
+}
+
+export const getAreas = () => {
+    return async (dispatch: Dispatch) => {
+        const areas = await CountryInfo.getArea();
+        dispatch(saveAreaInfo(areas));
     }
 }

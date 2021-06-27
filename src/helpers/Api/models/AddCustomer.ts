@@ -9,6 +9,7 @@ export interface AddBusinessPartnerDefaultParams {
     phone?: string;
     EMAIL?: string;
     active?: boolean;
+    businessPartner?: string;
 }
 
 export interface AddBusinessPartnerResponse {

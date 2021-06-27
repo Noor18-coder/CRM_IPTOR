@@ -1,7 +1,7 @@
 /** Authentication Action Types */
 
 import { Action } from 'redux';
-import { OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo} from '../../helpers/Api/models';
+import { OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo, AreaInfo} from '../../helpers/Api/models';
 
 
 /** Enum for Authentication Actions */
@@ -15,7 +15,8 @@ export enum AppLoadingTypes {
   SAVE_OPPORTUNITY_ATTRIBUTES = 'SAVE_OPPORTUNITY_ATTRIBUTES',
   SAVE_CUSTOMER_ATTRIBUTES = 'SAVE_CUSTOMER_ATTRIBUTES',
   SAVE_OPPORTUNITY_DEFAULT = 'SAVE_OPPORTUNITY_DEFAULT',
-  SAVE_COUNTRY_INFO = 'SAVE_COUNTRY_INFO'
+  SAVE_COUNTRY_INFO = 'SAVE_COUNTRY_INFO',
+  SAVE_AREA_INFO = 'SAVE_AREA_INFO'
 }
 
 /** Authentication success action */
@@ -63,6 +64,10 @@ export interface SaveCountryInfo extends Action<AppLoadingTypes.SAVE_COUNTRY_INF
   countries: CountryInfo[]
 }
 
+export interface SaveAreaInfo extends Action<AppLoadingTypes.SAVE_AREA_INFO> {
+    areas: AreaInfo[]
+}
+
 export type AppLoadingActions = SaveOpportunityTypes | 
                                 SaveOpportunityStages | 
                                 SaveOpportunityCurrencies |
@@ -71,7 +76,7 @@ export type AppLoadingActions = SaveOpportunityTypes |
                                 SetErrorMessageAction |
                                 SaveCustomerAttributes | 
                                 SaveOpportunityAttributes |
-                                SaveOpportunityDefault | SaveCountryInfo;
+                                SaveOpportunityDefault | SaveCountryInfo | SaveAreaInfo;
 
 
 
@@ -86,4 +91,5 @@ export interface InitialConfigState {
   readonly opportunityAttributes:AttributeField[]
   readonly defaultOpprtunityInfo: DefaultOpportunityInfo,
   readonly crmCountryInfo: CountryInfo[],
+  readonly crmAreaInfo: AreaInfo[],
 }

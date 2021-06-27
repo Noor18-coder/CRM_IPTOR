@@ -14,7 +14,7 @@ import { AppState } from "../../store/store";
 import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
 
 const CustomerDetails: React.FC = (props: any) => {
-    const custId = props.location.state.custId;
+    const custId = props.location.state ? props.location.state.custId : '';
     const [defaultCustDetail, setDefaultCustDetails] = React.useState<models.CustomerDetailsDefault>();
     const [contactDetails, setContactDetails] = React.useState<models.CustomerDetailsContactsGroupItem[]>([]);
 

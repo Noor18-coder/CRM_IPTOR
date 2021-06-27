@@ -15,7 +15,7 @@ import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
 import Container from '../AddCustomer/Container';
-import { setBusinessPartnerWindowActive } from '../../store/AddCustomer/Actions';
+import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, setBusinessPartnerWindowGroup } from '../../store/AddCustomer/Actions';
 
 export interface Data {
   data:CustomerDetailsDefault,
@@ -67,6 +67,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         });
         setCustomerMoreInfoGroup(response);
   });
+      dispatch(setBusinessPartnerLoader(false));
   }, []);
 
   const [activeClass , setActiveClass] = React.useState("");
@@ -74,8 +75,9 @@ const CustomerCard:React.FC<Data> = (props) =>   {
     setActiveClass(activeClass === "" ? "active" : "");
     }
 
-    const toggleDrawer = (open: boolean) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+    const toggleDrawer = (open: boolean, groupType: string) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
         dispatch(setBusinessPartnerWindowActive(true));
+        dispatch(setBusinessPartnerWindowGroup(groupType));
     };
 
     return (
@@ -90,7 +92,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                   <Card.Body className="accr-body-container">  
                      <ul className="list-inline bdy-list-item">
                           <li className="list-inline-item">
-                            <span>Contact Address</span>{props.data.addressLine1},<p>{props.data.addressLine2}</p>
+                            <span>Contact Address</span>{props.data.addressLine1}<p>&nbsp;</p>
                           </li>
                           <li className="list-inline-item">
                               <span>Region</span>{area ? area.map((data: Area) => {
@@ -100,15 +102,15 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                           <li className="list-inline-item">
                             <span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p>
                           </li>
-                          {/*<li className="list-inline-item">*/}
-                          {/*  <Image  src={ImageConfig.EDIT_ICON} alt="edit" title="edit" onClick={toggleDrawer(true)}/>*/}
-                          {/*</li> */}
+                          <li className="list-inline-item">
+                            <Image  src={ImageConfig.EDIT_ICON} alt="Edit" title="Edit" onClick={toggleDrawer(true, 'default fields')}/>
+                          </li> 
                      </ul>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
-          </Accordion>
-          <Container containerType='edit' containerData={props.data} />
+                </Accordion>
+                <Container containerType='edit' containerData={props.data} groupType={state.addBusinessPartner.businessPartnerWindowGroup} />
         </section>
 
         <section className="sec-info-accordion">

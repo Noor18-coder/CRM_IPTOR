@@ -13,7 +13,8 @@
          loader:false,
          addBusinessPartnerWindowActive:false,
          businessPartnerDefaultParams:{},
-         attributes:[],
+         attributes: [],
+         businessPartnerWindowGroup: ''
      }
  };
  
@@ -46,13 +47,20 @@
                 ...state,
                 addBusinessPartnerWindowActive: action.addBusinessPartnerWindowActive
              };
+         case AddBusinessPartnerTypes.SET_BUSINESS_PARTNER_WINDOW_GROUP:
+             return {
+                 ...state,
+                 businessPartnerWindowGroup: action.businessPartnerWindowGroup
+             };
          case AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_DATA:
             return {...state,
                 loader:false,
                 addBusinessPartnerWindowActive:false,
                 businessPartnerDefaultParams:{},
                 attributes:[],
-                items:[]}
+                items: [],
+                businessPartnerWindowGroup: ''
+            }
 
         default:
              return state;

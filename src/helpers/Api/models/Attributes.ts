@@ -47,5 +47,13 @@ export interface AttributeValuesResponse {
     data:{
       items: AttributeValueObject[]
     } 
- }
+}
+
+export interface SaveAttributeFieldParam {
+    parentFile: string;
+    parentId: string;
+    attributeType: string;
+    attributeValue: string | number;
+    valueId: string;
+}
 

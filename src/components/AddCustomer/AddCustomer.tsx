@@ -19,7 +19,6 @@ const AddCustomer: React.FC = () => {
     const dispatch: Dispatch<any> = useDispatch();
     const [customerFields, setCustomerFields] = React.useState<AddBusinessPartnerDefaultParams>({});
     const [attributes, setAttributes] = React.useState<UserDefinedFieldReduxParams[]>([]);
-    const [areaDetails, setAreaDetails] = React.useState<models.AreaListItem[]>([]);
     const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
     const [emailErr, setEmailErr] = React.useState<boolean>(false);
     const history = useHistory();
@@ -86,9 +85,6 @@ const AddCustomer: React.FC = () => {
     React.useEffect(() => {
         const emailTypeAttribute: UserDefinedFieldReduxParams = { attributeType: 'EMAIL', attributeValue: '' };
         setAttributes([emailTypeAttribute]);
-        CustomerList.getAreas().then((data) => {
-            setAreaDetails(data.data.items)
-        });
     }, []);
 
     React.useEffect(() => {
@@ -133,7 +129,7 @@ const AddCustomer: React.FC = () => {
                                             <label className="cust-label">{i18n.t('area')}</label>
                                             <select className="form-control iptor-dd" id="area" onChange={onInputValueChange}>
                                                 <option disabled selected>{i18n.t('selectArea')}</option>
-                                                {areaDetails.map((obj) => {
+                                                {state.enviornmentConfigs.crmAreaInfo.map((obj: models.AreaInfo) => {
                                                     return <option value={obj.area}>{obj.description}</option>
                                                 })}
                                             </select>

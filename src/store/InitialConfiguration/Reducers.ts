@@ -18,7 +18,8 @@ export const createInitalConfigDefaultState = (): InitialConfigState => {
         customerAttributes:[],
         opportunityAttributes:[],
         defaultOpprtunityInfo: {},
-        crmCountryInfo: []
+        crmCountryInfo: [],
+        crmAreaInfo: []
     }
 };
 
@@ -76,6 +77,11 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
             return {
                 ...state,
                 crmCountryInfo: action.countries
+            };
+        case AppLoadingTypes.SAVE_AREA_INFO:
+            return {
+                ...state,
+                crmAreaInfo: action.areas
             };
         default:
             return state;

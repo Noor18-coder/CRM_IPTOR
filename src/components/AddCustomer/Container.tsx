@@ -14,9 +14,10 @@ import { CustomerContextProvider, CustomerContextInterface } from './CustomerCon
 export interface containerProps {
     containerType: string;
     containerData?: any;
+    groupType?: string;
 }
 
-const Container: React.FC<containerProps> = ({ containerType, containerData }) => {
+const Container: React.FC<containerProps> = ({ containerType, containerData, groupType }) => {
 
   const state:AppState = useSelector((state: AppState) => state);
   const dispatch:Dispatch<any> = useDispatch();
@@ -31,7 +32,7 @@ const Container: React.FC<containerProps> = ({ containerType, containerData }) =
               {isMobile || isTablet ? (state.addBusinessPartner.addBusinessPartnerWindowActive ? <AddCustomer /> : null) :
                   <Drawer anchor={'right'} open={state.addBusinessPartner.addBusinessPartnerWindowActive}>
                       {containerType === 'add' && <AddCustomer />}
-                      {containerType === 'edit' && <EditCustomer />}
+                      {containerType === 'edit' && <EditCustomer groupType={groupType} />}
                   </Drawer>}
           </CustomerContextProvider>
     </React.Fragment>

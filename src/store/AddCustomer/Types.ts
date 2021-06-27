@@ -9,7 +9,8 @@ export enum AddBusinessPartnerTypes {
   SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE = 'SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE',
   SET_ADD_BUSINESS_PARTNER_LOADER = 'SET_ADD_BUSINESS_PARTNER_LOADER',
   RESET_BUSINESS_PARTNER_DATA = 'RESET_BUSINESS_PARTNER_DATA',
-  SET_ADD_BUSINESS_PARTNER_WINDOW = 'SET_ADD_BUSINESS_PARTNER_WINDOW'
+  SET_ADD_BUSINESS_PARTNER_WINDOW = 'SET_ADD_BUSINESS_PARTNER_WINDOW',
+  SET_BUSINESS_PARTNER_WINDOW_GROUP = 'SET_BUSINESS_PARTNER_WINDOW_GROUP'
 }
   
 /** Action to save default parameters of business partner */
@@ -35,8 +36,12 @@ export interface SetAddBusinessPartnerDrawerActive extends Action<AddBusinessPar
   addBusinessPartnerWindowActive:boolean
 }
 
+export interface SetEditBusinessPartnerDrawerGroup extends Action<AddBusinessPartnerTypes.SET_BUSINESS_PARTNER_WINDOW_GROUP> {
+    businessPartnerWindowGroup: string
+}
+
 export type AddBusinessPartnerReduxActions = SaveBusinessPartnerParamAction | SaveBusinessPartnerAddAttributeAction |
-                                RemoveBusinessPartnerDataAction | SetAddBusinessPartnerLoaderAction |  SetAddBusinessPartnerDrawerActive;
+    RemoveBusinessPartnerDataAction | SetAddBusinessPartnerLoaderAction | SetAddBusinessPartnerDrawerActive | SetEditBusinessPartnerDrawerGroup;
 
 /** Authentication state definition */
 export interface AddBusinessPartnerState {
@@ -44,5 +49,6 @@ export interface AddBusinessPartnerState {
   readonly loader: boolean,
   readonly businessPartnerDefaultParams: AddBusinessPartnerDefaultParams,
   readonly attributes:UserDefinedFieldReduxParams[],
+  readonly businessPartnerWindowGroup: string
 }
 
