@@ -37,7 +37,7 @@ const CustomerGridOptions = [{
     sortable: true,
     headerName: 'Active Opportunity',
     cellRenderer: (params: any) => {
-        return params.value ? params.value : ''
+        return params.value || params.value === 0 ? params.value : ''
     }
 
 },

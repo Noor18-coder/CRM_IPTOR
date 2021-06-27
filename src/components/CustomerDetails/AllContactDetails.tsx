@@ -9,10 +9,15 @@ interface Props {
 }
 
 export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) => {
+    const [activeClass , setActiveClass] = React.useState("");
+    const toggleAccordion = () => {
+      setActiveClass(activeClass === "" ? "active" : "");
+    }
+  
     return (
         <Accordion defaultActiveKey="0">
             <Card className="contact-class">
-                <Accordion.Toggle as={Card.Link} eventKey="1">
+                <Accordion.Toggle  className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                     {title}
                     <span className="cust-info"><span>{contactData.length} CONTACTS</span></span>
                 </Accordion.Toggle>
@@ -20,15 +25,15 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
                     <div className="accr-body-container">
                         {contactData.length ?
                                 contactData.map((obj: CustomerDetailsContactsGroupItem) => {
-                                    return         <Card className="accordian-card">
+                                    return <Card className="accordian-card">
                                     <Card.Body>
                                         <div className="left-card">
                                             <p><b>{obj.contactPerson}</b></p>
-                                            <p>{obj.role}</p>
+                                            <p className="role">{obj.role}</p>
                                             <p>{obj.email ? obj.email : '--'}</p>
                                             <p>{obj.phone ? obj.phone : '--'}</p> <br />
-                                            {/* <p>Dadalvagen 33, KINSLINGE,</p>
-                                             <p>289 00, Sweden </p> */}
+                                            <p>{obj.ADDRESS ? obj.ADDRESS : '--'}</p>
+                                            <p>{obj.ADDRESS_2 ? obj.ADDRESS_2 : '--'}</p>
                                         </div>
                                         <div className="right-card">
                                             <Image className="card-delete" height="20" src={ImageConfig.DEL_ICON} alt="Iptor" title="Iptor" />

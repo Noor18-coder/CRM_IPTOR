@@ -8,10 +8,14 @@ interface Props {
 }
 
 export const InfoAccordion: React.FC<Props> = ({ title, data }) => {
+  const [activeClass , setActiveClass] = React.useState("");
+  const toggleAccordion = () => {
+    setActiveClass(activeClass === "" ? "active" : "");
+  }
   return (
     <Accordion defaultActiveKey="0">
     <Card>
-      <Accordion.Toggle as={Card.Link} eventKey="1">
+      <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
         {title}
       </Accordion.Toggle>
       <Accordion.Collapse eventKey="1">
@@ -35,11 +39,14 @@ export const InfoAccordion: React.FC<Props> = ({ title, data }) => {
 
 export const InfoAccordionGroups: React.FC<OpportunityMoreInfoSection> = ({ title, data }) => {
   const keys = Object.keys(data);
-
+  const [activeClass , setActiveClass] = React.useState("");
+  const toggleAccordion = () => {
+    setActiveClass(activeClass === "" ? "active" : "");
+  }
   return (
     <Accordion defaultActiveKey="0">
       <Card>
-        <Accordion.Toggle as={Card.Link} eventKey="1">
+        <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
           {title}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">

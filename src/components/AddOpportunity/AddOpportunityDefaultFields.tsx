@@ -73,8 +73,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     }
 
     const validate = () => {
-        return true;
-        if(opportunity?.desc && opportunity?.oppRecordType && opportunity?.customer && opportunity?.stage){
+       if(opportunity?.desc && opportunity?.oppRecordType && opportunity?.customer && opportunity?.stage){
             return true;
         }
         return false;

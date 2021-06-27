@@ -4,7 +4,9 @@ import ImageConfig from '../../config/ImageConfig';
 import { Image} from 'react-bootstrap';
 import {NavSection} from '../Shared/DetailsNav/NavSection';
 import { useHistory } from "react-router-dom";
-import { CustomerDetailsDefault } from  '../../helpers/Api/models';
+import { CustomerDetailsDefault, CrmCountry} from  '../../helpers/Api/models';
+import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+import * as models from '../../helpers/Api/models';
 
 export interface Data {
   data:CustomerDetailsDefault
@@ -17,14 +19,22 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
     const backToOpportunityList= () => {
         history.goBack()
       }
+    const [country, setCountry] = React.useState<models.CrmCountry[]>([]);
+    React.useEffect(() => {      
+        CustomerDetailsApi.getCountry(props.data.country).then((data) => {
+          setCountry(data);
+        });
 
-  return (
+      },[]);
+   return (
       <>
       { (isMobile || isTablet) ? 
       <section className="customer-mobilecard">
       <div className="d-flex justify-content-between customer-row">
         <div className="lft-custname" onClick={backToOpportunityList}>
-        <p>{props.data.name}<span className="location">{props.data.area}</span></p>
+        <p>{props.data.name}<span className="location">{country? country.map((data: CrmCountry) => {
+        return data.description
+          }):null}</span></p>
         </div>
         <div className="rgt-actioncol">
           <ul className="list-inline ">
@@ -74,7 +84,9 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
       <NavSection backToOpportunityList={backToOpportunityList} />
       <section className="d-flex justify-content-between sec-customer-addr">
           <div className="cust-name">
-            <p>{props.data.name}<span>{props.data.area}</span></p>
+            <p>{props.data.name}<span>{country? country.map((data: CrmCountry) => {
+        return data.description
+          }):null}</span></p>
           </div>
           <div className="mid-sec">
             <ul className="list-inline">
@@ -90,7 +102,7 @@ const CustomerInfo:React.FC<Data> = (props) =>   {
           </div>
           
           <div className="sec-add-cust ">
-          <button className="btn add-customer" data-toggle="modal" data-target="#myModal2">+ New</button>
+          <button className="btn add-customer" data-toggle="modal" data-target="#myModal2">+ New Opportunity</button>
           </div>
       </section> 
       </>

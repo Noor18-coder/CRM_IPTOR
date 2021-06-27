@@ -186,6 +186,33 @@
             }
 
             .opportunity-type-container {
+                 .opptytype-list-item {
+                    padding-bottom: 16px;
+
+                    li {
+                        border: solid 1px $blue-bayoux;
+                        @include border-radius($border-radius);
+                        @include transition;
+                        padding: 31px 15px;
+                        margin-bottom: 16px;
+                        color: $cod-grey;
+
+                        font: {
+                            size: $base-font-size;
+                            weight: $font-weight-regular;
+                        }
+
+                        &:hover {
+                            background: $aqua-spring;
+                        }
+
+                    }
+                }
+            }
+
+            .product-items-container {
+                    height:478px;
+                    overflow-y: auto;
 
                 .opptytype-list-item {
                     padding-bottom: 16px;
@@ -210,7 +237,6 @@
                     }
                 }
             }
-
             .step-nextbtn-with-arrow {
                 margin-top: 24px;
                 margin-bottom: 20px;

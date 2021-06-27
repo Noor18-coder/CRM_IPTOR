@@ -9,15 +9,11 @@ import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 const CustomerDetails: React.FC = (props: any) => {
     const custId = props.location.state.custId;
     const [defaultCustDetail, setDefaultCustDetails] = React.useState<models.CustomerDetailsDefault>();
-    const [ownerDetails, setOwnerDetails] = React.useState<models.CustomerDetailsGroupItem[]>([]);
     const [contactDetails, setContactDetails] = React.useState<models.CustomerDetailsContactsGroupItem[]>([]);
 
     React.useEffect(() => {
         CustomerDetailsApi.get(custId).then((data) => {
             setDefaultCustDetails(data);
-        });
-        CustomerDetailsApi.getOwnerDetails(custId).then((data) => {
-            setOwnerDetails(data);
         });
         CustomerDetailsApi.getAllContactDetails(custId).then((data) => {
             setContactDetails(data);
@@ -30,8 +26,7 @@ const CustomerDetails: React.FC = (props: any) => {
             <section className="main-wrapper customer">
             <div className="container-fluid">
                 {defaultCustDetail ? <CustomerInfo data={defaultCustDetail} /> : null}
-                {defaultCustDetail ? <CustomerCard data={defaultCustDetail} ownerData={ownerDetails} 
-                contactsData={contactDetails}/> : null}
+                {defaultCustDetail ? <CustomerCard data={defaultCustDetail} contactsData={contactDetails}/> : null}
             </div>
             </section>
             <Footer />

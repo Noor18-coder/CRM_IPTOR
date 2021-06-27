@@ -29,9 +29,16 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportun
 
     const fetchItems = async (searchstr: string) => {
         dispatch(setOpportunityLoader(true));
-        const data = await Item.get(searchstr, 0, 50);
-        setItems(data.data.items);
-        dispatch(setOpportunityLoader(false));
+        const response = await Item.get(searchstr, 0, 50);
+        if(response && response.control && response.control.total){
+            const data = await Item.get(searchstr, 0, response.control.total);
+            setItems(data.data.items);
+            dispatch(setOpportunityLoader(false));
+        }else{
+            setItems(response.data.items);
+            dispatch(setOpportunityLoader(false));
+        }
+        
     }
 
     const onSelect = (item: string) => {
@@ -88,7 +95,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportun
                             <div className="radiobtn-collection oppty-form-elements">
                                 <p className="title">Select Product and Modules</p>
 
-                                <div className="opportunity-type-container">
+                                <div className="product-items-container">
                                     {
                                         items?.length ? <ItemsList items={items} doClick={onSelect} selected={selectedItems}></ItemsList> : <div>No Items Found</div>
                                     }
@@ -97,9 +104,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ changeStep, createOpportun
                     </div>
 
                     <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
-                        <a className="stepone-next-btn">
-                            Next <span className="right-whit-arrow"><img src={ImageConfig.CHEVRON_RIGHT_WHITE} /></span>
-                        </a>
+                        <a className="stepone-next-btn done">Done</a>
                     </div>
                 </div>
             </div>

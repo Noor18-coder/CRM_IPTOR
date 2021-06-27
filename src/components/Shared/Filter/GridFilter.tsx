@@ -98,7 +98,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
     const classButtonMy =  classButton + ('my' == handler? ' active' : '');
 
     return (
-        <div className={"row s-header "}>
+        <div className={"row s-header filterrow"}>
             <div className={"col filter-class"}>
                 <div className={"d-lg-block d-none"} >
                     <div className={'row'}>
@@ -120,7 +120,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                                 selected={selected.value}
                                 arrowRight={ArrowRight}
                                 menuClass="custom-menu"
-                                translate={58.8688}
+                                translate={20}
                             >
                             </ScrollMenu>
                         </div>
@@ -128,23 +128,24 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                 </div>
                 <div className={"d-lg-none d-block"} >
                     <div className={"row"}>
-                        {component === 'opportunity' && 
-                            <div className="col-12">
-                                <div className=" toggle-btn-group">
+                       
+                            <div className="col-12 tabs-btn-row">
+                            {component === 'opportunity' &&  <div className=" toggle-btn-group">
                                     <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
                                     <button className={'my-btn ' + classButtonMy} onClick={() => handlerChange('my')}>MY</button>
-                                </div>
+                                </div> }
+                                <Image src={ImageConfig.ADD_ICON} onClick={openCreateOpportunityForm}/>
+                            
                             </div>
-                        }
+                    
                         <div className={'col-12 add-btn'}>
-                        <Image src={ImageConfig.ADD_ICON} onClick={openCreateOpportunityForm}/>
-                            <ScrollMenu
+                        <ScrollMenu
                                 data={menuItems}
-                                arrowLeft={ArrowLeft}
                                 itemClass={'btn filter-items'}
                                 itemClassActive={'btn-active'}
                                 selected={selected.value}
-                                arrowRight={ArrowRight}
+                                hideArrows={true}
+                                translate={0}
                                 menuClass="custom-menu">
                             </ScrollMenu> 
                         </div>
@@ -154,4 +155,3 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
         </div>
       );
 }
-

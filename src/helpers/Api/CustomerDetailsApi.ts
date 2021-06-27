@@ -6,9 +6,10 @@ import { get } from 'lodash';
 export default class CustomerDetailsApi {
   /** API Method */
   private static apiMethod: string = 'crmBusinessPartner.get';
-  private static attributesFileName: string = 'SRONAM';
-  private static apiGroupMethod: string = 'mopAttributes.get';
-  private static apiAllContactsMethod: string = 'businessPartnerContacts.get';
+  private static apiUserMethod: string = 'crmUser.get';
+  private static apiAllContactsMethod: string = 'mopContactsDC1.get';
+  private static apiCountriesMethod: string = 'crmCountries.get';
+  private static apiAreasMethod: string = 'areas.get';
 
   /**
    * Helper function to fetch Customer default info
@@ -21,14 +22,26 @@ export default class CustomerDetailsApi {
     return get(response, 'data.data', {});
   }
 
-  static async getOwnerDetails(businessPartner: string): Promise<apiModels.CustomerDetailsGroupItem[]> {
-    const requestData = new ApiRequest<apiModels.CustomerDetailsItemParams>(this.apiGroupMethod, { parentId: businessPartner, parentFile: this.attributesFileName });
+  static async getOwnerDetailsByName(user: string): Promise<apiModels.CrmUserDetails> {
+    const requestData = new ApiRequest<apiModels.CrmUserDetailsParams>(this.apiUserMethod, { user : user });
+    const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
+    return get(response, 'data.data', {});
+  }
+  
+  static async getAllContactDetails(businessPartner: string): Promise<apiModels.CustomerDetailsContactsGroupItem[]> {
+    const requestData = new ApiRequest<apiModels.CustomerDetailsParams>(this.apiAllContactsMethod,  { businessPartner : businessPartner });
     const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }
 
-  static async getAllContactDetails(businessPartner: string): Promise<apiModels.CustomerDetailsContactsGroupItem[]> {
-    const requestData = new ApiRequest<apiModels.CustomerDetailsParams>(this.apiAllContactsMethod,  { businessPartner : businessPartner });
+  static async getCountry(country: string): Promise<apiModels.CrmCountry[]> {
+    const requestData = new ApiRequest<apiModels.CrmCountryParams>(this.apiCountriesMethod,  { country : country });
+    const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+  }
+
+  static async getArea(area: string): Promise<apiModels.Area[]> {
+    const requestData = new ApiRequest<apiModels.AreaParams>(this.apiAreasMethod,  { area : area });
     const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }

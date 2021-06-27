@@ -61,24 +61,16 @@ const BusinessPartners: React.FC = () => {
         }
     }
 
-    const newColumns = ColumnDefs.map((obj: any) => {
-        obj.cellRenderer = (params: any) => {
-            let cellValue = params.value;
-            return cellValue;
-        }
-        return obj;
-    });
-
     const fetchOppty = async (start: number, orderBy: string): Promise<result> => {
         const res: result = {
             items: [],
             load: true
         };
         const filters: BusinessPartnerListParams = {
-            businessPartnerTextSearch: '',
+            businessPartnerTextSearch: searchText,
             searchField: '',
             includeInactive: true,
-            crmAttributesTextSearch: searchText,
+            crmAttributesTextSearch: '',
             industry: '',
             area: '',
         }
@@ -207,7 +199,7 @@ const BusinessPartners: React.FC = () => {
                         : <React.Fragment>
                             <GridFilter filters={Array.from(state.businessPartnerFilters)} selected={filter} selectOption={onFilter} />
                             {loader && <Loader component='opportunity' />}
-                            <Grid refresh={refresh} col={newColumns} gridRowClicked={openBusinessPartnerDetails} getDataRows={fetchOppty} ></Grid>
+                            <Grid refresh={refresh} col={ColumnDefs} gridRowClicked={openBusinessPartnerDetails} getDataRows={fetchOppty} ></Grid>
                         </React.Fragment>
                     )}
                 </div>

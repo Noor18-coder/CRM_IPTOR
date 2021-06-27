@@ -15,10 +15,14 @@ interface Props {
 }
 
 export const ContactAccordian: React.FC<Props> = ({ title, data }) => {
+    const [activeClass , setActiveClass] = React.useState("");
+    const toggleAccordion = () => {
+      setActiveClass(activeClass === "" ? "active" : "");
+    }
     return (
         <Accordion defaultActiveKey="0">
             <Card className="add-details">
-                <Accordion.Toggle as={Card.Link} eventKey="1">
+                <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                     {title}
                     <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 
                 </Accordion.Toggle>
