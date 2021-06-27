@@ -7,6 +7,7 @@ interface Props {
 
 const Staging: React.FC<Props> = ({ stage }) => {
   return (
+    <>
     <div className="staging-highlight">
       <ul className="hbreadcrumb">
         {
@@ -19,6 +20,7 @@ const Staging: React.FC<Props> = ({ stage }) => {
         }
       </ul>
     </div>
+    </>
   )
 }
 

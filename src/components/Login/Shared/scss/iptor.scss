@@ -47,7 +47,12 @@ body {
         &.loginpage {
             height: 785px;
             position: relative;
-
+            background: url("../../../../assets/images/bg_login.png") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        
             .login-lft-cont-container {
                 position: fixed;
                 left: 100px;
@@ -135,7 +140,12 @@ body {
         &.companypage {
             height: 900px;
             position: relative;
-
+            background: url("../../../../assets/images/bg_login.png") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        
             .mobile-backto-login {
                 display: none;
             }

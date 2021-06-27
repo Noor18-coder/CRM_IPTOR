@@ -4,6 +4,7 @@ import Footer from '../Shared/Footer/Footer'
 import InfoAccordion from './InfoAccordion';
 import Actions from './Actions';
 import OpportunityInfo from './OpportunityInfo';
+import OpportunityInfoMobile from './OpportunityInfoMobile';
 import { OpportunityDetailsDefault, OpportunityDetailsGroupItem } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
@@ -33,6 +34,7 @@ const OpportunityDetails: React.FC = (props: any) => {
                 <div className="container-fluid">
                     <Actions />
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
+                    {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">
                         {opptyDataBasicGroup ? <InfoAccordion title={'Basic Info'} data={opptyDataBasicGroup} /> : null}
                         {opptyDataMoreInfoGroup ? <InfoAccordion title={'More Info'} data={opptyDataMoreInfoGroup} /> : null}
