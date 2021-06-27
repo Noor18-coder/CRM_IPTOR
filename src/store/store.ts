@@ -4,10 +4,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-
-import  opportunityReducer  from './Opportunity/Reducers';
-import {authReducer} from './Auth/Reducers';
+import { authReducer } from './Auth/Reducers';
+import opportunityReducer from './Opportunity/Reducers';
 import { OpportunityState } from './Opportunity/Types';
+import businessPartnerReducer from './Customer/Reducer';
+import { BusinessPartnerState } from './Customer/Types';
 import { AuthState, AuthActions } from './Auth/Types';
 
 import usersReducer from './Users/Reducers';
@@ -22,14 +23,16 @@ const persistConfig = {
 export type AppActions = AuthActions;
 
 export interface AppState {
-  readonly opportunities: OpportunityState;
   readonly auth : AuthState,
-  readonly users: UsersData
+  readonly users: UsersData,
+  readonly opportunities: OpportunityState,
+  readonly businesspartners: BusinessPartnerState
 }
 const appReducer = combineReducers({
   auth: authReducer,
-  opportunities:opportunityReducer,
-  users:usersReducer
+  users: usersReducer,
+  opportunities: opportunityReducer,
+  businesspartners: businessPartnerReducer,
 });
 
 const rootReducer = (state: any, action: AppActions) => {

@@ -4,6 +4,8 @@ import ProtectedRoute from './ProtectedRoute';
 import Opportunities from './components/Opportunity/Opportunities';
 import LoginForm from './components/Login/LoginForm';
 import OpportunityDetails from './components/OpportunityDetails/OpportunityDetails';
+import Dashboard from './components/Dashboard/Dashboard';
+import Customers from './components/Customer/CustomerList'
 
 
 function Routes() {
@@ -11,10 +13,13 @@ function Routes() {
     return (
         <Router>
            <Route path="/login" component={LoginForm} exact />
-           <ProtectedRoute  path="/"  component={Opportunities}  exact  />
+           <ProtectedRoute  path="/"  component={Dashboard}  exact  />
+           <ProtectedRoute  path="/opportunities"  component={Opportunities}  exact  />
            <ProtectedRoute  path="/opp-details"  component={OpportunityDetails}  exact  />
+           <ProtectedRoute path="/customers" component={Customers} exact />
         </Router>
     )
 }
 
 export default Routes;
+

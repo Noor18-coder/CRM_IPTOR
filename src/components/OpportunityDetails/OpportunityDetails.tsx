@@ -83,7 +83,7 @@ const OpportunityDetails: React.FC = (props: any) => {
 
     return (
         <>
-            <Header />
+            <Header page={1}/>
             <section className="main-wrapper opportunity">
                 <div className="container-fluid">
                     <OpportunityActions backToOpportunityList={backToOpportunityList} />

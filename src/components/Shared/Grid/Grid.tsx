@@ -6,6 +6,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { RowClickedEvent } from 'ag-grid-community';
 
 import { OpportunityListItem, UserItem, OpportunityFilterItem } from '../../../helpers/Api/models';
+import { BusinessPartnerListItem } from '../../../helpers/Api/models/Customer';
 
 import { useSelector, useDispatch } from "react-redux";
 import { OpportunityState } from '../../../store/Opportunity/Types';
@@ -14,14 +15,14 @@ import { UsersData } from '../../../store/Users/Types';
 import CustomNoRowsOverlay from '../Grid/customNoRowsOverlay'
 
 interface result {
-  items: OpportunityListItem[],
+  items: OpportunityListItem[] | BusinessPartnerListItem[],
   load: boolean
 }
 
 interface Props {
   col: any;
   gridRowClicked: (data: any) => void;
-  getDataRows: (start: number, sortString: string, filter?: OpportunityFilterItem) => Promise<result>,
+  getDataRows: (start: number, sortString: string) => Promise<result>,
   refresh:boolean
 }
 
@@ -54,18 +55,20 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows , refresh}) =
     params.api.setDatasource(dataSource);
   }
 
-  const getDataSource = ( params: any, filterd?: OpportunityFilterItem) => {
-    return {
+  const getDataSource = ( params: any) => {
+      return {
       rowCount: null,
-      getRows: async (params: any) => {
+        getRows: async (params: any) => {
         let orderByString = '';
         if (params && params.sortModel && params.sortModel[0]) {
-          orderByString = params.sortModel[0].colId + ' ' + params.sortModel[0].sort;
+            orderByString = params.sortModel[0].colId + ' ' + params.sortModel[0].sort;
         }
         
-        const data: result = await getDataRows(params.startRow, orderByString, filterd);
-        if (data.items.length === 0) {
-            gridApi.showNoRowsOverlay();
+        const data: result = await getDataRows(params.startRow, orderByString);
+            if (data.items && data.items.length === 0) {
+                if (gridApi) {
+                    gridApi.showNoRowsOverlay();
+                }
         }
         else {
             if (gridApi)

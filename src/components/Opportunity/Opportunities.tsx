@@ -183,7 +183,7 @@ const Opportunities: React.FC = () => {
 
   return (
     <div>
-      <Header />
+      <Header page={1}/>
       <section className="opportunities">
         <div className={"container-fluid"}>
 

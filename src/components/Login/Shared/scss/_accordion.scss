@@ -241,3 +241,22 @@
 .more-info-group-container {
    border-bottom: 1px solid #DAE2E7;
 }
+
+.customer-card-text {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    margin-top: 0px !important;
+    color: #404040 !important
+}
+
+.mobile-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+ag-cell span {
+    padding-left: 10px
+}
