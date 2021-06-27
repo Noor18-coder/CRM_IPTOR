@@ -310,6 +310,7 @@ body {
     @import 'header';
     @import 'accordion';
     @import 'opportunity-details';
+    @import 'customer-details';
     @import 'common-styles';
     @import 'staging-arrow';
     @import '../../../../assets/styles/mediaqueries';
@@ -358,5 +359,8 @@ body {
 
 .list-inline {
     display: inline-block;
-    padding-left: 28px;
+}
+
+.cust-list {
+    padding:0;
 }

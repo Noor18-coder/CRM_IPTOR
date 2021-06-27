@@ -9,11 +9,11 @@ import Footer from '../Shared/Footer/Footer'
 import { InfoAccordion , InfoAccordionGroups} from './InfoAccordion';
 import { ContactAccordian } from '../OpportunityDetails/ContactDetails';
 import { ProductAccordian } from '../OpportunityDetails/ProductDetails';
-import OpportunityActions from './OpportunityActions';
 import OpportunityInfo from './OpportunityInfo';
 import OpportunityInfoMobile from './OpportunityInfoMobile';
 import * as models from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
+import {NavSection} from '../Shared/DetailsNav/NavSection';
 
 
 const OpportunityDetails: React.FC = (props: any) => {
@@ -86,7 +86,7 @@ const OpportunityDetails: React.FC = (props: any) => {
             <Header page={1}/>
             <section className="main-wrapper opportunity">
                 <div className="container-fluid">
-                    <OpportunityActions backToOpportunityList={backToOpportunityList} />
+                    <NavSection backToOpportunityList={backToOpportunityList} />
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
                     {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">

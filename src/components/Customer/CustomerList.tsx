@@ -16,6 +16,7 @@ import { BusinessPartnerListItem, BusinessPartnerListParams } from '../../helper
 import { saveBusinessPartnerList, saveBusinessPartnerFilters, saveBusinessPartnersFilters } from '../../store/Customer/Actions';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import BusinessPartnerListMobile from './CustomerListMobile';
+import { useHistory } from 'react-router'; 
 
 
 interface result {
@@ -42,7 +43,14 @@ const BusinessPartners: React.FC = () => {
     const [refresh, setRefresh] = React.useState<boolean>(false);
     const [filter, selectFilter] = React.useState<SelectOptionMethod>();
 
-    const openBusinessPartnerDetails = () => { }
+    const history = useHistory();
+
+    const openBusinessPartnerDetails = (data: any) => {
+        const custId = data && data.businessPartner ? data.businessPartner : null;
+        if(custId) {
+          history.push({  pathname:  "/cust-details", state: { custId: custId}})
+        }
+    }
 
     const newColumns = ColumnDefs.map((obj: any) => {
         if (obj.field == "handler") {

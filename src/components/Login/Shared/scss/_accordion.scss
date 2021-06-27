@@ -69,7 +69,8 @@
     font-size: 0.8125rem;
     padding-top: 6px;
     line-height: 1;
-    // padding: 10px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 .accordion a.active:after {
@@ -242,6 +243,15 @@
    border-bottom: 1px solid #DAE2E7;
 }
 
+.cust-details img {
+    position: absolute;
+    right: 29px;
+    top: 127px;
+}
+.list-inline .edit {
+    position: relative;
+    left: 387px;
+}
 .customer-card-text {
     font-size: 16px !important;
     font-weight: 700 !important;

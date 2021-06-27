@@ -7,3 +7,4 @@ export * from './Users';
 export * from './StageInfo'; 
 export * from './Contacts';
 export * from './Product';
+export * from './CustomerDetails'

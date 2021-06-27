@@ -20,6 +20,8 @@ import NAV_MORE_DOTS from '../assets/images/nav-more.svg';
 import ADD_ICON from '../assets/images/add-icon.svg';
 import DEL_ICON from '../assets/images/close.svg';
 import ADD_BTN from '../assets/images/add_btn.svg';
+import PHONE from '../assets/images/phone.svg';
+import MAIL  from '../assets/images/mail.svg';
 
  const ImageConfig = {
     LogoImage: LogoImage,
@@ -43,7 +45,9 @@ import ADD_BTN from '../assets/images/add_btn.svg';
     NAV_MORE_DOTS:NAV_MORE_DOTS,
     ADD_ICON:ADD_ICON,
     DEL_ICON:DEL_ICON,
-    ADD_BTN:ADD_BTN
+    ADD_BTN:ADD_BTN,
+    PHONE:PHONE,
+    MAIL:MAIL
 };
 
 export default ImageConfig;
