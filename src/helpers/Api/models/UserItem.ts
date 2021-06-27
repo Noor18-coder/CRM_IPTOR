@@ -7,7 +7,8 @@ export interface UserItem {
   text:string;
   description: string;
   language: string;
-  currentEnvironment?: CompanyInfoItem[]
+  currentEnvironment?: CompanyInfoItem[];
+  selectedCompany: string;
 }
 
 export interface UserParams {

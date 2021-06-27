@@ -10,8 +10,8 @@ export class UserMock {
         handler: faker.name.findName(),
         defaultSalesOrderType: faker.random.alphaNumeric(7),
         description: faker.name.firstName(7) + " " + faker.name.lastName,
-        language: faker.random.alphaNumeric(7)
-           
+        language: faker.random.alphaNumeric(7),
+        selectedCompany: faker.random.alphaNumeric(2)
         };
     }
 }

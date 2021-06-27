@@ -22,7 +22,8 @@
        user: '',
        handler: '',
        language: '',
-       currentEnvironment: []
+       currentEnvironment: [],
+       selectedCompany: ''
      } as UserItem
    }
  };
@@ -56,7 +57,7 @@
      case AuthTypes.USER_SET:
        return {
          ...state,
-         user: { ...action.user }
+         user: { ...state.user, ...action.user }
        };
       case AuthTypes.LOGIN_WITHOUT_COMPANY:
        return {

@@ -16,11 +16,7 @@ export class User {
    * @param params user id
    * @returns information about user
    */
-  static async get(userId?: string): Promise<models.UserResponse> {
-    //static async get(): Promise<CompaniesResponse> {
-    //const requestData = new ApiRequest(this.apiMethod);
-    //const response = await axios.post<models.UserResponse>('/api/service', requestData);
-    //return get(response, 'data.data', []);
+  static async get(userId?: string): Promise<models.UserItem> {
     const requestData = { method: this.apiMethod, user: userId };
     const response = await axios.post<models.UserResponse>('/api/service', requestData);
     return get(response, 'data.data', {});
