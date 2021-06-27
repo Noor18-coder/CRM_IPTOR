@@ -9,10 +9,7 @@ export interface Data {
 
 }
 
-interface Props {
-  stage: string
-}
-const OpportunityInfoMobile:React.FC<Data> = (props, stage) => {
+const OpportunityInfoMobile:React.FC<Data> = (props) => {
     return (
         // <!-- SECTION MOBILE PRODUCT NAME CARD START -->
         <section className="opp-product-mobilecard">
@@ -31,7 +28,7 @@ const OpportunityInfoMobile:React.FC<Data> = (props, stage) => {
 
         <div className="status-row">
           <ul className="list-inline">
-            <li className="list-inline-item grade">{stage.data}</li>
+            <li className="list-inline-item grade">{props.data.stage}</li>
             <li className="list-inline-item open">Open</li>
             <li className="list-inline-item status">Approved</li>
           </ul>
@@ -54,7 +51,7 @@ const OpportunityInfoMobile:React.FC<Data> = (props, stage) => {
             <ul className="list-inline stage-circles d-flex justify-content-between">
             {
               OpportunityStages.map((obj) => {
-                if (stage == obj.status) {
+                if (props.data.stage == obj.status) {
                   return <li className="list-inline-item active">{obj.status}</li>
                 }
                 return <li className="list-inline-item">{obj.status}</li>

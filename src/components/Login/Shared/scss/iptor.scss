@@ -45,7 +45,7 @@ body {
 
     .main-wrapper {
         &.loginpage {
-            height: 785px;
+            height: 950px;
             position: relative;
             background: url("../../../../assets/images/bg_login.png") no-repeat center center fixed;
             -webkit-background-size: cover;
@@ -88,7 +88,7 @@ body {
             .login-panel-container {
                 position: absolute;
                 right: 24px;
-                width: 420px;
+                width: 448px;
                 top: 24px;
                 bottom: 24px;
                 background: $white;
@@ -138,7 +138,7 @@ body {
         }
 
         &.companypage {
-            height: 900px;
+            height: 950px;
             position: relative;
             background: url("../../../../assets/images/bg_login.png") no-repeat center center fixed;
             -webkit-background-size: cover;
@@ -185,7 +185,7 @@ body {
             .login-panel-container {
                 position: absolute;
                 right: 24px;
-                width: 420px;
+                width: 448px;
                 top: 24px;
                 bottom: 24px;
                 background: $white;
@@ -212,9 +212,10 @@ body {
 
                 .companylist-container {
                     overflow-y: auto;
-                    max-height: 486px;
+                    max-height: 469px;
                     margin-top: 48px;
                     padding-right: 24px;
+                    padding-left: 24px;
 
                     .companys-list-item {
                         padding-bottom: 16px;
@@ -242,6 +243,7 @@ body {
 
                 .desk-backto-login {
                     margin-top: 48px;
+                    padding-left: 24px;
                 }
 
                 .login-copyrights {
