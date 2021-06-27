@@ -79,3 +79,9 @@ export interface DeleteCustomerContactParams {
     contactParentId:string;
     contactId:string;
 }
+
+export interface DeleteOpportunityItemParams {
+    itemId:string;
+    parentFile?:string;
+    parentId:string;
+}

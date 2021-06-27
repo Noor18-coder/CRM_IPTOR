@@ -9,8 +9,9 @@ import { AppState } from "../../store/store";
 import EditAttributes from './EditAttributes';
 import EditBasicInfo from './EditBasicInfo';
 import AddContact from './AddContact';
+import EditItem from './EditItem';
+import AddItem from './AddItem';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm} from '../../store/OpportunityDetails/Actions';
-import { groupBy } from 'lodash';
 
 
 interface Props {
@@ -28,9 +29,7 @@ const EditOpportunity: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
         dispatch(openOpportunityForm({open:false}))
     }
 
-    React.useEffect(() => {
-        
-    }, []);
+
 
     const loadComponent = () => {
         const groupName = state.opportuntyDetails.editOportunity.groupName; 
@@ -38,8 +37,11 @@ const EditOpportunity: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
         if(groupName == 'opportunity_defaults'){
             return <EditBasicInfo reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
         } else if('add_contact' === groupName){
-            //setHeaderName('Add Contacts');
             return <AddContact refresh={reloadOpportunityDetailsPage} edit={false} />;
+        } else if(groupName == 'edit_item'){
+            return  <EditItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        } else if(groupName == 'add_item'){
+            return  <AddItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
         }else {
             return <EditAttributes reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
         }
@@ -49,6 +51,10 @@ const EditOpportunity: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
         const groupName = state.opportuntyDetails.editOportunity.groupName; 
         if(groupName === 'add_contact'){
             setHeaderName('Add Contacts');
+        } else if(groupName == 'add_item') {
+            setHeaderName('Add Product');
+        } else if(groupName == 'edit_item') {
+            setHeaderName('Edit Product')
         }
     }, [])
 

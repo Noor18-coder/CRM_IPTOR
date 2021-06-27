@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as apiModels from './models';
 import { ApiRequest } from './ApiRequest';
 import { get } from 'lodash';
@@ -13,6 +13,8 @@ export default class OpportunityDetailsApi {
   private static apiGroupMethod: string = 'mopAttributes.get';
   private static apiContactMethod: string = 'mopContacts.get';
   private static apiItemsMethod: string = 'mopItems.get';
+  private static apiDeleteItem: string = 'mopItem.delete';
+
 
   /**
    * Helper function to fetch Opportunity default info
@@ -59,4 +61,10 @@ export default class OpportunityDetailsApi {
       const response = await axios.post<apiModels.OpportunityDetailsDefaultResponse>('/api/service', requestData);
       return get(response, 'data.data.items', []);
   }
+
+  static async deleteItem(params: apiModels.DeleteOpportunityItemParams): Promise<any> {
+    const requestData = new ApiRequest<apiModels.DeleteOpportunityItemParams>(this.apiDeleteItem, {parentId:params.parentId, parentFile:this.attributesProductFileName, itemId: params.itemId});
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+}
 }

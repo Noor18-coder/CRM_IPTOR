@@ -92,4 +92,10 @@ export class Attributes {
     return get(response, 'data');
   }
 
+  static async getAttributeTypes(fileName: string): Promise<apiModels.AttributeField[]> {
+    const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile :fileName});
+    const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+}
+
 }

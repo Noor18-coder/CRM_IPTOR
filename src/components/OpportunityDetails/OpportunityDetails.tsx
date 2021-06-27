@@ -53,6 +53,14 @@ const OpportunityDetails: React.FC = (props: any) => {
         const attributeValues:models.AttributeValueObject[] =  await OpportunityDetailsApi.getGroupInfo(opptyId);
         setOpptyDataForMoreInfoGroup(attributeValues);
         dispatch(saveOpportunityAttributes(attributeValues));
+
+        const contactData = await OpportunityDetailsApi.getOpportunityContact(opptyId);
+        setOpptyDataContactInfo(contactData);
+        
+        const opptyItems = await OpportunityDetailsApi.getOpportunityItems(opptyId);
+        setOpptyDataProductInfo(opptyItems);
+
+
         dispatch(removeLoadingMask());
         setLoading(false);
     }
@@ -61,14 +69,7 @@ const OpportunityDetails: React.FC = (props: any) => {
         
         fetchOpportunityDetails(opptyId);
         
-        OpportunityDetailsApi.getOpportunityContact(opptyId).then((data) => {
-            setOpptyDataContactInfo(data);
-        });
-
-        OpportunityDetailsApi.getOpportunityItems(opptyId).then((data) => {
-            setOpptyDataProductInfo(data)
-        });
-
+       
     }, []);
 
     const getBasicInfo = (basicInfo: models.OpportunityDetailsDefault) => {
@@ -107,6 +108,21 @@ const OpportunityDetails: React.FC = (props: any) => {
         dispatch(openOpportunityForm({open:true,groupName:'add_contact'}))
     }
 
+    const openAddItemForm = async (action:string, data?:models.Product) => {
+        if(action == 'delete_item'){
+            
+            const params:models.DeleteOpportunityItemParams = {
+                parentId:opptyId,
+                itemId: data && data.itemId ? data.itemId : ''
+            }
+            const res = await OpportunityDetailsApi.deleteItem(params);
+            reloadOpportunity();
+        }else {
+            dispatch(openOpportunityForm({open:true,groupName:action, data: data}))
+        }
+    }
+
+
     const reloadOpportunity = () => {
         fetchOpportunityDetails(opptyId);
     }
@@ -129,7 +145,7 @@ const OpportunityDetails: React.FC = (props: any) => {
                     <section className="sec-info-accordion">
                         {opptyDataBasicGroup?.length ? <InfoAccordion title={'Basics'} data={opptyDataBasicGroup} openEditOpportunity={openOpportunityBasicEdit} /> : null}
                         {opptyDataMoreInfoGroup ? <InfoAccordionGroups title={'More Information'} data={opptyDataMoreInfoGroup} openEditForm={openEditForm}/> : null} 
-                        <ProductAccordian title={'Products & Modules'} data={opptyDataProductInfo} />
+                        <ProductAccordian title={'Products & Modules'} data={opptyDataProductInfo} openAddItemForm={openAddItemForm} />
                         <ContactAccordian title={'Contacts'} data={opptyDataContactInfo} openAddContactForm={openAddContactForm} deleteContact={deleteContact} />                         
                     </section>
                 </div>
