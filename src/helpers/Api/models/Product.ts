@@ -15,6 +15,9 @@ export interface Product {
     hasNote: boolean;
     hasContact: boolean;
     hasAttribute: boolean;
+    cost?: string;
+    revenue?: string;
+    version?: string;
 }
 
 export interface ProductParams {

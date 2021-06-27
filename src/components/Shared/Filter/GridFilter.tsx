@@ -60,8 +60,7 @@ const ArrowRight = Arrow({ text: '', className: 'arrow-next' });
 
 
 export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = initialFilter}) => {
-   
-    const [handler, setHandler] = React.useState<string>('all');
+     const [handler, setHandler] = React.useState<string>('all');
     const [selectedFilter, setFilter] = React.useState<Option>(selected);
 
     const selectFilter = (obj:Option) => {
@@ -72,7 +71,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
 
     const handlerChange = (handler:string) => {
         setHandler(handler);
-        const params = {...selectedFilter, handler:handler};
+        const params = {...selected, handler:handler};
         selectOption(params);
     }
 

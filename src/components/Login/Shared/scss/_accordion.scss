@@ -115,14 +115,16 @@
 
 .accordian-card {
     margin-left: 28px;
-    width: 30%
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
 }
 .left-card {
-    width: 80%;
+    width: 90%;
     display: inline-block
 }
 .right-card {
-    width: 20%;
+    width: 10%;
     display: inline-block;
     vertical-align: top
 }
@@ -211,4 +213,31 @@
     position: absolute;
     right: 59px;
     top: 24px;
+}
+.add-details .card-link img {
+    position: absolute;
+    right: 59px;
+    top: 24px;
+}
+
+.contact-label {
+    font-size: 12px !important;
+    color: #404040 !important;
+    margin-bottom: 12px !important
+}
+
+.contact-font {
+    font-size: 14px !important
+}
+
+.more-info-group-name {
+    font-size: 18px !important;
+    font-weight: 700;
+    color: #2F3C46;
+    padding: 8px 24px;
+    text-transform: capitalize;
+}
+
+.more-info-group-container {
+   border-bottom: 1px solid #DAE2E7;
 }

@@ -12,7 +12,9 @@ noteExist : boolean;
 existDC : boolean;
 isEditable : boolean;
 attributeExist : boolean;
-domainTrans : string;
+domainTrans: string;
+visitingAddress?: string;
+role?: string;
 }
 
 export interface OpportunityContactsParams {
@@ -22,5 +24,5 @@ export interface OpportunityContactsParams {
 export interface OpportunityContactsResponse {
   data: {
     items: OpportunityContact[]
-  }
+    }
 }

@@ -46,6 +46,11 @@ export interface  OpportunityDetailsGroupItem {
   description:string
 };
 
+export interface  OpportunityDetailsBasicInfo {
+  attributeValue: string,
+  description:string
+};
+
 export interface OpportunityInfoDetails {
   contactInfo: OpportunityContact[];
   productInfo: Product[];
@@ -69,4 +74,13 @@ export interface OpportunityDetailsParams {
      data:{
        items: OpportunityDetailsGroupItem[]
      } 
+  }
+
+  export interface IStringList {
+    [index: string]: OpportunityDetailsGroupItem[]
+  }
+  
+  export interface OpportunityMoreInfoSection {
+    title: string,
+    data: IStringList
   }

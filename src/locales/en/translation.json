@@ -1,0 +1,5 @@
+{
+  "hiMessage": "Hi there!",
+  "welcomeMessage": "Welcome back...",
+  "loginErrorMsg":  "Either your password or user id is wrong"
+}

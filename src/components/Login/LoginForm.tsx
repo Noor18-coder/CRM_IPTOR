@@ -17,6 +17,7 @@ import { AppState } from "../../store/store";
 import { Redirect } from "react-router";
 
 import Loader from '../Shared/Loader/Loader'
+import i18n from '../../i18n'
 
 const LoginForm: React.FC = () => {
     const state: AppState = useSelector((state: AppState) => state);
@@ -81,11 +82,11 @@ const LoginForm: React.FC = () => {
               title="Iptor"
             ></Image>
             <p className="welcome-txt">
-              <span className="hi-txt">Hi there!</span>
-              <span className="welcomeback-txt">Welcome back...</span>
+                <span className="hi-txt">{i18n.t('hiMessage')}</span>
+                <span className="welcomeback-txt">{i18n.t('welcomeMessage')}</span>
             </p>
             {loader && <Loader />}
-            {error || state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; Either your password or user id is wrong</p> : null}
+            {error || state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; {i18n.t('loginErrorMsg')}</p> : null}
             <div className="form-placeholder-container">
               <Form>
                 <Form.Group>

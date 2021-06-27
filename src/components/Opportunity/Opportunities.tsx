@@ -144,7 +144,10 @@ const Opportunities: React.FC = () => {
   }, []);
 
   const onFilter = (obj: SelectOptionMethod) => {
-    if(filter?.selectParam === obj.selectParam && filter.value === obj.value){
+    if(filter?.handler !== obj.handler){
+      selectFilter(obj);
+    
+    }else if(filter?.selectParam === obj.selectParam && filter.value === obj.value){
       selectFilter({...filter, selectParam:'', value:''});
     }else {
       selectFilter(obj);
