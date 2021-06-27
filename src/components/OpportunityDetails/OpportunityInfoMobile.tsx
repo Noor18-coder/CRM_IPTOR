@@ -3,6 +3,9 @@ import { OpportunityDetailsDefault } from '../../helpers/Api/models';
 import {getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import ImageConfig from '../../config/ImageConfig';
 import OpportunityStages from '../../config/OpportunityStages';
+import {StagesInfo} from '../../helpers/Api/StagesInfo';
+import {StageInfo} from '../../helpers/Api/models/StageInfo'
+
 import {useHistory} from "react-router-dom";
 export interface Data {
 
@@ -15,6 +18,12 @@ const OpportunityInfoMobile:React.FC<Data> = (props) => {
   const backToOpportunityList= () => {
       history.goBack()
     }
+    const [stages, setStages] = React.useState<StageInfo[]>();
+    React.useEffect(() => {
+    
+        StagesInfo.get().then((data) => setStages(data.items));
+  
+  }, []);
     return (
         // <!-- SECTION MOBILE PRODUCT NAME CARD START -->
         <section className="opp-product-mobilecard">
@@ -55,12 +64,13 @@ const OpportunityInfoMobile:React.FC<Data> = (props) => {
           <div className="stage-lvl">
             <ul className="list-inline stage-circles d-flex justify-content-between">
             {
-              OpportunityStages.map((obj) => {
-                if (props.data.stage == obj.status) {
-                  return <li className="list-inline-item active">{obj.status}</li>
+              stages ?
+              stages.map((obj) => {
+                if (props.data.stage == obj.salesStage) {
+                  return <li className="list-inline-item active">{obj.salesStage}</li>
                 }
-                return <li className="list-inline-item">{obj.status}</li>
-              })
+                return <li className="list-inline-item">{obj.salesStage}</li>
+              }): null
             }
             </ul>
             <div className="sec-change-approver d-flex justify-content-between">

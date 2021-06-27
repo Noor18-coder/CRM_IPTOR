@@ -18,6 +18,7 @@ import ColumnDefs from '../../config/OpportunityGrid';
 import { OpportunityListItem } from '../../helpers/Api/models';
 
 import { saveOpptyList, saveOpptyFilters} from '../../store/Opportunity/Actions';
+import Footer from "../Shared/Footer/Footer";
 
 interface result {
   items: OpportunityListItem[],
@@ -137,6 +138,7 @@ const Opportunities: React.FC = () => {
           { usersData.users && usersData.users.length ? <Grid col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> : null }
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

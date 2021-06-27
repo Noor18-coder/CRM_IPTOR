@@ -22,7 +22,7 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Customer',
         cellRenderer: (params: any) => {
-          return params.value;
+          return ' <span class="o-customer">' + params.value + '</span>'
         }
   
       },

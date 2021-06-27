@@ -4,3 +4,4 @@ export * from './ApiRequestControls';
 export * from './Opportunity';   
 export * from './OpportunityDetails';  
 export * from './Users'; 
+export * from './StageInfo'; 
