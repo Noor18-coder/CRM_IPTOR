@@ -117,7 +117,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                             <div className="form-group oppty-form-elements">
                                 <label>Select Stage</label>
                                 <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange}>
-                                    {/* <option disabled selected>Type or Select a customer</option> */}
+                                    <option disabled selected>Select stage</option>
                                     {state.enviornmentConfigs.crmOpportunityStage.map((obj: models.StageInfo) => {
                                         return <option>{obj.salesStage}</option>
                                     })}

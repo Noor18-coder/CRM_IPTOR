@@ -6,7 +6,7 @@ import { AppState } from "../../store/store";
 import ImageConfig from '../../config/ImageConfig';
 import { OpportunityType, UserDefinedField, UserDefinedFieldsValueDropDown, DropDownValues, DropDownValue, AddOpportunityDefaultParams, UserDefinedFieldReduxParams} from '../../helpers/Api/models';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
-import {saveOpportunityParams} from '../../store/AddOpportunity/Actions';
+import {saveOpportunityParams, saveOpportunityAttributes} from '../../store/AddOpportunity/Actions';
 import DatePicker from '../Shared/Picker/DatePicker';
 
 
@@ -81,7 +81,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
         if(validate() && validateAttrubutes()){
             changeStep(3);
             dispatch(saveOpportunityParams(opportunity));
-            //dispatch(saveOpportunityAttributes(attributesSet));
+            dispatch(saveOpportunityAttributes(attributesSet));
         }else{
             alert("Something is missing");
         }

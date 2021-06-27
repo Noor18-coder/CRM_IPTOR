@@ -15,3 +15,10 @@ export interface AddOpportunityDefaultParams {
     desc?: string;
     customer?: string;
 }
+
+
+export interface AddOpportunityResponse {
+    data : {
+        opportunityId:string
+    }
+}

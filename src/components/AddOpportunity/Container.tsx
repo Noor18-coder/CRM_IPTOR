@@ -17,12 +17,17 @@ const Container:React.FC<Props> = ({open, onChange}) => {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
   const isDesktop = useMediaQuery({ minWidth: 992 });
 
-  const [isOpen, setState] = React.useState(true);
+  const [isOpen, setState] = React.useState(false);
 
   const closeDrawer = (open:boolean) => (event:React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
     setState(false);
     onChange(false);
   };
+
+  const removeDrawer = () => {
+    setState(false);
+    onChange(false);
+  }
 
   React.useEffect(() => {
     if(open){
@@ -33,9 +38,9 @@ const Container:React.FC<Props> = ({open, onChange}) => {
 
   return (
         <React.Fragment>
-         { isMobile || isTablet ? <AddOpportunity /> :  
+         { isMobile || isTablet ? <AddOpportunity closeDrawer={removeDrawer} /> :  
           <Drawer anchor={'right'} open={isOpen} onClose={closeDrawer(false)}>
-            <AddOpportunity />
+            <AddOpportunity closeDrawer={removeDrawer}/>
           </Drawer> }
         </React.Fragment>
 
