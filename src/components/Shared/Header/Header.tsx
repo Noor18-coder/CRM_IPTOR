@@ -92,7 +92,7 @@ const Header = () => {
                         <li className={"nav-item"}>
                             <a className={"nav-link navbar-avatar"} aria-expanded={"false"} data-animation={"scale-up"} role="button">
                                 <span className={"avatar avatar-online"}>
-                                    <img src={ImageConfig.NAV_REPORTS_ICON} alt={"..."} />
+                                    <img src={ImageConfig.NAV_NOTIFICATION_ICON} alt={"..."} />
                                     <i>Notifications</i>
                                     <span className={"notifications-badge"}>3</span>
                                 </span>

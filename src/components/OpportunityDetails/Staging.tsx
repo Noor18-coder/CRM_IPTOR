@@ -22,9 +22,9 @@ const Staging: React.FC<Props> = ({ stage }) => {
           { stages ?
             stages.map((obj) => {
               if (stage == obj.salesStage) {
-                return <li><a href="#" className="active">{obj.salesStage}<span>{obj.description}</span></a></li>
+                return <li><a href="" className="active">{obj.salesStage}<span>{obj.description}</span></a></li>
               }
-              return <li><a href="#">{obj.salesStage}<span>{obj.description}</span></a></li>
+              return <li><a href="">{obj.salesStage}<span>{obj.description}</span></a></li>
             }): null
           }
           </ul>

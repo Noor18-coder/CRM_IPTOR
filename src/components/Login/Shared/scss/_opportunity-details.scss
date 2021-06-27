@@ -2,7 +2,7 @@
 
     &.opportunity {
         .pagelvl-actionrow {
-            padding: 24px 0;
+            padding: 14px 0;
 
             .rgt-actionitem {
                 ul li {
@@ -14,20 +14,20 @@
         .sec-product-desc {
             background: $white;
             @include border-radius($border-radius);
-            padding: 16px 24px;
+            padding: 8px 24px;
             margin-bottom: 24px;
 
             .prod-name {
                 width: 30%;
 
-                p {
+                p { 
                     font: {
-                        size: $base-font-size + 10;
+                        size: $base-font-size + 4;
                         weight: $font-weight-bold;
                     }
 
                     line-height: 26px;
-                    color: $blue-bayoux;
+                    color: $o-black;
 
                     span {
                         display: block;
@@ -59,14 +59,14 @@
                         }
 
                         line-height: 26px;
-                        color: $blue-bayoux;
+                        color: $o-black;
                         text-transform: capitalize;
 
                         span {
                             display: block !important;
 
                             font: {
-                                size: $base-font-size + 10;
+                                size: $base-font-size;
                                 weight: $font-weight-semibold;
                             }
                         }
@@ -84,7 +84,6 @@
                     li {
                         &.grade {
                             background: #E9F9F9;
-                            color: #00A3A5;
                             // background: $mercury;
                             padding: 8px 16px;
                             position: relative;
@@ -95,7 +94,7 @@
                                 weight: $font-weight-bold;
                             }
 
-                            color: $limed-spruce;
+                            color: $persian-green;
                             margin-right: 60px;
 
                             &::after {
@@ -129,7 +128,7 @@
         .sec-staging {
             background: $white;
             @include border-radius($border-radius);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
 
             .title-row {
                 padding: 16px 24px;
@@ -148,6 +147,7 @@
                 .rgt-col {
                     display: flex;
                     align-items: center;
+                    color: $blue-bayoux;
 
                     font: {
                         size: $base-font-size;
@@ -174,8 +174,8 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 70px;
-    height: 34px;
+    width: 45px;
+    height: 19px;
     top: 5px;
   }
   
@@ -198,29 +198,32 @@
   }
   
   .slider:before {
+  
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
+    height: 13px;
+    width: 13px;
+  
+    content: "";
+    left: 1px;
+    bottom: 3px;
+    background-color: $white;
     -webkit-transition: .4s;
     transition: .4s;
   }
   
   input:checked + .slider {
-    background-color: #00A3A5;
+    background-color: $persian-green;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #00A3A5;
+    box-shadow: 0 0 1px $persian-green;
   }
   
   input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
   }
 .slider.round {
     border-radius: 34px;
@@ -240,7 +243,7 @@
     align-items: center;
     text-align: right;
     text-transform: capitalize;
-    color: #506574;
+    color: #DAE2E7;
     padding-left: 172px;
     padding-top: 17px;
 }

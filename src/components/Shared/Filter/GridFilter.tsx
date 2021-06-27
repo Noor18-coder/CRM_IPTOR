@@ -80,7 +80,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
     const classButtonMy =  classButton + ('my' == handler? ' active' : '');
 
     return (
-        <div className={"row s-header"}>
+        <div className={"row s-header "}>
             <div className={"col filter-class"}>
                 <div className={"navbar-filter"}>
                     <div className=" toggle-btn-group">
