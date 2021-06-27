@@ -92,9 +92,16 @@
                 top: inherit;
                 bottom: 24px;
                 margin: 0;
+                // height: 376px;
                 width: inherit;
                 padding: 0;
-                padding-bottom: 24px;
+                padding-bottom:24px;
+
+                .error{
+                    margin-left: 12px;
+                    margin-top: 0px;
+                    margin-right: 12px;
+                }
 
                 img.login-form-logo {
                     display: none;
@@ -208,8 +215,7 @@
 
             .pagelvl-actionrow,
             .sec-product-desc,
-            .sec-staging,
-            .sec-customer-addr {
+            .sec-staging {
                 display: none !important;
             }
 
@@ -235,7 +241,7 @@
                                 width: 24px;
                                 height: 24px;
                                 display: block;
-                                background: url("../images/chevron-left-black.svg") no-repeat top left;
+                                //background: url("./images/chevron-left-black.svg") no-repeat top left;
                             }
 
                             font: {
@@ -559,6 +565,7 @@
                 margin-bottom: 16px;
                 @include border-radius($border-radius);
                 box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+                cursor: pointer;
 
                 .title-row {
                     padding: 16px 16px 0 16px;
@@ -749,8 +756,7 @@
 
             .pagelvl-actionrow,
             .sec-product-desc,
-            .sec-staging,
-            .sec-customer-addr{
+            .sec-staging {
                 display: none !important;
             }
 
@@ -776,7 +782,7 @@
                                 width: 24px;
                                 height: 24px;
                                 display: block;
-                                background: url("../images/chevron-left-black.svg") no-repeat top left;
+                                //      background: url("./images/chevron-left-black.svg") no-repeat top left;
                             }
 
                             font: {
@@ -1099,6 +1105,7 @@
                 margin-bottom: 16px;
                 @include border-radius($border-radius);
                 box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+                cursor: pointer;
 
                 .title-row {
                     padding: 16px 16px 0 16px;
@@ -1306,7 +1313,7 @@
                 width: inherit;
                 padding: 0;
                 padding-bottom: 24px;
-                
+
                 img.login-form-logo {
                     display: none;
                 }
@@ -1518,6 +1525,7 @@
                 margin-bottom: 16px;
                 @include border-radius($border-radius);
                 box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+                cursor: pointer;
 
                 .title-row {
                     padding: 16px 16px 0 16px;

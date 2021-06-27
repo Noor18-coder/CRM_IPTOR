@@ -1,0 +1,261 @@
+.main-wrapper {
+
+    &.opportunity {
+        .pagelvl-actionrow {
+            padding: 14px 0;
+
+            .rgt-actionitem {
+                ul li {
+                    margin-left: 16px;
+                }
+            }
+        }
+
+        .sec-product-desc {
+            background: $white;
+            @include border-radius($border-radius);
+            padding: 8px 24px;
+            margin-bottom: 24px;
+
+            .prod-name {
+                width: 30%;
+
+                p { 
+                    font: {
+                        size: $base-font-size + 4;
+                        weight: $font-weight-bold;
+                    }
+
+                    line-height: 26px;
+                    color: $o-black;
+
+                    span {
+                        display: block;
+
+                        font: {
+                            size: $base-font-size + 2;
+                            weight: $font-weight-regular;
+                        }
+
+                    }
+                }
+            }
+
+            .mid-sec {
+                width: 50%;
+
+                ul {
+                    display: grid;
+                    grid-template-columns: 33.3% 33.3% 33.3%;
+                    grid-template-rows: 100% auto;
+
+                    li {
+                        width: 100%;
+                        margin-right: 32px;
+
+                        font: {
+                            size: $base-font-size;
+                            weight: $font-weight-light;
+                        }
+
+                        line-height: 26px;
+                        color: $o-black;
+                        text-transform: capitalize;
+
+                        span {
+                            display: block !important;
+
+                            font: {
+                                size: $base-font-size + 4;
+                                weight: $font-weight-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .sec-status {
+                width: 20%;
+                text-align: right;
+
+                ul {
+                    margin-top: 12px;
+
+                    li {
+                        &.grade {
+                            background: #E9F9F9;
+                            // background: $mercury;
+                            padding: 8px 16px;
+                            position: relative;
+                            @include border-radius(20px);
+
+                            font: {
+                                size: $base-font-size + 2;
+                                weight: $font-weight-bold;
+                            }
+
+                            color: $persian-green;
+                            margin-right: 60px;
+
+                            &::after {
+                                position: absolute;
+                                content: '';
+                                width: 1px;
+                                top: 5px;
+                                right: -30px;
+                                bottom: 5px;
+                                background: $limed-spruce;
+                            }
+                        }
+
+                        &.status {
+                            color: $persian-green;
+
+                            font: {
+                                size: $base-font-size + 4;
+                                weight: $font-weight-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .opp-product-mobilecard{
+            display: none;
+        }
+
+        .sec-staging {
+            background: $white;
+            @include border-radius($border-radius);
+            margin-bottom: 20px;
+
+            .title-row {
+                padding: 16px 24px;
+                border-bottom: solid 1px $geyser;
+
+                .lft-col {
+                    display: flex;
+                    align-items: center;
+
+                    font: {
+                        size: $base-font-size + 4;
+                        weight: $font-weight-regular;
+                    }
+                }
+
+                .rgt-col {
+                    display: flex;
+                    align-items: center;
+                    color: $blue-bayoux;
+
+                    font: {
+                        size: $base-font-size;
+                        weight: $font-weight-regular;
+                    }
+
+                    .ghost-btn {
+                        margin-left: 16px;
+                    }
+                }
+            }
+
+            .staging-highlight {
+                padding: 24px;
+            }
+        }
+
+        .sec-info-accordion {
+            
+        }
+    }
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 19px;
+    top: 5px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 10px;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+  
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+  
+    content: "";
+    left: 1px;
+    bottom: 3px;
+    background-color: $white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: $persian-green;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px $persian-green;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+.slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+.oppt-lost {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    text-transform: capitalize;
+    color: #DAE2E7;
+    padding-left: 172px;
+    padding-top: 17px;
+}
+
+.prod-class {
+    padding-top: 1.7rem;
+    padding-bottom: 1.7rem;
+    background: #EEF0F2;
+    margin-top: 9px;
+    margin-bottom: 9px;
+}
+
+.prod-revenue-class {
+    background: #EEF0F2;
+}

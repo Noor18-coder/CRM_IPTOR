@@ -1,0 +1,360 @@
+.main-wrapper {
+
+    &.customer {
+        .pagelvl-actionrow {
+            padding: 14px 0;
+
+            .rgt-actionitem {
+                ul li {
+                    margin-left: 16px;
+                }
+            }
+        }
+
+        .sec-customer-desc, .sec-customer-addr{
+            background: $white;
+            @include border-radius($border-radius);
+            padding: 2px 21px;
+            margin-bottom: 24px;
+            padding-top: 24px;
+
+            
+            .cust-name {
+                width: 21%;
+
+                p { 
+                    font: {
+                        size: $base-font-size + 4;
+                        weight: $font-weight-bold;
+                    }
+
+                    line-height: 26px;
+                    color: $o-black;
+
+                    span {
+                        display: block;
+
+                        font: {
+                            size: $base-font-size + 2;
+                            weight: $font-weight-regular;
+                        }
+
+                    }
+                }
+            }
+
+            .mid-sec {
+                width: 55%;
+
+                ul {
+                    display: grid;
+                    grid-template-columns: 33.3% 33.3% 33.3%;
+                    grid-template-rows: 100% auto;
+
+                    li {
+                        width: 100%;
+                        margin-right: 32px;
+
+                        font: {
+                            size: $base-font-size;
+                            weight: $font-weight-light;
+                        }
+
+                        line-height: 26px;
+                        color: $o-black;
+                        text-transform: capitalize;
+
+                        span {
+                            display: block !important;
+
+                            font: {
+                                size: $base-font-size + 4;
+                                weight: $font-weight-semibold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .sec-add-cust {
+                width: 9%;
+                text-align: right;
+
+                ul {
+                    margin-top: 12px;
+
+                    li {
+                        &.grade {
+                            background: #E9F9F9;
+                            padding: 8px 16px;
+                            position: relative;
+                            @include border-radius(20px);
+
+                            font: {
+                                size: $base-font-size;
+                                weight: $font-weight-bold;
+                            }
+
+                            color: $persian-green;
+                            margin-right: 60px;
+                        }
+                    }
+                }
+            }
+        }
+        .sec-info-accordion {
+            
+        }
+    }
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 19px;
+    top: 5px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 10px;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+  
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+  
+    content: "";
+    left: 1px;
+    bottom: 3px;
+    background-color: $white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: $persian-green;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px $persian-green;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+.slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+.add-customer {
+    width: 102px;
+    height: 48px;
+    background: #EB617C;
+    border-radius: 4px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    justify-content: center;
+}
+
+.customer-card {
+    background: #EEF0F2;
+    border-radius: 22px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 19px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    color: $o-black;
+    padding: 6.4px 24px;
+    display: inline-block;
+}
+
+.card-details {
+    display: inline;
+}
+.contact-class .cust-info {
+    position: relative;
+    left: 160px;
+    color: #6D899D;  
+}
+.cust-info {
+    background: #EEF0F2;
+    font-size:14px;
+    border-radius: 24px;
+    padding: 8px 31px;
+    font-weight: bold;
+    color: #6D899D;
+    margin-right: 17px;
+}
+
+.switch-class {
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 40px;
+display: flex;
+align-items: center;
+text-transform: capitalize;
+color: #2F3C46;
+padding-left: 221px;
+}
+
+.p-left {
+    position: relative;
+    left: 71px;
+}
+
+
+.customer-mobilecard {
+    display: block;
+    background: $white;
+    margin-bottom: 24px;
+    padding: 0;
+
+    .customer-row {
+        border-bottom: solid 1px $mercury;
+
+        .lft-custname {
+            p {
+                padding: 24px 16px 0px 40px;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 12px;
+                    top: 23px;
+                    width: 24px;
+                    height: 24px;
+                    display: block;
+                    background: url("../images/chevron-left-black.svg") no-repeat top left;
+                }
+
+                font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                }
+
+                span.id-num {
+                    display: block;
+                    padding-top: 4px;
+
+                    font: {
+                        size: $base-font-size - 2;
+                        weight: $font-weight-regular;
+                    }
+                }
+
+                span.location {
+                    display: block;
+                    padding-top: 4px;
+
+                    font: {
+                        size: $base-font-size - 2;
+                        weight: $font-weight-regular;
+                    }
+                }
+            }
+        }
+
+        .rgt-actioncol {
+            padding: 24px 24px 24px 8px;
+
+            ul {
+                min-width: 120px;
+                text-align: right;
+                li {
+                    img {
+                        width: 19px;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+
+    .customer-details {
+        border-bottom: solid 1px $mercury;
+
+        .left-data,
+        .right-data {
+            p {
+                padding: 16px 12px;
+                line-height: 18px;
+
+                font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-semibold;
+                }
+
+                span {
+                    display: block;
+
+                    font: {
+                        size: $base-font-size + 2;
+                        weight: $font-weight-semibold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.lft-col {
+    color: $o-black;
+    padding: 18px;
+
+    font: {
+        size: $base-font-size;
+    }
+
+    span {
+        padding-top: 4px;
+        display: block;
+
+        font: {
+            size: $base-font-size;
+            weight: $font-weight-semibold;
+        }
+    }
+}

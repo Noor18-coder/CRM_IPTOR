@@ -2,9 +2,6 @@ import React from 'react'
 import { OpportunityDetailsDefault } from '../../helpers/Api/models';
 import {getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import Staging from './Staging';
-import { UsersData } from '../../store/Users/Types';
-import { AppState } from "../../store/store";
-import { useSelector } from "react-redux";
 
 export interface Data {
   data:OpportunityDetailsDefault
@@ -13,18 +10,12 @@ export interface Data {
 
 const OpportunityInfo:React.FC<Data> = (props) =>   {
 
-  const usersData: UsersData = useSelector((state: AppState) => state.users);
-  const getName = (str: string) => {
-    const userObj = usersData.users.find((obj) => obj.handler === str);
-    return userObj?.description;
-  }
-
   return (
     // <!-- PRODUCT NAME SECTION START -->
   <>
     <section className="d-flex justify-content-between sec-product-desc">
         <div className="prod-name">
-          <p>{props.data.desc} <span>{props.data.opportunityId} | {getName(props.data.handler)}</span></p>
+          <p>{props.data.desc} <span>{props.data.opportunityId} | {props.data.customerName}</span></p>
         </div>
         <div className="mid-sec">
           <ul className="list-inline">

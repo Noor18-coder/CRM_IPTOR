@@ -2,6 +2,7 @@
     background-color: #2F3C46;
 }
 
+
 .navbar{
     height: 80px;
     box-sizing: border-box;
@@ -33,7 +34,6 @@
                         justify-content: center;
                         align-items: center;
                         
-                
                         i{
                             font-family: 'Open Sans';
                             font-style: normal;
@@ -60,11 +60,8 @@
                             color: #FFFFFF;
                             border-radius: 50%;
                             text-align: center;
-
                         }
-
                     }
-
                 }
 
                 &.no-p{
@@ -74,14 +71,11 @@
                 &.active{
                     border-bottom: solid #fff 4px;
                 }
-
             }
         }
     }
 
-
     .navbar-header{
-
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -107,17 +101,20 @@
             .navbar-brand-text{
                 color: #fff;
                 margin-left: 10px;
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 16px;
+                color: #FFFFFF;
+                margin-top: 5px;
             }
-
-            
-
         }
 
         .navbar-sec-flag{
             border-left: solid  #E8E8E8 1px;
             padding-left: 20px;
         }
-
     }
 
 
