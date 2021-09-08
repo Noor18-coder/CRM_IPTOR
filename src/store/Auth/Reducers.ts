@@ -16,7 +16,6 @@
      loading: false,
      error: '',
      user: {
-       defaultSalesOrderType: '',
        description: '',
        text:'',
        user: '',

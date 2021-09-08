@@ -7,7 +7,7 @@
  import * as actionTypes from './Types';
  import * as apiModels from '../../helpers/Api/models';
  import { AppState } from '../store';
- import { isEmpty } from 'lodash';
+ import { isEmpty, get } from 'lodash';
 
 import { User, CompanyInfo, Attributes } from '../../helpers/Api';
 import { AttributeValueObject } from '../../helpers/Api/models';
@@ -53,46 +53,55 @@ import { setLoadingMask, removeLoadingMask} from '../InitialConfiguration/Action
  
  
  /** Middleware to handle authentication */
- export const auth: ActionCreator<ThunkAction<
-   Promise<actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction | actionTypes.AuthServiceErrorAction>,
-   AppState,
-   actionTypes.AuthRequest,
-   actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction | actionTypes.AuthServiceErrorAction
- >> = (authRequest: actionTypes.AuthRequest) => {
-   return async (dispatch: Dispatch, getState) => {
+export const auth: ActionCreator<ThunkAction<
+  Promise<actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction | actionTypes.AuthServiceErrorAction>,
+  AppState,
+  actionTypes.AuthRequest,
+  actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction | actionTypes.AuthServiceErrorAction
+>> = (authRequest: actionTypes.AuthRequest) => {
+  return async (dispatch: Dispatch, getState) => {
     dispatch(setLoadingMask());
-     dispatch(authStart());
- 
-     try {
-       const response = await axios.post('/api/login', authRequest);
-       if (response.status === 200) {
-         const user = await User.getUserProfile();
-           user.handler = user.user;
-           if (user.handler == '') {
-               const loader = true
-           }
-         const companyInfo = await CompanyInfo.get();
-         const newArray = companyInfo.items.map((obj: apiModels.CompanyInfoItem) => { return { ...obj, selected: false } });
-         if (companyInfo !== undefined && !isEmpty(companyInfo)) {
-           user.currentEnvironment = newArray;
-           }
-         dispatch(setUserInfo(user))
-         dispatch(removeLoadingMask());
-         return dispatch(loginWithoutCompanySuccess());
-       }
-       console.log("response",response);
-       dispatch(authServiceFailure());
-       dispatch(removeLoadingMask());
-       return dispatch(logOutSuccess());
-     } catch (error) {
-      console.log("error",error);
-       //alert('Unauthorized Access');
-       dispatch(authServiceFailure("Something went wrong"));
-       dispatch(removeLoadingMask());
-       return dispatch(logOutSuccess());
-     }
-   };
- };
+    dispatch(authStart());
+    let response;
+    try {
+      response = await axios.post('/api/login', authRequest);
+      if (response.status === 200) {
+        const user: apiModels.UserItem = {
+          user: '',
+          handler: '',
+          text: '',
+          description: '',
+          selectedCompany: ''
+        };
+        const userProfile: apiModels.UserProfileResponse = await User.getUserProfile();
+        user.handler = userProfile.data.user;
+
+        const companyInfo = await CompanyInfo.get();
+        const newArray = companyInfo.items.map((obj: apiModels.CompanyInfoItem) => { return { ...obj, selected: false } });
+        if (companyInfo !== undefined && !isEmpty(companyInfo)) {
+          user.currentEnvironment = newArray;
+        }
+        dispatch(setUserInfo(user))
+        dispatch(removeLoadingMask());
+        return dispatch(loginWithoutCompanySuccess());
+      }
+      dispatch(logOutSuccess());
+      dispatch(removeLoadingMask());
+      return dispatch(authServiceFailure("Something went wrong"));
+    } catch (error) {
+
+      dispatch(removeLoadingMask());
+      dispatch(logOutSuccess());
+      const errorMessage = get(error, 'response.data.error', {});
+      if (errorMessage && errorMessage.details) {
+        return dispatch(authServiceFailure(errorMessage.details));
+      } else {
+        return dispatch(authServiceFailure("Something went wrong"));
+      }
+
+    }
+  };
+};
  
  /** Middleware to handle authentication */
  export const authWithCompany: ActionCreator<ThunkAction<

@@ -29,6 +29,10 @@ const LoginForm: React.FC = () => {
   const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    if(e.currentTarget.value === ''){
+      setIsSubmit(false);
+    }
     setValues({
       ...authRequest,
       [e.currentTarget.id]: e.currentTarget.value,
@@ -103,7 +107,6 @@ const LoginForm: React.FC = () => {
                 <span className="welcomeback-txt">{i18n.t('welcomeMessage')}</span>
             </p>
             {state.enviornmentConfigs.loadingMask && <Loader component='opportunity'/>}
-            {state.auth.error}
             {error  ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; {i18n.t('loginErrorMsg')}</p> : null}
             {state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; {state.auth.error}</p> : null}
             <div className="form-placeholder-container">

@@ -117,7 +117,7 @@ export const GridFilter: React.FC<Props> = ({ filters, selectOption, selected = 
                             </div>
                         }
 
-                        <div className={component === 'opportunity' ? 'col-10' : 'col-9'}>
+                        <div className={component === 'opportunity' ? 'col-10' : 'col-11 customer-filter-container'}>
                             <ScrollMenu
                                 data={menuItems}
                                 arrowLeft={ArrowLeft}

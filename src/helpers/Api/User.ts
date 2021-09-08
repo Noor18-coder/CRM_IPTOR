@@ -29,11 +29,10 @@ export class User {
    * @param params user id
    * @returns information about user
    */
-  static async getUserProfile() {
-    //const requestData = {method: this.apiMethod, user: userId };
+  static async getUserProfile(): Promise<models.UserProfileResponse> {
     const requestData = new ApiRequest<models.UserParams>(this.apiUserProfleMethod)
     let response = await axios.post('/api/service', requestData).then((response) => response);
-    return get(response, 'data.data', {});
+    return get(response, 'data', {});
   }
 
   /**

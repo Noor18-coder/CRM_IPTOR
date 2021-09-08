@@ -3,10 +3,9 @@ import { CompanyInfoItem, CompanyInfoRes} from "./CompanyInfo";
 export interface UserItem {
   user: string;
   handler: string;
-  defaultSalesOrderType: string;
   text:string;
   description: string;
-  language: string;
+  language?: string;
   currentEnvironment?: CompanyInfoItem[];
   selectedCompany: string;
   role?: string;
@@ -22,4 +21,11 @@ export interface UserResponse {
     items: UserItem;
   };
   id: string;
+}
+
+export interface UserProfileResponse {
+  data : {
+    user: string;
+    text:string;
+  }
 }
