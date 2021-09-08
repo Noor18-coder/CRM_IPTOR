@@ -35,6 +35,17 @@ const AddCustomer: React.FC = () => {
         }
     };
 
+    const validateField = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const element = document.getElementById(e.currentTarget.id) as HTMLInputElement
+        if (e.currentTarget.value === '' || e.currentTarget.value.includes('Select')) {
+            element.style.border = '1px solid #ED2024'
+            setIsSubmit(false)
+        }
+        else {
+            element.style.border = '1px solid #DAE2E7'
+        }
+    };
+
     const createCustomer = async () => {
         dispatch(setBusinessPartnerLoader(true));
         customerFields.primaryCurrency = state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA
@@ -109,16 +120,16 @@ const AddCustomer: React.FC = () => {
                                     <form>
                                         <div className="form-group oppty-form-elements">
                                             <label className="cust-label">{i18n.t('customerName')}</label>
-                                            <input type="text" className="form-control" placeholder={i18n.t('giveCustomerName')} id="name" onChange={onInputValueChange} />
+                                            <input type="text" className="form-control" placeholder={i18n.t('giveCustomerName')} id="name" onChange={onInputValueChange} onBlur={validateField} />
                                         </div>
                                         <p className="add-subtitle">{i18n.t('contactAddr')}</p>
                                         <div className="form-group oppty-form-elements">
                                             <label className="cust-label">{i18n.t('addr')}</label>
-                                            <input type="text" className="form-control" placeholder={i18n.t('giveAddr')} id="addressLine1" onChange={onInputValueChange} />
+                                            <input type="text" className="form-control" placeholder={i18n.t('giveAddr')} id="addressLine1" onChange={onInputValueChange} onBlur={validateField}/>
                                         </div>
                                         <div className="form-group oppty-form-elements">
                                             <label className="cust-label">{i18n.t('country')}</label>
-                                            <select className="form-control iptor-dd" id="country" onChange={onInputValueChange}>
+                                            <select className="form-control iptor-dd" id="country" onChange={onInputValueChange} onBlur={validateField}>
                                                 <option disabled selected>{i18n.t('selectCountry')}</option>
                                                 {state.enviornmentConfigs.crmCountryInfo.map((obj: models.CountryInfo) => {
                                                     return <option value={obj.country}>{obj.description}</option>
@@ -127,7 +138,7 @@ const AddCustomer: React.FC = () => {
                                         </div>
                                         <div className="form-group oppty-form-elements">
                                             <label className="cust-label">{i18n.t('area')}</label>
-                                            <select className="form-control iptor-dd" id="area" onChange={onInputValueChange}>
+                                            <select className="form-control iptor-dd" id="area" onChange={onInputValueChange} onBlur={validateField}>
                                                 <option disabled selected>{i18n.t('selectArea')}</option>
                                                 {state.enviornmentConfigs.crmAreaInfo.map((obj: models.AreaInfo) => {
                                                     return <option value={obj.area}>{obj.description}</option>
@@ -136,12 +147,12 @@ const AddCustomer: React.FC = () => {
                                         </div>
                                         <div className="form-group oppty-form-elements">
                                             <label className="cust-label">{i18n.t('phone')}</label>
-                                            <input type="text" className="form-control" placeholder={i18n.t('giveNumber')} id="phone" onChange={onInputValueChange} />
+                                            <input type="text" className="form-control" placeholder={i18n.t('giveNumber')} id="phone" onChange={onInputValueChange} onBlur={validateField}/>
                                         </div>
                                         <p className="add-subtitle">{i18n.t('accountInfo')}</p>
                                         <div className="form-group oppty-form-elements">
                                             <label className="cust-label">{i18n.t('email')}</label>
-                                            <input type="text" className="form-control" placeholder={i18n.t('giveEmail')} id="EMAIL" onChange={onInputValueChange} />
+                                            <input type="text" className="form-control" placeholder={i18n.t('giveEmail')} id="EMAIL" onChange={onInputValueChange} onBlur={validateField}/>
                                             {emailErr && <p className="error-text">{i18n.t('validEmail')}</p>}
                                         </div>
                                     </form>
