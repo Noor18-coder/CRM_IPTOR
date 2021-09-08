@@ -26,6 +26,7 @@ export const createOpportunityDetailsInitialState = (): OpportunityDetailsState 
     editOportunity: {
       open: false,
     },
+    loader: false,
   };
 };
 
@@ -52,6 +53,33 @@ const opportuntyDetailsReducer: Reducer<OpportunityDetailsState, OpportunityDeta
       return {
         ...state,
         editOportunity: { ...state.editOportunity, ...action.options },
+      };
+
+    case OpportunityDetailsTypes.EDIT_OPPORTUNITY_STATUS:
+      return {
+        ...state,
+        editOportunity: { ...state.editOportunity, ...action.success },
+      };
+
+    case OpportunityDetailsTypes.SET_EDIT_OPPORTUNITY_ERROR:
+      return {
+        ...state,
+        editOportunity: { ...state.editOportunity, error: action.error },
+      };
+    case OpportunityDetailsTypes.SET_OPPTY_DETAILS_LOADING_MASK:
+      return {
+        ...state,
+        loader: true,
+      };
+    case OpportunityDetailsTypes.REMOVE_OPPTY_DETAILS_LOADING_MASK:
+      return {
+        ...state,
+        loader: false,
+      };
+    case OpportunityDetailsTypes.SET_OPPORTUNITY_APPROVAL_STATUS:
+      return {
+        ...state,
+        editOportunity: { ...state.editOportunity, approvalSubmitMessage: action.message },
       };
 
     default:

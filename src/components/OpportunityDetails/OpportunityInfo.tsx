@@ -12,14 +12,9 @@ import { APPROVAL_STATUS } from '../../config/Constants';
 import ImageConfig from '../../config/ImageConfig';
 import { AppState } from '../../store/store';
 
-export interface Data {
-  data: OpportunityDetailsDefault;
-  reloadOpportunityDetailsPage: () => void;
-}
-
-const OpportunityInfo: React.FC<Data> = (props) => {
-  const { data, reloadOpportunityDetailsPage } = props;
+const OpportunityInfo: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const data: OpportunityDetailsDefault = state.opportuntyDetails.opportunityDefaultParams;
   const { user } = state.auth.user;
   const [logsData, setLogsData] = React.useState<ApprovalLogsDefault[]>([]);
   const dispatch: Dispatch<any> = useDispatch();
@@ -159,7 +154,7 @@ const OpportunityInfo: React.FC<Data> = (props) => {
             </div>
           )}
         </div>
-        <Staging stage={data.stage} status={data.approvalStatus} reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />
+        <Staging stage={data.stage} status={data.approvalStatus} />
       </section>
     </>
   );

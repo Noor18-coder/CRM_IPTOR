@@ -193,13 +193,13 @@ export const OpportunityDetails: React.FC = (props: any) => {
   return (
     <>
       <Header page={1} />
-      {loading || state.enviornmentConfigs.loadingMask ? (
+      {loading || state.opportuntyDetails.loader ? (
         <Loader component="opportunity" />
       ) : (
         <section className="main-wrapper opportunity">
           <div className="container-fluid">
             <NavSection backToOpportunityList={backToOpportunityList} popover={popover} />
-            {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} reloadOpportunityDetailsPage={reloadOpportunity} /> : null}
+            {defaultOpptyDetail ? <OpportunityInfo /> : null}
             {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} reloadOpportunityDetailsPage={reloadOpportunity} /> : null}
             <section className="sec-info-accordion">
               {opptyDataBasicGroup?.length ? (

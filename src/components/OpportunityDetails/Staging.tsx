@@ -1,42 +1,26 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { isArray } from 'lodash';
-import { StageInfo, UpdateOpportunityResponse } from '../../helpers/Api/models';
-import { saveOpportunityStages, setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
-import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
+import { StageInfo } from '../../helpers/Api/models';
+import { saveOpportunityStages } from '../../store/InitialConfiguration/Actions';
+import { editOpportunity } from '../../store/OpportunityDetails/Actions';
 import { AppState } from '../../store/store';
-import i18n from '../../i18n';
 import { APPROVAL_STATUS } from '../../config/Constants';
 
 interface Props {
   stage: string;
   status: any;
-  reloadOpportunityDetailsPage: () => void;
 }
 
 const Staging: React.FC<Props> = (props) => {
-  const { stage, status, reloadOpportunityDetailsPage } = props;
+  const { stage, status } = props;
   const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
 
   const updateStage = async (obj: StageInfo) => {
     const opportunity = state.opportuntyDetails.opportunityDefaultParams;
     opportunity.stage = obj.salesStage;
-    dispatch(setLoadingMask());
-    const data: UpdateOpportunityResponse = await AddOpportunityApi.update(opportunity);
-    dispatch(removeLoadingMask());
-    if (data && data.error) {
-      if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
-        // eslint-disable-next-line no-alert
-        alert(data.messages[0].text);
-      } else {
-        // eslint-disable-next-line no-alert
-        alert(i18n.t('commonErrorMessage'));
-      }
-    } else {
-      reloadOpportunityDetailsPage();
-    }
+    dispatch(editOpportunity(opportunity));
   };
 
   React.useEffect(() => {

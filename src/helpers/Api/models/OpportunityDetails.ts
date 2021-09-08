@@ -91,10 +91,13 @@ export interface OpportunityMoreInfoSection {
 export interface OpportunityEditOptions {
   allowEdit?: boolean;
   open?: boolean;
+  success?: boolean;
+  error?: string;
   groupName?: string;
   data?: Product;
   action?: string;
   approvalHistory?: any;
   submitApprovalData?: InitiateSubmitApprovalPopupData;
   subGroupName?: string;
+  approvalSubmitMessage?: string;
 }
