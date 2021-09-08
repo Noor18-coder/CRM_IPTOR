@@ -84,7 +84,7 @@
         &.edit-icon {
             position: absolute;
             right: 18px;
-            top: -10px;
+            top: 8px;
             padding: 10px;
             cursor: pointer;
             
@@ -136,12 +136,12 @@
 
                                 .lft-col {
                                     display: block;
-                                    padding: 10px;
+                                  //  padding: 10px;
                                     background-color:transparent;
                                     border-radius: 5px;
                                     position: relative;
                                     width: auto;
-                                    margin: 10px 5px;
+                                    margin: 0px 5px;
                                     text-align: center;
                                     border: none;
 
@@ -367,6 +367,7 @@
         padding:10px;
         background-color:white;
         text-align:center;
+        line-height: 1;
     }
 }
 

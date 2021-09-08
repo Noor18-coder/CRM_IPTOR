@@ -12,9 +12,8 @@ export const getQuarterOfYearFromDate = (strDate: string): string => {
   return '-';
 };
 
-export const getIntialsFromFullName = (name: string): string => {
-  const initials = !!name && name.replace(/[^a-zA-Z- ]/g, '').match(/\b\w/g);
-  return `${initials}`;
+export const getIntialsFromFullName = (name: string): any => {
+  return !!name && name.replace(/[^a-zA-Z- ]/g, '').match(/\b\w/g);
 };
 
 export const getStartDateOfQuarter = (quarter_name: number): string => {

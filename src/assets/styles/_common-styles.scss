@@ -295,3 +295,54 @@ form {
     background-color: $jagged-ice;
     color: $o-black;
 }
+
+
+.no-data-txt {
+    padding: 16px 24px 28px 28px;
+} 
+
+.stepone-next-btn {
+    background: $limed-spruce;
+    color: $white;
+    padding: 12px 24px;
+    display: block;
+    text-align: center;
+    @include border-radius($border-radius);
+    position: relative;
+    width: -webkit-fill-available;
+    border: none;
+    margin-bottom:16px;
+
+    font: {
+        family: $base-font-family;
+        size: $base-font-size;
+        weight: $font-weight-semibold;
+    }
+
+    .right-whit-arrow {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+
+    &:hover {
+        text-decoration: none;
+        outline: none;
+        border: none;
+    }
+
+    &.done {
+        background: $mandy;
+    }
+}
+
+.steps-two-forms {
+    .stepone-next-btn {
+        margin-bottom: 0;
+    }
+
+} 
+
+button.stepone-next-btn{
+     margin-top: 40px;
+}

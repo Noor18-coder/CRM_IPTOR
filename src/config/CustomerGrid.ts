@@ -14,7 +14,7 @@ const CustomerGridOptions = [
     sortable: true,
     headerName: 'Region',
     cellRenderer: (params: Record<string, any>): string => {
-      return params.value ? params.value : '';
+      return `<span class="c-region">${params.value ? params.value : ''}</span>`;
     },
   },
   {
@@ -22,7 +22,7 @@ const CustomerGridOptions = [
     sortable: true,
     headerName: 'Account Owner',
     cellRenderer: (params: Record<string, any>): string => {
-      return params.value ? params.value : '';
+      return `<span class="c-owner">${params.value ? params.value : ''}</span>`;
     },
   },
   {
@@ -38,7 +38,7 @@ const CustomerGridOptions = [
     sortable: true,
     headerName: 'Active Opportunity',
     cellRenderer: (params: Record<string, any>): string => {
-      return params.value || params.value === 0 ? params.value : '';
+      return `<span class="c-active-oppt">${params.value || params.value === 0 ? params.value : ''}</span>`;
     },
   },
   {

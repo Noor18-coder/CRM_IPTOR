@@ -113,7 +113,7 @@
           display: flex;
           flex-direction: column;
           width: 100%;
-          padding: 10px 0px 10px 24px;
+          padding: 10px 0px 10px 14px;
           border-radius: inherit;
           font-family: Open Sans;
           font-style: normal;
@@ -156,7 +156,7 @@
 
           .o-quarter{
               font-weight: 600;
-              padding-left:35px;
+              padding-left:40px;
           }
 
           .o-size{
@@ -181,6 +181,15 @@
           }
           .stage {
             padding-left:12px;
+          }
+          .c-region {
+            padding-left:18px;
+          }
+          .c-owner {
+            padding-left: 22px;
+          }
+          .c-active-oppt {
+            padding-left:64px;
           }
         }
     }

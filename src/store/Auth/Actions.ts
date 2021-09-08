@@ -74,6 +74,7 @@ export const authentication: ActionCreator<
         };
         const userProfile: any = await User.getUserProfile();
         user.handler = userProfile.user;
+        user.text = userProfile.text;
 
         const companyInfo = await CompanyInfo.get();
         const newArray = companyInfo.items.map((obj: apiModels.CompanyInfoItem) => {

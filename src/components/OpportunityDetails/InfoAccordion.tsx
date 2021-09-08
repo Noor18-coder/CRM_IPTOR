@@ -167,16 +167,16 @@ export const DisplayGroupMobile: React.FC<GroupMobileData> = ({ fields, data }) 
   return (
     <div className="more-info-group-container">
       <div className="accr-body-container">
-        {fields.map((obj: AttributeField) => {
-          return (
-            <ul className="list-inline bdy-list-item">
+        <ul className="list-inline bdy-list-item">
+          {fields.map((obj: AttributeField) => {
+            return (
               <li className="list-inline-item">
                 <span>{obj.description}</span>
                 {getValue(obj.attributeType)}
               </li>
-            </ul>
-          );
-        })}
+            );
+          })}
+        </ul>
       </div>
     </div>
   );

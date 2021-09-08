@@ -40,7 +40,7 @@ export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactF
                   return <ContactCards data={obj} deleteContact={deleteContact} />;
                 })
               ) : (
-                <div className="padding-28"> No Contacts Found </div>
+                <div className="no-data-txt"> No Contacts Found </div>
               )}
             </div>
           </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Image, Accordion } from 'react-bootstrap';
 import { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { CustomerDetailsContactsGroupItem } from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
 import {
@@ -18,6 +19,8 @@ interface Props {
 }
 
 export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) => {
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const [activeClass, setActiveClass] = React.useState('');
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -95,7 +98,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
                                   <Image
                                     className="card-delete action-icon"
                                     height="20"
-                                    src={ImageConfig.CLOSE_BTN}
+                                    src={isMobile || isTablet ? ImageConfig.DELETE_ICON : ImageConfig.CLOSE_BTN}
                                     alt="Delete"
                                     title="Delete"
                                     onClick={() =>

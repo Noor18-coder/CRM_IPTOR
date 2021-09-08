@@ -141,7 +141,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
               <p>
                 <span>
                   {' '}
-                  <Image src={ImageConfig.ADD_ICON} onClick={() => toggleDrawer} />
+                  <Image src={ImageConfig.ADD_ICON} onClick={toggleDrawer} />
                 </span>
               </p>
             </div>

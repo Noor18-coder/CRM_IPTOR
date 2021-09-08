@@ -15,7 +15,7 @@ const BusinessPartnerCard: React.FC<React.PropsWithChildren<OppProps>> = (props)
       <div className="d-flex justify-content-between title-row">
         <div>
           <span className="customer-card-text">{description}</span>
-          <p>{area}</p>
+          <p className="area-text">{area}</p>
         </div>
       </div>
       <div className="d-flex justify-content-between owner-row">

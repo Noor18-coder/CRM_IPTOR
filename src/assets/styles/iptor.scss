@@ -46,7 +46,7 @@ body {
 
     .main-wrapper {
         &.loginpage {
-            height: 950px;
+            height: 100vh;
             position: relative;
             background: url("../images/bg_login.jpg") no-repeat center center fixed;
             -webkit-background-size: cover;
@@ -106,8 +106,8 @@ body {
                     font: {
                         weight: $font-weight-regular;
                         size: 36px;
-                        color: $blue-bayoux;
                     }
+                    color: $blue-bayoux;
 
                     span {
                         display: block;
@@ -335,7 +335,7 @@ body {
     margin-left: 24px;
     display: block;
     font-weight: normal;
-    font-size: 14px;
+    font-size: $base-font-size + 2;
     margin-bottom: 0;
     margin-right: 24px;
     margin-top: 24px;

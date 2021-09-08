@@ -160,6 +160,7 @@
 
                 .steps-two-forms {
                     display: block;
+                    padding-bottom: 16px;
                 }
 
                 .steps-three-forms {
@@ -190,7 +191,8 @@
 
             .opportunity-type-container {
                 .opptytype-list-item {
-                    padding-bottom: 16px;
+                    padding-bottom: 0;
+                    margin-bottom: 0;
 
                     li {
                         background: $white;
@@ -208,6 +210,10 @@
 
                         &:hover {
                             background: $aqua-spring;
+                        }
+
+                        &:last-child{
+                            margin-bottom: 0;
                         }
                     }
                 }
@@ -244,39 +250,6 @@
             .step-nextbtn-with-arrow {
                 margin-top: 24px;
                 margin-bottom: 20px;
-
-                .stepone-next-btn {
-                    background: $limed-spruce;
-                    color: $white;
-                    padding: 12px 24px;
-                    display: block;
-                    text-align: center;
-                    @include border-radius($border-radius);
-                    position: relative;
-                    width: -webkit-fill-available;
-
-                    font: {
-                        family: $base-font-family;
-                        size: $base-font-size;
-                        weight: $font-weight-semibold;
-                    }
-
-                    .right-whit-arrow {
-                        position: absolute;
-                        right: 8px;
-                        top: 8px;
-                    }
-
-                    &:hover {
-                        text-decoration: none;
-                        outline: none;
-                        border: none;
-                    }
-
-                    &.done {
-                        background: $mandy;
-                    }
-                }
 
                 .stepstwo-nxtbtn,
                 .stepthree-nxtbtn {

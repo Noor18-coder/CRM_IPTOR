@@ -115,7 +115,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
             )}
           </div>
           <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-            <button type="button" className="stepone-next-btn" onClick={onNextButtonClick}>
+            <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
               Done
             </button>
           </div>

@@ -102,12 +102,9 @@
                             right: 60px;
                             top: 24px;
                             display: block;
-                            padding: 10px;
                             background-color:transparent;
                             border-radius: 5px;
-                            position: relative;
                             width: auto;
-                            margin: 10px 5px;
                             text-align: center;
                             border: none;
                         }
@@ -115,6 +112,11 @@
 
                     .more-info-group-container {
                         background: $mercury;
+
+                        .accr-body-container {
+                            margin-bottom: 0;
+                            background: $mercury;
+                        }
                     }
                 }
             }
@@ -171,7 +173,10 @@
                 }
 
                 .welcome-txt {
-                    margin-top: 12px;
+                    padding-top: 24px;
+                    padding-bottom: 12px;
+                    margin-top: 0px;
+                    margin-bottom: 0;
                     margin-left: 12px;
                     margin-right: 12px;
 
@@ -179,8 +184,14 @@
                         size: $base-font-size;
                     }
 
-                    .hi-txt {
-                        display: none;
+                    .hi-txt,
+                    .welcomeback-txt {
+                        padding: 0;
+                        margin: 0;
+                        line-height: 32px;
+                        font-size: 24px;
+                        text-transform: capitalize;
+                        font-weight: $font-weight-semibold;
                     }
                 }
 
@@ -866,6 +877,7 @@
 
                 .product-row {
                     padding: 0;
+                    border:none;
 
                     .lft-col,
                     .rgt-col {
@@ -1495,7 +1507,10 @@
                 }
 
                 .welcome-txt {
-                    margin-top: 12px;
+                    padding-top: 24px;
+                    padding-bottom: 12px;
+                    margin-top: 0px;
+                    margin-bottom: 0;
                     margin-left: 12px;
                     margin-right: 12px;
 
@@ -1503,8 +1518,14 @@
                         size: $base-font-size;
                     }
 
-                    .hi-txt {
-                        display: none;
+                    .hi-txt,
+                    .welcomeback-txt {
+                        padding: 0;
+                        margin: 0;
+                        line-height: 32px;
+                        font-size: 24px;
+                        text-transform: capitalize;
+                        font-weight: $font-weight-semibold;
                     }
                 }
 

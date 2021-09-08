@@ -60,7 +60,7 @@ export const ProductAccordian: React.FC<Props> = ({ title, data, openAddItemForm
                   </Table>
                 );
               }
-              return <div className="padding-28"> No Records Found </div>;
+              return <div className="no-data-txt"> No Records Found </div>;
             })()}
           </div>
         </Accordion.Collapse>
@@ -99,15 +99,15 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
         </div>
         <div className="d-flex justify-content-between product-row">
           <div className="lft-col">
-            Version <span>{data.version}</span>
+            Version <span>{data.version ? data.version : '--'}</span>
           </div>
           <div className="rgt-col">
-            Cost <span className="danger">{data.cost}</span>
+            Cost <span className="danger">{data.cost ? data.cost : '--'}</span>
           </div>
         </div>
         <div className="d-flex justify-content-between product-row">
           <div className="lft-col">
-            Revenue Type <span>{data.revenue}</span>
+            Revenue Type <span>{data.revenue ? data.revenue : '--'}</span>
           </div>
           <div className="rgt-col" />
         </div>
@@ -116,10 +116,16 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
             type="button"
             className=" d-flex justify-content-between product-row icon-class mr-6"
             onClick={() => openAddItemForm('delete_item', data)}>
-            <img className="del-icon" src={ImageConfig.DELETE_ICON} alt="delete" title="delete" />
+            <span className="icon">
+              <Image className="del-icon" src={ImageConfig.DELETE_ICON} alt="edit" title="edit" />
+              Delete
+            </span>
           </button>
           <button type="button" className=" d-flex justify-content-between product-row icon-class" onClick={() => openAddItemForm('edit_item', data)}>
-            <Image src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
+            <span className="icon">
+              <Image className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
+              Edit
+            </span>
           </button>
         </div>
       </div>
@@ -153,10 +159,10 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ data, openAddItemFor
         <td className="prod-class">{data.revenue}</td>
         <td className="prod-revenue-class">
           <div className="d-flex justify-content-between title-row float-right">
-            <button type="button" className="lft-col button-image" onClick={() => openAddItemForm('delete_item', data)}>
+            <button type="button" className="lft-col" onClick={() => openAddItemForm('delete_item', data)}>
               <Image src={ImageConfig.CLOSE_BTN} alt="delete" title="delete" />
             </button>
-            <button type="button" className="rgt-col button-image" onClick={() => openAddItemForm('edit_item', data)}>
+            <button type="button" className="rgt-col" onClick={() => openAddItemForm('edit_item', data)}>
               <Image src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
             </button>
           </div>

@@ -495,7 +495,7 @@ input:checked+.slider:before {
         display: block;
 
         font: {
-            size: $base-font-size;
+            size: $base-font-size + 2;
             weight: $font-weight-semibold;
         }
     }
@@ -598,4 +598,8 @@ input:checked+.slider:before {
 
 .padd-24 {
     padding: 0px 24px
+}
+
+.area-text{
+    font-size: 12px;
 }
