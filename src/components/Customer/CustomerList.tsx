@@ -14,15 +14,12 @@ import { AppState } from "../../store/store";
 import { BusinessPartnerState } from '../../store/Customer/Types';
 import ColumnDefs from '../../config/CustomerGrid'
 import { BusinessPartnerListItem, BusinessPartnerListParams } from '../../helpers/Api/models/Customer';
-import { saveBusinessPartnerList, saveBusinessPartnerFilters, saveBusinessPartnersFilters } from '../../store/Customer/Actions';
+import { saveBusinessPartnerList, saveBusinessPartnerFilters } from '../../store/Customer/Actions';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import BusinessPartnerListMobile from './CustomerListMobile';
 import { setBusinessPartnerWindowActive } from '../../store/AddCustomer/Actions';
 import { useHistory } from 'react-router';
 
-import * as models from '../../helpers/Api/models';
-import OpportunityUserDefinedFields from '../../helpers/Api/OpportunityUserDefinedFields';
-import CustomerList from '../../helpers/Api/CustomerList';
 import { GridFilter } from '../../components/Shared/Filter/GridFilter';
 import Container from '../AddCustomer/Container'
 
@@ -41,20 +38,18 @@ const BusinessPartners: React.FC = () => {
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
 
+    const appState: AppState = useSelector((state: AppState) => state);
     const state: BusinessPartnerState = useSelector((state: AppState) => state.businesspartners);
     const dispatch: Dispatch<any> = useDispatch();
+    const history = useHistory();
 
     const [loader, setLoader] = React.useState<boolean>(false);
     const [searchText, setSearchText] = React.useState<string>('');
     const [searchFieldValue, setSearchField] = React.useState<string>('');
     const [refresh, setRefresh] = React.useState<boolean>(false);
     const [filter, selectFilter] = React.useState<SelectOptionMethod>();
-
-    const [industryId, setIndustryId] = React.useState<string>('');
-    const [industryDetails, setIndustryDetails] = React.useState<models.DropDownValue[]>([]);
-    const [areaDetails, setAreaDetails] = React.useState<models.AreaListItem[]>([]);
-
-    const history = useHistory();
+    const industryDetails = appState.enviornmentConfigs.crmIndustries
+    const areaDetails = appState.enviornmentConfigs.crmAreaInfo
 
     const openBusinessPartnerDetails = (data: any) => {
         const custId = data && data.businessPartner ? data.businessPartner : null;
@@ -125,21 +120,7 @@ const BusinessPartners: React.FC = () => {
     React.useEffect(() => {
         if (state.businesspartners.length === 0)
             setLoader(true)
-        OpportunityUserDefinedFields.getIndustryInfo('INDUSTRY').then((data) => {
-            setIndustryId(data.attributeId)
-        });
-        
     }, []);
-
-    React.useEffect(() => {
-        CustomerList.getAreas().then((data) => {
-            setAreaDetails(data.data.items)
-        });
-        OpportunityUserDefinedFields.getAttributeValues(industryId).then((data) => {
-            if(data)
-                setIndustryDetails(data.items)
-        });
-    }, [industryId]);
 
     React.useEffect(() => {
         _.forEach(industryDetails, function (obj) {

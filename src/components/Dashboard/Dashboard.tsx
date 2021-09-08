@@ -7,7 +7,7 @@ import Loader from '../Shared/Loader/Loader';
 import { useMediaQuery } from 'react-responsive';
 import FooterMobile from '../Shared/Footer/FooterMobile';
 
-import { setLoadingMask, loadInitialConfig, getOpportunityTypes, getOpportunityContactRoles, getCurrencies, getOppDefaults, getCountries, getAreas } from '../../store/InitialConfiguration/Actions';
+import {loadInitialConfig, getAttributeDetails, getOppDefaults, getCountries, getAreas, getOpportunityForecasts } from '../../store/InitialConfiguration/Actions';
 
 const Dashboard:React.FC = () => {
     const state: AppState = useSelector((state: AppState) => state);
@@ -17,10 +17,13 @@ const Dashboard:React.FC = () => {
 
     React.useEffect(() => {
         dispatch(loadInitialConfig());
+        dispatch(getAttributeDetails('ROLE', 'SROMOPCH'));
         dispatch(getOppDefaults());
         dispatch(getCountries());
         dispatch(getAreas());
-        dispatch(getOpportunityContactRoles());
+        dispatch(getOpportunityForecasts());
+        dispatch(getAttributeDetails('INDUSTRY', 'SRONAM'));
+        dispatch(getAttributeDetails('APP_FROM_IPTOR', 'SRONAM'));
     },[]);
 
     return (

@@ -7,6 +7,7 @@ import OpportunityDetails from './components/OpportunityDetails/OpportunityDetai
 import CustomerDetails from './components/CustomerDetails/CustomerDetails';
 import Dashboard from './components/Dashboard/Dashboard';
 import Customers from './components/Customer/CustomerList'
+import Reports from './components/Reports/Reports'
 
 
 function Routes() {
@@ -19,6 +20,7 @@ function Routes() {
            <ProtectedRoute  path="/opp-details"  component={OpportunityDetails}  exact  />
            <ProtectedRoute path="/customers" component={Customers} exact />
            <ProtectedRoute  path="/cust-details"  component={CustomerDetails}  exact  />
+           <ProtectedRoute  path="/reports"  component={Reports}  exact  />
         </Router>
     )
 }

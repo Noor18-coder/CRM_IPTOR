@@ -1,7 +1,10 @@
 /** Authentication Action Types */
 
 import { Action } from 'redux';
-import { OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo, AreaInfo, DropDownValue} from '../../helpers/Api/models';
+import {
+    OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo, AreaInfo, DropDownValue,
+    ForeCastInfo, 
+} from '../../helpers/Api/models';
 
 
 /** Enum for Authentication Actions */
@@ -17,7 +20,10 @@ export enum AppLoadingTypes {
   SAVE_OPPORTUNITY_DEFAULT = 'SAVE_OPPORTUNITY_DEFAULT',
   SAVE_COUNTRY_INFO = 'SAVE_COUNTRY_INFO',
   SAVE_AREA_INFO = 'SAVE_AREA_INFO',
-  SAVE_OPPORTUNITY_CONTACT_ROLES = 'SAVE_OPPORTUNITY_CONTACT_ROLES'
+  SAVE_OPPORTUNITY_CONTACT_ROLES = 'SAVE_OPPORTUNITY_CONTACT_ROLES',
+  SAVE_INDUSTRY_INFO = 'SAVE_INDUSTRY_INFO',
+  SAVE_PRODUCT_INFO = 'SAVE_PRODUCT_INFO',
+  SAVE_FORECAST_INFO = 'SAVE_FORECAST_INFO'
  }
 
 /** Authentication success action */
@@ -66,6 +72,14 @@ export interface SaveOpportunityContactRoles extends Action<AppLoadingTypes.SAVE
   roles : DropDownValue[]
 }
 
+export interface SaveIndustryInfo extends Action<AppLoadingTypes.SAVE_INDUSTRY_INFO> {
+    crmIndustries: DropDownValue[]
+}
+
+export interface SaveProductInfo extends Action<AppLoadingTypes.SAVE_PRODUCT_INFO> {
+  crmProductFamily: DropDownValue[]
+}
+
 export interface SaveCountryInfo extends Action<AppLoadingTypes.SAVE_COUNTRY_INFO> {
   countries: CountryInfo[]
 }
@@ -74,19 +88,17 @@ export interface SaveAreaInfo extends Action<AppLoadingTypes.SAVE_AREA_INFO> {
     areas: AreaInfo[]
 }
 
-export type AppLoadingActions = SaveOpportunityTypes | 
-                                SaveOpportunityStages | 
-                                SaveOpportunityCurrencies |
-                                SetLoadingMaskAction | 
-                                RemoveLoadingMaskAction |
-                                SetErrorMessageAction |
-                                SaveCustomerAttributes | 
-                                SaveOpportunityAttributes |
-                                SaveOpportunityDefault |
-                                SaveCountryInfo | 
-                                SaveAreaInfo |
-                                SaveOpportunityContactRoles;
+export interface SaveForecastInfo extends Action<AppLoadingTypes.SAVE_FORECAST_INFO> {
+    forecastInfo: ForeCastInfo[]
+}
 
+export type AppLoadingActions = SaveOpportunityTypes | SaveOpportunityStages | 
+                                SaveOpportunityCurrencies | SetLoadingMaskAction | 
+                                RemoveLoadingMaskAction | SetErrorMessageAction |
+                                SaveCustomerAttributes | SaveOpportunityAttributes |
+                                SaveOpportunityDefault | SaveCountryInfo | 
+                                SaveAreaInfo | SaveOpportunityContactRoles | 
+                                SaveIndustryInfo | SaveProductInfo | SaveForecastInfo ;
 
 
 /** Authentication state definition */
@@ -101,5 +113,9 @@ export interface InitialConfigState {
   readonly defaultOpprtunityInfo: DefaultOpportunityInfo,
   readonly crmCountryInfo: CountryInfo[],
   readonly crmAreaInfo: AreaInfo[],
-  readonly opportunityContactRoles: DropDownValue[]
+  readonly opportunityContactRoles: DropDownValue[],
+  readonly crmIndustries: DropDownValue[],
+  readonly crmProductFamily: DropDownValue[],
+  readonly forecastInfo: ForeCastInfo[],
+  
 }

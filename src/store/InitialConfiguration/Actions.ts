@@ -4,16 +4,14 @@
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import * as models from '../../helpers/Api/models';
-import { CountryInfo } from '../../helpers/Api/Countries';
 import {
-    AppLoadingTypes, SaveOpportunityTypes, SaveOpportunityStages, SaveOpportunityCurrencies,
-    SaveOpportunityDefault, SaveCountryInfo, SaveAreaInfo, SaveOpportunityContactRoles
+    AppLoadingTypes, SaveOpportunityDefault, SaveCountryInfo, SaveAreaInfo, SaveOpportunityContactRoles,
+    SaveForecastInfo, SaveIndustryInfo, SaveProductInfo
 } from './Types';
 
 import * as actionTypes from './Types';
 import { AppState } from '../store';
-import { isEmpty } from 'lodash';
-import { OpportunityType, StagesInfo, CurrencyInfo, Attributes } from '../../helpers/Api';
+import { OpportunityType, StagesInfo, CurrencyInfo, Attributes, CountryInfo, ForeCastsInfo } from '../../helpers/Api';
 
 /** Action to set auth state logged in status */
 export const saveOpptyTypes: ActionCreator<actionTypes.SaveOpportunityTypes> = (opportunityTypes: models.OpportunityType[]) => {
@@ -104,6 +102,27 @@ export const saveOpportunityContactRoles: ActionCreator<SaveOpportunityContactRo
   };
 };
 
+export const saveIndustryInfo: ActionCreator<SaveIndustryInfo> = (industries: models.DropDownValue[]) => {
+    return {
+        type: AppLoadingTypes.SAVE_INDUSTRY_INFO,
+        crmIndustries: industries
+    };
+};
+
+export const saveProductInfo: ActionCreator<SaveProductInfo> = (productFamily: models.DropDownValue[]) => {
+  return {
+      type: AppLoadingTypes.SAVE_PRODUCT_INFO,
+      crmProductFamily: productFamily
+  };
+};
+
+export const saveForeCastInfo: ActionCreator<SaveForecastInfo> = (forecastInfo: models.ForeCastInfo[]) => {
+    return {
+        type: AppLoadingTypes.SAVE_FORECAST_INFO,
+        forecastInfo: forecastInfo
+    };
+};
+
 export const getOpportunityTypes = () => {
   return async (dispatch: Dispatch) => {
     const opptyTypes = await OpportunityType.get();
@@ -179,10 +198,22 @@ export const getAreas = () => {
     }
 }
 
-export const getOpportunityContactRoles = () => {
+export const getAttributeDetails = (attributeTypes: string, fileName: string) => {
   return async (dispatch: Dispatch) => {
-      const attributeType = await Attributes.getAttributeType('ROLE','SROMOPCH');
-      const roles = await Attributes.getAttributeValues(attributeType.data.attributeId);
-      dispatch(saveOpportunityContactRoles(roles.items));
+      const attributeType = await Attributes.getAttributeType(attributeTypes, fileName);
+      const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
+      if (attributeTypes === 'ROLE')
+          dispatch(saveOpportunityContactRoles(attributeValues.items));
+      if (attributeTypes === 'INDUSTRY')
+          dispatch(saveIndustryInfo(attributeValues.items));
+      if (attributeTypes === 'APP_FROM_IPTOR')
+          dispatch(saveProductInfo(attributeValues.items));
   }
+}
+
+export const getOpportunityForecasts = () => {
+    return async (dispatch: Dispatch) => {
+        const areas = await ForeCastsInfo.get();
+        dispatch(saveForeCastInfo(areas));
+    }
 }

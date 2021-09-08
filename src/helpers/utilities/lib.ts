@@ -37,3 +37,30 @@ export const getEndDateOfQuarter = (quarter_name:number) => {
 export const validEmail = new RegExp(
     '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
 );
+
+export const getCurrPrevNextYearQuarters = () => {
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+  const nextYear = currentYear + 1;
+  const currentQuarters = [
+    currentYear + " - Q1",
+    currentYear + " - Q2",
+    currentYear + " - Q3",
+    currentYear + " - Q4",
+  ];
+  const previousQuarters = [
+    previousYear + " - Q1",
+    previousYear + " - Q2",
+    previousYear + " - Q3",
+    previousYear + " - Q4",
+  ];
+  const nextQuarters = [
+    nextYear + " - Q1",
+    nextYear + " - Q2",
+    nextYear + " - Q3",
+    nextYear + " - Q4",
+  ];
+  const currPrevQuarters = currentQuarters.concat(previousQuarters);
+  const quarterArray = currPrevQuarters.concat(nextQuarters);
+  return quarterArray;
+}

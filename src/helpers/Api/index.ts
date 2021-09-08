@@ -5,3 +5,5 @@ export * from './CurrencyInfo';
 export * from './StagesInfo';
 export * from './OpportunityType';
 export * from './Attributes';
+export * from './ForeCastsInfo';
+export * from './Countries';

@@ -95,7 +95,7 @@ const Header: React.FC<Props> = ({ page }) => {
 
 
                         <li className={currentPage == 3 ? activeClass + " active" : activeClass}>
-                            <a className={"nav-link navbar-avatar"} href="#" aria-expanded="false" data-animation="scale-up" role="button">
+                            <a className={"nav-link navbar-avatar"} href="/reports" aria-expanded="false" data-animation="scale-up" role="button">
                                 <span className={"avatar avatar-online"}>
                                     <img src={ImageConfig.NAV_REPORTS_ICON} alt="..." />
                                     <i>Reports</i>

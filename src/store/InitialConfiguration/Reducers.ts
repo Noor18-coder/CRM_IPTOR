@@ -20,7 +20,10 @@ export const createInitalConfigDefaultState = (): InitialConfigState => {
         defaultOpprtunityInfo: {},
         crmCountryInfo: [],
         crmAreaInfo: [],
-        opportunityContactRoles:[]
+        opportunityContactRoles: [],
+        crmIndustries: [],
+        crmProductFamily:[],
+        forecastInfo: []
     }
 };
 
@@ -88,6 +91,21 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
             return {
                 ...state,
                 opportunityContactRoles: action.roles
+            };
+        case AppLoadingTypes.SAVE_INDUSTRY_INFO:
+            return {
+                ...state,
+                crmIndustries: action.crmIndustries
+            };
+        case AppLoadingTypes.SAVE_PRODUCT_INFO:
+            return {
+                ...state,
+                crmProductFamily: action.crmProductFamily
+            };
+        case AppLoadingTypes.SAVE_FORECAST_INFO:
+            return {
+                ...state,
+                forecastInfo: action.forecastInfo
             };
         default:
             return state;
