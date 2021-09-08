@@ -15,7 +15,7 @@
 
 .arrow-next {
   position: absolute;
-  right: 0px;
+  right: 24px;
   top: 13px;
   background-position: center;
   background-size: contain;
@@ -28,7 +28,7 @@
 
 .arrow-prev {
   position: absolute;
-  left: 0px;
+  left: -16px;
   top: 13px;
   margin-left: 0px;
   background-position: center;
@@ -159,6 +159,7 @@
   // bottom: 23px;
   // top: 9px;
   width: 95%;
+  padding-top: 3px;
 
   .menu-wrapper {
     .menu-wrapper--inner {
@@ -195,18 +196,23 @@
 
   .filterrow {
     border-bottom: none;
-    
-    .filter-class {
-      .tabs-btn-row {
-        position: relative;
-        height: 40px;
-        
-        img {
-          position: absolute;
-          right: 24px;
-          top: 0;
-        }
-      }
+
+    .mobFilterRow {
+      width: 100%;
+    }
+  }
+
+  .tabs-btn-row {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    display: block;
+    padding-left: 12px;
+
+    img {
+      position: absolute;
+      right: 24px;
+      top: 0;
     }
   }
 

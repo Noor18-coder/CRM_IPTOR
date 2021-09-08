@@ -2,15 +2,13 @@ import React from 'react';
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import ScrollMenu from 'react-horizontal-scrolling-menu';
-import { Image} from 'react-bootstrap';
-import ImageConfig from '../../../config/ImageConfig';
-import _ from 'lodash';
+import { useMediaQuery } from 'react-responsive'
 
-
-import { useHistory } from 'react-router';
 import { AppState } from "../../../store/store";
 import { setOpportunityWindowActive } from '../../../store/AddOpportunity/Actions';
 import { setBusinessPartnerWindowActive } from '../../../store/AddCustomer/Actions';
+import { Image } from 'react-bootstrap';
+import ImageConfig from '../../../config/ImageConfig';
 
 export interface Option {
     value: string;
@@ -25,7 +23,7 @@ const initialFilter = {
 export interface SelectOptionMethod {
     value: string;
     selectParam: string;
-    handler:string;
+    handler: string;
 }
 
 interface Props {
@@ -70,42 +68,47 @@ const ArrowLeft = Arrow({ text: '', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '', className: 'arrow-next' });
 
 
-export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = initialFilter, component}) => {
-    const state:AppState = useSelector((state: AppState) => state);
+export const GridFilter: React.FC<Props> = ({ filters, selectOption, selected = initialFilter, component }) => {
+
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+    const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+    const isDesktop = useMediaQuery({ minWidth: 992 });
+  
+    const state: AppState = useSelector((state: AppState) => state);
     const dispatch: Dispatch<any> = useDispatch();
     const [handler, setHandler] = React.useState<string>('all');
     const [selectedFilter, setFilter] = React.useState<Option>(selected);
 
-    const selectFilter = (obj:Option) => {
+    const selectFilter = (obj: Option) => {
         setFilter(obj);
-        const params = {...obj, handler:handler};
+        const params = { ...obj, handler: handler };
         selectOption(params);
     }
 
-    const handlerChange = (handler:string) => {
+    const handlerChange = (handler: string) => {
         setHandler(handler);
-        const params = {...selected, handler:handler};
+        const params = { ...selected, handler: handler };
         selectOption(params);
     }
 
     const openForm = () => {
-        if(component == 'opportunity')
+        if (component == 'opportunity')
             dispatch(setOpportunityWindowActive(true));
         if (component == 'customer')
             dispatch(setBusinessPartnerWindowActive(true));
     }
 
     const menuItems = Menu(filters, selectFilter, selected);
-    const classButton = 'app-btn switch-txt-btn';  
-    const classButtonAll = classButton  + ('all' == handler? ' active' : '');
-    const classButtonMy =  classButton + ('my' == handler? ' active' : '');
+    const classButton = 'app-btn switch-txt-btn';
+    const classButtonAll = classButton + ('all' == handler ? ' active' : '');
+    const classButtonMy = classButton + ('my' == handler ? ' active' : '');
 
     return (
-        <div className={"row s-header filterrow"}>
-            <div className={"col filter-class"}>
-                <div className={"d-lg-block d-none"} >
-                    <div className={'row'}>
-                        {component === 'opportunity' && 
+        <>
+            {
+                isDesktop ?
+                    <div className={"row s-header filterrow"}>
+                        {component === 'opportunity' &&
                             <div className={'col-2'}>
                                 <div className="toggle-btn-group">
                                     <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
@@ -113,7 +116,7 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                                 </div>
                             </div>
                         }
-                        
+
                         <div className={component === 'opportunity' ? 'col-10' : 'col-9'}>
                             <ScrollMenu
                                 data={menuItems}
@@ -123,37 +126,42 @@ export const GridFilter:React.FC<Props> = ({filters, selectOption, selected = in
                                 selected={selected.value}
                                 arrowRight={ArrowRight}
                                 menuClass="custom-menu"
-                                translate={20}
+                                translate={5}
                             >
                             </ScrollMenu>
                         </div>
-                    </div>
-                </div>
-                <div className={"d-lg-none d-block"} >
-                    <div className={"row"}>
-                       
-                            <div className="col-12 tabs-btn-row">
-                            {component === 'opportunity' &&  <div className=" toggle-btn-group">
-                                    <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
-                                    <button className={'my-btn ' + classButtonMy} onClick={() => handlerChange('my')}>MY</button>
-                                </div> }
-                                <Image src={ImageConfig.ADD_ICON} onClick={openForm}/>
+                    </div> 
+
+                    : 
+                        
+                    <div className={"row s-header filterrow"}>
+                        <div className="mobFilterRow">
+                            <div>
+                                <div className="tabs-btn-row">
+                                    {component === 'opportunity' && <div className=" toggle-btn-group">
+                                        <button className={classButtonAll} onClick={() => handlerChange('all')}>ALL</button>
+                                        <button className={'my-btn ' + classButtonMy} onClick={() => handlerChange('my')}>MY</button>
+                                    </div>}
+                                    <Image src={ImageConfig.ADD_ICON} onClick={openForm} />
+                                </div>
+
+                                <div className={'col-12 add-btn'}>
+                                    <ScrollMenu
+                                        data={menuItems}
+                                        alignCenter={true}
+                                        alignOnResize={true}
+                                        itemClass={'btn filter-items'}
+                                        itemClassActive={'btn-active'}
+                                        selected={selected.value}
+                                        hideArrows={true}
+                                        translate={5}
+                                        menuClass="custom-menu">
+                                    </ScrollMenu>
+                                </div>
                             </div>
-                    
-                        <div className={'col-12 add-btn'}>
-                        <ScrollMenu
-                                data={menuItems}
-                                itemClass={'btn filter-items'}
-                                itemClassActive={'btn-active'}
-                                selected={selected.value}
-                                hideArrows={true}
-                                translate={0}
-                                menuClass="custom-menu">
-                            </ScrollMenu> 
-                        </div>
+                        </div> 
                     </div>
-                </div>
-            </div>
-        </div>
-      );
+                }   
+        </>
+    );
 }
