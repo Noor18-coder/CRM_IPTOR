@@ -51,7 +51,10 @@ const AddCustomer: React.FC = () => {
         customerFields.primaryCurrency = state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA
         customerFields.language = state.enviornmentConfigs.defaultOpprtunityInfo.language;
         customerFields.type = 1;
-        customerFields.active = false
+        if (!!state.auth.user.role && state.auth.user.role === 'Admin')
+            customerFields.active = true
+        else
+            customerFields.active = false
 
         const data = await AddCustomerApi.add(customerFields);
         const customerId = data.data.businessPartner;
@@ -158,7 +161,7 @@ const AddCustomer: React.FC = () => {
                                     </form>
                                 </div>
                                 <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={isSubmit ? onSubmit : undefined}>
-                                    <a className={isSubmit ? 'customer-btn' : 'customer-btn disable-link'} href="#"> {i18n.t('addShareApproval')} </a>
+                                    <a className={isSubmit ? 'customer-btn' : 'customer-btn disable-link'} href="#"> {!!state.auth.user.role && state.auth.user.role === 'Admin' ? i18n.t('addCustomerBtn') : i18n.t('addShareApproval')} </a>
                                 </div>
                             </div>
                         </div>

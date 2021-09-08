@@ -456,3 +456,14 @@ padding-left: 221px;
     font-weight: 600;
     margin-bottom: 8px;
 }
+
+.disabled-checkbox {
+    cursor: default;
+    background-image: none;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    color: #333;
+}

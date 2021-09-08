@@ -30,5 +30,6 @@
   "basicInfo": "Basic Info",
   "moreInfo": "More Info",
   "appFromIptor": "Applications From Iptor",
-  "addContact":  "Add Contact"
+  "addContact": "Add Contact",
+  "addCustomerBtn": "Add Customer"
 }
