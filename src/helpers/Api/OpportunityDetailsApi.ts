@@ -14,6 +14,7 @@ export default class OpportunityDetailsApi {
   private static apiContactMethod: string = 'mopContacts.get';
   private static apiItemsMethod: string = 'mopItems.get';
   private static apiDeleteItem: string = 'mopItem.delete';
+  private static mopOpportunityDelete:string = 'mopOpportunity.delete';
 
 
   /**
@@ -66,5 +67,11 @@ export default class OpportunityDetailsApi {
     const requestData = new ApiRequest<apiModels.DeleteOpportunityItemParams>(this.apiDeleteItem, {parentId:params.parentId, parentFile:this.attributesProductFileName, itemId: params.itemId});
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
-}
+  }
+
+  static async opportunityDelete(opportunityId:string): Promise<any> {
+    const requestData = new ApiRequest<apiModels.OpportunityDetailsParams>(this.mopOpportunityDelete, {opportunityId:opportunityId});
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  }
 }

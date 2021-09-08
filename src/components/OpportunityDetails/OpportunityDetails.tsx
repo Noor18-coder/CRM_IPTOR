@@ -51,11 +51,11 @@ const OpportunityDetails: React.FC = (props: any) => {
                 <Popover.Content>
                     Hold
                 </Popover.Content>
-                <Popover.Content>
-                    <a  role="button">
+                { state.auth.user.role?.toLowerCase() === 'admin' ? <Popover.Content>
+                    <a  onClick={deleteOpportunity} role="button">
                         Delete <Image className="logout-image" height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor" />
-                    </a>
-                </Popover.Content>
+                    </a> 
+                </Popover.Content> : null }
             </Popover>
         )
     };
@@ -128,6 +128,12 @@ const OpportunityDetails: React.FC = (props: any) => {
     
     const openAddContactForm = () => {
         dispatch(openOpportunityForm({open:true,groupName:'add_contact'}))
+    }
+
+    const deleteOpportunity = async () => {
+        const data = await OpportunityDetailsApi.opportunityDelete(opptyId);
+        backToOpportunityList();
+
     }
 
     const openAddItemForm = async (action:string, data?:models.Product) => {

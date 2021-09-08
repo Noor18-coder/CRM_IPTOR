@@ -68,6 +68,11 @@ export interface AttributeValueAndType {
     attributeValue: string | number
 }
 
+export interface AttributesValuesRequestParam {
+    parentFile?: string;
+    parentId?: string;
+} 
+
 export interface AttributeValuesRequestParam {
     attributeId:string;
 } 

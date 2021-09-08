@@ -22,7 +22,8 @@ export interface OpportunityListItem {
   contactExist: boolean,
   taskExist: boolean,
   itemExist: boolean,
-  attributeExist: boolean
+  attributeExist: boolean,
+  forecastCategory:string
 }
 
 export interface OpportunityListParams {
@@ -32,7 +33,8 @@ export interface OpportunityListParams {
   selectCloseDateTo?: string;
   selectStageFrom?: string;
   selectStageTo?:string;
-  searchField?:string
+  searchField?:string;
+  selectOppRecordType?:string;
 }
 
 export interface OpportunityFilterItem {

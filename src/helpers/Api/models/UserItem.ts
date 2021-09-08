@@ -9,6 +9,7 @@ export interface UserItem {
   language: string;
   currentEnvironment?: CompanyInfoItem[];
   selectedCompany: string;
+  role?: string;
 }
 
 export interface UserParams {

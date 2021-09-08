@@ -7,25 +7,21 @@ import { useMediaQuery } from 'react-responsive'
 import { getStartDateOfQuarter, getEndDateOfQuarter } from '../../helpers/utilities/lib';
 import OpportunityListMobile from './OpportunityListMobile';
 
-import { OpportunityState } from '../../store/Opportunity/Types';
+import { OpportunityState, OpportunityTypes } from '../../store/Opportunity/Types';
 import { AppState } from "../../store/store";
-import { AuthState } from '../../store/Auth/Types';
 import { getUsersInfo } from '../../store/Users/Actions';
 
 import Grid from '../Shared/Grid/Grid';
 import Header from '../Shared/Header/Header';
-import { UsersData } from '../../store/Users/Types';
 
 import OpportunityList from '../../helpers/Api/OpportunityList';
 import ColumnDefs from '../../config/OpportunityGrid';
 import {OpportunityFilterOpions} from '../../config/OpportunityFilterOptions';
 
-import { OpportunityListItem, OpportunityListParams, OpportunityFilterItem } from '../../helpers/Api/models';
+import { OpportunityListItem, OpportunityListParams, StageInfo, OpportunityType } from '../../helpers/Api/models';
 import { saveOpptyList, saveOpptyFilters, saveOpportunityFilters } from '../../store/Opportunity/Actions';
 import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
-import Footer from "../Shared/Footer/Footer";
 import { GridFilter } from '../../components/Shared/Filter/GridFilter';
-import Search from '../Shared/Search/Search';
 import ImageConfig from '../../config/ImageConfig';
 import FooterMobile from '../Shared/Footer/FooterMobile';
 import Loader from '../Shared/Loader/Loader';
@@ -50,11 +46,7 @@ const Opportunities: React.FC = () => {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
   const isDesktop = useMediaQuery({ minWidth: 992 })
 
-  const state: OpportunityState = useSelector((state: AppState) => state.opportunities);
-  const authState: AuthState = useSelector((state: AppState) => state.auth);
-  const usersData: UsersData = useSelector((state: AppState) => state.users);
-  const addOpptyState:AppState = useSelector((state: AppState) => state);
-
+  const state:AppState  = useSelector((state: AppState) => state);
   const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
   const [searchText, setSearchText] = React.useState<string>('');
@@ -62,7 +54,6 @@ const Opportunities: React.FC = () => {
   const [loader, setLoader] = React.useState<boolean>(false);
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
-  //const [addOpportunityActive, setAddOpportunityActive] = React.useState<boolean>(false);
 
     
 
@@ -80,7 +71,7 @@ const Opportunities: React.FC = () => {
   });
 
   const getName = (str: string) => {
-    const userObj = usersData.users.find((obj) => obj.handler === str);
+    const userObj = state.users.users.find((obj) => obj.handler === str);
     return userObj?.description;
   }
 
@@ -103,7 +94,7 @@ const Opportunities: React.FC = () => {
 
 
     if(filter?.handler){
-      filters.selectHandler = filter.handler == 'all' ? '' : authState.user.handler;
+      filters.selectHandler = filter.handler == 'all' ? '' : state.auth.user.handler;
     }
 
    
@@ -120,10 +111,14 @@ const Opportunities: React.FC = () => {
       filters.selectCloseDateTo = getEndDateOfQuarter(qtrNum);
     }
 
+    if(filter?.selectParam == 'selectOpportunityType'){
+      filters.selectOppRecordType = filter.value;
+    }
+
     if(searchText.length){
       filters.searchField = searchText;
       }
-    const data: any = await OpportunityList.get(authState.user.handler, '', 20, start, orderBy, filters);
+    const data: any = await OpportunityList.get(state.auth.user.handler, '', 20, start, orderBy, filters);
     if (data && data.data && data.control?.more) {
       res.items = data.data.items;
       dispatch(saveOpptyList(res.items));
@@ -143,8 +138,17 @@ const Opportunities: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getUsersInfo());
-      dispatch(saveOpportunityFilters(OpportunityFilterOpions))
-      if (state.opportunities.length === 0)
+
+    const stages = state.enviornmentConfigs.crmOpportunityStage; 
+    const opportunityRecordTypes = state.enviornmentConfigs.crmOpportunityTypes;
+
+    const filterStages = stages.map((obj:StageInfo) => { return { value: obj.salesStage, selectParam: 'selectStage'}});
+    const filterOpptyTypes = opportunityRecordTypes.map((obj:OpportunityType) => { return { value: obj.oppRecordType, selectParam: 'selectOpportunityType'}});
+
+    const filterOptions = [...OpportunityFilterOpions, ...filterStages, ...filterOpptyTypes];
+
+    dispatch(saveOpportunityFilters(filterOptions));
+      if (state.opportunities.opportunities.length === 0)
           setLoader(true)
   }, []);
 
@@ -205,7 +209,6 @@ const Opportunities: React.FC = () => {
             </div> }
 
             <div className={"col col-md-4"}>
-              {/* <Search onChange={searchStart} onSearchItemSelect={openOpptyDetails} onSearch={searchOpportunity} /> */}
               <div className="navbar-search-overlap">
                 <div className="form-group">
                     <div className="input-search">
@@ -222,9 +225,9 @@ const Opportunities: React.FC = () => {
               <button className={"btn add-opportunity"} onClick={toggleDrawer(true)}>+ New</button>
             </div>}
           </div>
-           <GridFilter filters={Array.from(state.opportunityFilters)} selected={filter} selectOption={onFilter} component='opportunity' /> 
+           <GridFilter filters={Array.from(state.opportunities.opportunityFilters)} selected={filter} selectOption={onFilter} component='opportunity' /> 
            {loader && <Loader component='opportunity'/>}
-           { usersData.users && usersData.users.length ? ((isMobile || isTablet) ?(  addOpptyState.addOpportunity.addOpptyWindowActive === false ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : null) : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
+           { state.users.users && state.users.users.length ? ((isMobile || isTablet) ?(  state.addOpportunity.addOpptyWindowActive === false ? <OpportunityListMobile refresh={refresh} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} /> : null) : <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} ></Grid> ) : null}
           </div>
       </section>
    

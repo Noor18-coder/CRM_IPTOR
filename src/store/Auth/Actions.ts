@@ -8,8 +8,8 @@
  import * as apiModels from '../../helpers/Api/models';
  import { AppState } from '../store';
  import { isEmpty } from 'lodash';
- import { User, CompanyInfo } from '../../helpers/Api';
- import { CompanyInfoItem,UserItem  } from '../../helpers/Api/models';
+ import { User, CompanyInfo, Attributes } from '../../helpers/Api';
+import { AttributeValueObject } from '../../helpers/Api/models';
  
  
  
@@ -68,7 +68,7 @@
                const loader = true
            }
          const companyInfo = await CompanyInfo.get();
-         const newArray = companyInfo.items.map((obj: CompanyInfoItem) => { return { ...obj, selected: false } });
+         const newArray = companyInfo.items.map((obj: apiModels.CompanyInfoItem) => { return { ...obj, selected: false } });
          if (companyInfo !== undefined && !isEmpty(companyInfo)) {
            user.currentEnvironment = newArray;
            }
@@ -104,6 +104,13 @@
          const response = await axios.post('/api/login', authRequest);
          if (response.status === 200) {
          const user = await User.get(response.config.data.user);
+        const userAttributes:any = await Attributes.getAttributes("SROUSP", user.handler);
+
+        if(userAttributes &&  userAttributes.items){
+            const role = userAttributes.items.find((obj:AttributeValueObject) => { return obj.attributeType === 'ROLE'});
+            user.role = role?.attributeValue;
+        }
+       
         user.selectedCompany = authRequest.company ? authRequest.company : '';
          dispatch(setUserInfo(user))
          return dispatch(authSuccess());

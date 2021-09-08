@@ -39,7 +39,17 @@ const OpportunityGridOptions = [{
         sortable: true,
         headerName: 'Stage',
         cellRenderer: (params: any) => {
-          return ' <span class="o-stage">' +  params.value ? ' <span class="stage">' + params.value : ''+ '</span>'
+          return  params.value ? ' <span class="o-stage">' + params.value : ''+ '</span>'
+        }
+        
+      },
+      
+      {
+        field: 'forecastCategory',
+        sortable: true,
+        headerName: 'Forecast',
+        cellRenderer: (params: any) => {
+          return params.value;
         }
         
       },

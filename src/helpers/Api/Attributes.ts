@@ -8,6 +8,7 @@ export class Attributes {
  
   private static opportunityAttributesFileName: string = 'SROMOPH';
   private static customersAttributesFileName: string = 'SRONAM';
+  private static mopAttributesGet : string = 'mopAttributes.get';
   private static attributeMethod : string = 'mopAttributeTypes.get';
   private static addAttributeMethod : string = 'mopAttribute.add';
   private static updateAttributeMethod : string = 'mopAttribute.update';
@@ -96,6 +97,12 @@ export class Attributes {
     const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile :fileName});
     const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
-}
+  }
+
+  static async getAttributes(fileName: string, parentId:string): Promise<apiModels.AttributeValuesResponse> {
+    const requestData = new ApiRequest<apiModels.AttributesValuesRequestParam>(this.mopAttributesGet, { parentFile :fileName, parentId: parentId});
+    const response = await axios.post<apiModels.AttributeValuesResponse>('/api/service', requestData);
+    return get(response, 'data.data', {});
+  }
 
 }

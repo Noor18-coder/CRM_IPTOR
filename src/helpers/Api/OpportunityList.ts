@@ -23,9 +23,10 @@ export default class OpportunityList {
       selectStageTo: otherparams?.selectStageTo,
       searchField: otherparams?.searchField,
       selectCloseDateFrom: otherparams?.selectCloseDateFrom,
-      selectCloseDateTo: otherparams?.selectCloseDateTo 
+      selectCloseDateTo: otherparams?.selectCloseDateTo,
+      selectOppRecordType: otherparams?.selectOppRecordType
     };
-    const requestData = new ApiRequest<OpportunityListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy});
+   const requestData = new ApiRequest<OpportunityListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy});
     const response = await axios.post<OpportunityListResponse>('/api/service', requestData);
      return get(response, 'data');
   }

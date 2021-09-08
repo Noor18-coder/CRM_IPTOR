@@ -69,7 +69,7 @@ interface OppProps {
           </div>
           <div className="rgt-col">
             Forecast
-                <span className="danger"></span>
+                <span>{props.opportunity.forecastCategory}</span>
           </div>
         </div>
   
