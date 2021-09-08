@@ -8,7 +8,8 @@
  import * as apiModels from '../../helpers/Api/models';
  import { AppState } from '../store';
  import { isEmpty } from 'lodash';
- import { User, CompanyInfo, Attributes } from '../../helpers/Api';
+
+import { User, CompanyInfo, Attributes } from '../../helpers/Api';
 import { AttributeValueObject } from '../../helpers/Api/models';
  
  

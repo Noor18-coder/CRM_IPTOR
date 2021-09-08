@@ -8,7 +8,7 @@ import i18n from '../../i18n'
 import ImageConfig from '../../config/ImageConfig';
 import { AppState } from "../../store/store";
 import { AllContactsAccordian } from './AllContactDetails';
-import { MoreInfoAccordian } from './MoreInfo'
+import { MoreInfoAccordian, MoreInfoAccordianMobile } from './MoreInfo'
 import * as models from '../../helpers/Api/models';
 import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, Area } from  '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
@@ -91,7 +91,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
                   <Card.Body className="accr-body-container">  
-                     <ul className="list-inline bdy-list-item">
+                     <ul className="list-inline bdy-list-item accr-list-columns">
                           <li className="list-inline-item">
                             <span>Contact Address</span>{props.data.addressLine1}<p>&nbsp;</p>
                           </li>
@@ -115,51 +115,52 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         </section>
 
         <section className="sec-info-accordion">
-            {customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} />}
+                {(isMobile || isTablet) ?
+                    customerMoreInfoGroup && <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={customerMoreInfoGroup} /> :
+                    customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} />}
         </section>
 
 
       { (isMobile || isTablet) ? 
       <section className="customer-mobilecard">
-      <div className="customer-details d-flex justify-content-between">
-        <div className="lft-col">
-            Account owner
-           <span>
-           {ownerDetails? ownerDetails.user : '--'}
-         </span>
-        </div>
+          <div className="customer-details d-flex justify-content-between">
+            <div className="lft-col">
+                Account owner
+               <span>
+               {ownerDetails? ownerDetails.user : '--'}
+             </span>
+            </div>
         
+            <div className="right-data">
+              {/*<p><Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></p>*/}
+            </div>
+          </div>
+          <div className="customer-details d-flex justify-content-between">
+            <div className="lft-col">
+               <span>
+             {ownerDetails? ownerDetails.PHONE : '--'}
+             </span>
+            </div>
 
-        <div className="right-data">
-          <p><Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></p>
-        </div>
-      </div>
-      <div className="customer-details d-flex justify-content-between">
-        <div className="lft-col">
-           <span>
-         {ownerDetails? ownerDetails.PHONE : '--'}
-         </span>
-        </div>
+            <div className="right-data">
+              <p><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" /></p>
+            </div>
+          </div>
 
-        <div className="right-data">
-          <p><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" /></p>
-        </div>
-      </div>
+          <div className="customer-details d-flex justify-content-between">
 
-      <div className="customer-details d-flex justify-content-between">
+            <div className="lft-col">
+               <span>
+              {ownerDetails? ownerDetails.EMAIL : '--'}
+             </span>
+            </div>
 
-        <div className="lft-col">
-           <span>
-          {ownerDetails? ownerDetails.EMAIL : '--'}
-         </span>
-        </div>
-
-        <div className="right-data">
-          <p><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" /></p>
-        </div>
-      </div>
+            <div className="right-data">
+              <p><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" /></p>
+            </div>
+          </div>
       </section>:
-           <section className="d-flex justify-content-between sec-customer-desc">
+      <section className="d-flex justify-content-between sec-customer-desc">
            <div className="accr-body-container">  
                <ul className="list-inline bdy-list-item">
                <li className="list-inline-item"><span>Account owner</span> {ownerDetails? ownerDetails.user : '--'}</li>
@@ -169,7 +170,6 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                <Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li> */}
              </ul></div>
        </section> }
-
 
        <section className="d-flex sec-customer-desc">
             <div className="cust-group">

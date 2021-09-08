@@ -1,61 +1,101 @@
 @import "global-variables.scss";
 @import "mixins.scss";
+
 // Small devices (landscape phones, 576px and up)
 @media (max-width: 767.98px) {
     .main-wrapper {
         .sec-customer-desc {
-                display:inherit !important;
-                .cust-name,.group-sec {
-                    width:100% !important;
-                }
-                .group-sec {
-                    border-top: solid 1px $mercury;
-                    padding:16px 0 4px 0;
-                    ul{
-                        margin-bottom: 0;
-                        li{
-                            margin-bottom: 24px;
-                            display: inline-block;
-                            span{
-                                padding-right:16px;
-                                padding-left:16px;
-                                margin-right: 0;
-        
-                            }
+            display: inherit !important;
+
+            .cust-name,
+            .group-sec {
+                width: 100% !important;
+            }
+
+            .group-sec {
+                border-top: solid 1px $mercury;
+                padding: 16px 0 4px 0;
+
+                ul {
+                    margin-bottom: 0;
+
+                    li {
+                        margin-bottom: 24px;
+                        display: inline-block;
+
+                        span {
+                            padding-right: 16px;
+                            padding-left: 16px;
+                            margin-right: 0;
+
                         }
                     }
                 }
-               
-                
-                    
             }
 
-            .sec-info-accordion {
-                .accordion{
-                    .contact-class{
-                        .card-link{
-                            .cust-info{
-                                display: block;
-                                margin-top: 16px;
-                                left: 0;
-                                background: transparent;
-                                padding-left:0;
-                                border-top: solid 1px $mercury;
-                                padding-top: 24px;
 
-                                span{
-                                    background:#EEF0F2;
-                                    padding: 8px 16px;
-                                    border-radius: 24px;
 
-                    
-                                }
+        }
+
+        .sec-info-accordion {
+            .accordion {
+                .contact-class {
+                    .card-link {
+                        .cust-info {
+                            display: block;
+                            margin-top: 16px;
+                            left: 0;
+                            background: transparent;
+                            padding-left: 0;
+                            border-top: solid 1px $mercury;
+                            padding-top: 24px;
+
+                            span {
+                                background: #EEF0F2;
+                                padding: 8px 16px;
+                                border-radius: 24px;
+
+
                             }
                         }
+                    }
 
+                }
+            }
+
+            .opp-moreinfo-sec {
+                background: $white;
+                margin-bottom: 24px;
+                font-size: 18px;
+                font-weight: $font-weight-bold;
+                text-transform: capitalize;
+                color: $limed-spruce;
+                padding: 20px 12px 12px 12px;
+
+                .accordion {
+                    margin-bottom: 12px;
+
+                    &:first-child {
+                        margin-top: 16px;
+                    }
+
+                    a {
+                        background: $mercury;
+                        position: relative;
+
+                        .mob-edit-icon {
+                            position: absolute;
+                            right: 60px;
+                            top: 24px;
+                        }
+                    }
+
+                    .more-info-group-container {
+                        background: $mercury;
                     }
                 }
             }
+        }
 
         &.loginpage {
             height: 100vh;
@@ -96,7 +136,7 @@
                 padding: 0;
                 padding-bottom: 24px;
 
-                .error{
+                .error {
                     margin-left: 12px;
                     margin-top: 0px;
                     margin-right: 12px;
@@ -279,6 +319,7 @@
                         ul {
                             min-width: 120px;
                             text-align: right;
+
                             li {
                                 img {
                                     width: 19px;
@@ -294,7 +335,7 @@
                     border-bottom: solid 1px $mercury;
 
                     ul {
-                        padding-left:0;
+                        padding-left: 0;
 
                         li {
                             margin-right: 16px;
@@ -555,7 +596,7 @@
         .opportunity-list {
             display: block;
         }
-        
+
 
         .mobile-cardview-list {
             display: block;
@@ -573,7 +614,7 @@
                     padding: 16px 16px 0 16px;
 
                     .lft-col {
-                        padding:0 !important;
+                        padding: 0 !important;
 
                         font: {
                             size: $base-font-size + 4;
@@ -626,7 +667,7 @@
 
                     .lft-col {
                         color: $blue-bayoux;
-                        padding:0;
+                        padding: 0;
 
                         font: {
                             size: $base-font-size - 2;
@@ -675,6 +716,7 @@
                     .lft-col {
                         color: #6D899D;
                         padding: 0;
+
                         font: {
                             size: $base-font-size + 2;
                             weight: $font-weight-semibold;
@@ -708,11 +750,12 @@
                 height: 24px;
             }
 
-            .notification{
+            .notification {
                 position: relative;
                 width: 24px;
                 height: 24px;
                 display: block;
+
                 .red-dot {
                     position: absolute;
                     right: -5px;
@@ -725,19 +768,77 @@
                 }
             }
 
-            
+
 
         }
     }
+
     .accordian-card {
         width: 85%
     }
+
     .left-card {
         width: 85%;
     }
 
     .right-card {
         width: 15%;
+    }
+
+
+
+    .accr-body-container {
+        >ul {
+            &.accr-list-columns {
+                display: inherit;
+
+                li {
+                    margin: 0;
+                    margin-bottom: 24px;
+
+                    &:first-child {
+                        width: inherit;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .prod-modules-tbl {
+        &.mob-prod-modules-tbl {
+            padding: 12px;
+
+            .mob-prod-modules-card {
+                margin-bottom: 12px;
+
+                .product-row {
+                    padding: 0;
+
+                    .lft-col,
+                    .rgt-col {
+                        padding: 16px;
+                        padding-bottom: 0;
+
+                        span {
+                            max-width: 120px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
+                    &.action-row{
+                        padding-top: 16px;
+                    }
+                }
+            }
+        }
+
+        .mob-prod-modules-card {
+            margin: 0;
+        }
+
     }
 }
 
@@ -763,7 +864,7 @@
             .pagelvl-actionrow,
             .sec-product-desc,
             .sec-staging,
-            .sec-customer-addr{
+            .sec-customer-addr {
                 display: none !important;
             }
 
@@ -825,6 +926,7 @@
                         ul {
                             min-width: 120px;
                             text-align: right;
+
                             li {
                                 img {
                                     width: 19px;
@@ -1121,6 +1223,7 @@
 
                     .lft-col {
                         padding: 0;
+
                         font: {
                             size: $base-font-size + 4;
                             weight: $font-weight-bold;
@@ -1172,7 +1275,7 @@
 
                     .lft-col {
                         color: $blue-bayoux;
-                        padding:0;
+                        padding: 0;
 
                         font: {
                             size: $base-font-size - 2;
@@ -1254,11 +1357,12 @@
                 height: 24px;
             }
 
-            .notification{
+            .notification {
                 position: relative;
                 width: 24px;
                 height: 24px;
                 display: block;
+
                 .red-dot {
                     position: absolute;
                     right: -5px;
@@ -1271,12 +1375,12 @@
                 }
             }
 
-            
+
 
         }
     }
 
-    
+
 }
 
 // Medium devices (tablets, 768px and up)
@@ -1325,7 +1429,7 @@
                 width: inherit;
                 padding: 0;
                 padding-bottom: 24px;
-                
+
                 img.login-form-logo {
                     display: none;
                 }
@@ -1449,7 +1553,7 @@
                     .accr-body-container {
                         ul {
                             li {
-                                width: 40%;
+                                // width: 40%;
                                 margin-bottom: 24px;
                             }
                         }
@@ -1543,10 +1647,11 @@
 
                     .lft-col {
                         padding: 0 !important;
+
                         font: {
                             size: $base-font-size + 4;
                             weight: $font-weight-bold;
-                            
+
                         }
 
                         span {
@@ -1595,7 +1700,7 @@
 
                     .lft-col {
                         color: $blue-bayoux;
-                        padding:0;
+                        padding: 0;
 
                         font: {
                             size: $base-font-size - 2;
@@ -1643,7 +1748,7 @@
 
                     .lft-col {
                         color: #6D899D;
-                        padding:0;
+                        padding: 0;
 
                         font: {
                             size: $base-font-size + 2;
@@ -1677,11 +1782,12 @@
                 height: 24px;
             }
 
-            .notification{
+            .notification {
                 position: relative;
                 width: 24px;
                 height: 24px;
                 display: block;
+
                 .red-dot {
                     position: absolute;
                     right: -5px;
@@ -1694,7 +1800,7 @@
                 }
             }
 
-            
+
 
         }
     }
@@ -1703,9 +1809,10 @@
         display: none;
     }
 
-    .accordian-card{
+    .accordian-card {
         width: 45%
     }
+
     .left-card {
         width: 85%;
     }
@@ -1892,7 +1999,7 @@
                     .accr-body-container {
                         li {
                             margin-bottom: 24px;
-                            width: 150px;
+                            // width: 150px;
                         }
                     }
                 }

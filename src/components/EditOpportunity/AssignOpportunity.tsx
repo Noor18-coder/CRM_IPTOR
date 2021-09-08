@@ -25,17 +25,20 @@ const AssignOpportunity: React.FC<Props> = ({ reloadOpportunityDetailsPage }) =>
     }
 
     const onHandlerChange = (user:models.UserItem[]) => {
-        setOpportunity({
-            ...opportunity,
-            handler: user[0].handler
-        });
-        setHandler(handler);
+        if(user && user.length){
+            setOpportunity({
+                ...opportunity,
+                handler: user[0].handler
+            });
+            setHandler(handler);
+        }
+        
     }
 
 
     return (
         <>
-            <div className="opportunity-forms">
+            <div className="opportunity-edit-form">
                 <div className="">
                     <div className="form-group oppty-form-elements">
                         <label className="opp-label">Assign Opportunity</label>

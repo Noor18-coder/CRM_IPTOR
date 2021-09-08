@@ -58,6 +58,8 @@ const EditOpportunity: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
             setHeaderName('Add Product');
         } else if(groupName == 'edit_item') {
             setHeaderName('Edit Product')
+        } else if(groupName == 'assign_opportunity'){
+            setHeaderName('Assign Opportunity')
         }
     }, [])
 

@@ -82,8 +82,7 @@ const AddItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     return (
         <>
 
-            <div className="opportunity-forms">
-                <div className="">
+           <div className="opportunity-edit-form">
                     <div className="steps-three-forms">
                         <div className="form-group oppty-form-elements">
                             <input type="text" className="form-control search-ipbox" placeholder="Search Item" onChange={searchStart} onKeyPress={searchOpportunity} />
@@ -101,7 +100,7 @@ const AddItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                     </div>
 
 
-                </div>
+                
             </div>
             <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
                 <a className={selectedItems.length ? "stepone-next-btn done" : "stepone-next-btn inactive"}>Done</a>

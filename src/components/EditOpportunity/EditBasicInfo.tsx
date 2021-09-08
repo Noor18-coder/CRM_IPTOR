@@ -109,17 +109,20 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     }
 
     const onHandlerChange = (user:models.UserItem[]) => {
-        setOpportunity({
-            ...opportunity,
-            handler: user[0].handler
-        });
+        if(user && user.length){
+            setOpportunity({
+                ...opportunity,
+                handler: user[0].handler
+            });
+        }
+       
     }
 
 
     return (
         <>
-           
-                <div className="steps-one-forms">
+            
+                <div className="opportunity-edit-form">
                     <form>
                         {
                             fields?.length ?

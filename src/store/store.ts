@@ -24,7 +24,7 @@ import opportuntyDetailsReducer from './OpportunityDetails/Reducers';
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['auth','enviornmentConfigs', 'addOpportunity', 'addBusinessPartner', 'opportuntyDetails'] // which reducer want to store
+  whitelist: ['auth','enviornmentConfigs', 'addOpportunity', 'addBusinessPartner', 'opportuntyDetails', 'users'] // which reducer want to store
 };
 
 export type AppActions = AuthActions;

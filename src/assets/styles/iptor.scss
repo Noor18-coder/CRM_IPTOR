@@ -274,10 +274,11 @@ body {
         right: 0;
         background: $geyser;
         text-align: right;
+        height: 38px;
 
 
         p {
-            padding: 8px 16px 7px 16px;
+            padding: 8px 16px 0px 16px;
             color: $bermuda-gray;
             display: inline-block;
 
@@ -299,9 +300,9 @@ body {
                     content: '';
                     position: absolute;
                     left: 70px;
-                    top: 8px;
-                    bottom: 8px;
-                    width: 2px;
+                    top: 12px;
+                    bottom: 0px;
+                    width: 1px;
                     background: $bermuda-gray;
                 }
         }

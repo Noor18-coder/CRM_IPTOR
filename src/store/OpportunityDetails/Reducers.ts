@@ -51,7 +51,7 @@
         case OpportunityDetailsTypes.OPEN_FOR_EDIT:
             return {
                 ...state,
-                editOportunity: action.options
+                editOportunity: {...state.editOportunity, ...action.options}
             };
 
         default:

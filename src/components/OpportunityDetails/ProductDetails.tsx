@@ -14,10 +14,10 @@ export interface ContactProps {
 interface Props {
     title: string,
     data: Product[],
-    openAddItemForm:(groupName:string, data?: models.Product) => void
+    openAddItemForm:(groupName:string,  data?: models.Product) => void
 }
 
-export const ProductAccordian: React.FC<Props> = ({ title, data , openAddItemForm}) => {
+export const ProductAccordian: React.FC<Props> = ({ title, data, openAddItemForm }) => {
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
     const [activeClass , setActiveClass] = React.useState("");
@@ -29,13 +29,13 @@ export const ProductAccordian: React.FC<Props> = ({ title, data , openAddItemFor
             <Card className="add-details">
                 <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                     {title}
-                    <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" onClick={() => openAddItemForm('add_item')} /> 
+                    <Image className="addnew-red-icon" src={ImageConfig.ADD_BTN} alt="Add New" title="Add New" onClick={() => openAddItemForm('add_item')} /> 
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
-                    <div className="accr-body-container">
+                    <div className="accr-body-container prod-modules-tbl mob-prod-modules-tbl">
                         {(isMobile || isTablet) ? data.length ?
                             data.map((obj: Product) => {
-                                return <ProductCards data={obj} openAddItemForm={openAddItemForm}  />
+                                return <ProductCards data={obj}   openAddItemForm={openAddItemForm} />
                             }) : <div className="padding-28"> No Records Found </div>
                             : data.length ?
                             <Table borderless>
@@ -51,7 +51,7 @@ export const ProductAccordian: React.FC<Props> = ({ title, data , openAddItemFor
                                 <tbody>
                                     {data.length &&
                                         data.map((obj: Product) => {
-                                            return <ProductCardsTable data={obj} openAddItemForm={openAddItemForm}  />
+                                            return <ProductCardsTable data={obj}  openAddItemForm={openAddItemForm} />
                                         })
                                     }
                                 </tbody>
@@ -66,7 +66,7 @@ export const ProductAccordian: React.FC<Props> = ({ title, data , openAddItemFor
 
 }
 
-export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) => {
+export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm  }) => {
     const [productDetails, setProductDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
     React.useEffect(() => {
         OpportunityDetailsApi.getProductDetails(data.itemId).then((contactData) => {
@@ -74,15 +74,14 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
         });
     }, []);
     const costObj = productDetails.find((obj) => obj.attributeType === 'COST');
-    data.cost = costObj?.attributeValue;
+    data.cost = costObj?.attributeValue
     const revenueObj = productDetails.find((obj) => obj.attributeType === 'REVENUE_TYPE');
-    data.revenue = revenueObj?.attributeValue;
+    data.revenue = revenueObj?.attributeValue
     const versionObj = productDetails.find((obj) => obj.attributeType === 'VERSION');
-    data.version = versionObj?.attributeValue;
-    
+    data.version = versionObj?.attributeValue
     return (
         <>
-            <div className="mr-10">
+            <div className="mr-10 mob-prod-modules-card">
                 <div className="d-flex justify-content-between product-row">
                     <div className="lft-col">
                         Item ID <span>{data.item}</span>
@@ -106,12 +105,12 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
                     <div className="rgt-col">
                     </div>
                 </div>
-                <div className="d-flex justify-content-between product-row">
-                    <div className=" d-flex justify-content-between product-row icon-class mr-6"  onClick={() => openAddItemForm('delete_item', data)}>
+                <div className="d-flex justify-content-between product-row action-row">
+                    <div className=" d-flex justify-content-between product-row icon-class mr-6" onClick={() => openAddItemForm('delete_item', data)}>
                         <span className="icon"> <img className="del-icon" src={ImageConfig.DELETE_ICON} alt="delete" title="delete" />Delete</span>
                     </div>
                     <div className=" d-flex justify-content-between product-row icon-class" onClick={() => openAddItemForm('edit_item', data)}>
-                        <span className="icon"> <img className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit"/>Edit</span>
+                        <span className="icon"> <img className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />Edit</span>
                     </div>
                 </div>
             </div> 
@@ -119,7 +118,7 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
     );
 }
 
-export const ProductCardsTable: React.FC<ContactProps> = ({ data , openAddItemForm}) => {
+export const ProductCardsTable: React.FC<ContactProps> = ({ data, openAddItemForm }) => {
     const [productDetails, setProductDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
     React.useEffect(() => {
         OpportunityDetailsApi.getProductDetails(data.itemId).then((contactData) => {
@@ -127,14 +126,11 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ data , openAddItemFo
         });
     }, []);
     const costObj = productDetails.find((obj) => obj.attributeType === 'COST');
-    data.cost = costObj?.attributeValue;
+    data.cost = costObj?.attributeValue
     const revenueObj = productDetails.find((obj) => obj.attributeType === 'REVENUE_TYPE');
-    data.revenue = revenueObj?.attributeValue;
+    data.revenue = revenueObj?.attributeValue
     const versionObj = productDetails.find((obj) => obj.attributeType === 'VERSION');
-    data.version = versionObj?.attributeValue;
-
-
-
+    data.version = versionObj?.attributeValue
     return (
         <>
         <tr>
@@ -144,12 +140,12 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ data , openAddItemFo
             <td className="prod-class">{data.cost}</td>
             <td className="prod-class">{data.revenue}</td>
             <td className="prod-revenue-class" >
-                <div className="d-flex justify-content-between title-row">
+                <div className="d-flex justify-content-between title-row float-right">
                     <div className="lft-col" onClick={() => openAddItemForm('delete_item', data)}>
-                            <Image height="20" width="14" src={ImageConfig.DELETE_ICON} alt="delete" title="delete"></Image>
+                            <Image src={ImageConfig.DEL_ICON} alt="delete" title="delete" />
                     </div>
                     <div className="rgt-col" onClick={() => openAddItemForm('edit_item', data)}>
-                        <Image height="20" width="14" src={ImageConfig.EDIT_ICON} alt="edit" title="edit"></Image>
+                        <Image src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
                     </div>
                 </div>
             </td>

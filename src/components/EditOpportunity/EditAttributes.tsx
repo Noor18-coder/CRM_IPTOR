@@ -103,7 +103,10 @@ const EditAttributes: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
 
     return (
         <>
-            <div>
+            <div className="opportunity-edit-form">
+               
+                    <p className="stepone-title">{ state.opportuntyDetails.editOportunity.groupName}</p>
+                
                 <form>
                     {
                         attributes?.length ?
@@ -124,6 +127,7 @@ const EditAttributes: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
                                     </div>);
                             }) : null}
                 </form>
+                
             </div>
             <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={onNextButtonClick}>
                  <a className="stepone-next-btn done">SAVE</a>
@@ -146,7 +150,7 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attribute
     const attributeValues = options ? options.data.find((obj: models.DropDownValues) => { return obj.attributeId === attributeId }) : null;
     return (
         <div className="form-group oppty-form-elements">
-            <label>{description}</label>
+            <label className="opp-label">{description}</label>
             <select className="form-control iptor-dd" id={attributeType} value={selected} onChange={onSelect}>
                 <option disabled selected>Select {description}</option>
                 {
