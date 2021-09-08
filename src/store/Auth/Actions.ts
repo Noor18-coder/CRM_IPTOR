@@ -11,6 +11,7 @@
 
 import { User, CompanyInfo, Attributes } from '../../helpers/Api';
 import { AttributeValueObject } from '../../helpers/Api/models';
+import { setLoadingMask, removeLoadingMask} from '../InitialConfiguration/Actions';
  
  
  
@@ -43,21 +44,23 @@ import { AttributeValueObject } from '../../helpers/Api/models';
  };
  
  /** Action to set auth state logged out status */
- export const authServiceFailure: ActionCreator<actionTypes.AuthServiceErrorAction> = () => {
+ export const authServiceFailure: ActionCreator<actionTypes.AuthServiceErrorAction> = (error: string) => {
    return {
-     type: actionTypes.AuthTypes.AUTH_ERROR
+     type: actionTypes.AuthTypes.AUTH_ERROR,
+     error: error
    };
  };
  
  
  /** Middleware to handle authentication */
  export const auth: ActionCreator<ThunkAction<
-   Promise<actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction>,
+   Promise<actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction | actionTypes.AuthServiceErrorAction>,
    AppState,
    actionTypes.AuthRequest,
-   actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction
+   actionTypes.AuthWithoutCompany | actionTypes.LogoutSuccessAction | actionTypes.AuthServiceErrorAction
  >> = (authRequest: actionTypes.AuthRequest) => {
    return async (dispatch: Dispatch, getState) => {
+    dispatch(setLoadingMask());
      dispatch(authStart());
  
      try {
@@ -74,13 +77,18 @@ import { AttributeValueObject } from '../../helpers/Api/models';
            user.currentEnvironment = newArray;
            }
          dispatch(setUserInfo(user))
+         dispatch(removeLoadingMask());
          return dispatch(loginWithoutCompanySuccess());
        }
+       console.log("response",response);
        dispatch(authServiceFailure());
+       dispatch(removeLoadingMask());
        return dispatch(logOutSuccess());
      } catch (error) {
+      console.log("error",error);
        //alert('Unauthorized Access');
-       dispatch(authServiceFailure());
+       dispatch(authServiceFailure("Something went wrong"));
+       dispatch(removeLoadingMask());
        return dispatch(logOutSuccess());
      }
    };

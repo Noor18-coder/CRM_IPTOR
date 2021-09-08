@@ -126,14 +126,17 @@ const OpportunityDetails: React.FC = (props: any) => {
       }
 
       const openEditForm = (groupName:string) => {
+          document.body.classList.add('body-scroll-hidden');
         dispatch(openOpportunityForm({open:true,groupName:groupName}))
     }
 
     const openOpportunityBasicEdit = () => {
+        document.body.classList.add('body-scroll-hidden');
         dispatch(openOpportunityForm({open:true,groupName:'opportunity_defaults'}))
     }
     
     const openAddContactForm = () => {
+        document.body.classList.add('body-scroll-hidden');
         dispatch(openOpportunityForm({open:true,groupName:'add_contact'}))
     }
 
@@ -144,6 +147,7 @@ const OpportunityDetails: React.FC = (props: any) => {
     }
 
     const assignOpportunity = () => {
+        document.body.classList.add('body-scroll-hidden');
         dispatch(openOpportunityForm({open:true,groupName:'assign_opportunity'}))
     }
 
@@ -158,6 +162,7 @@ const OpportunityDetails: React.FC = (props: any) => {
             const res = await OpportunityDetailsApi.deleteItem(params);
             reloadOpportunity();
         }else {
+            document.body.classList.add('body-scroll-hidden');
             dispatch(openOpportunityForm({open:true,groupName:action, data: data}))
         }
     }

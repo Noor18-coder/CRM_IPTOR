@@ -78,8 +78,8 @@ const CustomerInfo: React.FC<Data> = (props) => {
 
             <div className="right-data">
               <p><span><label className="switch">
-                <input type="checkbox" checked={props.data.active} />
-                <span className="slider round"></span>
+                <input type="checkbox" checked={customerFields.active} onChange={!!state.auth.user.role && state.auth.user.role === 'Admin' ? onInputValueChange : undefined} />
+                <span className={!!state.auth.user.role && state.auth.user.role === 'Admin' ? 'slider round' : 'slider round disabled-checkbox'}></span>
               </label></span></p>
             </div>
           </div>
@@ -91,7 +91,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
             <div className="right-data">
               <p><span><label className="switch">
                 <input type="checkbox" checked={props.data.isParent} />
-                <span className="slider round"></span>
+                <span className="slider round disabled-checkbox"></span>
               </label></span></p>
             </div>
           </div>
@@ -122,7 +122,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
                 </label> </span> </li>
                 <li className="list-inline-item"><span className="p-left">Parent Group <label className="switch">
                   <input type="checkbox" checked={props.data.isParent} />
-                  <span className="slider round"></span>
+                  <span className="slider round disabled-checkbox"></span>
                 </label> </span></li>
               </ul>
             </div>

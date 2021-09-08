@@ -22,6 +22,7 @@ const Container: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
   const isDesktop = useMediaQuery({ minWidth: 992 });
 
   const closeDrawerAndRefresh = () => {
+      document.body.classList.remove('body-scroll-hidden');
      dispatch(openOpportunityForm({open:false}));
      reloadOpportunityDetailsPage();
   }

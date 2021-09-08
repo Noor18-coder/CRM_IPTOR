@@ -27,6 +27,7 @@ const EditOpportunity: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
     
 
     const closeAction = () => {
+        document.body.classList.remove('body-scroll-hidden');
         dispatch(openOpportunityForm({open:false}))
     }
 

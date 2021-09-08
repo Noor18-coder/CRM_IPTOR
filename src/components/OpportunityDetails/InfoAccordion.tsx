@@ -180,7 +180,7 @@ export const DisplayGroupMobile:React.FC<GroupMobileData> = ({ fields ,data }) =
   )
 }
 
-export const AccordianForMobileWithGroups: React.FC<GroupAccordianProps> = ({ title, data }) => {
+export const AccordianForMobileWithGroups: React.FC<GroupAccordianProps> = ({ title, data, openEditForm }) => {
   const state: AppState = useSelector((state: AppState) => state);
   const [moreInformationGroups, setMoreInformationGroups] = React.useState<IAttributesList[]>();
   const [activeClass , setActiveClass] = React.useState("");
@@ -214,7 +214,7 @@ export const AccordianForMobileWithGroups: React.FC<GroupAccordianProps> = ({ ti
                         <Card>
                         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                           {obj.group}
-                          <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon" />
+                          { state.opportuntyDetails.editOportunity.allowEdit ? <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon" onClick={() => openEditForm(obj.group)} /> : null }
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                           <DisplayGroupMobile fields={obj.items} data={data}/>

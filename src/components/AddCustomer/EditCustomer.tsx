@@ -200,13 +200,16 @@ const EditCustomer: React.FC<Props> = (data) => {
             window.location.reload(false)
             dispatch(setBusinessPartnerLoader(false));
             dispatch(setBusinessPartnerWindowActive(false));
+            document.body.classList.remove('body-scroll-hidden');
         }, 3000);
     }
 
     const closeAction = () => {
+        document.body.classList.remove('body-scroll-hidden');
         dispatch(resetBusinessPartnerData());
         dispatch(setBusinessPartnerWindowActive(false));
         dispatch(setBusinessPartnerLoader(false));
+        document.body.classList.remove('body-scroll-hidden');
         if (key === 'contact fields') {
             ContactFields && ContactFields.map((item: any) => {
                 _.set(item, 'attributeValue', '');

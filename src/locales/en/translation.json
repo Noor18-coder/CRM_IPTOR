@@ -1,7 +1,7 @@
 {
   "hiMessage": "Hi there!",
   "welcomeMessage": "Welcome back...",
-  "loginErrorMsg": "Either your password or user id is wrong",
+  "loginErrorMsg": "Please check. Your user ID or Password is incorrect!",
   "addCustomer": "Add New Customer",
   "customerInfo": "Customer Information",
   "customerName": "Customer Name",

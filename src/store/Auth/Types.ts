@@ -32,7 +32,9 @@ export interface AuthStartAction extends Action<AuthTypes.AUTH_START> {}
 export interface LogoutSuccessAction extends Action<AuthTypes.LOGOUT_SUCCESS> {}
 
 /** Logout success action */
-export interface AuthServiceErrorAction extends Action<AuthTypes.AUTH_ERROR> {}
+export interface AuthServiceErrorAction extends Action<AuthTypes.AUTH_ERROR> {
+  error: string;
+}
 
 /** User set action */
 export interface UserSetAction extends Action<AuthTypes.USER_SET> {
@@ -53,6 +55,6 @@ export interface AuthState {
   readonly loginWithoutCompany: boolean;
   readonly login: boolean;
   readonly loading: boolean;
-  readonly error: boolean;
+  readonly error: string;
   readonly user: UserItem;
 }

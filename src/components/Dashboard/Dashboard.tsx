@@ -32,7 +32,7 @@ const Dashboard:React.FC = () => {
             {state.enviornmentConfigs.loadingMask && <Loader component='opportunity'/>}
             <Header page={0}/>
             { state.enviornmentConfigs.error ? <div><h1>Error Occurred!!!</h1></div> : <h1> Dashboard </h1>}
-            { (isMobile || isTablet) ? <FooterMobile /> : null}
+            { (isMobile || isTablet) ? <FooterMobile page={0} /> : null}
        </>
     )
 }

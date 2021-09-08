@@ -21,6 +21,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
     }
 
     const toggleDrawer = (open: boolean, groupType: string, contactId: string) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        document.body.classList.add('body-scroll-hidden');
         dispatch(setBusinessPartnerWindowActive(true));
         dispatch(setBusinessPartnerWindowGroup(groupType));
         dispatch(setBusinessPartnerContactId(contactId));
@@ -46,7 +47,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
                     <Image src={ImageConfig.ADD_BTN} className="add-img action-icon" alt="Add" title="Add" onClick={toggleDrawer(true, 'add contact fields', '')} />
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
-                    <div className="accr-body-container">
+                    <div className="accr-body-container mt-16">
                         {contactData.length ?
                                 contactData.map((obj: CustomerDetailsContactsGroupItem) => {
                                     return <Card className={obj.ACTIVE ? "accordian-card" : "accordian-card disabled-card"}>
@@ -60,7 +61,6 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
                                             {/*<p>{obj.ADDRESS_2 ? obj.ADDRESS_2 : '--'}</p>*/}
                                             </div>
                                         <div className="contact-right-card">
-                                            <Image className="card-delete" height="20" src={ImageConfig.DEL_ICON} alt="Delete" title="Delete" />
                                             <Image src={ImageConfig.EDIT_ICON} className={obj.ACTIVE ? 'action-icon' : ''} alt="Edit" title="Edit" onClick={obj.ACTIVE ? toggleDrawer(true, 'contact fields', obj.contactDC ? obj.contactDC.toString() : '') : undefined} />
                                     </div>
                                     </Card.Body>

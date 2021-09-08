@@ -24,8 +24,9 @@ const LoginForm: React.FC = () => {
   const [authRequest, setValues] = React.useState<AuthRequest | {}>();
   const [company, setCompany] = React.useState<string>("");
   const [error, setError] = React.useState<boolean>(false);
-  const [loader, setLoader] = React.useState<boolean>(false);
-
+  const [userError, setUserError] = React.useState<boolean>(false);
+  const [passwordError, setPasswordError] = React.useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -38,15 +39,9 @@ const LoginForm: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const doClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const user = (document.getElementById('user') as HTMLInputElement).value;
-    const password = (document.getElementById('password') as HTMLInputElement).value;
-    if (user === '' || password === '') {
-      setError(true);
-    } else {
-        dispatch(auth(authRequest));
-        if (!state.auth.loginWithoutCompany) {
-            setLoader(true)
-        }
+    dispatch(auth(authRequest));
+    if (!state.auth.loginWithoutCompany) {
+        // setLoader(true)
     }
   };
 
@@ -55,9 +50,31 @@ const LoginForm: React.FC = () => {
   };
 
   const backToLogin= () => {
+      setIsSubmit(false);
       dispatch(logOutSuccess());
-      setLoader(false)
+      // setLoader(false)
   }
+
+  const validateField = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const element = document.getElementById(e.currentTarget.id) as HTMLInputElement
+    if (e.currentTarget.value === '' || e.currentTarget.value.includes('Select')) {
+        element.style.border = '1px solid #ED2024';
+        if(e.currentTarget.id === 'user'){
+          setUserError(true);
+        }
+        if(e.currentTarget.id === 'password'){
+          setPasswordError(true);
+        }
+        setIsSubmit(false);
+        setError(true);
+    }
+    else {
+        element.style.border = '1px solid #DAE2E7';
+        setIsSubmit(true);
+        setUserError(false);
+        setPasswordError(false);
+    }
+};
 
   React.useEffect(() => {
     if (company) {
@@ -73,7 +90,7 @@ const LoginForm: React.FC = () => {
       <div className="main-wrapper loginpage">
           <LeftColmData></LeftColmData>
           <>
-   
+      
           <div className="login-panel-container">
             <Image
               src={logo}
@@ -85,35 +102,39 @@ const LoginForm: React.FC = () => {
                 <span className="hi-txt">{i18n.t('hiMessage')}</span>
                 <span className="welcomeback-txt">{i18n.t('welcomeMessage')}</span>
             </p>
-            {loader && <Loader />}
-            {error || state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; {i18n.t('loginErrorMsg')}</p> : null}
+            {state.enviornmentConfigs.loadingMask && <Loader component='opportunity'/>}
+            {state.auth.error}
+            {error  ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; {i18n.t('loginErrorMsg')}</p> : null}
+            {state.auth.error ? <p className="error"> <Image className="alert-icon" src={errorIcon} width={15} height={12}></Image>&nbsp; {state.auth.error}</p> : null}
             <div className="form-placeholder-container">
               <Form>
                 <Form.Group>
-                  <Form.Label>User ID</Form.Label>
+                  {userError || state.auth.error ?<Form.Label className="err-text">User ID</Form.Label> : <Form.Label>User ID</Form.Label>}
                   <Form.Control
                     className="form-control"
                     placeholder="Enter UserId"
                     id="user"
                     type="text"
                     onChange={handleChange}
+                    onBlur={validateField} 
                   />
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Label>Password</Form.Label>
+                {passwordError || state.auth.error?<Form.Label className="err-text">Password</Form.Label> : <Form.Label>Password</Form.Label>}
                   <Form.Control
                     className="form-control"
                     placeholder="Enter password"
                     type="password"
                     id="password"
                     onChange={handleChange}
+                    onBlur={validateField}
                   />
                 </Form.Group>
                 {/* <Nav.Item className="forgotpswd">
                   <Nav.Link href="#">Forgot Password?</Nav.Link>
                 </Nav.Item> */}
-                <SubmitButton title={"Login"} onClick={doClick} />
+                <SubmitButton title={"Login"} isSubmit={isSubmit} onClick={doClick} />
               </Form>
             </div>
             <LoginFooter></LoginFooter>

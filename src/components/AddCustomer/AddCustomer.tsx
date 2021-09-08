@@ -68,6 +68,7 @@ const AddCustomer: React.FC = () => {
         dispatch(setBusinessPartnerWindowActive(false));
         dispatch(setBusinessPartnerLoader(false));
         dispatch(resetBusinessPartnerData());
+        document.body.classList.remove('body-scroll-hidden');
 
         if (customerId) {
             history.push({ pathname: "/cust-details", state: { custId: customerId } })
@@ -94,6 +95,7 @@ const AddCustomer: React.FC = () => {
         dispatch(resetBusinessPartnerData());
         dispatch(setBusinessPartnerWindowActive(false));
         dispatch(setBusinessPartnerLoader(false));
+        document.body.classList.remove('body-scroll-hidden');
     }
 
     React.useEffect(() => {

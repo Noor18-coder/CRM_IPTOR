@@ -18,7 +18,7 @@ export const NavSection: React.FC<Props> = ({ backToOpportunityList, popover}) =
              <li className="list-inline-item"><img src={ImageConfig.HISTORY} alt="History" title="History"/></li>
              <li className="list-inline-item"><img src={ImageConfig.STAR} alt="Star" title="Star"/></li>
              {/* <li className="list-inline-item"><img src={ImageConfig.MORE_V_ELLIPSIS} alt="More" title="More"/></li> */}
-             { popup ? <OverlayTrigger trigger="click" placement="bottom" overlay={popup}>
+             { popup ? <OverlayTrigger rootClose trigger="click" placement="bottom" overlay={popup}>
                    <img src={ImageConfig.MORE_V_ELLIPSIS} alt="More" title="More"/>
               </OverlayTrigger> : null }
            </ul>

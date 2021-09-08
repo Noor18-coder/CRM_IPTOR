@@ -99,7 +99,7 @@
 
 
     .sliding-panel-container {
-        position: absolute;
+        position: fixed;
         top: 0;
         bottom: 0;
         width: 100%;
@@ -220,7 +220,7 @@
             }
 
             .all-opportunity-steps-container {
-                background: $mercury;
+                background: $white;
 
                 .opportunity-type-container {
 
@@ -263,7 +263,7 @@
             bottom: -20px;
             left: 0;
             right: 0;
-            background: $mercury;
+            background: $white;
             padding: 24px;
         }
     }

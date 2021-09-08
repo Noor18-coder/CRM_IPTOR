@@ -176,6 +176,13 @@
                 background-color: $limed-spruce;
                 padding: 18px 32px;
 
+                &.disable-button {
+                    pointer-events: none;
+                    cursor: default;
+                    background: #DAE2E7;
+                    color: #9DB0BE;
+                }
+
                 &:hover {
                     background: rgba($limed-spruce, 0.9);
                 }
@@ -853,6 +860,13 @@
                 background-color: $limed-spruce;
                 padding: 18px 32px;
 
+                &.disable-button {
+                    pointer-events: none;
+                    cursor: default;
+                    background: #DAE2E7;
+                    color: #9DB0BE;
+                }
+
                 &:hover {
                     background: rgba($limed-spruce, 0.9);
                 }
@@ -1461,6 +1475,13 @@
 
             .iptor-login-btn {
                 background-color: $limed-spruce;
+            
+                &.disable-button {
+                    pointer-events: none;
+                    cursor: default;
+                    background: #DAE2E7;
+                    color: #9DB0BE;
+                }
 
                 &:hover {
                     background: rgba($limed-spruce, 0.9);
@@ -1470,6 +1491,13 @@
             .iptor-login-btn {
                 background-color: $limed-spruce;
                 padding: 18px 32px;
+
+                &.disable-button {
+                    pointer-events: none;
+                    cursor: default;
+                    background: #DAE2E7;
+                    color: #9DB0BE;
+                }
 
                 &:hover {
                     background: rgba($limed-spruce, 0.9);
@@ -1831,6 +1859,13 @@
             .iptor-login-btn {
                 background-color: $limed-spruce;
                 padding: 18px 32px;
+
+                &.disable-button {
+                    pointer-events: none;
+                    cursor: default;
+                    background: #DAE2E7;
+                    color: #9DB0BE;
+                }
 
                 &:hover {
                     background: rgba($limed-spruce, 0.9);

@@ -81,12 +81,13 @@ export const MoreInfoAccordianMobile: React.FC<OpportunityMoreInfoSection> = ({ 
     }
 
     const toggleDrawer = (open: boolean, groupType: string) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        document.body.classList.add('body-scroll-hidden');
         dispatch(setBusinessPartnerWindowActive(true));
         dispatch(setBusinessPartnerWindowGroup(groupType));
     };
 
     return (
-        <div>
+        <div className="opp-moreinfo-sec">
             {title}
             <>
             {keys.map((key: string) => {
@@ -94,7 +95,7 @@ export const MoreInfoAccordianMobile: React.FC<OpportunityMoreInfoSection> = ({ 
                     <Accordion defaultActiveKey="0">
                         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                             <span className="edit-subtitle">{key}</span>
-                            <span className="group-icon"><Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, title)} /></span>
+                            <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, title)} />
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                             <DisplayGroupMobile title={key} data={data[key]} />

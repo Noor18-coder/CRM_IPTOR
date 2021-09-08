@@ -90,6 +90,11 @@ form {
             margin-bottom: 4px;
         }
 
+        .err-text {
+            line-height: 19px;
+            color: #ED2024;
+        }
+
         input[type=text],
         input[type=password], select {
             border: solid 1px $geyser; 
@@ -110,6 +115,13 @@ form {
         @include transition;
         @include border-radius($border-radius);
         text-transform: uppercase;
+
+       &.disable-button {
+            pointer-events: none;
+            cursor: default;
+            background: #DAE2E7;
+            color: #9DB0BE;
+        }
 
         font: {
             size: $base-font-size - 2;

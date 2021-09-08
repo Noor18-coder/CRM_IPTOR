@@ -234,7 +234,7 @@ const Opportunities: React.FC = () => {
       <footer style={{position: "fixed"}}>
         <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor"/> &copy; All Content Copyright 2021 </p>
       </footer>
-      { (isMobile || isTablet) ? <FooterMobile /> : null }
+      { (isMobile || isTablet) ? <FooterMobile page={1} /> : null }
       <Container />
     </div>
   );

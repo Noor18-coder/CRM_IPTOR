@@ -77,6 +77,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
     }
 
     const toggleDrawer = (open: boolean, groupType: string) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        document.body.classList.add('body-scroll-hidden');
         dispatch(setBusinessPartnerWindowActive(true));
         dispatch(setBusinessPartnerWindowGroup(groupType));
     };
@@ -91,21 +92,19 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
                   <Card.Body className="accr-body-container">  
+                     <div className="group-icon"><Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'default fields')} /></div>
                      <ul className="list-inline bdy-list-item accr-list-columns">
-                          <li className="list-inline-item">
+                          <li className={(isMobile || isTablet) ? '' : "list-inline-item"}>
                             <span>Contact Address</span>{props.data.addressLine1}<p>&nbsp;</p>
                           </li>
-                          <li className="list-inline-item">
+                          <li className={(isMobile || isTablet) ? '' : "list-inline-item"}>
                               <span>Region</span>{area ? area.map((data: Area) => {
                               return data.description
                               }) : '--'}<p>&nbsp;</p>
                           </li>
-                          <li className="list-inline-item">
+                          <li className={(isMobile || isTablet) ? '' : "list-inline-item"}>
                             <span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p>
                           </li>
-                          <li className="list-inline-item">
-                            <Image  src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'default fields')}/>
-                          </li> 
                      </ul>
                   </Card.Body>
                 </Accordion.Collapse>
@@ -127,7 +126,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
             <div className="lft-col">
                 Account owner
                <span>
-               {ownerDetails? ownerDetails.user : '--'}
+               {ownerDetails && ownerDetails.user? ownerDetails.user : '--'}
              </span>
             </div>
         
@@ -138,7 +137,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
           <div className="customer-details d-flex justify-content-between">
             <div className="lft-col">
                <span>
-             {ownerDetails? ownerDetails.PHONE : '--'}
+             {ownerDetails && ownerDetails.PHONE ? ownerDetails.PHONE : '--'}
              </span>
             </div>
 
@@ -151,7 +150,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
 
             <div className="lft-col">
                <span>
-              {ownerDetails? ownerDetails.EMAIL : '--'}
+              {ownerDetails && ownerDetails.EMAIL ? ownerDetails.EMAIL : '--'}
              </span>
             </div>
 
@@ -162,12 +161,10 @@ const CustomerCard:React.FC<Data> = (props) =>   {
       </section>:
       <section className="d-flex justify-content-between sec-customer-desc">
            <div className="accr-body-container">  
-               <ul className="list-inline bdy-list-item">
-               <li className="list-inline-item"><span>Account owner</span> {ownerDetails? ownerDetails.user : '--'}</li>
-               <li className="list-inline-item"><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />&nbsp;&nbsp;{ownerDetails? ownerDetails.PHONE : '--'}</li>
-               <li className="list-inline-item"><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" /> &nbsp;&nbsp;{ownerDetails? ownerDetails.EMAIL : '--'}</li>
-               {/* <li className="list-inline-item">
-               <Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li> */}
+               <ul className="list-inline bdy-list-item owner-section">
+               <li className="list-inline-item"><span>Account owner</span> {ownerDetails && ownerDetails.user ? ownerDetails.user : '--'}</li>
+               <li className="list-inline-item"><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />&nbsp;&nbsp;{ownerDetails && ownerDetails.PHONE ? ownerDetails.PHONE : '--'}</li>
+               <li className="list-inline-item"><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" /> &nbsp;&nbsp;{ownerDetails && ownerDetails.PHONE ? ownerDetails.EMAIL : '--'}</li>
              </ul></div>
        </section> }
 

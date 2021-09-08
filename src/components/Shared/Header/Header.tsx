@@ -68,7 +68,7 @@ const Header: React.FC<Props> = ({ page }) => {
                         <li className={currentPage == 0 ? activeClass + " active" : activeClass}>
                             <a className={"nav-link navbar-avatar"} onClick={() => setCurrentPage(0)} href="/" aria-expanded="false" data-animation="scale-up" role="button">
                                 <span className={"avatar avatar-online"}>
-                                    <img src={ImageConfig.NAV_DASHBOARD_ICON} alt="..." />
+                                    <img src={page === 0 ? ImageConfig.NAV_DASHBOARD_ACTIVE_ICON : ImageConfig.NAV_DASHBOARD_ICON }  alt="..." />
                                     <i>Dashboard</i>
                                 </span>
                             </a>
@@ -77,7 +77,7 @@ const Header: React.FC<Props> = ({ page }) => {
                         <li className={currentPage == 1 ? activeClass + " active" : activeClass}>
                             <a className={"nav-link navbar-avatar"} onClick={() => setCurrentPage(1)} href="/opportunities" aria-expanded="false" data-animation="scale-up" role="button">
                                 <span className={"avatar avatar-online"}>
-                                    <img src={ImageConfig.NAV_OPPTY_ICON} alt="..." />
+                                    <img src={ page === 1 ? ImageConfig.NAV_OPPTY_ACTIVE_ICON : ImageConfig.NAV_OPPTY_ICON} alt="..." />
                                     <i>Opportunities</i>
                                 </span>
                             </a>
@@ -87,7 +87,7 @@ const Header: React.FC<Props> = ({ page }) => {
                         <li className={currentPage == 2 ? activeClass + " active" : activeClass}>
                             <a className={"nav-link navbar-avatar"} href="/customers" aria-expanded="false" data-animation="scale-up" role="button">
                                 <span className={"avatar avatar-online"}>
-                                    <img src={ImageConfig.NAV_CUSTOMER_ICON} alt="..." />
+                                    <img src={page === 2 ? ImageConfig.NAV_CUSTOMER_ACTIVE_ICON : ImageConfig.NAV_CUSTOMER_ICON} alt="..." />
                                     <i>Customers</i>
                                 </span>
                             </a>
@@ -97,7 +97,7 @@ const Header: React.FC<Props> = ({ page }) => {
                         <li className={currentPage == 3 ? activeClass + " active" : activeClass}>
                             <a className={"nav-link navbar-avatar"} href="/reports" aria-expanded="false" data-animation="scale-up" role="button">
                                 <span className={"avatar avatar-online"}>
-                                    <img src={ImageConfig.NAV_REPORTS_ICON} alt="..." />
+                                    <img src={page === 3 ? ImageConfig.NAV_REPORTS_ACTIVE_ICON : ImageConfig.NAV_REPORTS_ICON} alt="..." />
                                     <i>Reports</i>
                                 </span>
                             </a>
@@ -124,7 +124,7 @@ const Header: React.FC<Props> = ({ page }) => {
                                 </span>
                             </a>
                         </li>
-                        <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+                        <OverlayTrigger  rootClose trigger="click" placement="bottom" overlay={popover}>
                             <button className="logout"> {state.description && getIntialsFromFullName(state.description)}</button>
                         </OverlayTrigger>
                     </ul>

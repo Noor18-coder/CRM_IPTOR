@@ -14,7 +14,7 @@
      loginWithoutCompany:false,
      login: false,
      loading: false,
-     error: false,
+     error: '',
      user: {
        defaultSalesOrderType: '',
        description: '',
@@ -68,7 +68,7 @@
        case AuthTypes.AUTH_ERROR:
         return {
           ...state,
-          error:true,
+          error:action.error,
           loading: false
         };
      default:

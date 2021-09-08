@@ -148,6 +148,7 @@ const BusinessPartners: React.FC = () => {
 
     const toggleDrawer = (open: boolean) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
         dispatch(setBusinessPartnerWindowActive(true));
+        document.body.classList.add('body-scroll-hidden');
     };
 
     return (
@@ -194,7 +195,7 @@ const BusinessPartners: React.FC = () => {
             <footer style={{ position: "fixed" }}>
                 <p><img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor" /> &copy; All Content Copyright 2021 </p>
             </footer>
-            { (isMobile || isTablet) ? <FooterMobile /> : null}
+            { (isMobile || isTablet) ? <FooterMobile page={2} /> : null}
             <Container containerType='add'/>
         </div>
         )
