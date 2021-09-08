@@ -1,78 +1,78 @@
 export interface AttributeField {
-    parentFile: string;
-    attributeType: string;
-    description: string;
-    preloaded: boolean;
-    allowCopy: boolean;
-    valueFormat: string;
-    valueFormatDesc: string;
-    attributeId: string;
-    validate: boolean;
-    uniqueRecord: boolean;
-    statement: string;
-    sequence: number;
-    group: string;
-    initializeAttribute: boolean;
-    initialValueN: number;
-    protectData: boolean;
-    valuesExist: boolean;
+  parentFile: string;
+  attributeType: string;
+  description: string;
+  preloaded: boolean;
+  allowCopy: boolean;
+  valueFormat: string;
+  valueFormatDesc: string;
+  attributeId: string;
+  validate: boolean;
+  uniqueRecord: boolean;
+  statement: string;
+  sequence: number;
+  group: string;
+  initializeAttribute: boolean;
+  initialValueN: number;
+  protectData: boolean;
+  valuesExist: boolean;
 }
 
 export interface AttributeParams {
-    parentFile: string;
-    attributeType?: string;
+  parentFile: string;
+  attributeType?: string;
 }
 
 export interface AttributeResponse {
-    data: AttributeField[]
+  data: AttributeField[];
 }
 
 export interface IAttributesList {
-    group: string;
-    items: AttributeField[]
+  group: string;
+  items: AttributeField[];
 }
 
 export interface AttributeValueObject {
-    parentFile: string;
-    parentId: string;
-    attributeType: string;
-    rootId: string;
-    group: string;
-    valueId: string;
-    attributeValue: string;
-    description: string;
+  parentFile: string;
+  parentId: string;
+  attributeType: string;
+  rootId: string;
+  group: string;
+  valueId: string;
+  attributeValue: string;
+  description: string;
 }
 
 export interface AttributeValuesResponse {
-    data: {
-        items: AttributeValueObject[]
-    }
+  data: {
+    items: AttributeValueObject[];
+  };
 }
 
 export interface SaveAttributeFieldParam {
-    parentFile?: string;
-    parentId?: string;
-    attributeType?: string;
-    attributeValue?: string | number;
-    valueId?: string;
+  parentFile?: string;
+  parentId?: string;
+  attributeType?: string;
+  attributeValue?: string | number;
+  valueId?: string;
 }
 
 export interface UpdateAttributeParams {
-    attributeType: string;
-    attributeValue: string | number;
-    valueId: string;
+  attributeType: string;
+  attributeValue: string | number;
+  valueId: string;
 }
 
 export interface AttributeValueAndType {
-    attributeType: string,
-    attributeValue: string | number
+  attributeType: string;
+  attributeValue: string | number;
 }
 
 export interface AttributesValuesRequestParam {
-    parentFile?: string;
-    parentId?: string;
-} 
+  parentFile?: string;
+  parentId?: string;
+}
 
 export interface AttributeValuesRequestParam {
-    attributeId:string;
-} 
+  attributeId: string;
+}

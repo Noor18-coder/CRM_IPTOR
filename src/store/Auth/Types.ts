@@ -10,15 +10,15 @@ export enum AuthTypes {
   AUTH_START = 'AUTH_START',
   LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
   USER_SET = 'USER_SET',
-  AUTH_ERROR = 'AUTH_ERROR'
+  AUTH_ERROR = 'AUTH_ERROR',
 }
 
 export interface AuthRequest {
-    user: string;
-    password: string;
-    company?: string;
-  }
-  
+  user?: string;
+  password?: string;
+  company?: string;
+}
+
 /** Authentication success action */
 export interface AuthWithoutCompany extends Action<AuthTypes.LOGIN_WITHOUT_COMPANY> {}
 
@@ -38,17 +38,11 @@ export interface AuthServiceErrorAction extends Action<AuthTypes.AUTH_ERROR> {
 
 /** User set action */
 export interface UserSetAction extends Action<AuthTypes.USER_SET> {
-  user: UserItem
+  user: UserItem;
 }
 
 /** Authentication action union, mainly used in reducer */
-export type AuthActions = 
-  AuthSuccessAction | 
-  AuthStartAction | 
-  LogoutSuccessAction | 
-  UserSetAction |
-  AuthWithoutCompany |
-  AuthServiceErrorAction;
+export type AuthActions = AuthSuccessAction | AuthStartAction | LogoutSuccessAction | UserSetAction | AuthWithoutCompany | AuthServiceErrorAction;
 
 /** Authentication state definition */
 export interface AuthState {

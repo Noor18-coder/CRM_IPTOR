@@ -23,8 +23,13 @@
                 .mob-steps-back {
                     display: block;
                     position: absolute;
-                    left: 12px;
-                    top: 20px;
+                    left: 0px;
+                    border:none;
+                    top: 13px;
+                    display:block;
+                    padding:10px;
+                    background-color:white;
+                    text-align:center;
                 }
             }
 
@@ -130,8 +135,13 @@
                 .mob-steps-back {
                     display: block;
                     position: absolute;
-                    left: 18px;
-                    top: 25px;
+                    left: 0px;
+                    border:none;
+                    top: 13px;
+                    display:block;
+                    padding:10px;
+                    background-color:white;
+                    text-align:center;
                 }
             }
 

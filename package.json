@@ -11,6 +11,7 @@
     "@types/node": "^12.20.10",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/react-router": "^5.1.15",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "ag-grid-community": "^25.2.1",
     "ag-grid-react": "^25.2.0",
@@ -38,6 +39,7 @@
     "react-scripts": "4.0.3",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
+    "redux-mock-store": "^1.5.4",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "typescript": "^4.2.4",
@@ -47,7 +49,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "type-check": "tsc --pretty --noEmit",
+    "format": "prettier --write src/**/*.ts{,x}",
+    "lint": "eslint src/**/*.ts{,x}",
+    "lint:fix": "eslint --fix src/**/*.ts{,x}"
   },
   "eslintConfig": {
     "extends": [
@@ -79,11 +85,21 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.7",
-    "@types/redux": "^3.6.0",
     "@types/redux-mock-store": "^1.0.2",
-    "@types/redux-thunk": "^2.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "redux-mock-store": "^1.5.4"
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-app": "^6.2.2",
+    "eslint-plugin-react-hooks": "^4.2.1-alpha-6bf111772-20210701",
+    "prettier": "^2.3.1"
   }
 }

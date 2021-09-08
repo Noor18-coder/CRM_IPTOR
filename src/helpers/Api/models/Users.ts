@@ -1,12 +1,7 @@
-import { UserItem } from "./UserItem";
+import { UserItem } from './UserItem';
 
-
-
-export interface UsersParams {
-}
+export type UsersParams = Record<string, any>;
 
 export interface UsersResponse {
-
-    items: UserItem[];
-  
+  items: UserItem[];
 }

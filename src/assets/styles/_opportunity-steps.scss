@@ -253,6 +253,7 @@
                     text-align: center;
                     @include border-radius($border-radius);
                     position: relative;
+                    width: -webkit-fill-available;
 
                     font: {
                         family: $base-font-family;
@@ -417,6 +418,8 @@
     text-align: center;
     @include border-radius($border-radius);
     position: relative;
+    width: 100%;
+    border: none;
 
     font: {
         family: $base-font-family;

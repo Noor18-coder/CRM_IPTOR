@@ -2,17 +2,23 @@
 
 import { Action } from 'redux';
 import {
-    OpportunityType, StageInfo, CurrencyItem, AttributeField, DefaultOpportunityInfo, CountryInfo, AreaInfo, DropDownValue,
-    ForeCastInfo, 
+  OpportunityType,
+  StageInfo,
+  CurrencyItem,
+  AttributeField,
+  DefaultOpportunityInfo,
+  CountryInfo,
+  AreaInfo,
+  DropDownValue,
+  ForeCastInfo,
 } from '../../helpers/Api/models';
-
 
 /** Enum for Authentication Actions */
 export enum AppLoadingTypes {
   SAVE_OPPORTUNITY_TYPES = 'SAVE_OPPORTUNITY_TYPES',
   SAVE_OPPORTUNITY_STAGES = 'SAVE_OPPORTUNITY_STAGES',
   SAVE_CURRENCIES = 'SAVE_CURRENCIES',
-  SET_LOADING_MASK = 'SET_LOADING_MASK', 
+  SET_LOADING_MASK = 'SET_LOADING_MASK',
   REMOVE_LOADING_MASK = 'REMOVE_LOADING_MASK',
   SET_ERROR_MSG = 'SET_ERROR_MSG',
   SAVE_OPPORTUNITY_ATTRIBUTES = 'SAVE_OPPORTUNITY_ATTRIBUTES',
@@ -23,34 +29,32 @@ export enum AppLoadingTypes {
   SAVE_OPPORTUNITY_CONTACT_ROLES = 'SAVE_OPPORTUNITY_CONTACT_ROLES',
   SAVE_INDUSTRY_INFO = 'SAVE_INDUSTRY_INFO',
   SAVE_PRODUCT_INFO = 'SAVE_PRODUCT_INFO',
-  SAVE_FORECAST_INFO = 'SAVE_FORECAST_INFO'
- }
+  SAVE_FORECAST_INFO = 'SAVE_FORECAST_INFO',
+}
 
 /** Authentication success action */
 export interface SaveOpportunityTypes extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_TYPES> {
-  opportunityTypes:OpportunityType[]
+  opportunityTypes: OpportunityType[];
 }
 
 /** Authentication success action */
 export interface SaveOpportunityStages extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_STAGES> {
-  stages:StageInfo[]
+  stages: StageInfo[];
 }
 
 /** Authentication success action */
 export interface SaveOpportunityCurrencies extends Action<AppLoadingTypes.SAVE_CURRENCIES> {
-  currencies:CurrencyItem[]
+  currencies: CurrencyItem[];
 }
-
 
 /** Authentication success action */
 export interface SaveOpportunityAttributes extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_ATTRIBUTES> {
-  attributes:AttributeField[]
+  attributes: AttributeField[];
 }
-
 
 /** Authentication success action */
 export interface SaveCustomerAttributes extends Action<AppLoadingTypes.SAVE_CUSTOMER_ATTRIBUTES> {
-  attributes:AttributeField[]
+  attributes: AttributeField[];
 }
 
 /** Authentication success action */
@@ -64,58 +68,65 @@ export interface SetErrorMessageAction extends Action<AppLoadingTypes.SET_ERROR_
 
 /** Authentication success action */
 export interface SaveOpportunityDefault extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_DEFAULT> {
-  defaultOppInfo: DefaultOpportunityInfo
+  defaultOppInfo: DefaultOpportunityInfo;
 }
 
 /** Authentication success action */
 export interface SaveOpportunityContactRoles extends Action<AppLoadingTypes.SAVE_OPPORTUNITY_CONTACT_ROLES> {
-  roles : DropDownValue[]
+  roles: DropDownValue[];
 }
 
 export interface SaveIndustryInfo extends Action<AppLoadingTypes.SAVE_INDUSTRY_INFO> {
-    crmIndustries: DropDownValue[]
+  crmIndustries: DropDownValue[];
 }
 
 export interface SaveProductInfo extends Action<AppLoadingTypes.SAVE_PRODUCT_INFO> {
-  crmProductFamily: DropDownValue[]
+  crmProductFamily: DropDownValue[];
 }
 
 export interface SaveCountryInfo extends Action<AppLoadingTypes.SAVE_COUNTRY_INFO> {
-  countries: CountryInfo[]
+  countries: CountryInfo[];
 }
 
 export interface SaveAreaInfo extends Action<AppLoadingTypes.SAVE_AREA_INFO> {
-    areas: AreaInfo[]
+  areas: AreaInfo[];
 }
 
 export interface SaveForecastInfo extends Action<AppLoadingTypes.SAVE_FORECAST_INFO> {
-    forecastInfo: ForeCastInfo[]
+  forecastInfo: ForeCastInfo[];
 }
 
-export type AppLoadingActions = SaveOpportunityTypes | SaveOpportunityStages | 
-                                SaveOpportunityCurrencies | SetLoadingMaskAction | 
-                                RemoveLoadingMaskAction | SetErrorMessageAction |
-                                SaveCustomerAttributes | SaveOpportunityAttributes |
-                                SaveOpportunityDefault | SaveCountryInfo | 
-                                SaveAreaInfo | SaveOpportunityContactRoles | 
-                                SaveIndustryInfo | SaveProductInfo | SaveForecastInfo ;
-
+export type AppLoadingActions =
+  | SaveOpportunityTypes
+  | SaveOpportunityStages
+  | SaveOpportunityCurrencies
+  | SetLoadingMaskAction
+  | RemoveLoadingMaskAction
+  | SetErrorMessageAction
+  | SaveCustomerAttributes
+  | SaveOpportunityAttributes
+  | SaveOpportunityDefault
+  | SaveCountryInfo
+  | SaveAreaInfo
+  | SaveOpportunityContactRoles
+  | SaveIndustryInfo
+  | SaveProductInfo
+  | SaveForecastInfo;
 
 /** Authentication state definition */
 export interface InitialConfigState {
-  readonly crmOpportunityTypes: OpportunityType[],
-  readonly crmOpportunityStage: StageInfo[],
-  readonly currency:CurrencyItem[],
-  readonly loadingMask:boolean,
-  readonly error : boolean, 
-  readonly customerAttributes:AttributeField[],
-  readonly opportunityAttributes:AttributeField[]
-  readonly defaultOpprtunityInfo: DefaultOpportunityInfo,
-  readonly crmCountryInfo: CountryInfo[],
-  readonly crmAreaInfo: AreaInfo[],
-  readonly opportunityContactRoles: DropDownValue[],
-  readonly crmIndustries: DropDownValue[],
-  readonly crmProductFamily: DropDownValue[],
-  readonly forecastInfo: ForeCastInfo[],
-  
+  readonly crmOpportunityTypes: OpportunityType[];
+  readonly crmOpportunityStage: StageInfo[];
+  readonly currency: CurrencyItem[];
+  readonly loadingMask: boolean;
+  readonly error: boolean;
+  readonly customerAttributes: AttributeField[];
+  readonly opportunityAttributes: AttributeField[];
+  readonly defaultOpprtunityInfo: DefaultOpportunityInfo;
+  readonly crmCountryInfo: CountryInfo[];
+  readonly crmAreaInfo: AreaInfo[];
+  readonly opportunityContactRoles: DropDownValue[];
+  readonly crmIndustries: DropDownValue[];
+  readonly crmProductFamily: DropDownValue[];
+  readonly forecastInfo: ForeCastInfo[];
 }

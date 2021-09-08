@@ -1,7 +1,7 @@
 /** Authentication Action Types */
 
 import { Action } from 'redux';
-import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams , Item, CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
+import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams, Item, CustomerDetailsContactsGroupItem } from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
 export enum AddOpportunityTypes {
@@ -12,24 +12,23 @@ export enum AddOpportunityTypes {
   SAVE_ADD_OPPTY_CONTACTS = 'SAVE_ADD_OPPTY_CONTACTS',
   SET_ADD_OPPORTUNITY_LOADER = 'SET_ADD_OPPORTUNITY_LOADER',
   RESET_OPPORTUNITY_DATA = 'RESET_OPPORTUNITY_DATA',
-  SET_ADD_OPPORTUNITY_WINDOW = 'SET_ADD_OPPORTUNITY_WINDOW'
+  SET_ADD_OPPORTUNITY_WINDOW = 'SET_ADD_OPPORTUNITY_WINDOW',
 }
-  
+
 /** Action to save default parameters of opportunity */
 export interface SaveOpportuntyParamAction extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_DEFAULT_FIELDS> {
-  opportunity:AddOpportunityDefaultParams
+  opportunity: AddOpportunityDefaultParams;
 }
 
 /** Action to save attributes (user defined) parameters of opportunity */
 export interface SaveOpportuntyAddAttributeAction extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_ATTRIBUTE> {
-  attributes:UserDefinedFieldReduxParams[]
+  attributes: UserDefinedFieldReduxParams[];
 }
 
 /** Action to save attributes (user defined) parameters of opportunity */
 export interface SaveOpportuntyAddItemsAction extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_ITEMS> {
-  items:Item[]
+  items: Item[];
 }
-
 
 /** Authentication success action */
 export interface RemoveOpportunityDataAction extends Action<AddOpportunityTypes.RESET_OPPORTUNITY_DATA> {}
@@ -37,38 +36,36 @@ export interface RemoveOpportunityDataAction extends Action<AddOpportunityTypes.
 // /** Authentication success action */
 // export interface RemoveOpportunityDataAction extends Action<AddOpportunityTypes.REMOVE_OPPORTUNITY_DATA> {}
 
-
 /** Authentication success action */
 export interface SetAddOpportunityLoaderAction extends Action<AddOpportunityTypes.SET_ADD_OPPORTUNITY_LOADER> {
-  loader:boolean
+  loader: boolean;
 }
 
 /** Authentication success action */
 export interface SetAddOpportunityDrawerActive extends Action<AddOpportunityTypes.SET_ADD_OPPORTUNITY_WINDOW> {
-  addOpptyWindowActive:boolean
+  addOpptyWindowActive: boolean;
 }
 
 /** Authentication success action */
 export interface SetAddOpportunityContacts extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS> {
-  contacts:CustomerDetailsContactsGroupItem[]
+  contacts: CustomerDetailsContactsGroupItem[];
 }
 
-
-export type AddOpportunityReduxActions = SaveOpportuntyParamAction |
-                                  SaveOpportuntyAddAttributeAction |
-                                  SetAddOpportunityLoaderAction | 
-                                  SetAddOpportunityDrawerActive |
-                                  SaveOpportuntyAddItemsAction | 
-                                  RemoveOpportunityDataAction |
-                                  SetAddOpportunityContacts ;
+export type AddOpportunityReduxActions =
+  | SaveOpportuntyParamAction
+  | SaveOpportuntyAddAttributeAction
+  | SetAddOpportunityLoaderAction
+  | SetAddOpportunityDrawerActive
+  | SaveOpportuntyAddItemsAction
+  | RemoveOpportunityDataAction
+  | SetAddOpportunityContacts;
 
 /** Authentication state definition */
 export interface AddOpportunityState {
   readonly addOpptyWindowActive: boolean;
-  readonly loader: boolean,
-  readonly opportunityDefaultParams: AddOpportunityDefaultParams,
-  readonly attributes:UserDefinedFieldReduxParams[],
-  readonly items: Item[],
-  readonly contacts: CustomerDetailsContactsGroupItem[]
+  readonly loader: boolean;
+  readonly opportunityDefaultParams: AddOpportunityDefaultParams;
+  readonly attributes: UserDefinedFieldReduxParams[];
+  readonly items: Item[];
+  readonly contacts: CustomerDetailsContactsGroupItem[];
 }
-

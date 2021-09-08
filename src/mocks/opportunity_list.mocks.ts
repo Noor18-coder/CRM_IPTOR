@@ -1,18 +1,25 @@
-import { fake } from 'faker';
 import * as faker from 'faker/locale/en_US';
 
 export interface Data {
-  name: string,
-  number: string,
-  type: string,
-  customer: string,
-  owner: string,
-  stage: string,
-  forecast: string,
-  close_quarter: string,
-  size: string
-};
+  name: string;
+  number: string;
+  type: string;
+  customer: string;
+  owner: string;
+  stage: string;
+  forecast: string;
+  close_quarter: string;
+  size: string;
+}
 
+interface Fields {
+  field: string;
+  sortable: boolean;
+  headerName: string;
+  width: { width: string; background?: string };
+  maxWidth: number;
+  cellRender: (params: any) => string;
+}
 
 export class OpportunitiesList {
   static getOpportunities(num: number): Data[] {
@@ -25,15 +32,12 @@ export class OpportunitiesList {
       stage: 'A4',
       forecast: 'UPSIDE',
       close_quarter: 'Q2',
-      size: '$37K'
-    }
-    );
+      size: '$37K',
+    });
   }
-
 }
 
-
-export const getFields = () => {
+export const getFields = (): Fields[] => {
   return [
     {
       field: 'oppRecordType',
@@ -43,7 +47,7 @@ export const getFields = () => {
       maxWidth: 100,
       cellRender: (params: any) => {
         return params.value;
-      }
+      },
     },
 
     {
@@ -53,9 +57,8 @@ export const getFields = () => {
       width: { width: '10%' },
       maxWidth: 100,
       cellRender: (params: any) => {
-        return ' <span class="o-name">' + params.value + '</span>' +
-          '<span class="o-number">' + params.data.opportunityId + ' </span>';
-      }
+        return `<span class="o-name">${params.value}</span><span class="o-number">${params.data.opportunityId}</span>`;
+      },
     },
     {
       field: 'customer',
@@ -65,8 +68,7 @@ export const getFields = () => {
       maxWidth: 200,
       cellRender: (params: any) => {
         return params.value;
-      }
-
+      },
     },
     {
       field: 'handler',
@@ -76,7 +78,7 @@ export const getFields = () => {
       maxWidth: 120,
       cellRender: (params: any) => {
         return params.value;
-      }
+      },
     },
     {
       field: 'stage',
@@ -85,9 +87,8 @@ export const getFields = () => {
       width: { width: '10%' },
       maxWidth: 120,
       cellRender: (params: any) => {
-        return ' <span class="o-stage">' + params.value + '</span>'
-      }
-
+        return `<span class="o-stage">${params.value}</span>`;
+      },
     },
     {
       field: 'forecast',
@@ -96,8 +97,8 @@ export const getFields = () => {
       width: { width: '10%' },
       maxWidth: 190,
       cellRender: (params: any) => {
-        return '<span class="o-forecast">' + params.value + '</span></div>'
-      }
+        return `<span class="o-forecast">${params.value}</span>`;
+      },
     },
     {
       field: 'endDate',
@@ -106,8 +107,8 @@ export const getFields = () => {
       width: { width: '10%' },
       maxWidth: 120,
       cellRender: (params: any) => {
-        return '<span class="o-quarter">' + params.value + '</span></div>'
-      }
+        return `<span class="o-quarter">${params.value}</span>`;
+      },
     },
     {
       field: 'curValue',
@@ -116,8 +117,8 @@ export const getFields = () => {
       width: { width: '10%' },
       maxWidth: 80,
       cellRender: (params: any) => {
-        return '<span class="o-size">' + params.data.currency + ' ' + params.value + '</span></div>'
-      }
-
-    }];
-}
+        return `<span class="o-size">${params.data.currency} ${params.value}</span>`;
+      },
+    },
+  ];
+};

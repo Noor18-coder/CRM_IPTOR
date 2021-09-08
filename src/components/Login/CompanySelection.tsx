@@ -1,38 +1,35 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Image} from "react-bootstrap";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Image } from 'react-bootstrap';
 
-import logo from "../../assets/images/iptor-logo-orange.svg";
+import logo from '../../assets/images/iptor-logo-orange.svg';
 
-import { Company } from "./Shared/Company";
-import LoginFooter from "./Shared/LoginFooter";
+import { Company } from './Shared/Company';
+import LoginFooter from './Shared/LoginFooter';
 
-import { CompanyInfoItem, UserItem } from "../../helpers/Api/models";
-import { AppState } from "../../store";
+import { CompanyInfoItem, UserItem } from '../../helpers/Api/models';
+import { AppState } from '../../store';
 import LeftColmData from './Shared/LeftColmData';
-import Loader from '../Shared/Loader/Loader'
-
+import Loader from '../Shared/Loader/Loader';
 
 export interface Props {
   selectCompany: (company: string) => void;
-  backToLogin : () => void
+  backToLogin: () => void;
 }
 
 export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }) => {
   // Fetching companies list from the redux-store.
-    const state: UserItem = useSelector((state: AppState) => state.auth.user);
+  const state: UserItem = useSelector((companyState: AppState) => companyState.auth.user);
   // Assign the same list to local state variable.
   const [user, setsUser] = React.useState<any>(state.currentEnvironment);
   const [company, setCurrentCompany] = React.useState<string>();
   const [loader, setLoader] = React.useState<boolean>(false);
 
-
-  // Clear the previous selection and send the company name to call login API. 
-    const selectState = (key: string) => {
-        if (state.selectedCompany === '')
-            setLoader(true)
-          if (key === company) {
-            return;
+  // Clear the previous selection and send the company name to call login API.
+  const selectState = (key: string) => {
+    if (state.selectedCompany === '') setLoader(true);
+    if (key === company) {
+      return;
     }
 
     const newList = user.map((item: CompanyInfoItem) => {
@@ -40,7 +37,7 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
         const updatedItem = {
           ...item,
           selected: !item.selected,
-          };
+        };
         return updatedItem;
       }
       return item;
@@ -48,42 +45,34 @@ export const CompanySelection: React.FC<Props> = ({ selectCompany, backToLogin }
     setsUser(newList);
     setCurrentCompany(key);
     selectCompany(key);
-    };
-
-    
+  };
 
   return (
-      <div className="main-wrapper companypage">
-      <LeftColmData></LeftColmData>
-      <p className={"mobile-backto-login"}  onClick={backToLogin}>
-        <a className={"txt-link"}>
+    <div className="main-wrapper companypage">
+      <LeftColmData />
+      <p className="mobile-backto-login">
+        <button type="button" className="txt-link footer-anchor-button" onClick={backToLogin}>
           Back to Login
-        </a>
+        </button>
       </p>
-      <div className={"login-panel-container"}>
-        <Image
-          className={"login-form-logo"}
-          src={logo}
-          alt="Iptor"
-          title="Iptor"
-        ></Image>
-        <p className={"username-txt"}>
-          <span className={"user-txt"}>Hi {state.text},</span>
-          <span className={"company-txt"}>Please Select Company</span>
+      <div className="login-panel-container">
+        <Image className="login-form-logo" src={logo} alt="Iptor" title="Iptor" />
+        <p className="username-txt">
+          <span className="user-txt">Hi {state.text},</span>
+          <span className="company-txt">Please Select Company</span>
         </p>
-        {loader && <Loader /> }
-        <div className={"companylist-container"}>
-         <Company companies={user} doClick={selectState}></Company>
+        {loader && <Loader />}
+        <div className="companylist-container">
+          <Company companies={user} doClick={selectState} />
         </div>
 
-        <p className={"desk-backto-login"} onClick={backToLogin}>
-          <a className={"txt-link"}>
+        <p className="desk-backto-login">
+          <button type="button" className="txt-link footer-anchor-button" onClick={backToLogin}>
             Back to Login
-          </a>
+          </button>
         </p>
-        <LoginFooter></LoginFooter>
+        <LoginFooter />
       </div>
     </div>
   );
 };
-

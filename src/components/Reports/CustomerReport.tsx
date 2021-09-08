@@ -1,12 +1,10 @@
-import React from "react";
-import * as models from "../../helpers/Api/models";
-import { AreaListItem } from "../../helpers/Api/models/Customer";
-import { DropDownValue } from "../../helpers/Api/models/OpportunityAttributes";
-import { AppState } from "../../store/store";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import * as models from '../../helpers/Api/models';
+import { AppState } from '../../store/store';
 
 export const CustomerReport = () => {
-  const state: AppState = useSelector((state: AppState) => state);
+  const state: AppState = useSelector((custState: AppState) => custState);
   const industryDetails = state.enviornmentConfigs.crmIndustries;
   const productDetails = state.enviornmentConfigs.crmProductFamily;
   const AreaDetails = state.enviornmentConfigs.crmAreaInfo;
@@ -24,20 +22,15 @@ export const CustomerReport = () => {
 };
 export interface Props {
   title: string;
-  AreaListItems?: AreaListItem[];
-  ProductListItems?: DropDownValue[];
-  IndustryItems?: DropDownValue[];
+  AreaListItems?: models.AreaListItem[];
+  ProductListItems?: models.DropDownValue[];
+  IndustryItems?: models.DropDownValue[];
 }
 
-export const CardList: React.FC<Props> = ({
-  title,
-  AreaListItems,
-  ProductListItems,
-  IndustryItems,
-}) => {
-  const [activeClass, setActiveClass] = React.useState("");
+export const CardList: React.FC<Props> = ({ title, AreaListItems, ProductListItems, IndustryItems }) => {
+  const [activeClass, setActiveClass] = React.useState('');
   const ItemClicked = () => {
-    setActiveClass(activeClass === "" ? "active" : "");
+    setActiveClass(activeClass === '' ? 'active' : '');
   };
   return (
     <div className="col-lg-3 col-sm-6">
@@ -47,10 +40,7 @@ export const CardList: React.FC<Props> = ({
           <div className="card-list-item-container">
             <ul className="report-list-items">
               {AreaListItems && (
-                <li
-                  onClick={() => ItemClicked()}
-                  className={"all " + activeClass}
-                >
+                <li onClick={() => ItemClicked()} role="presentation" onKeyDown={() => ItemClicked()} className={`all ${activeClass}`}>
                   All
                 </li>
               )}
@@ -65,10 +55,7 @@ export const CardList: React.FC<Props> = ({
                   })
                 : null}
               {ProductListItems && (
-                <li
-                  onClick={() => ItemClicked()}
-                  className={"all " + activeClass}
-                >
+                <li onClick={() => ItemClicked()} role="presentation" onKeyDown={() => ItemClicked()} className={`all ${activeClass}`}>
                   All
                 </li>
               )}
@@ -82,10 +69,7 @@ export const CardList: React.FC<Props> = ({
                   })
                 : null}
               {IndustryItems && (
-                <li
-                  onClick={() => ItemClicked()}
-                  className={"all " + activeClass}
-                >
+                <li onClick={() => ItemClicked()} role="presentation" onKeyDown={() => ItemClicked()} className={`all ${activeClass}`}>
                   All
                 </li>
               )}

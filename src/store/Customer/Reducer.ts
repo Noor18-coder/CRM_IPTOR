@@ -9,10 +9,10 @@ import { BusinessPartnerActions, BusinessPartnerTypes, BusinessPartnerState } fr
  * Initial State
  */
 export const createBusinessPartnerInitialState = (): BusinessPartnerState => {
-    return {
-        businesspartners: [],
-        businessPartnerFilters: []
-    }
+  return {
+    businesspartners: [],
+    businessPartnerFilters: [],
+  };
 };
 
 const initialState = createBusinessPartnerInitialState();
@@ -23,21 +23,20 @@ const initialState = createBusinessPartnerInitialState();
  * @param action auth actions
  */
 const businessPartnerReducer: Reducer<BusinessPartnerState, BusinessPartnerActions> = (state = initialState, action) => {
-    switch (action.type) {
-        case BusinessPartnerTypes.SAVE_LIST_BUSINESSPARTNER:
-            return {
-                ...state,
-                businesspartners: [...state.businesspartners, ...action.businesspartners]
-            };
-        case BusinessPartnerTypes.SAVE_BUSINESSPARTNER_FILTERS:
-           
-            return {
-                ...state,
-                businessPartnerFilters: [...state.businessPartnerFilters, ...action.filter]
-            };
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case BusinessPartnerTypes.SAVE_LIST_BUSINESSPARTNER:
+      return {
+        ...state,
+        businesspartners: [...state.businesspartners, ...action.businesspartners],
+      };
+    case BusinessPartnerTypes.SAVE_BUSINESSPARTNER_FILTERS:
+      return {
+        ...state,
+        businessPartnerFilters: [...state.businessPartnerFilters, ...action.filter],
+      };
+    default:
+      return state;
+  }
 };
 
 export default businessPartnerReducer;

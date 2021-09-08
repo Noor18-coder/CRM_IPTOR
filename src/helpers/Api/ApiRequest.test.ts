@@ -5,11 +5,7 @@ describe('ApiRequest', () => {
   let request: ApiRequest<ApiRequestParams>;
 
   beforeEach(() => {
-    request = new ApiRequest<ApiRequestParams>(
-      'items.get',
-      { businessPartner: '512008' },
-      { freeTextSearch: 'item', limit: 20, offset: 0 }
-    );
+    request = new ApiRequest<ApiRequestParams>('items.get', { businessPartner: '512008' }, { freeTextSearch: 'item', limit: 20, offset: 0 });
   });
 
   it('should have created', () => {

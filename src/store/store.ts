@@ -1,7 +1,7 @@
-import { applyMiddleware, combineReducers, createStore, Store, Reducer } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
-import storageSession from 'redux-persist/lib/storage/session'
+import storageSession from 'redux-persist/lib/storage/session';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { authReducer } from './Auth/Reducers';
@@ -11,10 +11,10 @@ import businessPartnerReducer from './Customer/Reducer';
 import { BusinessPartnerState } from './Customer/Types';
 import { AuthState, AuthActions } from './Auth/Types';
 import usersReducer from './Users/Reducers';
-import { SaveUserAction, UsersData } from './Users/Types';
-import { AppLoadingActions , InitialConfigState } from './InitialConfiguration/Types';
+import { UsersData } from './Users/Types';
+import { InitialConfigState } from './InitialConfiguration/Types';
 import configReducer from './InitialConfiguration/Reducers';
-import {   AddOpportunityState } from './AddOpportunity/Types';
+import { AddOpportunityState } from './AddOpportunity/Types';
 import addOpportunityReducer from './AddOpportunity/Reducers';
 import { AddBusinessPartnerState } from './AddCustomer/Types';
 import addBusinessPartnerReducer from './AddCustomer/Reducers';
@@ -24,22 +24,20 @@ import opportuntyDetailsReducer from './OpportunityDetails/Reducers';
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['auth','enviornmentConfigs', 'addOpportunity', 'addBusinessPartner', 'opportuntyDetails', 'users'] // which reducer want to store
+  whitelist: ['auth', 'enviornmentConfigs', 'addOpportunity', 'addBusinessPartner', 'opportuntyDetails', 'users'], // which reducer want to store
 };
 
 export type AppActions = AuthActions;
 
 export interface AppState {
-  readonly auth : AuthState,
-  readonly users: UsersData,
-  readonly opportunities: OpportunityState,
-  readonly businesspartners: BusinessPartnerState,
-  readonly enviornmentConfigs:InitialConfigState,
-  readonly addOpportunity: AddOpportunityState
-  readonly addBusinessPartner: AddBusinessPartnerState,
-  readonly opportuntyDetails: OpportunityDetailsState
-
-
+  readonly auth: AuthState;
+  readonly users: UsersData;
+  readonly opportunities: OpportunityState;
+  readonly businesspartners: BusinessPartnerState;
+  readonly enviornmentConfigs: InitialConfigState;
+  readonly addOpportunity: AddOpportunityState;
+  readonly addBusinessPartner: AddBusinessPartnerState;
+  readonly opportuntyDetails: OpportunityDetailsState;
 }
 const appReducer = combineReducers({
   auth: authReducer,
@@ -49,22 +47,21 @@ const appReducer = combineReducers({
   enviornmentConfigs: configReducer,
   addOpportunity: addOpportunityReducer,
   addBusinessPartner: addBusinessPartnerReducer,
-  opportuntyDetails : opportuntyDetailsReducer
+  opportuntyDetails: opportuntyDetailsReducer,
 });
 
 const rootReducer = (state: any, action: AppActions) => {
   if (action.type === 'LOGOUT_SUCCESS') {
-    state = undefined
+    // eslint-disable-next-line no-param-reassign
+    state = undefined;
   }
 
-  return appReducer(state , action)
-}
+  return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
 const persistor = persistStore(store);
 
-export {
-  store, persistor
-};
+export { store, persistor };

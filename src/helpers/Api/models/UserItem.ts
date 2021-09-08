@@ -1,9 +1,9 @@
-import { CompanyInfoItem, CompanyInfoRes} from "./CompanyInfo";
+import { CompanyInfoItem } from './CompanyInfo';
 
 export interface UserItem {
   user: string;
   handler: string;
-  text:string;
+  text: string;
   description: string;
   language?: string;
   currentEnvironment?: CompanyInfoItem[];
@@ -24,8 +24,8 @@ export interface UserResponse {
 }
 
 export interface UserProfileResponse {
-  data : {
+  data: {
     user: string;
-    text:string;
-  }
+    text: string;
+  };
 }

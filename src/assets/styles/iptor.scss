@@ -363,3 +363,52 @@ body {
 .cust-list {
     padding:0;
 }
+
+.link-anchor-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.button-image {
+    display: block;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    position: relative;
+    width: auto;
+    margin: 10px 5px;
+    text-align: center;
+}
+
+.header-search{
+    background: transparent;
+    border: none;
+    top: 15px;
+}
+
+.header-notification{
+    background: transparent;
+    border: none;
+    top: 7px
+}
+
+.header-logout{
+    text-decoration: none;
+    color: #212529;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-anchor-button {
+    background:none;
+}

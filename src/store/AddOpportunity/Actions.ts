@@ -1,58 +1,64 @@
 /**
  * Opportunity Actions and Middleware definition
  */
- import { ActionCreator, Dispatch } from 'redux';
- import { ThunkAction } from 'redux-thunk';
- import { AddOpportunityDefaultParams , UserDefinedFieldReduxParams, Item , CustomerDetailsContactsGroupItem} from '../../helpers/Api/models';
- import { SaveOpportuntyParamAction, SetAddOpportunityLoaderAction, SetAddOpportunityDrawerActive, RemoveOpportunityDataAction, SaveOpportuntyAddAttributeAction , SaveOpportuntyAddItemsAction, AddOpportunityState, AddOpportunityTypes, SetAddOpportunityContacts} from './Types';
- 
- /** Action to set auth state logged in status */
- export const saveOpportunityParams : ActionCreator<SaveOpportuntyParamAction> = (opportunity:AddOpportunityDefaultParams) => {
-   return {
-     type: AddOpportunityTypes.SAVE_ADD_OPPTY_DEFAULT_FIELDS,
-     opportunity:opportunity
-   };
- };
- 
- export const saveOpportunityAttributes : ActionCreator<SaveOpportuntyAddAttributeAction> = (attributes:UserDefinedFieldReduxParams[]) => {
-   return {
-     type: AddOpportunityTypes.SAVE_ADD_OPPTY_ATTRIBUTE,
-     attributes:attributes
-   };
- };
+import { ActionCreator } from 'redux';
+import { AddOpportunityDefaultParams, UserDefinedFieldReduxParams, Item, CustomerDetailsContactsGroupItem } from '../../helpers/Api/models';
+import {
+  SaveOpportuntyParamAction,
+  SetAddOpportunityLoaderAction,
+  SetAddOpportunityDrawerActive,
+  RemoveOpportunityDataAction,
+  SaveOpportuntyAddAttributeAction,
+  SaveOpportuntyAddItemsAction,
+  AddOpportunityTypes,
+  SetAddOpportunityContacts,
+} from './Types';
 
- export const setOpportunityLoader : ActionCreator<SetAddOpportunityLoaderAction> = (loader:boolean) => {
+/** Action to set auth state logged in status */
+export const saveOpportunityParams: ActionCreator<SaveOpportuntyParamAction> = (opportunity: AddOpportunityDefaultParams) => {
+  return {
+    type: AddOpportunityTypes.SAVE_ADD_OPPTY_DEFAULT_FIELDS,
+    opportunity,
+  };
+};
+
+export const saveOpportunityAttributes: ActionCreator<SaveOpportuntyAddAttributeAction> = (attributes: UserDefinedFieldReduxParams[]) => {
+  return {
+    type: AddOpportunityTypes.SAVE_ADD_OPPTY_ATTRIBUTE,
+    attributes,
+  };
+};
+
+export const setOpportunityLoader: ActionCreator<SetAddOpportunityLoaderAction> = (loader: boolean) => {
   return {
     type: AddOpportunityTypes.SET_ADD_OPPORTUNITY_LOADER,
-    loader:loader
+    loader,
   };
 };
 
-export const setOpportunityWindowActive : ActionCreator<SetAddOpportunityDrawerActive> = (addOpptyWindowActive:boolean) => {
+export const setOpportunityWindowActive: ActionCreator<SetAddOpportunityDrawerActive> = (addOpptyWindowActive: boolean) => {
   return {
     type: AddOpportunityTypes.SET_ADD_OPPORTUNITY_WINDOW,
-    addOpptyWindowActive:addOpptyWindowActive
+    addOpptyWindowActive,
   };
 };
 
-export const setOpportunityItems : ActionCreator<SaveOpportuntyAddItemsAction> = (items:Item[]) => {
+export const setOpportunityItems: ActionCreator<SaveOpportuntyAddItemsAction> = (items: Item[]) => {
   return {
     type: AddOpportunityTypes.SAVE_ADD_OPPTY_ITEMS,
-    items:items
+    items,
   };
 };
 
-
-export const resetOpportunityData : ActionCreator<RemoveOpportunityDataAction> = () => {
+export const resetOpportunityData: ActionCreator<RemoveOpportunityDataAction> = () => {
   return {
-    type: AddOpportunityTypes.RESET_OPPORTUNITY_DATA
+    type: AddOpportunityTypes.RESET_OPPORTUNITY_DATA,
   };
 };
 
-
-export const setOpportunityContacts : ActionCreator<SetAddOpportunityContacts> = (contacts:CustomerDetailsContactsGroupItem[]) => {
+export const setOpportunityContacts: ActionCreator<SetAddOpportunityContacts> = (contacts: CustomerDetailsContactsGroupItem[]) => {
   return {
     type: AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS,
-    contacts:contacts
+    contacts,
   };
 };

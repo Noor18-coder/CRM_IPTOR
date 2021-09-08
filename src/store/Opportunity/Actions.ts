@@ -3,48 +3,57 @@
  */
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { OpportunityListItem , OpportunityFilterItem} from '../../helpers/Api/models';
-import OpportunityList from '../../helpers/Api/OpportunityList'; 
-import {OpportunityTypes , SaveOpportuntiesAction, SaveOpportunityFilterAction } from './Types';
+import { OpportunityListItem, OpportunityFilterItem } from '../../helpers/Api/models';
+import OpportunityList from '../../helpers/Api/OpportunityList';
+import { OpportunityTypes, SaveOpportuntiesAction, SaveOpportunityFilterAction } from './Types';
 
 /** Action to set auth state logged in status */
 export const saveOpptyList: ActionCreator<SaveOpportuntiesAction> = (opptyList) => {
   return {
     type: OpportunityTypes.SAVE_LIST_OPPTY,
-    opportunities:opptyList
+    opportunities: opptyList,
   };
 };
 
 /** Action to set auth state logged in status */
-export const saveOpptyFilters: ActionCreator<SaveOpportunityFilterAction> = (filter:OpportunityFilterItem[]) => {
+export const saveOpptyFilters: ActionCreator<SaveOpportunityFilterAction> = (filter: OpportunityFilterItem[]) => {
   return {
     type: OpportunityTypes.SAVE_OPPTY_FILTERS,
-    filter:filter
+    filter,
   };
 };
 
-
-export const getOpportunities : ActionCreator<ThunkAction<
-  // The type of the last action to be dispatched - will always be promise<T> for async actions
-  Promise<SaveOpportuntiesAction>,
-  // The type for the data within the last action
-  OpportunityListItem[],
-  // The type of the parameter for the nested function
-  null,
-  // The type of the last action to be dispatched
-  SaveOpportuntiesAction
->> = (handler:string, freeTextSearch: string, limit?: number, offset?: number) => {
+export const getOpportunities: ActionCreator<
+  ThunkAction<
+    // The type of the last action to be dispatched - will always be promise<T> for async actions
+    Promise<SaveOpportuntiesAction>,
+    // The type for the data within the last action
+    OpportunityListItem[],
+    // The type of the parameter for the nested function
+    null,
+    // The type of the last action to be dispatched
+    SaveOpportuntiesAction
+  >
+> = (handler: string, freeTextSearch: string, limit?: number, offset?: number) => {
   return async (dispatch: Dispatch) => {
-   const opptyList = await OpportunityList.get(handler, freeTextSearch, limit , offset); 
+    const opptyList = await OpportunityList.get(handler, freeTextSearch, limit, offset);
     return dispatch(saveOpptyList(opptyList));
-  }
-    
+  };
 };
 
-export const saveOpportunityFilters = (filters: OpportunityFilterItem[]) => {
+export const saveOpportunityFilters: ActionCreator<
+  ThunkAction<
+    // The type of the last action to be dispatched - will always be promise<T> for async actions
+    Promise<SaveOpportunityFilterAction>,
+    // The type for the data within the last action
+    OpportunityFilterItem[],
+    // The type of the parameter for the nested function
+    null,
+    // The type of the last action to be dispatched
+    SaveOpportunityFilterAction
+  >
+> = (filters: OpportunityFilterItem[]) => {
   return async (dispatch: Dispatch) => {
-
-    dispatch(saveOpptyFilters(filters));
-  }
-
+    return dispatch(saveOpptyFilters(filters));
+  };
 };

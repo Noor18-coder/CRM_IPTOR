@@ -1,51 +1,61 @@
-import React from 'react'
+import React from 'react';
 import { OpportunityDetailsDefault } from '../../helpers/Api/models';
-import {getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
+import { getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import Staging from './Staging';
 
 export interface Data {
-  data:OpportunityDetailsDefault
+  data: OpportunityDetailsDefault;
 }
 
-
-const OpportunityInfo:React.FC<Data> = (props) =>   {
-
+const OpportunityInfo: React.FC<Data> = (props) => {
+  const { data } = props;
   return (
     // <!-- PRODUCT NAME SECTION START -->
-  <>
-    <section className="d-flex justify-content-between sec-product-desc">
+    <>
+      <section className="d-flex justify-content-between sec-product-desc">
         <div className="prod-name">
-          <p>{props.data.desc} <span>{props.data.opportunityId} | {props.data.customerName}</span></p>
+          <p>
+            {data.desc}{' '}
+            <span>
+              {data.opportunityId} | {data.customerName}
+            </span>
+          </p>
         </div>
         <div className="mid-sec">
           <ul className="list-inline">
-            <li className="list-inline-item">close quarter<span>{getQuarterOfYearFromDate(props.data.endDate)}</span></li>
-            <li className="list-inline-item">Opportunity Value<span>{getCurrencySymbol(props.data.currency) + ' ' + props.data.currentValue}</span></li>
-            <li className="list-inline-item">Opportunity Type<span>{props.data.oppRecordType}</span></li>
+            <li className="list-inline-item">
+              close quarter<span>{getQuarterOfYearFromDate(data.endDate)}</span>
+            </li>
+            <li className="list-inline-item">
+              Opportunity Value<span>{`${getCurrencySymbol(data.currency)} ${data.currentValue}`}</span>
+            </li>
+            <li className="list-inline-item">
+              Opportunity Type<span>{data.oppRecordType}</span>
+            </li>
           </ul>
         </div>
 
         <div className="sec-status">
           <ul className="list-inline">
-            <li className="list-inline-item grade">{props.data.stage}</li>
+            <li className="list-inline-item grade">{data.stage}</li>
             <li className="list-inline-item status">Approved</li>
           </ul>
         </div>
       </section>
       <section className="sec-staging">
         <div className="d-flex justify-content-between title-row">
-          <div className="lft-col">
-            Stage
-          </div>
+          <div className="lft-col">Stage</div>
           <div className="rgt-col">
-            Shared for approval with Lawerence Matthew <a className="ghost-btn">Change Approver</a>
+            Shared for approval with Lawerence Matthew {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a href="#" className="ghost-btn">
+              Change Approver
+            </a>
           </div>
         </div>
-        <Staging stage={props.data.stage}/>
+        <Staging stage={data.stage} />
       </section>
     </>
+  );
+};
 
-  )
-}
-
-export default OpportunityInfo
+export default OpportunityInfo;

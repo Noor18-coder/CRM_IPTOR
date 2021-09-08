@@ -5,13 +5,15 @@ export class CompanyInfoMock {
   static getCompanyInfoItem(): apiModels.CompanyInfoItemResponse {
     return {
       IptorAPI: '1.0',
-      items: [{
-        companyCode: faker.random.alphaNumeric(7),
-        companyShortName: faker.company.companyName(),
-        name: faker.company.companyName(),
-        selected: faker.random.boolean()
-      }],
-      id: 'kdkdikd'
+      items: [
+        {
+          companyCode: faker.random.alphaNumeric(7),
+          companyShortName: faker.company.companyName(),
+          name: faker.company.companyName(),
+          selected: faker.random.boolean(),
+        },
+      ],
+      id: 'kdkdikd',
     };
   }
 
@@ -20,9 +22,7 @@ export class CompanyInfoMock {
       companyCode: faker.random.alphaNumeric(7),
       companyShortName: faker.company.companyName(),
       name: faker.company.companyName(),
-      selected: faker.random.boolean()
-    }
-    );
+      selected: faker.random.boolean(),
+    });
   }
-
 }

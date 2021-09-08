@@ -5,6 +5,7 @@ import { ApiRequestControls } from './models';
 
 export class ApiRequest<T> {
   IptorAPI: string;
+
   id: string;
 
   constructor(public method: string, public params?: T, public control?: ApiRequestControls) {
