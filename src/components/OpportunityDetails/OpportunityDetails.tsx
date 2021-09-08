@@ -18,14 +18,11 @@ import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import {NavSection} from '../Shared/DetailsNav/NavSection';
 import Loader from '../Shared/Loader/Loader';
 import Container from '../EditOpportunity/Container';
-
+import { OverlayTrigger, Popover, Image } from 'react-bootstrap'
 import {setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm} from '../../store/OpportunityDetails/Actions';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
-
-
-
-
+import ImageConfig from '../../config/ImageConfig';
 
 const OpportunityDetails: React.FC = (props: any) => {
     const state: AppState = useSelector((state: AppState) => state);
@@ -43,10 +40,32 @@ const OpportunityDetails: React.FC = (props: any) => {
         return userObj?.description ? userObj?.description : '';
     }
 
+    const popover = () => {
+        return (
+            <Popover id="popover-basic" className="tool-tip">
+                <Popover.Content>
+                    <a onClick={assignOpportunity} role="button">
+                        Assign To <Image className="logout-image" height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor" />
+                    </a>
+                </Popover.Content>
+                <Popover.Content>
+                    Hold
+                </Popover.Content>
+                <Popover.Content>
+                    <a  role="button">
+                        Delete <Image className="logout-image" height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor" />
+                    </a>
+                </Popover.Content>
+            </Popover>
+        )
+    };
+    
+
     const fetchOpportunityDetails = async (opptyId:string) => {
         setLoading(true);
         dispatch(setLoadingMask());
         const opptyDetails:models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opptyId);
+       
         setDefaultOpptyDetails(opptyDetails);
         dispatch(saveOpportunityDetails(opptyDetails));
         getBasicInfo(opptyDetails);
@@ -60,6 +79,9 @@ const OpportunityDetails: React.FC = (props: any) => {
         const opptyItems = await OpportunityDetailsApi.getOpportunityItems(opptyId);
         setOpptyDataProductInfo(opptyItems);
 
+        if(state.auth.user.user === opptyDetails.handler){
+            dispatch(openOpportunityForm({allowEdit:true}));
+        }
 
         dispatch(removeLoadingMask());
         setLoading(false);
@@ -132,6 +154,10 @@ const OpportunityDetails: React.FC = (props: any) => {
        reloadOpportunity();
     }
 
+    const assignOpportunity = () => {
+        dispatch(openOpportunityForm({open:true,groupName:'assign_opportunity'}))
+    }
+
 
     return (
         <>
@@ -139,7 +165,7 @@ const OpportunityDetails: React.FC = (props: any) => {
             { loading ?  <Loader component='opportunity'/> :
                 <section className="main-wrapper opportunity">
                 <div className="container-fluid">
-                    <NavSection backToOpportunityList={backToOpportunityList} />
+                    <NavSection backToOpportunityList={backToOpportunityList}  popover={popover} />
                     {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
                     {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
                     <section className="sec-info-accordion">

@@ -4,9 +4,7 @@ import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store/store";
 import ImageConfig from '../../config/ImageConfig';
-
-
-import { OpportunityDetailsGroupItem, OpportunityDetailsBasicInfo, OpportunityMoreInfoSection, AttributeField, IAttributesList, AttributeValueObject } from '../../helpers/Api/models';
+import { OpportunityEditOptions, OpportunityDetailsBasicInfo , AttributeField, IAttributesList, AttributeValueObject } from '../../helpers/Api/models';
 
 interface Props {
   title: string,
@@ -15,17 +13,19 @@ interface Props {
 }
 
 export const InfoAccordion: React.FC<Props> = ({ title, data, openEditOpportunity }) => {
+  const state: OpportunityEditOptions = useSelector((state: AppState) => state.opportuntyDetails.editOportunity);
   const [activeClass , setActiveClass] = React.useState("");
+  
   const toggleAccordion = () => {
     setActiveClass(activeClass === "" ? "active" : "");
   }
+
   return (
     <Accordion defaultActiveKey="0">
     <Card>
       <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
         {title}
-        <img src={ImageConfig.EDIT_ICON}  onClick={openEditOpportunity} />
-      
+        {state.allowEdit === true ? <img src={ImageConfig.EDIT_ICON}  onClick={openEditOpportunity} /> : null }
       </Accordion.Toggle>
       <Accordion.Collapse eventKey="1">
         <div className="accr-body-container">
@@ -84,7 +84,7 @@ export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data
             <>
             { moreInformationGroups?.length ? (
               moreInformationGroups.map((key:IAttributesList) => {
-                return <DisplayGroup title={key.group} fields={key.items} data={data} openEditForm={openEditForm}/>
+                return <DisplayGroup title={key.group} fields={key.items} data={data} openEditForm={openEditForm} allowEdit={state.opportuntyDetails.editOportunity.allowEdit}/>
               })) : null }
             
           </>
@@ -99,11 +99,13 @@ interface GroupData {
   title: string,
   fields: AttributeField[],
   data:AttributeValueObject[],
-  openEditForm: (key:string) => void
+  openEditForm: (key:string) => void,
+  allowEdit?:boolean
 }
 
 
-export const DisplayGroup: React.FC<GroupData> = ({ title, fields ,data, openEditForm }) => {
+export const DisplayGroup: React.FC<GroupData> = ({ title, fields ,data, openEditForm, allowEdit}) => {
+
 
   const getValue = (attributeType:string) => {
      const obj = data.find((obj:AttributeValueObject) => {return obj.attributeType === attributeType});
@@ -116,8 +118,7 @@ export const DisplayGroup: React.FC<GroupData> = ({ title, fields ,data, openEdi
     <div className='more-info-group-container'>
       <div className='more-info-group-name'>
         {title}
-        <img src={ImageConfig.EDIT_ICON}  onClick={() => openEditForm(title)}/>
-      
+        { allowEdit ? <img src={ImageConfig.EDIT_ICON}  onClick={() => openEditForm(title)} />  : null }
       </div>
       <div className="accr-body-container">
 

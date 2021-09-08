@@ -27,8 +27,7 @@ export const OpportunityDefaultFields:AddOpportunityField[] = [
         description: "Owner",
         valueFormatDesc: "ALPHANUMERIC",
         attributeType: 'handler',
-        valueFormat: "A",
-        asyncSearch:true
+        valueFormat: "A"
     },
     {
         description: "Opportunity Type",

@@ -8,6 +8,7 @@ import { AppState } from "../../store/store";
 import { get, map, partialRight, pick } from 'lodash'
 
 import EditAttributes from './EditAttributes';
+import UserSearchField from '../Shared/Search/UserSearchField';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import { OpportunityDefaultFields } from '../../config/OpportunityDefaultFields';
 import AsyncSearchInput from '../Shared/Search/AsyncSearchInput';
@@ -75,7 +76,7 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setOpportunity({
             ...opportunity,
-            [e.currentTarget.id]: e.currentTarget.value,
+            [e.currentTarget.id]: e.currentTarget.value
         });
 
     };
@@ -107,6 +108,13 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
         });
     }
 
+    const onHandlerChange = (user:models.UserItem[]) => {
+        setOpportunity({
+            ...opportunity,
+            handler: user[0].handler
+        });
+    }
+
 
     return (
         <>
@@ -117,7 +125,14 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                             fields?.length ?
                                 fields.map((obj: models.AddOpportunityField) => {
 
-                                    if (obj.asyncSearch) {
+                                    if(obj.attributeType === 'handler'){
+                                        return (
+                                            <div className="form-group oppty-form-elements">
+                                                <label className="opp-label">{obj.description}</label>
+                                                <UserSearchField onChange={onHandlerChange} selected={getValue(obj.attributeType)} description={'Owner'} />
+                                            </div>
+                                        )
+                                    }else if (obj.asyncSearch) {
                                         return (
                                             <div className="form-group oppty-form-elements">
                                                 <label className="opp-label">{obj.description}</label>
@@ -167,7 +182,7 @@ interface SelectProps {
 const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options, selected, onSelect }) => {
     return (
         <div className="form-group oppty-form-elements">
-            <label>{description}</label>
+            <label className="opp-label">{description}</label>
             <select className="form-control iptor-dd" id={attributeType} value={selected} onChange={onSelect}>
                 <option disabled selected>Select {description}</option>
                 {
@@ -180,7 +195,6 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options
         </div>
     );
 }
-
 
 export default EditBasicInfo;
 

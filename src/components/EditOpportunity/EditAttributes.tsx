@@ -143,7 +143,6 @@ interface SelectProps {
 }
 
 const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attributeType, options, selected, onSelect }) => {
-    console.log(selected);
     const attributeValues = options ? options.data.find((obj: models.DropDownValues) => { return obj.attributeId === attributeId }) : null;
     return (
         <div className="form-group oppty-form-elements">

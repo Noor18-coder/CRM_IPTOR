@@ -11,6 +11,7 @@ import EditBasicInfo from './EditBasicInfo';
 import AddContact from './AddContact';
 import EditItem from './EditItem';
 import AddItem from './AddItem';
+import AssignOpportunity  from './AssignOpportunity';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm} from '../../store/OpportunityDetails/Actions';
 
 
@@ -42,6 +43,8 @@ const EditOpportunity: React.FC<Props> = ({reloadOpportunityDetailsPage}) => {
             return  <EditItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
         } else if(groupName == 'add_item'){
             return  <AddItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        }else if(groupName == 'assign_opportunity'){
+            return  <AssignOpportunity reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
         }else {
             return <EditAttributes reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
         }

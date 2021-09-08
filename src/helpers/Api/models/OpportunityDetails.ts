@@ -87,7 +87,8 @@ export interface OpportunityDetailsParams {
 
   
   export interface OpportunityEditOptions {
-    open:boolean;
+    allowEdit ?: boolean;
+    open ?:boolean;
     groupName ?:string;
     data ?: Product
   }

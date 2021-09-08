@@ -56,7 +56,6 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
 
     const loadContactAttributes = async () => {
         const response = await OpportunityDetailsApi.getContactDetails(data.contactId); 
-        console.log("loadContactAttributes:" , response);
         setContactDetails(response);
         const addressObj = response.find((obj:any) => obj.attributeType === 'ADDRESS');
         data.visitingAddress = addressObj?.attributeValue
