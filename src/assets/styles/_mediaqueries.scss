@@ -38,6 +38,20 @@
         }
 
         .sec-info-accordion {
+            &.mob-moreinfo-accordion {
+                .accordion {
+                    .cust-details {
+                        .collapse {
+                            background: $white;
+
+                            .accr-body-container {
+                                background: $white;
+                            }
+                        }
+                    }
+                }
+            }
+
             .accordion {
                 .contact-class {
                     .card-link {
@@ -620,6 +634,10 @@
                 .title-row {
                     padding: 16px 16px 0 16px;
 
+                    p {
+                        margin-bottom: 0;
+                    }
+
                     .lft-col {
                         padding: 0 !important;
 
@@ -670,7 +688,7 @@
 
                 .owner-row,
                 .qtr-details-row {
-                    padding: 24px 16px 0 16px;
+                    padding: 16px 16px 0 16px;
 
                     .lft-col {
                         color: $blue-bayoux;
@@ -710,6 +728,10 @@
                             }
                         }
                     }
+                }
+
+                .owner-row {
+                    margin-bottom: 16px;
                 }
 
                 .qtr-details-row {
@@ -808,7 +830,21 @@
                     }
                 }
             }
+        }
 
+        &.customers-comp {
+            .container-fluid {
+                .card {
+                    .card-body {
+                        .card-action-icons {
+                            right: inherit;
+                            top: inherit;
+                            bottom: 14px;
+                            left: 24px;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -835,7 +871,7 @@
                         }
                     }
 
-                    &.action-row{
+                    &.action-row {
                         padding-top: 16px;
                     }
                 }
@@ -847,6 +883,7 @@
         }
 
     }
+
 }
 
 @media (max-width: 767.98px) and (orientation:landscape) {
@@ -1475,7 +1512,7 @@
 
             .iptor-login-btn {
                 background-color: $limed-spruce;
-            
+
                 &.disable-button {
                     pointer-events: none;
                     cursor: default;

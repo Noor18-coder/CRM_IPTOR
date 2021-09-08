@@ -154,7 +154,7 @@ const Reports: React.FC = () => {
       </div>
    
       { isDesktop ? <Footer /> : null }
-      { (isMobile || isTablet) ? <FooterMobile page={4} /> : null }
+      { (isMobile || isTablet) ? <FooterMobile page={3} /> : null }
     </>
   );
 };

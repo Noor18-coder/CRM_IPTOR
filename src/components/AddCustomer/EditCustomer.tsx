@@ -31,6 +31,7 @@ const EditCustomer: React.FC<Props> = (data) => {
     const dispatch: Dispatch<any> = useDispatch();
     const [customerData, setCustomerData] = React.useState<any>();
     const [attributes, setAttributes] = React.useState<UserDefinedField[]>();
+    const [showAttributes, setShowAttributes] = React.useState<boolean>(false);
     const [attributeValues, setAttributeValues] = React.useState<UserDefinedFieldsValueDropDown>();
     const [defaultFields, setDefaultFields] = React.useState<any>();
     const [contactFields, setContactFields] = React.useState<any>();
@@ -118,6 +119,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                     });
                     const selectedGroupData = response[key]
                     setAttributes(selectedGroupData);
+                    setShowAttributes(true);
                 }
             });
         }
@@ -216,6 +218,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                 _.set(item, 'attributeValue', '');
             })
         }
+        setShowAttributes(false);
     }
 
     React.useEffect(() => {
@@ -296,7 +299,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                                                     </div>)
                                                 }
                                             }) :
-                                            attributes?.length && attributes.map((obj: UserDefinedField) => {
+                                            (showAttributes && attributes?.length) && attributes.map((obj: UserDefinedField) => {
                                                 if (obj.valuesExist) {
                                                     return (
                                                         <SelectItem description={obj.description} attributeId={obj.attributeId} attributeType={obj.attributeType} options={attributeValues} value={obj.attributeValue} onSelect={onInputValueChange} />
@@ -320,7 +323,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                                     }
                                 </div>
                                 <div className="step-nextbtn-with-arrow stepsone-nxtbtn" onClick={updateCustomer}>
-                                    <Link className={'customer-btn'} to="#">{key === 'add contact fields' ? i18n.t('addContact') : i18n.t('update')}</Link>
+                                    <Link className={'customer-btn'} to="#">{key === 'add contact fields' ? i18n.t('addContact') : i18n.t('save')}</Link>
                                 </div>
                             </div>
                         </div>

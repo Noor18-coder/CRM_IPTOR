@@ -51,43 +51,51 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
         <Accordion defaultActiveKey="0">
             <Card className="contact-class">
                 <Accordion.Toggle  className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
-                    {title}
+                    <span className="cust-title">{title}</span>
                     <span className="cust-info"><span>{contactData.length} CONTACTS</span></span>
                     <Image src={ImageConfig.ADD_BTN} className="add-img action-icon" alt="Add" title="Add" onClick={toggleDrawer(true, 'add contact fields', '')} />
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
-                    <div className="accr-body-container mt-16">
-                        {contactData.length ?
-                                contactData.map((obj: CustomerDetailsContactsGroupItem) => {
-                                    return <Card className={obj.ACTIVE ? "accordian-card" : "accordian-card disabled-card"}>
-                                    <Card.Body>
-                                        <div className="contact-left-card">
-                                            <p><b>{obj.contactPerson}</b></p>
-                                            <p className="role">{obj.role}</p>
-                                            <p>{obj.email ? obj.email : '--'}</p>
-                                            <p>{obj.phone ? obj.phone : '--'}</p> <br />
-                                            <p>{obj.ADDRESS ? obj.ADDRESS : '--'}</p>
+                    <div className="accr-body-container customers-comp">
+                        <div className="container-fluid">
+                            <div className="row">
+                                {contactData.length ?
+                                    contactData.map((obj: CustomerDetailsContactsGroupItem) => {
+                                        return <div className="col-md-4">
+                                            <Card className="accordian-card mb-4">
+                                                <Card.Body className={!obj.ACTIVE ? "disabled-card" : ""}>
+                                                    <div className="name-add-sec">
+                                                        <p className="person-name-desig">
+                                                            <span className="name">{obj.contactPerson}</span>
+                                                            <span className="designation">{obj.role}</span>
+                                                        </p>
+                                                        <p className="mailid">{obj.email ? obj.email : '--'}</p>
+                                                        <p className="contact-num">{obj.phone ? obj.phone : '--'}</p> <br />
+                                                        <p className="contact-address">
+                                                            <span className="line1">{obj.ADDRESS ? obj.ADDRESS : '--'}</span>
+                                                        </p>
+                                                    </div>
+                                                    <div className="card-action-icons">
+                                                        {obj.ACTIVE &&
+                                                            <>
+                                                                <Image className="card-delete action-icon" height="20" src={ImageConfig.DEL_ICON} alt="Delete" title="Delete" onClick={deleteContact(obj.businessPartner ? obj.businessPartner.toString() : '', obj.contactDC ? obj.contactDC.toString() : '')} />
+                                                                <Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'contact fields', obj.contactDC ? obj.contactDC.toString() : '')} />
+                                                            </>
+                                                        }
+                                                    </div>
+                                                    <div className="active-switch">
+                                                        <span className="active-text">Active <label className="switch active-box">
+                                                            <input type="checkbox" id="ACTIVE" checked={obj.ACTIVE} onChange={(e) => onInputValueChange(e, obj.contactDC ? obj.contactDC.toString() : '')} />
+                                                            <span className="slider round"></span>
+                                                        </label> </span>
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
                                         </div>
-                                        <div className="contact-right-card">
-                                           {obj.ACTIVE &&
-                                                <>
-                                                    <Image className="card-delete action-icon" height="20" src={ImageConfig.DEL_ICON} alt="Delete" title="Delete" onClick={deleteContact(obj.businessPartner ? obj.businessPartner.toString() : '', obj.contactDC ? obj.contactDC.toString() : '')} />
-                                                    <Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'contact fields', obj.contactDC ? obj.contactDC.toString() : '')} />
-                                                </>
-                                           }
-                                        </div>
-                                    </Card.Body>
-                                        <Card.Footer className="text-muted right-align">
-                                        <ul className="list-inline contact-footer">
-                                                <li className="list-inline-item"> <span className="active-text">Active <label className="switch active-box">
-                                                    <input type="checkbox" id="ACTIVE" checked={obj.ACTIVE} onChange={(e) => onInputValueChange(e, obj.contactDC ? obj.contactDC.toString() : '')} />
-                                                <span className="slider round"></span>
-                                            </label> </span> </li>
-                                        </ul>
-                                    </Card.Footer>
-                                </Card>
-                         }) : <div className="padding-28"> No Contacts Found </div>}
+                                    }) : <div className="padding-28"> No Contacts Found </div>}
+                            </div>
                         </div>
+                    </div>
                 </Accordion.Collapse>
             </Card>
         </Accordion>

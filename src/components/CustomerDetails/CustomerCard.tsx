@@ -90,7 +90,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
 
     return (
       <>
-        <section className="sec-info-accordion">
+        <section className="sec-info-accordion mob-moreinfo-accordion">
           <Accordion  defaultActiveKey="0">
               <Card className="cust-details">
                 <Accordion.Toggle className={activeClass} onClick={toggleAccordion}  as={Card.Link} eventKey="1">
@@ -99,17 +99,17 @@ const CustomerCard:React.FC<Data> = (props) =>   {
                 <Accordion.Collapse eventKey="1">
                   <Card.Body className="accr-body-container">  
                      <div className="group-icon"><Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'default fields')} /></div>
-                     <ul className="list-inline bdy-list-item accr-list-columns">
+                     <ul className="list-inline bdy-list-item accr-list-columns padd-24">
                           <li className={(isMobile || isTablet) ? '' : "list-inline-item"}>
-                            <span>Contact Address</span>{props.data.addressLine1}<p>&nbsp;</p>
+                            <span>Contact Address</span>{props.data.addressLine1}
                           </li>
                           <li className={(isMobile || isTablet) ? '' : "list-inline-item"}>
                               <span>Region</span>{area ? area.map((data: Area) => {
                               return data.description
-                              }) : '--'}<p>&nbsp;</p>
+                              }) : '--'}
                           </li>
                           <li className={(isMobile || isTablet) ? '' : "list-inline-item"}>
-                            <span>Phone Number</span>{props.data.phone? props.data.phone : '--'}<p>&nbsp;</p>
+                            <span>Phone Number</span>{props.data.phone? props.data.phone : '--'}
                           </li>
                      </ul>
                   </Card.Body>
@@ -165,16 +165,16 @@ const CustomerCard:React.FC<Data> = (props) =>   {
             </div>
           </div>
       </section>:
-      <section className="d-flex justify-content-between sec-customer-desc">
+      <section className="d-flex justify-content-between align-items-center sec-customer-desc">
            <div className="accr-body-container">  
-               <ul className="list-inline bdy-list-item owner-section">
+               <ul className="list-inline bdy-list-item owner-section d-flex align-items-center">
                <li className="list-inline-item"><span>Account owner</span> {ownerDetails && ownerDetails.user ? ownerDetails.user : '--'}</li>
                <li className="list-inline-item"><Image  width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />&nbsp;&nbsp;{ownerDetails && ownerDetails.PHONE ? ownerDetails.PHONE : '--'}</li>
                <li className="list-inline-item"><Image  width="25" src={ImageConfig.MAIL} alt="mail" title="mail" /> &nbsp;&nbsp;{ownerDetails && ownerDetails.PHONE ? ownerDetails.EMAIL : '--'}</li>
              </ul></div>
        </section> }
 
-       <section className="d-flex sec-customer-desc">
+       <section className="d-flex align-items-center sec-customer-desc">
             <div className="cust-group">
               <p>{i18n.t('appFromIptor')}</p>
             </div>

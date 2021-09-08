@@ -71,7 +71,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
             </div>
           </div>
 
-          <div className="customer-details d-flex justify-content-between">
+          <div className="customer-details d-flex align-items-center justify-content-between">
             <div className="left-data">
               <p><span>Active</span></p>
             </div>
@@ -83,7 +83,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
               </label></span></p>
             </div>
           </div>
-          <div className="customer-details d-flex justify-content-between">
+          <div className="customer-details d-flex  align-items-center justify-content-between">
             <div className="left-data">
               <p><span>Parent Group</span></p>
             </div>
@@ -96,19 +96,19 @@ const CustomerInfo: React.FC<Data> = (props) => {
             </div>
           </div>
 
-          <div className="customer-details d-flex justify-content-between">
+          <div className="customer-details d-flex align-items-center justify-content-between">
             <div className="left-data">
               <p><span>New Opportunity</span></p>
             </div>
 
             <div className="right-data">
-              <p><span> <Image src={ImageConfig.ADD_ICON} /></span></p>
+              <p><span> <Image src={ImageConfig.ADD_ICON} onClick={toggleDrawer} /></span></p>
             </div>
           </div>
         </section> :
         <>
           <NavSection backToOpportunityList={backToOpportunityList} />
-          <section className="d-flex justify-content-between sec-customer-addr">
+          <section className="d-flex justify-content-between align-items-center sec-customer-addr">
             <div className="cust-name">
               <p>{props.data.name}<span>{country ? country.map((data: CrmCountry) => {
                 return data.description

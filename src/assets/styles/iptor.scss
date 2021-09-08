@@ -53,7 +53,7 @@ body {
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
-        
+
             .login-lft-cont-container {
                 position: fixed;
                 left: 100px;
@@ -127,7 +127,6 @@ body {
                         size: $base-font-size - 2;
                         weight: $font-weight-regular;
                     }
-
                 }
 
                 .form-placeholder-container {
@@ -146,7 +145,7 @@ body {
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
-        
+
             .mobile-backto-login {
                 display: none;
             }
@@ -237,7 +236,6 @@ body {
                             &:hover {
                                 background: $aqua-spring;
                             }
-
                         }
                     }
                 }
@@ -260,10 +258,8 @@ body {
                         size: $base-font-size - 2;
                         weight: $font-weight-regular;
                     }
-
                 }
             }
-
         }
     }
 
@@ -294,17 +290,18 @@ body {
                 margin-right: 20px;
                 vertical-align: middle;
             }
+
             position: relative;
 
-                &::after {
-                    content: '';
-                    position: absolute;
-                    left: 70px;
-                    top: 12px;
-                    bottom: 0px;
-                    width: 1px;
-                    background: $bermuda-gray;
-                }
+            &::after {
+                content: '';
+                position: absolute;
+                left: 70px;
+                top: 12px;
+                bottom: 0px;
+                width: 1px;
+                background: $bermuda-gray;
+            }
         }
     }
 
@@ -314,9 +311,9 @@ body {
     @import 'customer-details';
     @import 'common-styles';
     @import 'staging-arrow';
+    @import 'contact-address-customers';
     @import './mediaqueries';
     @import 'reports';
-
 }
 
 .company-container {
@@ -338,7 +335,7 @@ body {
     margin-left: 24px;
     display: block;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 0;
     margin-right: 24px;
     margin-top: 24px;
@@ -365,8 +362,4 @@ body {
 
 .cust-list {
     padding:0;
-}
-
-.body-scroll-hidden {
-    overflow-y: hidden;
 }
