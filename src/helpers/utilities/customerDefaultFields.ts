@@ -1,7 +1,7 @@
 
 const DefaultFields = [
   {
-    "description": "Custome Name",
+    "description": "Customer Name",
     "attributeType": "name",
     "valuesExist": false,
     "attributeId": "",

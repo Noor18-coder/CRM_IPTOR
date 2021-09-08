@@ -236,7 +236,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                     </div>
                     <div className="all-opportunity-steps-container pt-24">
                         <div className="opportunity-forms">
-                            <p className="add-subtitle edit-subtitle">{key}</p>
+                            <p className="add-subtitle edit-subtitle">{key === 'default fields' ? 'Customer Information' : key}</p>
                             <div className="">
                                 <div className="steps-one-forms">
                                     {key === 'default fields' ?
