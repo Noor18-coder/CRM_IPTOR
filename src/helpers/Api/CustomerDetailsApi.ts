@@ -10,6 +10,7 @@ export default class CustomerDetailsApi {
   private static apiAllContactsMethod: string = 'mopContactsDC1.get';
   private static apiContactAddMethod: string = 'mopContactDC1.add';
   private static apiContactUpdateMethod: string = 'mopContactDC1.update';
+  private static apiContactDeleteMethod: string = 'mopContactDC1.delete';
   private static apiCountriesMethod: string = 'crmCountries.get';
   private static apiAreasMethod: string = 'areas.get';
 
@@ -43,9 +44,15 @@ export default class CustomerDetailsApi {
   }
 
   static async updateContactDetails(businessPartner: apiModels.CustomerDetailsContactsGroupItem): Promise<apiModels.CustomerDetailsContactsGroupItem[]> {
-        const requestData = new ApiRequest<apiModels.CustomerDetailsContactsGroupItem>(this.apiContactUpdateMethod, businessPartner);
-        const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
-        return get(response, 'data.data.items', []);
+    const requestData = new ApiRequest<apiModels.CustomerDetailsContactsGroupItem>(this.apiContactUpdateMethod, businessPartner);
+    const response = await axios.post<apiModels.CustomerDetailsDefaultResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+  }
+
+  static async deleteContact(businessPartner: string, contactDC: string): Promise<apiModels.CustomerDeleteParams> {
+    const requestData = new ApiRequest<apiModels.CustomerDeleteParams>(this.apiContactDeleteMethod, { businessPartner : businessPartner, contactDC: contactDC });
+    const response = await axios.post<apiModels.CustomerDeleteResponse>('/api/service', requestData);
+    return get(response, 'data.data', {});
   }
 
   static async getCountry(country: string): Promise<apiModels.CrmCountry[]> {

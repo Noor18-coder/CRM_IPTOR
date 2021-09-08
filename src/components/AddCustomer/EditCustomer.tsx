@@ -191,7 +191,8 @@ const EditCustomer: React.FC<Props> = (data) => {
                 CustomerDetailsApi.updateContactDetails(customerFields);
             }
             else {
-                customerFields.businessPartner = customerData.data.businessPartner
+                customerFields.businessPartner = customerData.data.businessPartner;
+                customerFields.ACTIVE = true
                 CustomerDetailsApi.addContactDetails(customerFields);
             }
         }

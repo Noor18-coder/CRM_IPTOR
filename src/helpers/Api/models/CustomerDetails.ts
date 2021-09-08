@@ -70,6 +70,15 @@ export interface CustomerDetailsContactsGroupItemResponse {
     data: CustomerDetailsContactsGroupItem[]
 }
 
+export interface CustomerDeleteParams {
+    businessPartner: string,
+    contactDC: string
+}
+
+export interface CustomerDeleteResponse {
+    data: CustomerDeleteParams
+}
+
 export interface  CrmCountry {
   country: string,
   description: string,

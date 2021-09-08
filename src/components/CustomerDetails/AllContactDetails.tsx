@@ -35,7 +35,16 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
         setTimeout(function () {
             window.location.reload(false);
             dispatch(setBusinessPartnerLoader(false));
-        }, 1000);
+        }, 3000);
+    }
+
+    const deleteContact = (customerId: string, contactId: string) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        dispatch(setBusinessPartnerLoader(true));
+        CustomerDetailsApi.deleteContact(customerId, contactId);
+        setTimeout(function () {
+            window.location.reload(false);
+            dispatch(setBusinessPartnerLoader(false));
+        }, 3000);
     }
   
     return (
@@ -58,11 +67,15 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
                                             <p>{obj.email ? obj.email : '--'}</p>
                                             <p>{obj.phone ? obj.phone : '--'}</p> <br />
                                             <p>{obj.ADDRESS ? obj.ADDRESS : '--'}</p>
-                                            {/*<p>{obj.ADDRESS_2 ? obj.ADDRESS_2 : '--'}</p>*/}
-                                            </div>
+                                        </div>
                                         <div className="contact-right-card">
-                                            <Image src={ImageConfig.EDIT_ICON} className={obj.ACTIVE ? 'action-icon' : ''} alt="Edit" title="Edit" onClick={obj.ACTIVE ? toggleDrawer(true, 'contact fields', obj.contactDC ? obj.contactDC.toString() : '') : undefined} />
-                                    </div>
+                                           {obj.ACTIVE &&
+                                                <>
+                                                    <Image className="card-delete action-icon" height="20" src={ImageConfig.DEL_ICON} alt="Delete" title="Delete" onClick={deleteContact(obj.businessPartner ? obj.businessPartner.toString() : '', obj.contactDC ? obj.contactDC.toString() : '')} />
+                                                    <Image src={ImageConfig.EDIT_ICON} className="action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, 'contact fields', obj.contactDC ? obj.contactDC.toString() : '')} />
+                                                </>
+                                           }
+                                        </div>
                                     </Card.Body>
                                         <Card.Footer className="text-muted right-align">
                                         <ul className="list-inline contact-footer">
