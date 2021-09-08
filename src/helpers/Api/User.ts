@@ -9,7 +9,7 @@ export class User {
 
   private static apiUserProfleMethod = 'apiUserProfile.get';
 
-  private static apiGetAllUsers = 'users.get';
+  private static apiGetAllUsers = 'crmUsers.get';
 
   /**
    * Helper function to fetch sales order list

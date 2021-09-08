@@ -96,3 +96,36 @@
     border-left-color: rgba($persian-green,0.07);
     color: $persian-green;
 }
+
+//red bg
+.hbreadcrumb li a.reject {
+    background-color: #EB617C;
+    color: $white;
+}
+
+.hbreadcrumb li a.reject:after {
+    border-left-color: #EB617C;
+    color: $white;
+}
+
+//yellow bg
+.hbreadcrumb li a.submit {
+    background-color: #FFDF99;
+    color: #E09900;
+}
+
+.hbreadcrumb li a.submit:after {
+    border-left-color: #FFDF99;
+    color: $white;
+}
+
+//gray bg
+.hbreadcrumb li a.lost {
+    background-color: #6D899D;
+    color: #DAE2E7;
+}
+
+.hbreadcrumb li a.lost:after {
+    border-left-color: #6D899D;
+    color: #DAE2E7;
+}

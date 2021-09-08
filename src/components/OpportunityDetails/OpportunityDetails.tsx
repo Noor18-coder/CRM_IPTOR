@@ -94,6 +94,8 @@ export const OpportunityDetails: React.FC = (props: any) => {
 
   React.useEffect(() => {
     fetchOpportunityDetails(opportunityId);
+    dispatch(openOpportunityForm({ open: false }));
+    document.body.classList.remove('body-scroll-hidden');
   }, []);
 
   const getBasicInfo = (basicInfo: models.OpportunityDetailsDefault) => {
@@ -139,17 +141,17 @@ export const OpportunityDetails: React.FC = (props: any) => {
 
   const openEditForm = (groupName: string) => {
     document.body.classList.add('body-scroll-hidden');
-    dispatch(openOpportunityForm({ open: true, groupName }));
+    dispatch(openOpportunityForm({ open: true, groupName, action: 'edit' }));
   };
 
   const openOpportunityBasicEdit = () => {
     document.body.classList.add('body-scroll-hidden');
-    dispatch(openOpportunityForm({ open: true, groupName: 'opportunity_defaults' }));
+    dispatch(openOpportunityForm({ open: true, groupName: 'opportunity_defaults', action: 'edit' }));
   };
 
   const openAddContactForm = () => {
     document.body.classList.add('body-scroll-hidden');
-    dispatch(openOpportunityForm({ open: true, groupName: 'add_contact' }));
+    dispatch(openOpportunityForm({ open: true, groupName: 'add_contact', action: 'edit' }));
   };
 
   const deleteOpportunity = () => {
@@ -160,7 +162,7 @@ export const OpportunityDetails: React.FC = (props: any) => {
 
   const assignOpportunity = () => {
     document.body.classList.add('body-scroll-hidden');
-    dispatch(openOpportunityForm({ open: true, groupName: 'assign_opportunity' }));
+    dispatch(openOpportunityForm({ open: true, groupName: 'assign_opportunity', action: 'edit' }));
   };
 
   const openAddItemForm = (action: string, data?: models.Product) => {
@@ -174,7 +176,7 @@ export const OpportunityDetails: React.FC = (props: any) => {
       });
     } else {
       document.body.classList.add('body-scroll-hidden');
-      dispatch(openOpportunityForm({ open: true, groupName: action, data }));
+      dispatch(openOpportunityForm({ open: true, groupName: action, data, action: 'edit' }));
     }
   };
 
@@ -191,14 +193,14 @@ export const OpportunityDetails: React.FC = (props: any) => {
   return (
     <>
       <Header page={1} />
-      {loading ? (
+      {loading || state.enviornmentConfigs.loadingMask ? (
         <Loader component="opportunity" />
       ) : (
         <section className="main-wrapper opportunity">
           <div className="container-fluid">
             <NavSection backToOpportunityList={backToOpportunityList} popover={popover} />
-            {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} /> : null}
-            {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} /> : null}
+            {defaultOpptyDetail ? <OpportunityInfo data={defaultOpptyDetail} reloadOpportunityDetailsPage={reloadOpportunity} /> : null}
+            {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} reloadOpportunityDetailsPage={reloadOpportunity} /> : null}
             <section className="sec-info-accordion">
               {opptyDataBasicGroup?.length ? (
                 <InfoAccordion title="Basics" data={opptyDataBasicGroup} openEditOpportunity={openOpportunityBasicEdit} />

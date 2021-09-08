@@ -18,9 +18,10 @@
             margin-bottom: 24px;
 
             .prod-name {
-                width: 30%;
+                width: 20%;
 
                 p { 
+                    margin-bottom: 8px;
                     font: {
                         size: $base-font-size + 4;
                         weight: $font-weight-bold;
@@ -43,11 +44,13 @@
 
             .mid-sec {
                 width: 50%;
+                
 
                 ul {
                     display: grid;
                     grid-template-columns: 33.3% 33.3% 33.3%;
                     grid-template-rows: 100% auto;
+                    margin-bottom: 0;
 
                     li {
                         width: 100%;
@@ -75,11 +78,12 @@
             }
 
             .sec-status {
-                width: 20%;
+                width: 25%;
                 text-align: right;
 
                 ul {
                     margin-top: 12px;
+                    margin-bottom: 0;
 
                     li {
                         &.grade {
@@ -108,13 +112,97 @@
                             }
                         }
 
+                        &.reject {
+                            background: #FBDBE1;
+                            padding: 8px 16px;
+                            position: relative;
+                            @include border-radius(20px);
+
+                            font: {
+                                size: $base-font-size + 2;
+                                weight: $font-weight-bold;
+                            }
+
+                            color: #EB617C;
+                            margin-right: 60px;
+
+                            &::after {
+                                position: absolute;
+                                content: '';
+                                width: 1px;
+                                top: 5px;
+                                right: -30px;
+                                bottom: 5px;
+                                background: $limed-spruce;
+                            }
+                        }
+
+                        &.submit {
+                            background: #FFDF99;
+                            padding: 8px 16px;
+                            position: relative;
+                            @include border-radius(20px);
+
+                            font: {
+                                size: $base-font-size + 2;
+                                weight: $font-weight-bold;
+                            }
+
+                            color: #E09900;
+                            margin-right: 60px;
+
+                            &::after {
+                                position: absolute;
+                                content: '';
+                                width: 1px;
+                                top: 5px;
+                                right: -30px;
+                                bottom: 5px;
+                                background: $limed-spruce;
+                            }
+                        }
+
+                        &.lost {
+                            background: #EEF0F2;
+                            padding: 8px 16px;
+                            position: relative;
+                            @include border-radius(20px);
+
+                            font: {
+                                size: $base-font-size + 2;
+                                weight: $font-weight-bold;
+                            }
+
+                            color: #2F3C46;
+                            margin-right: 60px;
+
+                            &::after {
+                                position: absolute;
+                                content: '';
+                                width: 1px;
+                                top: 5px;
+                                right: -30px;
+                                bottom: 5px;
+                                background: $limed-spruce;
+                            }
+                        }
+
                         &.status {
                             color: $persian-green;
+                            text-transform: capitalize;
 
                             font: {
                                 size: $base-font-size + 4;
                                 weight: $font-weight-semibold;
                             }
+                        }
+
+                        &.rejectStatus {
+                            color: #EB617C;
+                        }
+
+                        &.submitStatus {
+                            color: #2F3C46;
                         }
                     }
                 }
@@ -157,6 +245,18 @@
                     .ghost-btn {
                         margin-left: 16px;
                     }
+
+                    .reject-btn {
+                        margin-left: 16px;
+                    }
+                    
+                    .approver-reject-btn{
+                        margin-left: 16px;
+                    }
+
+                    .approver-approve-btn{
+                        margin-left: 16px;
+                    }
                 }
             }
 
@@ -166,7 +266,7 @@
         }
 
         .sec-info-accordion {
-            
+            padding-bottom: 40px;
         }
     }
 }
@@ -243,7 +343,7 @@
     align-items: center;
     text-align: right;
     text-transform: capitalize;
-    color: #DAE2E7;
+    color: #2F3C46;
     padding-left: 172px;
     padding-top: 17px;
 }
@@ -269,4 +369,11 @@
 
 .opportunity-edit-form {
     margin-top:20px;
+}
+
+.action-btn {
+    .approver-reject-btn,
+    .approver-approve-btn {
+        margin-left: 16px;
+    }
 }

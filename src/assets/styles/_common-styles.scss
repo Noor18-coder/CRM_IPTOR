@@ -174,9 +174,104 @@ form {
     border: solid 1px $persian-green;
     padding: 11px 16px;
     @include border-radius($border-radius);
+    background: #fff;
     &:hover{
         background: $persian-green;
         color: $white;
+    }
+}
+
+.reject-btn{
+    @include text-link($persian-green, $persian-green, 0.8);
+    color: #EB617C;
+    border: solid 1px #EB617C;
+    padding: 11px 16px;
+    @include border-radius($border-radius);
+    background: #fff;
+    &:hover{
+        background: #EB617C;
+        color: $white!important;
+    }
+    &:focus {
+        color: #EB617C;
+    }
+}
+
+.approver-reject-btn{
+    @include text-link($persian-green, $persian-green, 0.8);
+    color: #fff;
+    border: solid 1px #EB617C;
+    padding: 8px 25px;
+    @include border-radius($border-radius);
+    background: #EB617C;
+    &:hover{
+        background: #ee5271;
+        color: $white!important;
+    }
+    &:focus {
+        color: #fff;
+    }
+}
+
+.approver-approve-btn{
+    @include text-link($persian-green, $persian-green, 0.8);
+    color: #fff;
+    border: solid 1px #00A3A5;
+    padding: 8px 25px;
+    @include border-radius($border-radius);
+    background: #00A3A5;
+    &:hover{
+        background: #039396;
+        color: $white!important;
+    }
+    &:focus {
+        color: #fff;
+    }
+}
+
+.btn-icon{
+    width: 18px;
+    margin-right: 5px;
+}
+
+.submit-btn{
+    @include text-link($persian-green, $persian-green, 0.8);
+    color: #E09900;
+    border: solid 1px #E09900;
+    padding: 11px 16px;
+    @include border-radius($border-radius);
+    background: #fff;
+    &:hover{
+        background: #E09900;
+        color: $white!important;
+    }
+    &:focus {
+        color: #E09900;
+    }
+}
+
+.approval-btn {
+    background: #2F3C46;
+    color: $white;
+    padding: 12px 24px;
+    display: block;
+    text-align: center;
+    @include border-radius($border-radius);
+    position: relative;
+    width: 100%;
+    border: none;
+
+    font: {
+        family: $base-font-family;
+        size: $base-font-size + 2;
+        weight: $font-weight-semibold;
+    }
+
+    &:hover {
+        text-decoration: none;
+        outline: none;
+        border: none;
+        color: #fff;
     }
 }
 
@@ -301,6 +396,10 @@ form {
     padding: 16px 24px 28px 28px;
 } 
 
+.no-prod-data-txt {
+    padding: 8px 24px 16px 0px
+} 
+
 .stepone-next-btn {
     background: $limed-spruce;
     color: $white;
@@ -329,6 +428,10 @@ form {
         text-decoration: none;
         outline: none;
         border: none;
+    }
+
+    &.inactive {
+        background: $geyser;
     }
 
     &.done {

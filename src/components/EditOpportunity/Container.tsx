@@ -8,6 +8,7 @@ import Loader from '../Shared/Loader/Loader';
 import { AppState } from '../../store/store';
 import EditOpportunity from './EditOpportunity';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
+import ApprovalPopup from '../Approvals/ApprovalPopup';
 
 interface Props {
   reloadOpportunityDetailsPage: () => void;
@@ -30,11 +31,21 @@ const Container: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
       {state.addOpportunity.loader ? <Loader /> : null}
       {isMobile || isTablet ? (
         state.opportuntyDetails.editOportunity.open ? (
-          <EditOpportunity reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+          state.opportuntyDetails.editOportunity.action === 'edit' ? (
+            <EditOpportunity reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+          ) : state.opportuntyDetails.editOportunity.action === 'approval' ? (
+            <ApprovalPopup reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+          ) : null
         ) : null
       ) : (
         <Drawer anchor="right" open={state.opportuntyDetails.editOportunity.open}>
-          {state.opportuntyDetails.editOportunity.open ? <EditOpportunity reloadOpportunityDetailsPage={closeDrawerAndRefresh} /> : null}
+          {state.opportuntyDetails.editOportunity.open ? (
+            state.opportuntyDetails.editOportunity.action === 'edit' ? (
+              <EditOpportunity reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+            ) : state.opportuntyDetails.editOportunity.action === 'approval' ? (
+              <ApprovalPopup reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+            ) : null
+          ) : null}
         </Drawer>
       )}
     </>

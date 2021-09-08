@@ -8,9 +8,8 @@ export class StagesInfo {
   private static apiMethod = 'mopSalesStages.get';
 
   /**
-   * Helper function to fetch sales order list
-   * @param params user id
-   * @returns information about user
+   * Helper function to fetch Stage Info
+   * @returns information about Stage Info
    */
   static async get(): Promise<StageInfoResponse> {
     const requestData = new ApiRequest(this.apiMethod);

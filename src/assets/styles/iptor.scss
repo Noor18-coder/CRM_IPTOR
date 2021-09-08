@@ -264,7 +264,7 @@ body {
     }
 
     footer {
-        position: sticky;
+        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
@@ -314,6 +314,7 @@ body {
     @import 'contact-address-customers';
     @import './mediaqueries';
     @import 'reports';
+    @import 'notification';
 }
 
 .company-container {

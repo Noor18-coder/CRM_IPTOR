@@ -22,7 +22,7 @@ export interface CustomerDetailsDefault {
   numberOfInactiveOpportunities: number;
   phone: string;
   subsidiaryEntities: [];
-  APP_FROM_IPTOR: [];
+  productFamily: [];
   CURRENT_SYSTEM: string;
   CUST_CLASSIFICATION: string;
   CUSTOMER_AT_RISK: boolean;
@@ -30,7 +30,7 @@ export interface CustomerDetailsDefault {
   DO_NOT_CONTACT: boolean;
   GLOBAL_PARENT: number;
   IBS_ASW_RELEASE: number;
-  INDUSTRY: string;
+  industry: string;
   OWNER_ID: string;
   PERP_USE_MAINT_CONV: boolean;
   REFERENCEABLE: boolean;

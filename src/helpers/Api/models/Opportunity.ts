@@ -24,6 +24,8 @@ export interface OpportunityListItem {
   itemExist: boolean;
   attributeExist: boolean;
   forecastCategory: string;
+  approver: string;
+  approvalStatus: string;
 }
 
 export interface OpportunityListParams {
@@ -36,6 +38,8 @@ export interface OpportunityListParams {
   searchField?: string;
   selectOppRecordType?: string;
   selectCustomer?: string;
+  selectApprover?: string;
+  selectApprovalStatus?: string;
   activeOp?: boolean;
 }
 

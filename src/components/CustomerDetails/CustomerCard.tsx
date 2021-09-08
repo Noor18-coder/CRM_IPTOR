@@ -24,7 +24,7 @@ export interface Data {
 
 const CustomerCard: React.FC<Data> = (props) => {
   const {
-    data: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, APP_FROM_IPTOR },
+    data: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily },
     contactsData,
   } = props;
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -210,8 +210,8 @@ const CustomerCard: React.FC<Data> = (props) => {
         <div className="cust-group">
           <p>{i18n.t('appFromIptor')}</p>
         </div>
-        {APP_FROM_IPTOR
-          ? APP_FROM_IPTOR.map((name: any) => {
+        {productFamily
+          ? productFamily.map((name: any) => {
               return (
                 <div className="group-sec">
                   <ul className="list-inline">

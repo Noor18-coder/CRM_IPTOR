@@ -1,5 +1,6 @@
 import { Product } from './Product';
 import { OpportunityContact } from './Contacts';
+import { ApprovalLogsDefault, InitiateSubmitApprovalPopupData } from './Approvals';
 
 export interface OpportunityDetailsDefault {
   opportunityId: string;
@@ -31,6 +32,11 @@ export interface OpportunityDetailsDefault {
   totalPsValue?: number;
   totIncrementalOppValue?: number;
   totalOpportunityNetValue?: number;
+  defaultApprover?: string;
+  approvalRequired?: boolean;
+  approver?: string;
+  level?: number;
+  approvalStatus?: string;
 }
 
 export interface OpportunityDetailsGroupItem {
@@ -87,4 +93,8 @@ export interface OpportunityEditOptions {
   open?: boolean;
   groupName?: string;
   data?: Product;
+  action?: string;
+  approvalHistory?: any;
+  submitApprovalData?: InitiateSubmitApprovalPopupData;
+  subGroupName?: string;
 }

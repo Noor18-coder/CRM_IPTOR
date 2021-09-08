@@ -6,8 +6,14 @@ import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
 import * as models from '../../helpers/Api/models';
 
+const regex = /^-?\d+\.?\d*$/;
+
 interface Props {
   reloadOpportunityDetailsPage: () => void;
+}
+
+interface ErrorMessages {
+  [index: string]: string;
 }
 
 const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
@@ -15,6 +21,7 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   const [oldAttributeValues, setOldAtrributeValues] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
   const [item, setItem] = React.useState<models.Product>();
   const [attributeFields, setAttributeFields] = React.useState<models.AttributeField[]>([]);
+  const [errors, setErrorMessages] = React.useState<ErrorMessages>({});
 
   const [attributesSet, setAttributesSet] = React.useState<models.AttributeValueAndType[]>([]);
 
@@ -52,6 +59,11 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
 
   const getFields = async () => {
     const fields = await Attributes.getAttributeTypes('SROMOPI');
+    const tempObject = { ...errors };
+    fields.forEach((obj: models.AttributeField) => {
+      tempObject[obj.attributeType] = '';
+    });
+    setErrorMessages(tempObject);
     setAttributeFields(fields);
   };
 
@@ -69,6 +81,25 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
       getAttributeValues(data.itemId);
     }
   }, []);
+
+  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
+    const element = document.getElementById(id) as HTMLInputElement;
+    const field = attributeFields.find((obj: models.AttributeField) => obj.attributeType === id);
+    if (field && field.valueFormat === 'N' && value.length && !value.match(regex)) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Please enter numeric value',
+      });
+      element.style.border = '1px solid #ED2024';
+    } else if (field && field.valueFormat === 'N') {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+      element.style.border = '1px solid #DAE2E7';
+    }
+  };
 
   return (
     <div className="add-contacts">
@@ -112,7 +143,9 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                       placeholder={obj.description}
                       id={obj.attributeType}
                       onChange={setValue}
+                      onBlur={onBlur}
                     />
+                    <span className="form-hints">{errors[obj.attributeType]}</span>
                   </div>
                 );
               })
@@ -120,7 +153,7 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
         </form>
         <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
           <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
-            Done
+            Save
           </button>
         </div>
       </div>

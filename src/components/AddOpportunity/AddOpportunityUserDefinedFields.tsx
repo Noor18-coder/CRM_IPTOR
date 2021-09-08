@@ -18,8 +18,18 @@ import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields
 import { saveOpportunityParams, saveOpportunityAttributes, setOpportunityLoader } from '../../store/AddOpportunity/Actions';
 import DateInput from '../Shared/Picker/DateInput';
 
+const regex = /^-?\d+\.?\d*$/;
+
 interface Props {
   changeStep: (num: number) => void;
+}
+
+export interface IStringList {
+  [index: string]: string;
+}
+
+interface ErrorMessages {
+  [index: string]: string;
 }
 
 const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
@@ -30,6 +40,8 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
   const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
   const [attributesSet, setAttributesSet] = React.useState<UserDefinedFieldReduxParams[]>([]);
   const [mandatoryFields, setMandatoryFields] = React.useState<string[]>([]);
+  const [nextButtonEnabled, setNextButtonEnabled] = React.useState<boolean>(true);
+  const [errors, setErrorMessages] = React.useState<ErrorMessages>();
 
   React.useEffect(() => {
     const oppRecordType = state.addOpportunity.opportunityDefaultParams.oppRecordType || '';
@@ -40,9 +52,26 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
       return obj.oppRecordType.toLowerCase() === oppRecordType?.toLowerCase();
     });
     const fields = selectedOpportunityRecordType?.MANDATORY_FIELDS || [];
+    const defaultErrorMessages: ErrorMessages = {
+      currency: '',
+      estimatedValue: '',
+      endDate: '',
+    };
+    fields.forEach((obj: string) => {
+      defaultErrorMessages[obj] = '';
+    });
+    setErrorMessages(defaultErrorMessages);
     setMandatoryFields(fields);
     getAttributes(fields);
   }, []);
+
+  React.useEffect(() => {
+    if (opportunity?.currency && opportunity?.endDate && opportunity?.estimatedValue && validateAttributes()) {
+      setNextButtonEnabled(false);
+    } else {
+      setNextButtonEnabled(true);
+    }
+  }, [opportunity, attributesSet]);
 
   const getAttributes = async (fields: string[]) => {
     dispatch(setOpportunityLoader(true));
@@ -55,7 +84,6 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     });
     setAttributes(attributeFields);
 
-    console.log(attributeFields);
     const attributesWithValues = attributeFields.filter((obj: AttributeField) => {
       return obj.valuesExist === true;
     });
@@ -65,16 +93,32 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     dispatch(setOpportunityLoader(false));
   };
 
-  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const elementIndex = attributesSet.findIndex((element: UserDefinedFieldReduxParams) => element.attributeType === e.currentTarget.id);
-
-    if (elementIndex === -1) {
-      const attribute: UserDefinedFieldReduxParams = { attributeType: e.currentTarget.id, attributeValue: e.currentTarget.value };
-      setAttributesSet([...attributesSet, attribute]);
+  const selectOnBlur = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { id, value } = e.currentTarget;
+    const inputElement = document.getElementById(id) as HTMLInputElement;
+    if (isValidAttributeValue(id, value)) {
+      inputElement.style.border = '1px solid #DAE2E7';
     } else {
-      const newArray = [...attributesSet];
-      newArray[elementIndex].attributeValue = e.currentTarget.value;
-      setAttributesSet(newArray);
+      inputElement.style.border = '1px solid #ED2024';
+    }
+  };
+
+  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { id, value } = e.currentTarget;
+    const inputElement = document.getElementById(id) as HTMLInputElement;
+    if (isValidAttributeValue(id, value)) {
+      const elementIndex = attributesSet.findIndex((element: UserDefinedFieldReduxParams) => element.attributeType === id);
+      inputElement.style.border = '1px solid #DAE2E7';
+      if (elementIndex === -1) {
+        const attribute: UserDefinedFieldReduxParams = { attributeType: id, attributeValue: value };
+        setAttributesSet([...attributesSet, attribute]);
+      } else {
+        const newArray = [...attributesSet];
+        newArray[elementIndex].attributeValue = value;
+        setAttributesSet(newArray);
+      }
+    } else {
+      inputElement.style.border = '1px solid #ED2024';
     }
   };
 
@@ -90,51 +134,114 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
       ...opportunity,
       endDate: key,
     });
+
+    if (key) {
+      setErrorMessages({
+        ...errors,
+        endDate: '',
+      });
+    } else {
+      setErrorMessages({
+        ...errors,
+        endDate: 'Field cannot be left blank',
+      });
+    }
   };
 
   const onNextButtonClick = () => {
-    if (validate() && validateAttrubutes()) {
-      changeStep(3);
-      dispatch(saveOpportunityParams(opportunity));
-      dispatch(saveOpportunityAttributes(attributesSet));
-    } else {
-      alert('Please enter all mandatory fields.');
-    }
+    changeStep(3);
+    dispatch(saveOpportunityParams(opportunity));
+    dispatch(saveOpportunityAttributes(attributesSet));
   };
 
   const setValue = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const elementIndex = attributesSet.findIndex((element: UserDefinedFieldReduxParams) => element.attributeType === e.currentTarget.id);
-
-    if (elementIndex === -1) {
-      const attribute: UserDefinedFieldReduxParams = { attributeType: e.currentTarget.id, attributeValue: e.currentTarget.value };
-      setAttributesSet([...attributesSet, attribute]);
+    const { id, value } = e.currentTarget;
+    const inputElement = document.getElementById(id) as HTMLInputElement;
+    if (isValidAttributeValue(id, value)) {
+      const elementIndex = attributesSet.findIndex((element: UserDefinedFieldReduxParams) => element.attributeType === id);
+      inputElement.style.border = '1px solid #DAE2E7';
+      if (elementIndex === -1) {
+        const attribute: UserDefinedFieldReduxParams = { attributeType: id, attributeValue: value };
+        setAttributesSet([...attributesSet, attribute]);
+      } else {
+        const newArray = [...attributesSet];
+        newArray[elementIndex].attributeValue = value;
+        setAttributesSet(newArray);
+      }
     } else {
-      const newArray = [...attributesSet];
-      newArray[elementIndex].attributeValue = e.currentTarget.value;
-      setAttributesSet(newArray);
+      inputElement.style.border = '1px solid #ED2024';
     }
   };
 
-  const validate = () => {
-    if (opportunity?.endDate && opportunity?.estimatedValue && opportunity?.currency) {
-      return true;
-    }
-    return false;
-  };
-
-  const validateAttrubutes = () => {
-    let check = true;
-    if (mandatoryFields.length !== attributesSet.length - 1) {
+  const isValidAttributeValue = (id: string, value: string): boolean => {
+    const inputElement = document.getElementById(id) as HTMLInputElement;
+    if (value === '' || value.includes('Select')) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Field cannot be left blank',
+      });
+      inputElement.style.border = '1px solid #ED2024';
       return false;
+    } else {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+      inputElement.style.border = '1px solid #DAE2E7';
     }
+
+    const field: AttributeField | undefined = attributes && attributes.find((elem: AttributeField) => elem.attributeType === id);
+
+    if (field && field.valueFormat === 'N' && value.length && !value.match(regex)) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Please enter numeric value',
+      });
+      return false;
+    } else {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+    }
+    return true;
+  };
+
+  const validateField = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
+
+    const element = document.getElementById(id) as HTMLInputElement;
+    if (value === '' || value.includes('Select')) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Field cannot be left blank',
+      });
+      element.style.border = '1px solid #ED2024';
+    } else {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+      element.style.border = '1px solid #DAE2E7';
+    }
+  };
+
+  const validateAttributes = () => {
+    let check = true;
+    const newErrors = { ...errors };
     mandatoryFields.forEach((field: string) => {
-      const index = attributesSet.findIndex((obj: UserDefinedFieldReduxParams) => {
+      const index = attributesSet.find((obj: UserDefinedFieldReduxParams) => {
         return obj.attributeType === field;
       });
-      if (!attributesSet[index].attributeValue) {
+      if (!index) {
+        newErrors[field] = 'Fields cannot be left blank';
+        check = false;
+      } else if (index && !index.attributeValue) {
+        newErrors[field] = 'Fields cannot be left blank';
         check = false;
       }
     });
+    setErrorMessages(newErrors);
     return check;
   };
 
@@ -169,7 +276,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                     <label className="opp-label" htmlFor="currency">
                       Opportunity Currency
                     </label>
-                    <select className="form-control iptor-dd" id="currency" onChange={setOpportunityDefaultParam}>
+                    <select className="form-control iptor-dd" id="currency" onChange={setOpportunityDefaultParam} onBlur={validateField}>
                       <option disabled selected>
                         Select currency
                       </option>
@@ -177,6 +284,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                         return <option value={obj.currency}>{obj.currency}</option>;
                       })}
                     </select>
+                    <span className="form-hints">{errors?.currency}</span>
                   </div>
 
                   <div className="form-group oppty-form-elements">
@@ -188,13 +296,16 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                       className="form-control"
                       placeholder="Enter Total Deal Price"
                       id="estimatedValue"
+                      onBlur={validateField}
                       onChange={setOpportunityDefaultParam}
                     />
+                    <span className="form-hints">{errors?.estimatedValue}</span>
                   </div>
 
                   <div className="form-group oppty-form-elements">
                     <span className="opp-label">Close Date</span>
                     <DateInput onDateSelect={onDateChange} />
+                    <span className="form-hints">{errors?.endDate}</span>
                   </div>
 
                   {attributes?.length
@@ -207,6 +318,8 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                               attributeType={obj.attributeType}
                               options={attributeValues}
                               onSelect={onInputValueChange}
+                              onBlur={selectOnBlur}
+                              error={errors && errors[obj.attributeType]}
                             />
                           );
                         } else {
@@ -218,22 +331,29 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                               <input
                                 type="text"
                                 className="form-control"
-                                placeholder={`${obj.description} : ${obj.valueFormat}`}
+                                placeholder={`${obj.description}`}
                                 id={obj.attributeType}
                                 onBlur={setValue}
                               />
+                              <span className="form-hints">{`${errors && errors[obj.attributeType]}`}</span>
                             </div>
                           );
                         }
                       })
                     : null}
                 </form>
-                <button type="button" className="stepone-next-btn" onClick={onNextButtonClick}>
-                  Next
-                  <span className="right-whit-arrow">
-                    <img alt="Next" src={ImageConfig.CHEVRON_RIGHT_WHITE} />
-                  </span>
-                </button>
+                <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
+                  <button
+                    type="button"
+                    disabled={nextButtonEnabled}
+                    className={nextButtonEnabled ? 'stepone-next-btn inactive' : 'stepone-next-btn '}
+                    onClick={onNextButtonClick}>
+                    Next
+                    <span className="right-whit-arrow">
+                      <img alt="Next" src={ImageConfig.CHEVRON_RIGHT_WHITE} />
+                    </span>
+                  </button>
+                </div>
               </>
             )}
           </div>
@@ -249,9 +369,11 @@ interface SelectProps {
   attributeType: string;
   options: UserDefinedFieldsValueDropDown | undefined;
   onSelect: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onBlur: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  error?: string;
 }
 
-const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attributeType, options, onSelect }) => {
+const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attributeType, options, onSelect, onBlur, error }) => {
   const attributeValues = options
     ? options.data.find((obj: DropDownValues) => {
         return obj.attributeId === attributeId;
@@ -260,7 +382,7 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attribute
   return (
     <div className="form-group oppty-form-elements">
       <label htmlFor={attributeType}>{description}</label>
-      <select className="form-control iptor-dd" id={attributeType} onChange={onSelect}>
+      <select className="form-control iptor-dd" id={attributeType} onBlur={onBlur} onChange={onSelect}>
         <option disabled selected>
           Select {description}
         </option>
@@ -268,6 +390,7 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attribute
           return <option value={obj.valueField}>{obj.valueField}</option>;
         })}
       </select>
+      <span className="form-hints">{error}</span>
     </div>
   );
 };

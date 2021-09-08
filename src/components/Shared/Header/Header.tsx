@@ -106,13 +106,17 @@ const Header: React.FC<Props> = ({ page }) => {
             </li>
 
             <li className={currentPage === 4 ? `${activeClass} active` : activeClass}>
-              <button className="nav-link navbar-avatar header-notification" aria-expanded="false" data-animation="scale-up" type="button">
+              <a
+                className="nav-link navbar-avatar header-notification"
+                href="/notifications"
+                aria-expanded="false"
+                data-animation="scale-up"
+                role="button">
                 <span className="avatar avatar-online">
-                  <img src={ImageConfig.NAV_NOTIFICATION_ICON} alt="..." />
+                  <img src={page === 4 ? ImageConfig.NAV_NOTIFICATION_ACTIVE_ICON : ImageConfig.NAV_NOTIFICATION_ICON} alt="..." />
                   <i>Notifications</i>
-                  <span className="notifications-badge" />
                 </span>
-              </button>
+              </a>
             </li>
           </ul>
 

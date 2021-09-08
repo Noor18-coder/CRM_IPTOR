@@ -38,7 +38,7 @@ export const OpportunityDefaultFields: AddOpportunityField[] = [
     reduxKey: 'crmOpportunityTypes',
   },
   {
-    description: 'End Date',
+    description: 'Close Date',
     attributeType: 'endDate',
     valueFormatDesc: 'ALPHANUMERIC',
     valueFormat: 'A',

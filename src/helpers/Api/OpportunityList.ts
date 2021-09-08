@@ -33,6 +33,8 @@ export default class OpportunityList {
       selectCloseDateTo: otherparams?.selectCloseDateTo,
       selectOppRecordType: otherparams?.selectOppRecordType,
       selectCustomer: otherparams?.selectCustomer,
+      selectApprover: otherparams?.selectApprover,
+      selectApprovalStatus: otherparams?.selectApprovalStatus,
       activeOp: otherparams?.activeOp,
     };
     const requestData = new ApiRequest<OpportunityListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });

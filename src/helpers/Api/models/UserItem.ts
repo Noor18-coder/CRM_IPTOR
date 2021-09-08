@@ -7,8 +7,21 @@ export interface UserItem {
   description: string;
   language?: string;
   currentEnvironment?: CompanyInfoItem[];
-  selectedCompany: string;
+  selectedCompany?: string;
   role?: string;
+  status?: boolean;
+  connectedGroupProfile?: string;
+  groupProfile?: boolean;
+  interactiveProcessingOk?: boolean;
+  defaultEnquiryStdSystemUnit?: string;
+  defaultEnquiryStdSystemUnitP?: string;
+  disPeriodChangeAllowed?: boolean;
+  defaultSalesOrderType?: string;
+  defaultOrderTypeReq?: string;
+  EMAIL?: string[];
+  MANAGER?: string;
+  PHONE?: string[];
+  ROLE?: string;
 }
 
 export interface UserParams {

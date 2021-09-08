@@ -8,6 +8,7 @@ import {
   AddItemToOpportunityResponse,
   DeleteCustomerContactParams,
   AddCustomerContactRequestParams,
+  UpdateOpportunityResponse,
 } from './models';
 import { ApiRequest } from './ApiRequest';
 
@@ -47,9 +48,9 @@ export default class AddOpportunityApi {
    * @param opportunity: Object contains all required fields to create opportunity.
    *
    */
-  static async update(opportunity: AddOpportunityDefaultParams): Promise<AddOpportunityResponse> {
+  static async update(opportunity: AddOpportunityDefaultParams): Promise<UpdateOpportunityResponse> {
     const requestData = new ApiRequest<AddOpportunityDefaultParams>(this.opportunitUpdateMethod, opportunity);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    const response = await axios.post<UpdateOpportunityResponse>('/api/service', requestData);
     return get(response, 'data');
   }
 

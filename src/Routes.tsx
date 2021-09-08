@@ -8,6 +8,7 @@ import CustomerDetails from './components/CustomerDetails/CustomerDetails';
 import Dashboard from './components/Dashboard/Dashboard';
 import { BusinessPartners } from './components/Customer/CustomerList';
 import Reports from './components/Reports/Reports';
+import NotificationList from './components/Notifications/NotificationList';
 
 function Routes() {
   return (
@@ -19,6 +20,7 @@ function Routes() {
       <ProtectedRoute path="/customers" component={BusinessPartners} exact />
       <ProtectedRoute path="/cust-details" component={CustomerDetails} exact />
       <ProtectedRoute path="/reports" component={Reports} exact />
+      <ProtectedRoute path="/notifications" component={NotificationList} exact />
     </Router>
   );
 }

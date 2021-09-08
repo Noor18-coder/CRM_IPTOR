@@ -19,6 +19,14 @@ import * as actionTypes from './Types';
 import { AppState } from '../store';
 import { OpportunityType, StagesInfo, CurrencyInfo, Attributes, CountryInfo, ForeCastsInfo } from '../../helpers/Api';
 
+export const CUSTOMER_PARAMS = {
+  PRODUCT_FAMILY: 'productFamily',
+  INDUSTRY: 'industry',
+  ROLE: 'ROLE',
+  CUSTOMER_FILE: 'SRONAM',
+  CONTACTS_FILE: 'SROMOPCH',
+};
+
 /** Action to set auth state logged in status */
 export const saveOpptyTypes: ActionCreator<actionTypes.SaveOpportunityTypes> = (opportunityTypes: models.OpportunityType[]) => {
   return {
@@ -223,7 +231,7 @@ export const getCustomerContactRoles: ActionCreator<
   ThunkAction<Promise<actionTypes.SaveOpportunityContactRoles>, AppState, undefined, actionTypes.SaveOpportunityContactRoles>
 > = () => {
   return async (dispatch: Dispatch) => {
-    const attributeType = await Attributes.getAttributeType('ROLE', 'SROMOPCH');
+    const attributeType = await Attributes.getAttributeType(CUSTOMER_PARAMS.ROLE, CUSTOMER_PARAMS.CONTACTS_FILE);
     const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
     return dispatch(saveOpportunityContactRoles(attributeValues.items));
   };
@@ -232,9 +240,17 @@ export const getCustomerContactRoles: ActionCreator<
 export const getCustomerProducts: ActionCreator<ThunkAction<Promise<actionTypes.SaveProductInfo>, AppState, undefined, actionTypes.SaveProductInfo>> =
   () => {
     return async (dispatch: Dispatch) => {
-      const attributeType = await Attributes.getAttributeType('APP_FROM_IPTOR', 'SRONAM');
-      const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
-      return dispatch(saveProductInfo(attributeValues.items));
+      const attributeType = await Attributes.getAttributeType(CUSTOMER_PARAMS.PRODUCT_FAMILY, CUSTOMER_PARAMS.CUSTOMER_FILE);
+      if (attributeType.data) {
+        const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
+        if (attributeValues.items) {
+          return dispatch(saveProductInfo(attributeValues.items));
+        } else {
+          return dispatch(saveProductInfo([]));
+        }
+      } else {
+        return dispatch(saveProductInfo([]));
+      }
     };
   };
 
@@ -251,8 +267,16 @@ export const getCustomerIndustry: ActionCreator<
   ThunkAction<Promise<actionTypes.SaveIndustryInfo>, AppState, undefined, actionTypes.SaveIndustryInfo>
 > = () => {
   return async (dispatch: Dispatch) => {
-    const attributeType = await Attributes.getAttributeType('INDUSTRY', 'SRONAM');
-    const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
-    return dispatch(saveIndustryInfo(attributeValues.items));
+    const attributeType = await Attributes.getAttributeType(CUSTOMER_PARAMS.INDUSTRY, CUSTOMER_PARAMS.CUSTOMER_FILE);
+    if (attributeType.data) {
+      const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
+      if (attributeValues.items) {
+        return dispatch(saveIndustryInfo(attributeValues.items));
+      } else {
+        return dispatch(saveIndustryInfo([]));
+      }
+    } else {
+      return dispatch(saveIndustryInfo([]));
+    }
   };
 };

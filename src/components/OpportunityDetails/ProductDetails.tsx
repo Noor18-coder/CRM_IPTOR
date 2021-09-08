@@ -60,7 +60,7 @@ export const ProductAccordian: React.FC<Props> = ({ title, data, openAddItemForm
                   </Table>
                 );
               }
-              return <div className="no-data-txt"> No Records Found </div>;
+              return <div className="no-prod-data-txt"> No Records Found </div>;
             })()}
           </div>
         </Accordion.Collapse>

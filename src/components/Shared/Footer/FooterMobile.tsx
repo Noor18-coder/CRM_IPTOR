@@ -32,14 +32,13 @@ const FooterMobile: React.FC<Props> = ({ page }) => {
             </a>
           </div>
           <div className={page === 4 ? `${className} active-menu` : className}>
-            <span className="notification">
-              <span className="red-dot" />
+            <a href="/notifications">
               <img
                 src={page === 4 ? ImageConfig.NAV_NOTIFICATION_ACTIVE_ICON : ImageConfig.NAV_NOTIFICATION_ICON}
-                alt="Notification"
-                title="Notification"
+                alt="Notifications"
+                title="Notifications"
               />
-            </span>
+            </a>
           </div>
         </div>
       </div>

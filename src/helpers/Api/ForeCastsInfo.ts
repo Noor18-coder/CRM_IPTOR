@@ -8,9 +8,8 @@ export class ForeCastsInfo {
   private static apiMethod = 'crmForecastCategories.get';
 
   /**
-   * Helper function to fetch sales order list
-   * @param params user id
-   * @returns information about user
+   * Helper function to fetch ForeCastInfo
+   * @returns information about ForeCastInfo
    */
   static async get(): Promise<ForeCastInfoResponse> {
     const requestData = new ApiRequest(this.apiMethod);

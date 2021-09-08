@@ -1,0 +1,275 @@
+.sliding-panel-container {
+    .sliding-panel {
+            .stage-level-container {
+                .stage-level-section {
+                    .manager-row,
+                    .president-row {
+                        .lft-col{
+                            padding:0;
+                        }
+                        .rgt-col {
+                            .txt-approved {
+                                color: $persian-green;
+                                text-transform: capitalize;
+                            }
+
+                            .txt-rejected {
+                                color: $mandy;
+                                text-transform: capitalize;
+                            }
+
+                            .txt-submitted {
+                                color: #E09900;
+                                text-transform: capitalize;
+                            }
+                        }
+                    }
+
+                    .stage-row {
+                        margin-top: 24px;
+
+
+                        .lft-col {
+                            padding:0;
+                            font: {
+                                weight: $font-weight-semibold;
+                                size: $base-font-size + 4;
+                            }
+
+                            span {
+                                display: block;
+                                padding-bottom: 4px;
+
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+                        }
+
+                        .rgt-col {
+                            .stage-status {
+                                @include border-radius(20px);
+                                padding: 12px 16px;
+                                display: inline-block;
+                                margin-left: auto;
+                                margin-right: 0;
+                                text-transform: capitalize;
+
+                                font: {
+                                    weight: $font-weight-semibold;
+                                    size: $base-font-size + 2;
+                                }
+
+                                &.rejected {
+                                    background: $azalea;
+                                    color: $mandy;
+                                }
+
+                                &.approved {
+                                    background: #E9F9F9;
+                                    color: #00A3A5;
+                                }
+
+                                &.submitted {
+                                    background: #FFDF99;
+                                    color: #E09900;
+                                }
+                            }
+
+                            .stage-dt {
+                                margin-top: 8px;
+
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+                        }
+                    }
+
+                    .manager-row {
+                        margin-top: 32px;
+                        margin-bottom: 24px;
+
+                        .lft-col {
+                            font: {
+                                weight: $font-weight-semibold;
+                                size: $base-font-size + 4;
+                            }
+
+                            span {
+                                display: block;
+                                padding-bottom: 4px;
+
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+                        }
+
+                        .rgt-col {
+                            .txt-approved {
+                                text-align: right;
+
+                                font: {
+                                    weight: $font-weight-semibold;
+                                    size: $base-font-size + 2;
+                                }
+                            }
+
+                            .txt-rejected {
+                                text-align: right;
+
+                                font: {
+                                    weight: $font-weight-semibold;
+                                    size: $base-font-size + 2;
+                                }
+                            }
+
+                            .txt-submitted {
+                                text-align: right;
+
+                                font: {
+                                    weight: $font-weight-semibold;
+                                    size: $base-font-size + 2;
+                                }
+                            }
+
+                            .stage-dt {
+                                margin-top: 8px;
+
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+                        }
+                    }
+
+                    .president-row {
+                        margin-top: 32px;
+
+                        .lft-col {
+                            font: {
+                                weight: $font-weight-semibold;
+                                size: $base-font-size + 4;
+                            }
+
+                            span {
+                                display: block;
+                                padding-bottom: 4px;
+
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+                        }
+
+                        .rgt-col {
+                            .txt-rejected {
+                                text-align: right;
+
+                                font: {
+                                    weight: $font-weight-semibold;
+                                    size: $base-font-size + 2;
+                                }
+                            }
+
+                            .stage-dt {
+                                margin-top: 8px;
+
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+                        }
+                    }
+
+                    .section-comments {
+                        .title {
+                            margin-top: 32px;
+                            margin-bottom: 16px;
+
+                            font: {
+                                weight: $font-weight-bold;
+                                size: $base-font-size + 4;
+                            }
+                        }
+
+                        .user-comment-lists {
+                            border-bottom: solid 1px $geyser;
+
+                            .user-comment {
+                                margin-bottom: 0;
+                                padding-bottom: 16px;
+
+                                .username-dt {
+                                    .align-lft {
+                                        float: left;
+                                        margin-bottom:0;
+
+                                        font: {
+                                            weight: $font-weight-semibold;
+                                            size: $base-font-size;
+                                        }
+                                    }
+
+                                    .align-rgt {
+                                        float: right;
+                                        margin-bottom:0;
+
+                                        font: {
+                                            weight: $font-weight-semibold;
+                                            size: $base-font-size;
+                                        }
+                                    }
+                                }
+
+                                .clear {
+                                    clear: both;
+                                    height:1px;
+                                }
+
+                                .comments-para {
+                                    margin-top: 8px;
+                                    line-height: 18px;
+                                    color: rgba($limed-spruce, 0.8);
+
+                                    font: {
+                                        weight: $font-weight-regular;
+                                        size: $base-font-size + 2;
+                                    }
+                                }
+
+                                &:last-child {
+                                    border-bottom: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+}
+
+
+
+
+@media (max-width: 767.98px) {
+    .sliding-panel-container {
+        .sliding-panel {
+            &.approval-history {
+                .title-row {
+                    padding-left: 44px;
+                    .panel-close-icon{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}

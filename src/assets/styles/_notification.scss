@@ -1,0 +1,382 @@
+.section-notification {
+    .notification-list-items {
+        padding: 10px;
+        padding-bottom: 50px;
+
+        .table-body-row {
+            display: grid;
+            grid-template-columns: 20% 15% 13% 19% 15% 18%;
+            grid-template-rows: 100% auto;
+            margin-bottom: 2px;
+            border: 1px solid #fff;
+            box-sizing: border-box;
+            border-radius: 4px;
+            background-color: #fff;
+            @include transition;
+
+            &.band-red {
+                position: relative;
+                cursor: pointer;
+
+                &::before {
+                    position: absolute;
+                    content: '';
+                    left: 0;
+                    top: 16px;
+                    bottom: 16px;
+                    width: 3px;
+                    background: $mandy;
+                }
+            }
+
+            &:hover {
+                border: 1px solid #00A3A5;
+                box-sizing: border-box;
+                border-radius: 4px;
+            }
+
+            .table-cell {
+                height: 58px;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                padding: 10px 0px 10px 24px;
+                border-radius: inherit;
+
+                font: {
+                    size: $base-font-size;
+                    weight: $font-weight-semibold;
+                }
+
+                line-height: 19px;
+                /* identical to box height */
+                text-transform: capitalize;
+                color: $limed-spruce;
+
+                &.last-cell {
+                    padding-right: 24px;
+                }
+
+                .o-name {
+                    font-weight: 600;
+                }
+
+                .o-number {
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 16px;
+                    text-transform: uppercase;
+                    display: block;
+                    color: $bermuda-gray;
+                }
+
+                .o-forecast {
+                    font-weight: 600;
+                }
+
+                .o-quarter {
+                    font-weight: 600;
+                }
+
+                .o-size {
+                    font-weight: 600;
+                    padding-right: 24px;
+                }
+
+                .status-approved {
+                    color: $persian-green;
+                }
+
+                .status-pending {
+                    color: $tangerine;
+                }
+
+                .status-rejected {
+                    color: $mandy;
+                }
+
+                .status-newcustomer {
+                    color: $limed-spruce;
+                }
+
+                .activate {
+                    color: $persian-green;
+                }
+
+                .close-dt {
+                    color: $mandy;
+                    padding-top: 4px;
+                    padding-left: 32px;
+                    position: relative;
+
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        left: 0;
+                        top: 1px;
+                        height: 24px;
+                        width: 24px;
+                        background: url(../images/clock.svg) no-repeat;
+                        background-size: cover;
+                    }
+                }
+
+                .movedtoq {
+                    font: {
+                        size: $base-font-size;
+                        weight: $font-weight-semibold;
+                    }
+
+                    background: $mercury;
+                    color: $limed-spruce;
+                    @include border-radius(24px);
+                    line-height: 19px;
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    text-transform: uppercase;
+                    display: inline-block;
+                    padding: 8px 14px;
+                }
+
+                .closed {
+                    font: {
+                        size: $base-font-size;
+                        weight: $font-weight-semibold;
+                    }
+
+                    background: $aqua-spring;
+                    color: $persian-green;
+                    @include border-radius(24px);
+                    line-height: 19px;
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    text-transform: uppercase;
+                    display: inline-block;
+                    padding: 8px 14px;
+                }
+
+                .nav-more-menu {
+                    width: 24px;
+                    height: 24px;
+                    cursor: pointer;
+                }
+            }
+
+            &.f-upside {
+                .o-stage {
+                    background: #FBDBE1;
+                    color: #EB617C;
+                }
+            }
+
+            &.f-closed-won {
+                .o-stage {
+                    background: #E9F9F9;
+                    color: #00A3A5;
+                }
+
+                .o-forecast {
+                    color: #00A3A5;
+                }
+            }
+
+            &.f-open-rejected {
+                .o-stage {
+                    background: #FBDBE1;
+                    color: #EB617C;
+                }
+
+                .o-forecast {
+                    color: #EB617C;
+                }
+            }
+        }
+    }
+
+    .mob-notification-list-items {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+@media (min-width: 321px) and (max-width: 767.98px) {
+    .notification-list-items {
+        display: none;
+    }
+
+    .mob-notification-list-items {
+        display: block !important;
+        margin-bottom: 80px;
+
+        .notification-card {
+            margin-left: 12px;
+            margin-right: 12px;
+            margin-top: 8px;
+            padding: 16px;
+            background: $white;
+            @include border-radius($border-radius);
+            box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+
+            &.band-red {
+                position: relative;
+                cursor: pointer;
+
+                &::before {
+                    position: absolute;
+                    content: '';
+                    left: 0;
+                    top: 24px;
+                    bottom: 24px;
+                    width: 3px;
+                    background: $mandy;
+                }
+            }
+
+            .customer-row {
+                margin-bottom: 16px;
+
+                .customer-name,
+                .price-date {
+                    font: {
+                        size: $base-font-size + 4;
+                        weight: $font-weight-bold;
+                    }
+
+                    color: $limed-spruce;
+                }
+
+                .customer-name .id,
+                .price-date .dt {
+                    font: {
+                        weight: $font-weight-semibold;
+                        size: $base-font-size - 2;
+                    }
+
+                    display: block;
+                    padding-top: 6px;
+                }
+
+                .price-date {
+                    text-align: right;
+                }
+            }
+
+            .status-row {
+
+                .status {
+                    font: {
+                        weight: $font-weight-bold;
+                        size: $base-font-size - 2;
+                    }
+
+                    padding-top: 10px;
+                    text-transform: uppercase;
+
+                    &.pending {
+                        color: $tangerine;
+                    }
+
+                    &.approved {
+                        color: $persian-green;
+                    }
+
+                    &.rejected {
+                        color: $mandy;
+                    }
+
+                    &.info {
+                        color: $limed-spruce;
+                    }
+
+                    &.txt-green{
+                        color: $persian-green;
+                    }
+
+                    &.tag-grey {
+                        border: solid 1px red;
+                        background: #EEF0F2;
+                    }
+                }
+
+                .status-position {
+                    .tags {
+                        font: {
+                            weight: $font-weight-bold;
+                            size: $base-font-size - 2;
+                        }
+
+                        @include border-radius(24px);
+                        padding: 8px 12px;
+                        text-transform: uppercase;
+
+                        &.tag-green {
+                            background: $jagged-ice;
+                            color: $persian-green;
+                        }
+
+                        &.tag-grey {
+                            background: $mercury;
+                            color: $limed-spruce;
+                        }
+
+                        &.tag-red {
+                            background: $azalea;
+                            color: $mandy;
+                        }
+
+                        &.tag-info {
+                            color: $limed-spruce;
+                        }
+
+
+                    }
+
+                    .txt {
+                        text-align: right;
+
+                        .cont {
+                            display: inline-block;
+                            margin-bottom: 4px;
+
+                            font: {
+                                size: $base-font-size - 2;
+                                weight: $font-weight-semibold;
+                            }
+
+                            &.txt-red {
+                                color: $mandy;
+                            }
+
+                            &.date {
+                                display: block;
+                            }
+                        }
+                    }
+
+                    .mood-status {
+                        padding-left: 8px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 767.98px) and (orientation:landscape) {}
+
+@media (min-width: 768px) and (max-width: 991.98px) {}
+
+@media (max-width: 991.98px) and (orientation:landscape) {}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {}
+
+@media (min-width: 1200px) {}

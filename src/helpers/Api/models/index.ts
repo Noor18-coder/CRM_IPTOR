@@ -18,3 +18,5 @@ export * from './Attributes';
 export * from './AddCustomer';
 export * from './Countries';
 export * from './ForeCastInfo';
+export * from './Approvals';
+export * from './Notes';

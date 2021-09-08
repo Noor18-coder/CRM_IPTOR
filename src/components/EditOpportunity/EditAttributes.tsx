@@ -7,14 +7,22 @@ import { AttributeField, AttributeValueAndType, AttributeValueObject, UpdateAttr
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import { Attributes } from '../../helpers/Api/Attributes';
 
+const regex = /^-?\d+\.?\d*$/;
+
 interface Props {
   reloadOpportunityDetailsPage: () => void;
 }
+
+interface ErrorMessages {
+  [index: string]: string;
+}
+
 const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
-  const [attributes, setFields] = React.useState<models.AttributeField[]>();
+  const [attributes, setFields] = React.useState<models.AttributeField[]>([]);
   const [attributeValues, setAttributeValues] = React.useState<models.UserDefinedFieldsValueDropDown>();
   const [attributesSet, setAttributesSet] = React.useState<AttributeValueAndType[]>([]);
+  const [errors, setErrorMessages] = React.useState<ErrorMessages>({});
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const elementIndex = attributesSet.findIndex((element: AttributeValueAndType) => element.attributeType === e.currentTarget.id);
@@ -33,6 +41,11 @@ const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     const fields = state.enviornmentConfigs.opportunityAttributes.filter((obj: models.AttributeField) => {
       return obj.group.toLowerCase() === state.opportuntyDetails.editOportunity.groupName;
     });
+    const tempObject = { ...errors };
+    fields.forEach((obj: models.AttributeField) => {
+      tempObject[obj.attributeType] = '';
+    });
+    setErrorMessages(tempObject);
     const attributesWithValues = fields.filter((obj: models.AttributeField) => {
       return obj.valuesExist === true;
     });
@@ -95,6 +108,25 @@ const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     });
   };
 
+  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
+    const element = document.getElementById(id) as HTMLInputElement;
+    const field = attributes.find((obj: models.AttributeField) => obj.attributeType === id);
+    if (field && field.valueFormat === 'N' && !value.match(regex)) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Please enter numeric value',
+      });
+      element.style.border = '1px solid #ED2024';
+    } else if (field && field.valueFormat === 'N') {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+      element.style.border = '1px solid #DAE2E7';
+    }
+  };
+
   return (
     <>
       <div className="opportunity-edit-form">
@@ -121,6 +153,7 @@ const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                     attributeType={obj.attributeType}
                     options={attributeValues}
                     onSelect={onInputValueChange}
+                    error={errors[obj.attributeType]}
                   />
                 ) : (
                   <div className="form-group oppty-form-elements">
@@ -131,10 +164,12 @@ const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                       type="text"
                       value={currentValue}
                       className="form-control"
-                      placeholder={`${obj.description} : ${obj.valueFormat}`}
+                      placeholder={`${obj.description}`}
                       id={obj.attributeType}
                       onChange={setValue}
+                      onBlur={onBlur}
                     />
+                    <span className="form-hints">{errors[obj.attributeType]}</span>
                   </div>
                 );
               })
@@ -143,7 +178,7 @@ const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
       </div>
       <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
         <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
-          Done
+          Save
         </button>
       </div>
     </>
@@ -157,9 +192,10 @@ interface SelectProps {
   options: models.UserDefinedFieldsValueDropDown | undefined;
   onSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   selected: string | undefined;
+  error?: string;
 }
 
-const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attributeType, options, selected, onSelect }) => {
+const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attributeType, options, selected, onSelect, error }) => {
   const attributeValues = options
     ? options.data.find((obj: models.DropDownValues) => {
         return obj.attributeId === attributeId;
@@ -178,6 +214,7 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attribute
           return <option value={obj.valueField}>{obj.valueField}</option>;
         })}
       </select>
+      <span className="form-hints">{error}</span>
     </div>
   );
 };

@@ -382,8 +382,8 @@
                             margin-right: 16px;
 
                             &.grade {
-                                background: $mercury;
-                                color: $limed-spruce;
+                                background: #d0eeee;
+                                color: #00A3A5;
                                 padding: 8px 16px;
                                 @include border-radius(20px);
 
@@ -404,6 +404,7 @@
 
                             &.status {
                                 color: $persian-green;
+                                text-transform: capitalize;
 
                                 font: {
                                     size: $base-font-size;
@@ -460,11 +461,12 @@
                             margin: 0px 12px 12px 12px;
 
                             li {
-                                background: $mercury;
-                                color: $gull-gray;
+                                background: #fff;
+                                color: #00A3A5;
                                 padding: 12px 15px;
                                 @include border-radius(50%);
                                 margin-right: 16px;
+                                border: 1px solid #00A3A5;
 
                                 font: {
                                     size: $base-font-size + 4;
@@ -491,8 +493,80 @@
                                         height: 0;
                                         border-left: 10px solid transparent;
                                         border-right: 10px solid transparent;
-                                        border-bottom: 10px solid $jagged-ice;
+                                        border-bottom: 10px solid #D0EEEE;
                                     }
+                                }
+
+                                &.reject {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #FBDBE1;
+                                    color: #EB617C;
+                                    border: solid 1px #EB617C;
+                                    position: relative;
+
+                                    &::after {
+                                        position: absolute;
+                                        content: '';
+                                        bottom: -14px;
+                                        left: 17px;
+                                        width: 0;
+                                        height: 0;
+                                        border-left: 10px solid transparent;
+                                        border-right: 10px solid transparent;
+                                        border-bottom: 10px solid #FBDBE1;
+                                    }
+                                }
+
+                                &.submit {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #FFDF99;
+                                    color: #E09900;
+                                    border: solid 1px #FFDF99;
+                                    position: relative;
+
+                                    &::after {
+                                        position: absolute;
+                                        content: '';
+                                        bottom: -14px;
+                                        left: 17px;
+                                        width: 0;
+                                        height: 0;
+                                        border-left: 10px solid transparent;
+                                        border-right: 10px solid transparent;
+                                        border-bottom: 10px solid #FFDF99;
+                                    }
+                                }
+
+                                &.lost {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #EEF0F2;
+                                    color: #2F3C46;
+                                    border: solid 1px #EEF0F2;
+                                    position: relative;
+                                }
+
+                                &.disabled {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #EEF0F2;
+                                    color: #9DB0BE;
+                                    border: solid 1px #EEF0F2;
+                                    position: relative;
                                 }
 
                                 &.ready {
@@ -537,13 +611,36 @@
                                     @include border-radius($border-radius);
                                     background: $limed-spruce;
                                     text-align: center;
-                                    padding: 12px 18px;
+                                    padding: 10px 10px;
                                     color: $white;
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                    margin-right: 10px;
+                                }
+
+                                .reject-text{
+                                    background: #EB617C;
+                                }
+
+                                .submit-text{
+                                    background: $white;
+                                    color: #E09900;
+                                    border: 1px solid #E09900;
                                 }
                             }
                         }
-
-
+                        .sec-change-reject{
+                            background: #FBDBE1;
+                        }
+                        .sec-change-submit{
+                            background: #FFDF99;
+                        }
+                        .sec-change-lost{
+                            background: #EEF0F2;
+                        }
+                        .sec-change-new{
+                            background: #D0EEEE;
+                        }
                     }
                 }
             }
@@ -804,10 +901,11 @@
                 width: 24px;
                 height: 24px;
                 display: block;
+                margin: 0 auto;
 
                 .red-dot {
                     position: absolute;
-                    right: -5px;
+                    right: 3px;
                     top: 1px;
                     width: 8px;
                     height: 8px;
@@ -1020,8 +1118,8 @@
                             margin-right: 16px;
 
                             &.grade {
-                                background: $mercury;
-                                color: $limed-spruce;
+                                background: #d0eeee;
+                                color: #00A3A5;
                                 padding: 8px 16px;
                                 @include border-radius(20px);
 
@@ -1042,6 +1140,7 @@
 
                             &.status {
                                 color: $persian-green;
+                                text-transform: capitalize;
 
                                 font: {
                                     size: $base-font-size;
@@ -1098,11 +1197,12 @@
                             margin: 0px 12px 12px 12px;
 
                             li {
-                                background: $mercury;
-                                color: $gull-gray;
+                                background: #fff;
+                                color: #00A3A5;
                                 padding: 12px 15px;
                                 @include border-radius(50%);
                                 margin-right: 16px;
+                                border: 1px solid #00A3A5;
 
                                 font: {
                                     size: $base-font-size + 4;
@@ -1130,6 +1230,78 @@
                                         border-left: 10px solid transparent;
                                         border-right: 10px solid transparent;
                                         border-bottom: 10px solid $jagged-ice;
+                                    }
+                                }
+
+                                &.reject {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #FBDBE1;
+                                    color: #EB617C;
+                                    border: solid 1px #EB617C;
+                                    position: relative;
+
+                                    &::after {
+                                        position: absolute;
+                                        content: '';
+                                        bottom: -14px;
+                                        left: 17px;
+                                        width: 0;
+                                        height: 0;
+                                        border-left: 10px solid transparent;
+                                        border-right: 10px solid transparent;
+                                        border-bottom: 10px solid #FBDBE1;
+                                    }
+                                }
+
+                                &.submit {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #FFDF99;
+                                    color: #E09900;
+                                    border: solid 1px #FFDF99;
+                                    position: relative;
+
+                                    &::after {
+                                        position: absolute;
+                                        content: '';
+                                        bottom: -14px;
+                                        left: 17px;
+                                        width: 0;
+                                        height: 0;
+                                        border-left: 10px solid transparent;
+                                        border-right: 10px solid transparent;
+                                        border-bottom: 10px solid #FFDF99;
+                                    }
+                                }
+
+                                &.lost {
+                                    font: {
+                                        size: $base-font-size + 4;
+                                        weight: $font-weight-bold;
+                                    }
+
+                                    background: #EEF0F2;
+                                    color: #2F3C46;
+                                    border: solid 1px #EEF0F2;
+                                    position: relative;
+
+                                    &::after {
+                                        position: absolute;
+                                        content: '';
+                                        bottom: -14px;
+                                        left: 17px;
+                                        width: 0;
+                                        height: 0;
+                                        border-left: 10px solid transparent;
+                                        border-right: 10px solid transparent;
+                                        border-bottom: 10px solid #EEF0F2;
                                     }
                                 }
 
@@ -1178,8 +1350,18 @@
                                 }
                             }
                         }
-
-
+                        .sec-change-reject{
+                            background: #FBDBE1;
+                        }
+                        .sec-change-submit{
+                            background: #FFDF99;
+                        }
+                        .sec-change-lost{
+                            background: #EEF0F2;
+                        }
+                        .sec-change-new{
+                            background: #D0EEEE;
+                        }
                     }
                 }
             }
@@ -1434,10 +1616,11 @@
                 width: 24px;
                 height: 24px;
                 display: block;
+                margin: 0 auto;
 
                 .red-dot {
                     position: absolute;
-                    right: -5px;
+                    right: 3px;
                     top: 1px;
                     width: 8px;
                     height: 8px;
@@ -1882,10 +2065,11 @@
                 width: 24px;
                 height: 24px;
                 display: block;
+                margin: 0 auto;
 
                 .red-dot {
                     position: absolute;
-                    right: -5px;
+                    right: 3px;
                     top: 1px;
                     width: 8px;
                     height: 8px;

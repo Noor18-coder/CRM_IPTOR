@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { get, pick } from 'lodash';
+import { get, pick, isArray } from 'lodash';
+import { Image } from 'react-bootstrap';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
-
+import i18n from '../../i18n';
+import errorIcon from '../../assets/images/error.png';
 import UserSearchField from '../Shared/Search/UserSearchField';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import { OpportunityDefaultFields } from '../../config/OpportunityDefaultFields';
@@ -11,9 +13,15 @@ import AsyncSearchInput from '../Shared/Search/AsyncSearchInput';
 import CustomerList from '../../helpers/Api/CustomerList';
 import DateInput from '../Shared/Picker/DateInput';
 
+const regex = /^-?\d+\.?\d*$/;
 interface Props {
   reloadOpportunityDetailsPage: () => void;
 }
+
+interface ErrorMessages {
+  [index: string]: string;
+}
+
 const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, [
@@ -32,10 +40,17 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   ]);
 
   const [opportunity, setOpportunity] = React.useState<models.AddOpportunityDefaultParams>(opportunityDetails);
-  const [fields, setOpportunityFields] = React.useState<models.AddOpportunityField[]>();
+  const [fields, setOpportunityFields] = React.useState<models.AddOpportunityField[]>([]);
+  const [errors, setErrorMessages] = React.useState<ErrorMessages>({});
+  const [updateError, setUpdateError] = React.useState<string>('');
 
   React.useEffect(() => {
     setOpportunityFields(OpportunityDefaultFields);
+    const tempObject = { ...errors };
+    fields.forEach((obj: models.AddOpportunityField) => {
+      tempObject[obj.attributeType] = '';
+    });
+    setErrorMessages(tempObject);
   }, []);
 
   const getValue = (key: any) => {
@@ -77,6 +92,23 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     });
   };
 
+  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
+
+    const field = fields.find((obj: models.AddOpportunityField) => obj.attributeType === id);
+    if (field && field.valueFormat === 'N' && !value.match(regex)) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Please enter numeric value',
+      });
+    } else if (field && field.valueFormat === 'N') {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+    }
+  };
+
   const onDateChange = (id: any, key: string) => {
     setOpportunity({
       ...opportunity,
@@ -85,9 +117,16 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   };
 
   const onNextButtonClick = async () => {
-    AddOpportunityApi.update(opportunity).then(() => {
+    const data: models.UpdateOpportunityResponse = await AddOpportunityApi.update(opportunity);
+    if (data && data.error) {
+      if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
+        setUpdateError(data.messages[0].text);
+      } else {
+        setUpdateError(i18n.t('commonErrorMessage'));
+      }
+    } else {
       reloadOpportunityDetailsPage();
-    });
+    }
   };
 
   const searchCustomers = async (key: string) => {
@@ -115,6 +154,12 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   return (
     <>
       <div className="opportunity-edit-form">
+        {updateError ? (
+          <p className="error">
+            <Image className="alert-icon" src={errorIcon} width={15} height={12} />
+            &nbsp; {updateError}
+          </p>
+        ) : null}
         <form>
           {fields?.length
             ? fields.map((obj: models.AddOpportunityField) => {
@@ -156,6 +201,7 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                       attributeType={obj.attributeType}
                       options={getValues(obj.reduxKey)}
                       onSelect={onInputValueChange}
+                      error={errors[obj.attributeType]}
                     />
                   );
                 }
@@ -171,7 +217,9 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
                       placeholder={`${obj.description} : ${obj.valueFormat}`}
                       id={obj.attributeType}
                       onChange={onInputValueChange}
+                      onBlur={onBlur}
                     />
+                    <span className="form-hints">{errors[obj.attributeType]}</span>
                   </div>
                 );
               })
@@ -180,7 +228,7 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
       </div>
       <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
         <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
-          Done
+          Save
         </button>
       </div>
     </>
@@ -193,9 +241,10 @@ interface SelectProps {
   options: models.DropDownValue[];
   onSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   selected: string | undefined;
+  error?: string;
 }
 
-const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options, selected, onSelect }) => {
+const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options, selected, onSelect, error }) => {
   return (
     <div className="form-group oppty-form-elements">
       <label htmlFor={attributeType} className="opp-label">
@@ -209,6 +258,7 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options
           return <option value={obj.valueField}>{obj.valueField}</option>;
         })}
       </select>
+      <span className="form-hints">{error}</span>
     </div>
   );
 };

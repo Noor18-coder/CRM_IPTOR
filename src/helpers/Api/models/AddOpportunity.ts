@@ -1,3 +1,5 @@
+import { ErrorMessage } from './Approvals';
+
 export interface AddOpportunityDefaultParams {
   area?: string;
   handler?: string;
@@ -20,6 +22,16 @@ export interface AddOpportunityResponse {
   data: {
     opportunityId: string;
   };
+}
+
+export interface UpdateOpportunityResponse {
+  approver?: string;
+  approvalStatus?: string;
+  minimumStage?: string;
+  approvalRequired?: boolean;
+  defaultApprover?: string;
+  error?: string;
+  messages?: ErrorMessage[];
 }
 
 export interface AddCustomerContactRequestParams {

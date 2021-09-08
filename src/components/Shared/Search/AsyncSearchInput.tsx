@@ -46,6 +46,5 @@ const AsynSearchInput: React.FC<Props> = ({ id, onSearch, onSearchItemSelect }) 
     />
   );
 };
-/* example-end */
 
 export default AsynSearchInput;

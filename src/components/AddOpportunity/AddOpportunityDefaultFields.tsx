@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import AsyncSearchInput from '../Shared/Search/AsyncSearchInput';
+import AsynSearchInput from '../Shared/Search/AsyncSearchInput';
 
 import { AppState } from '../../store/store';
 import ImageConfig from '../../config/ImageConfig';
@@ -20,6 +20,13 @@ interface Props {
   changeStep: (num: number) => void;
 }
 
+interface ErrorMessages {
+  desc?: string;
+  customer?: string;
+  stage?: string;
+  oppRecordType?: string;
+}
+
 const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
@@ -27,6 +34,8 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
   const [customerContacts, setCustomerContacts] = React.useState<CustomerDetailsContactsGroupItem[]>([]);
   const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
   const contextValue = React.useContext(Context);
+  const [nextButtonEnabled, setNextButtonEnabled] = React.useState<boolean>(true);
+  const [errors, setErrorMessages] = React.useState<ErrorMessages>();
 
   const searchCustomers = async (key: string) => {
     const data = await CustomerList.get(key, 20, 0);
@@ -39,12 +48,23 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
   };
 
   const onSearchItemSelect = async (data: any) => {
-    const selectItem: BusinessPartnerListItem = data[0];
-    setOpportunityField({
-      ...opportunity,
-      customer: selectItem.businessPartner,
-    });
-    loadCustomerContacts(selectItem.businessPartner);
+    if (data && data.length) {
+      const selectItem: BusinessPartnerListItem = data[0];
+      setOpportunityField({
+        ...opportunity,
+        customer: selectItem.businessPartner,
+      });
+      setErrorMessages({
+        ...errors,
+        customer: '',
+      });
+      loadCustomerContacts(selectItem.businessPartner);
+    } else {
+      setErrorMessages({
+        ...errors,
+        customer: 'Field cannot be left blank',
+      });
+    }
   };
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -63,19 +83,8 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
   };
 
   const onNextButtonClick = () => {
-    if (validate()) {
-      changeStep(2);
-      dispatch(saveOpportunityParams(opportunity));
-    } else {
-      alert('Please fill all mandatory fields.');
-    }
-  };
-
-  const validate = () => {
-    if (opportunity?.desc && opportunity?.oppRecordType && opportunity?.customer && opportunity?.stage) {
-      return true;
-    }
-    return false;
+    changeStep(2);
+    dispatch(saveOpportunityParams(opportunity));
   };
 
   const onCustomerContactSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -86,6 +95,33 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     });
     dispatch(setOpportunityContacts(selectedContact));
   };
+
+  const validateField = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
+
+    const element = document.getElementById(id) as HTMLInputElement;
+    if (value === '' || value.includes('Select')) {
+      setErrorMessages({
+        ...errors,
+        [id]: 'Field cannot be left blank',
+      });
+      element.style.border = '1px solid #ED2024';
+    } else {
+      setErrorMessages({
+        ...errors,
+        [id]: '',
+      });
+      element.style.border = '1px solid #DAE2E7';
+    }
+  };
+
+  React.useEffect(() => {
+    if (opportunity?.desc && opportunity?.oppRecordType && opportunity?.customer && opportunity?.stage) {
+      setNextButtonEnabled(false);
+    } else {
+      setNextButtonEnabled(true);
+    }
+  }, [opportunity]);
 
   React.useEffect(() => {
     if (contextValue?.customerId) {
@@ -122,7 +158,15 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                 <label htmlFor="desc" className="opp-label">
                   Opportunity Name
                 </label>
-                <input type="text" className="form-control" placeholder="Give opportunity a name" id="desc" onChange={onInputValueChange} />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Give opportunity a name"
+                  id="desc"
+                  onChange={onInputValueChange}
+                  onBlur={validateField}
+                />
+                <span className="form-hints">{errors?.desc}</span>
               </div>
               <div className="form-group oppty-form-elements">
                 <label htmlFor="customer" className="opp-label">
@@ -138,8 +182,9 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                     value={contextValue.customerName}
                   />
                 ) : (
-                  <AsyncSearchInput id="customer" onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
+                  <AsynSearchInput id="customer" onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
                 )}
+                <span className="form-hints">{errors?.customer}</span>
               </div>
 
               <div className="form-group oppty-form-elements">
@@ -160,7 +205,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                 <label htmlFor="stage" className="opp-label">
                   Select Stage
                 </label>
-                <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange}>
+                <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange} onBlur={validateField}>
                   <option disabled selected>
                     Select stage
                   </option>
@@ -168,10 +213,15 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                     return <option>{obj.salesStage}</option>;
                   })}
                 </select>
+                <span className="form-hints">{errors?.stage}</span>
               </div>
 
-              <div className="radiobtn-collection oppty-form-elements">
-                <span className="opp-label">Select opportunity type</span>
+              <div className="form-group oppty-form-elements">
+                <label htmlFor="oppty-type" className="opp-label">
+                  Select opportunity type
+                </label>
+                <br />
+                <span className="form-hints">{errors?.stage}</span>
                 <div className="opportunity-type-container">
                   {state.enviornmentConfigs.crmOpportunityTypes.length ? (
                     <OpportunityTypeList
@@ -190,8 +240,12 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
             </form>
           </div>
           <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-            <button type="button" className="stepone-next-btn" onClick={onNextButtonClick}>
-              Next
+            <button
+              type="button"
+              disabled={nextButtonEnabled}
+              className={nextButtonEnabled ? 'stepone-next-btn inactive' : 'stepone-next-btn '}
+              onClick={onNextButtonClick}>
+              NEXT
               <span className="right-whit-arrow">
                 <img src={ImageConfig.CHEVRON_RIGHT_WHITE} alt="Next Arrow" />
               </span>

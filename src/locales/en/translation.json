@@ -29,8 +29,20 @@
   "update": "Update",
   "basicInfo": "Basic Info",
   "moreInfo": "More Info",
-  "appFromIptor": "Applications From Iptor",
+  "appFromIptor": "Product Family",
   "addContact": "Add Contact",
   "addCustomerBtn": "Add Customer",
-  "save": "Save"
+  "save": "Save",
+  "approvalHistory": "View Approval History",
+  "resubmitApproval": "Resubmit For Approval",
+  "submittedApproval": "Submitted For Approval",
+  "approveHistory": "Approval History",
+  "submitApproval": "Submit For Approval",
+  "commonErrorMessage": "Something went wrong.",
+  "reject": "Reject",
+  "approve": "Approve",
+  "comment": "Comment",
+  "addComment": "Add comment here",
+  "approval": "Approval",
+  "changeApprover": "Change Approver"
 }

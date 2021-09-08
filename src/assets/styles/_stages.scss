@@ -1,0 +1,247 @@
+.stages {
+    padding: 0 !important;
+
+    .stage-lists {
+        margin-bottom: 0;
+
+        li {
+            min-width: 120px;
+            position: relative;
+            margin: 0;
+            margin-left: -10px;
+            padding: 10px 20px 10px 48px;
+            text-align: center;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-bottom-left-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-bottomleft: 5px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 16px;
+
+            span {
+                display: block;
+                font-size: 10px;
+                font-weight: 600;
+                padding-top: 0 !important;
+            }
+
+            &.active {
+                border: solid 1px #ffffff;
+                border-left: none;
+                border-right: none;
+                background: #00A3A5;
+                color: white;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    right: -24px;
+                    top: -1px;
+                    height: 56px;
+                    width: 24px;
+                    background-size: 22px;
+                    background: url("../../assets/images/stages/active.svg") no-repeat;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background: darken(#00A3A5, 3%);
+                    color: #fff;
+
+                    &::after {
+                        background: url("../../assets/images/stages/active-hover.svg") no-repeat;
+                    }
+                }
+            }
+
+            &.normal {
+                border: solid 1px #00A3A5;
+                border-right: none;
+                background: #ffffff;
+                color: #00A3A5;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    right: -24px;
+                    top: -1px;
+                    height: 56px;
+                    width: 24px;
+                    background-size: 22px;
+                    background: url("../../assets/images/stages/normal.svg") no-repeat;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background: #FBFCFD;
+                    color: #8b9ba7;
+
+                    &::after {
+                        background: url("../../assets/images/stages/normal-hover.svg") no-repeat;
+                    }
+                }
+            }
+
+            &.disabled {
+                border: solid 1px #fff;
+                border-left: none;
+                border-right: none;
+                background: #EEF0F2;
+                color: #9DB0BE;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    right: -24px;
+                    top: -1px;
+                    height: 56px;
+                    width: 24px;
+                    background-size: 22px;
+                    background: url("../../assets/images/stages/disabled.svg") no-repeat;
+                }
+
+                &:hover {
+                    background: #b6c4ce;
+                    color: #fff;
+
+                    &::after {
+                        background: url("../../assets/images/stages/disabled-hover.svg") no-repeat;
+                    }
+                }
+            }
+
+            &.rejected {
+                border: solid 1px #fff;
+                border-left: none;
+                border-right: none;
+                background: #EB617C;
+                color: #fff;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    right: -24px;
+                    top: -1px;
+                    height: 56px;
+                    width: 24px;
+                    background-size: 22px;
+                    background: url("../../assets/images/stages/rejected.svg") no-repeat;
+                }
+
+                &:hover {
+                    background: #D6415E;
+                    color: #fff;
+
+                    &::after {
+                        background: url("../../assets/images/stages/rejected-hover.svg") no-repeat;
+                    }
+                }
+            }
+
+            &.submit {
+                border: solid 1px #fff;
+                border-left: none;
+                border-right: none;
+                background: #FFDF99;
+                color: #E09900;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    right: -24px;
+                    top: -1px;
+                    height: 56px;
+                    width: 24px;
+                    background-size: 22px;
+                    background: url("../../assets/images/stages/submit.svg") no-repeat;
+                }
+
+                &:hover {
+                    background: darken(#FFDF99, 5%);
+                    color: #E09900;
+
+                    &::after {
+                        background: url("../../assets/images/stages/submit-hover.svg") no-repeat;
+                    }
+                }
+            }
+
+            &.lost {
+                border: solid 1px #fff;
+                border-left: none;
+                border-right: none;
+                background: #6D899D;
+                color: #fff;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    right: -24px;
+                    top: -1px;
+                    height: 56px;
+                    width: 24px;
+                    background-size: 22px;
+                    background: url("../../assets/images/stages/lost.svg") no-repeat;
+                }
+
+                &:hover {
+                    background: darken(#6D899D, 5%);
+                    color: #fff;
+
+                    &::after {
+                        background: url("../../assets/images/stages/lost-hover.svg") no-repeat;
+                    }
+                }
+            }
+
+            &:nth-child(1) {
+                z-index: 100;
+                padding-left: 30px;
+            }
+
+            &:nth-child(2) {
+                z-index: 99;
+            }
+
+            &:nth-child(3) {
+                z-index: 98;
+            }
+
+            &:nth-child(4) {
+                z-index: 97;
+            }
+
+            &:nth-child(5) {
+                z-index: 96;
+            }
+
+            &:nth-child(6) {
+                z-index: 95;
+            }
+
+            &:nth-child(7) {
+                z-index: 94;
+            }
+
+            &:nth-child(8) {
+                z-index: 93;
+            }
+
+            &:nth-child(9) {
+                z-index: 92;
+            }
+
+            &:nth-child(10) {
+                z-index: 91;
+            }
+
+            // &:hover {
+            //     cursor: pointer;
+            // }
+        }
+    }
+
+}
