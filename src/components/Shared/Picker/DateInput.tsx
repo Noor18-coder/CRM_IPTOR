@@ -28,6 +28,11 @@ interface props {
         onChange={onChange}
         placeholderText="Enter Date"
         className={'form-control'}
+        wrapperClassName="datePicker"
+        calendarClassName="calendar"
+        formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
+        popperPlacement="auto-start"
+        popperClassName="popperDatePicker"
       />
     );
     

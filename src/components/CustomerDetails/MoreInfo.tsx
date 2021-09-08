@@ -95,7 +95,7 @@ export const MoreInfoAccordianMobile: React.FC<OpportunityMoreInfoSection> = ({ 
                     <Accordion defaultActiveKey="0">
                         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
                             <span className="edit-subtitle">{key}</span>
-                            <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, title)} />
+                            <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon action-icon" alt="Edit" title="Edit" onClick={toggleDrawer(true, key)} />
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                             <DisplayGroupMobile title={key} data={data[key]} />

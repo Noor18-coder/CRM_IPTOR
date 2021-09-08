@@ -35,6 +35,8 @@ export interface OpportunityListParams {
   selectStageTo?:string;
   searchField?:string;
   selectOppRecordType?:string;
+  selectCustomer?: string;
+  activeOp?: boolean;
 }
 
 export interface OpportunityFilterItem {

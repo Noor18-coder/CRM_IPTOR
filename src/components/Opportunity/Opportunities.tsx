@@ -40,13 +40,14 @@ interface result {
   load: boolean
 }
 
-const Opportunities: React.FC = () => {
+const Opportunities: React.FC = (props: any) => {
   
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
   const isDesktop = useMediaQuery({ minWidth: 992 })
 
   const state:AppState  = useSelector((state: AppState) => state);
+  const customerState = props.location.state ? props.location.state: ''
   const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
   const [searchText, setSearchText] = React.useState<string>('');
@@ -54,8 +55,6 @@ const Opportunities: React.FC = () => {
   const [loader, setLoader] = React.useState<boolean>(false);
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
-
-    
 
   const newColumns = ColumnDefs.map((obj: any) => {
     if (obj.field == "handler") {
@@ -118,6 +117,10 @@ const Opportunities: React.FC = () => {
     if(searchText.length){
       filters.searchField = searchText;
       }
+    if(customerState){
+        filters.selectCustomer = customerState.selectCustomer;
+        filters.activeOp = customerState.activeOp;
+    }
     const data: any = await OpportunityList.get(state.auth.user.handler, '', 20, start, orderBy, filters);
     if (data && data.data && data.control?.more) {
       res.items = data.data.items;
@@ -150,6 +153,10 @@ const Opportunities: React.FC = () => {
     dispatch(saveOpportunityFilters(filterOptions));
       if (state.opportunities.opportunities.length === 0)
           setLoader(true)
+    history.replace({
+        ...props.location,
+        state: undefined,
+    });
   }, []);
 
   const onFilter = (obj: SelectOptionMethod) => {

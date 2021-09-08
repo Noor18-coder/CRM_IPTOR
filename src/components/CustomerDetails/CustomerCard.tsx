@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dispatch } from "redux";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router';
 import { Accordion, Card, Image } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import i18n from '../../i18n'
@@ -33,6 +34,7 @@ const CustomerCard:React.FC<Data> = (props) =>   {
   const [customerMoreInfoGroup, setCustomerMoreInfoGroup] = React.useState<models.IStringList>();
 
   const dispatch: Dispatch<any> = useDispatch();
+  const history = useHistory();
   const state: AppState = useSelector((state: AppState) => state);
   const customerAttributes = state.enviornmentConfigs.customerAttributes
 
@@ -81,6 +83,10 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         dispatch(setBusinessPartnerWindowActive(true));
         dispatch(setBusinessPartnerWindowGroup(groupType));
     };
+
+    const openOpptyList = (flag: boolean) => (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent) => {
+        history.push({ pathname: "/opportunities", state: { selectCustomer: props.data.businessPartner, activeOp: flag } })
+    }
 
     return (
       <>
@@ -180,12 +186,6 @@ const CustomerCard:React.FC<Data> = (props) =>   {
               </ul>
             </div>)
               }):null}
- 
-            {/* <div className="sec-status">
-            <ul className="list-inline"><li className="list-inline-item">
-            <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" /> 
-            <Image className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></li></ul>
-            </div> */}
       </section>
 
       <section className="sec-info-accordion">
@@ -198,8 +198,8 @@ const CustomerCard:React.FC<Data> = (props) =>   {
         </div>
         <div className="group-sec">
           <ul className="list-inline">
-          <li className="list-inline-item"><span className="cust-info">{numberOfActiveOpportunities} ACTIVE</span> </li>
-          <li className="list-inline-item"><span className="cust-info">{numberOfInactiveOpportunities} CLOSED</span></li>
+          <li className="list-inline-item"><span className={numberOfActiveOpportunities !== 0 ? "cust-info action-icon" : "cust-info"} onClick={numberOfActiveOpportunities !== 0 ? openOpptyList(true) : undefined}>{numberOfActiveOpportunities} ACTIVE</span> </li>
+          <li className="list-inline-item"><span className={numberOfInactiveOpportunities !== 0 ? "cust-info action-icon" : "cust-info"} onClick={numberOfInactiveOpportunities !== 0 ? openOpptyList(false) : undefined}>{numberOfInactiveOpportunities} CLOSED</span></li>
           <li className="list-inline-item"><span className="cust-info">{numberOfActiveOpportunities + numberOfInactiveOpportunities} TOTAL</span></li>
           </ul>
         </div>
