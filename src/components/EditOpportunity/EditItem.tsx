@@ -251,7 +251,7 @@ const EditItemForm: React.FC<FormFields> = ({ formFields }) => {
             : null}
         </form>
         <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-          <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
+          <button type="submit" className="stepone-next-btn done" onClick={onNextButtonClick}>
             Save
           </button>
         </div>

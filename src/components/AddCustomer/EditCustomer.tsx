@@ -526,7 +526,7 @@ const EditCustomer: React.FC<Props> = (data) => {
                   <button
                     className={fieldError ? 'customer-btn disable-link' : 'customer-btn'}
                     onClick={!fieldError ? updateCustomer : undefined}
-                    type="button">
+                    type="submit">
                     {key === 'add contact fields' ? i18n.t('addContact') : i18n.t('save')}
                   </button>
                 </div>
