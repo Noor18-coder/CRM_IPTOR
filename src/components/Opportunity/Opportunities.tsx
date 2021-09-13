@@ -232,7 +232,7 @@ const Opportunities: React.FC = (props: any) => {
                       onKeyPress={searchOpportunity}
                       placeholder="Search"
                     />
-                    <button type="button" aria-label="Search" className="search-settings-button" />
+                    {/* Commented non-working button <button type="button" aria-label="Search" className="search-settings-button" /> */}
                   </div>
                 </div>
               </div>

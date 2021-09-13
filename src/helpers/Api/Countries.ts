@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { get } from 'lodash';
-import { CountryInfoResponse, AreaInfoResponse } from './models';
+import { CountryInfoResponse, AreaInfoResponse, CountryListParams } from './models';
 import { ApiRequest } from './ApiRequest';
 
 export class CountryInfo {
@@ -9,8 +9,11 @@ export class CountryInfo {
 
   private static areaApiMethod = 'areas.get';
 
-  static async get(): Promise<CountryInfoResponse> {
-    const requestData = new ApiRequest(this.apiMethod);
+  static async get(countryParams?: CountryListParams): Promise<CountryInfoResponse> {
+    const params: CountryListParams = {
+      country: countryParams?.country,
+    };
+    const requestData = new ApiRequest<CountryListParams>(this.apiMethod, params, { orderBy: 'description' });
     const response = await axios.post<CountryInfoResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }

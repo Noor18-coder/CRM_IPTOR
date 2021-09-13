@@ -123,7 +123,7 @@ const CustomerCard: React.FC<Data> = (props) => {
                     {addressLine1}
                   </li>
                   <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
-                    <span>Region</span>
+                    <span>Area</span>
                     {area
                       ? area.map((data: Area) => {
                           return data.description;

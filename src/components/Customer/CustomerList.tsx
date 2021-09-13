@@ -173,9 +173,9 @@ export const BusinessPartners: React.FC = () => {
                       onKeyPress={searchBusinesspartner}
                       placeholder="Search"
                     />
-                    <button type="button" className="search-settings-button">
+                    {/* Commented non-working button <button type="button" className="search-settings-button">
                       &nbsp;
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>

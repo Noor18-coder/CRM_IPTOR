@@ -18,3 +18,7 @@ export interface AreaInfo {
 export interface AreaInfoResponse {
   items: AreaInfo[];
 }
+
+export interface CountryListParams {
+  country?: string;
+}

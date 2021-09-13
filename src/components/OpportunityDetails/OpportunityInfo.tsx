@@ -125,7 +125,9 @@ const OpportunityInfo: React.FC = () => {
       </section>
       <section className="sec-staging">
         <div className="d-flex justify-content-between title-row">
-          <div className="lft-col">Stage</div>
+          <div className="lft-col">
+            <p className="stage-bold">Stage</p>
+          </div>
           {data.approvalStatus === APPROVAL_STATUS.SUBMITTED && data.approver !== user && (
             <div className="rgt-col">
               Shared for approval with {getUserName(data.approver ? data.approver : '')}

@@ -12,7 +12,7 @@ const CustomerGridOptions = [
   {
     field: 'area',
     sortable: true,
-    headerName: 'Region',
+    headerName: 'Area',
     cellRenderer: (params: Record<string, any>): string => {
       return `<span class="c-region">${params.value ? params.value : ''}</span>`;
     },

@@ -128,6 +128,10 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
                   const activeCustomer = params.data && params.data.active;
                   return activeCustomer === false;
                 },
+                'inactive-oppt': function (params) {
+                  const activeOppty = params.data && params.data.activ;
+                  return activeOppty === false;
+                },
               }}
             />
           </div>
