@@ -1,11 +1,12 @@
 import { Action } from 'redux';
-import { AddBusinessPartnerDefaultParams, UserDefinedFieldReduxParams } from '../../helpers/Api/models';
+import * as models from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
 export enum AddBusinessPartnerTypes {
   SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS = 'SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS',
   CLEAR_ADD_DEFAULT_OBJECTS = 'CLEAR_ADD_DEFAULT_OBJECTS',
   SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE = 'SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE',
+  SAVE_BUSINESS_PARTNER_CONTACT = 'SAVE_BUSINESS_PARTNER_CONTACT',
   SET_ADD_BUSINESS_PARTNER_LOADER = 'SET_ADD_BUSINESS_PARTNER_LOADER',
   RESET_BUSINESS_PARTNER_DATA = 'RESET_BUSINESS_PARTNER_DATA',
   SET_ADD_BUSINESS_PARTNER_WINDOW = 'SET_ADD_BUSINESS_PARTNER_WINDOW',
@@ -17,12 +18,16 @@ export enum AddBusinessPartnerTypes {
 
 /** Action to save default parameters of business partner */
 export interface SaveBusinessPartnerParamAction extends Action<AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS> {
-  businessPartner: AddBusinessPartnerDefaultParams;
+  businessPartner: models.AddBusinessPartnerDefaultParams;
 }
 
 /** Action to save attributes (user defined) parameters of business partner */
 export interface SaveBusinessPartnerAddAttributeAction extends Action<AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE> {
-  attributes: UserDefinedFieldReduxParams[];
+  attributes: models.UserDefinedFieldReduxParams[];
+}
+
+export interface SaveBusinessPartnerContactAction extends Action<AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_CONTACT> {
+  contacts: models.CustomerDetailsContactsGroupItem[];
 }
 
 /** Authentication success action */
@@ -57,6 +62,7 @@ export interface SetUpdateCustomerError extends Action<AddBusinessPartnerTypes.S
 export type AddBusinessPartnerReduxActions =
   | SaveBusinessPartnerParamAction
   | SaveBusinessPartnerAddAttributeAction
+  | SaveBusinessPartnerContactAction
   | RemoveBusinessPartnerDataAction
   | SetAddBusinessPartnerLoaderAction
   | SetAddBusinessPartnerDrawerActive
@@ -68,11 +74,12 @@ export type AddBusinessPartnerReduxActions =
 /** Authentication state definition */
 export interface AddBusinessPartnerState {
   readonly addBusinessPartnerWindowActive: boolean;
-  readonly loader: boolean;
-  readonly businessPartnerDefaultParams: AddBusinessPartnerDefaultParams;
-  readonly attributes: UserDefinedFieldReduxParams[];
+  readonly businessPartnerDefaultParams: models.AddBusinessPartnerDefaultParams;
+  readonly attributes: models.UserDefinedFieldReduxParams[];
+  readonly contacts: models.CustomerDetailsContactsGroupItem[];
   readonly businessPartnerWindowGroup: string;
   readonly businessPartnerContactId: string;
+  readonly loader: boolean;
   readonly success: boolean;
   readonly error: string;
 }

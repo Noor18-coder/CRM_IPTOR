@@ -10,6 +10,7 @@ import {
   setBusinessPartnerWindowGroup,
   setBusinessPartnerContactId,
   setBusinessPartnerLoader,
+  deleteCustomerContact,
 } from '../../store/AddCustomer/Actions';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 
@@ -48,11 +49,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
 
   const deleteContact = (customerId: string, contactId: string) => {
     dispatch(setBusinessPartnerLoader(true));
-    CustomerDetailsApi.deleteContact(customerId, contactId);
-    setTimeout(function () {
-      window.location.reload(false);
-      dispatch(setBusinessPartnerLoader(false));
-    }, 3000);
+    dispatch(deleteCustomerContact(customerId, contactId));
   };
 
   return (

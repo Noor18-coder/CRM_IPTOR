@@ -14,6 +14,7 @@ export const createAddBusinessPartnerInitialState = (): AddBusinessPartnerState 
     addBusinessPartnerWindowActive: false,
     businessPartnerDefaultParams: {},
     attributes: [],
+    contacts: [],
     businessPartnerWindowGroup: '',
     businessPartnerContactId: '',
     success: false,
@@ -39,6 +40,11 @@ const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPar
       return {
         ...state,
         attributes: action.attributes,
+      };
+    case AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_CONTACT:
+      return {
+        ...state,
+        contacts: action.contacts,
       };
     case AddBusinessPartnerTypes.SET_ADD_BUSINESS_PARTNER_LOADER:
       return {

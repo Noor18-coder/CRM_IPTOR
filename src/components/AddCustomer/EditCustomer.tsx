@@ -9,12 +9,16 @@ import { AppState } from '../../store/store';
 import ImageConfig from '../../config/ImageConfig';
 
 import { UserDefinedField, UserDefinedFieldsValueDropDown, DropDownValues, DropDownValue } from '../../helpers/Api/models';
-import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, resetBusinessPartnerData } from '../../store/AddCustomer/Actions';
+import {
+  setBusinessPartnerWindowActive,
+  setBusinessPartnerLoader,
+  resetBusinessPartnerData,
+  updateCustomerContact,
+} from '../../store/AddCustomer/Actions';
 import { Attributes } from '../../helpers/Api/Attributes';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import AddCustomerApi from '../../helpers/Api/AddCustomer';
-import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 
 import { Context } from './CustomerContext';
 import DefaultFields from '../../helpers/utilities/customerDefaultFields';
@@ -46,6 +50,7 @@ const EditCustomer: React.FC<Props> = (data) => {
   const contextValue = React.useContext(Context);
   const key = groupType;
   const contactsId = contactId;
+  const contactData = state.addBusinessPartner.contacts;
 
   const getAttributes = async () => {
     dispatch(setBusinessPartnerLoader(true));
@@ -74,7 +79,7 @@ const EditCustomer: React.FC<Props> = (data) => {
       if (customerData) {
         if (contactField) {
           contactField.forEach((item: any) => {
-            const selectedContactData = customerData.contactsData.filter((items: any) => items.contactDC === contactId);
+            const selectedContactData = contactFields.filter((items: any) => items.contactDC === contactId);
             if (_.has(selectedContactData[0], item.attributeType)) {
               _.set(item, 'attributeValue', selectedContactData[0][item.attributeType]);
             }
@@ -154,18 +159,20 @@ const EditCustomer: React.FC<Props> = (data) => {
       const elementIndex = attributes.findIndex((element) => element.attributeType === id);
       const newArray = [...attributes];
       newArray[elementIndex].attributeValue = value;
-      if (value.length && dataObject.valueFormat === 'N' && !value.match(numberPattern)) {
-        dataObject.error = i18n.t('numericFieldError');
-        inputElement.style.border = '1px solid #ED2024';
-        setFieldError(true);
-      } else if (value.length && dataObject.attributeType === 'EMAIL' && !value.match(emailPattern)) {
-        dataObject.error = i18n.t('emailFieldError');
-        inputElement.style.border = '1px solid #ED2024';
-        setFieldError(true);
-      } else {
-        dataObject.error = '';
-        inputElement.style.border = '1px solid #DAE2E7';
-        setFieldError(false);
+      if (dataObject) {
+        if (value.length && dataObject.valueFormat === 'N' && !value.match(numberPattern)) {
+          dataObject.error = i18n.t('numericFieldError');
+          inputElement.style.border = '1px solid #ED2024';
+          setFieldError(true);
+        } else if (value.length && dataObject.attributeType === 'EMAIL' && !value.match(emailPattern)) {
+          dataObject.error = i18n.t('emailFieldError');
+          inputElement.style.border = '1px solid #ED2024';
+          setFieldError(true);
+        } else {
+          dataObject.error = '';
+          inputElement.style.border = '1px solid #DAE2E7';
+          setFieldError(false);
+        }
       }
       setAttributes(newArray);
     }
@@ -173,18 +180,20 @@ const EditCustomer: React.FC<Props> = (data) => {
       const elementIndex = defaultFields.findIndex((element: any) => element.attributeType === id);
       const newArray = [...defaultFields];
       newArray[elementIndex].attributeValue = value;
-      if (value === '') {
-        dataObject.error = i18n.t('blankFieldError');
-        inputElement.style.border = '1px solid #ED2024';
-        setFieldError(true);
-      } else if (value.length && dataObject.attributeType === 'phone' && !value.match(numberPattern)) {
-        dataObject.error = i18n.t('numericFieldError');
-        inputElement.style.border = '1px solid #ED2024';
-        setFieldError(true);
-      } else {
-        dataObject.error = '';
-        inputElement.style.border = '1px solid #DAE2E7';
-        setFieldError(false);
+      if (dataObject) {
+        if (value === '') {
+          dataObject.error = i18n.t('blankFieldError');
+          inputElement.style.border = '1px solid #ED2024';
+          setFieldError(true);
+        } else if (value.length && dataObject.attributeType === 'phone' && !value.match(numberPattern)) {
+          dataObject.error = i18n.t('numericFieldError');
+          inputElement.style.border = '1px solid #ED2024';
+          setFieldError(true);
+        } else {
+          dataObject.error = '';
+          inputElement.style.border = '1px solid #DAE2E7';
+          setFieldError(false);
+        }
       }
       setDefaultFields(newArray);
     }
@@ -192,18 +201,20 @@ const EditCustomer: React.FC<Props> = (data) => {
       const elementIndex = contactFields.findIndex((element: any) => element.attributeType === e.currentTarget.id);
       const newArray = [...contactFields];
       newArray[elementIndex].attributeValue = e.currentTarget.value;
-      if (value.length && dataObject.attributeType === 'email' && !value.match(emailPattern)) {
-        dataObject.error = i18n.t('emailFieldError');
-        inputElement.style.border = '1px solid #ED2024';
-        setFieldError(true);
-      } else if (value.length && dataObject.attributeType === 'phone' && !value.match(numberPattern)) {
-        dataObject.error = i18n.t('numericFieldError');
-        inputElement.style.border = '1px solid #ED2024';
-        setFieldError(true);
-      } else {
-        dataObject.error = '';
-        inputElement.style.border = '1px solid #DAE2E7';
-        setFieldError(false);
+      if (dataObject) {
+        if (value.length && dataObject.attributeType === 'email' && !value.match(emailPattern)) {
+          dataObject.error = i18n.t('emailFieldError');
+          inputElement.style.border = '1px solid #ED2024';
+          setFieldError(true);
+        } else if (value.length && dataObject.attributeType === 'phone' && !value.match(numberPattern)) {
+          dataObject.error = i18n.t('numericFieldError');
+          inputElement.style.border = '1px solid #ED2024';
+          setFieldError(true);
+        } else {
+          dataObject.error = '';
+          inputElement.style.border = '1px solid #DAE2E7';
+          setFieldError(false);
+        }
       }
       setContactFields(newArray);
     }
@@ -240,6 +251,13 @@ const EditCustomer: React.FC<Props> = (data) => {
         return dataItems;
       });
       getAttributesValues();
+      history.push({ pathname: '/cust-details', state: { custId: customerData.data.businessPartner } });
+      setTimeout(function () {
+        window.location.reload(false);
+        dispatch(setBusinessPartnerLoader(false));
+        dispatch(setBusinessPartnerWindowActive(false));
+        document.body.classList.remove('body-scroll-hidden');
+      }, 3000);
     }
     if (defaultFields) {
       defaultFields.forEach((item: any) => {
@@ -248,6 +266,13 @@ const EditCustomer: React.FC<Props> = (data) => {
       customerFields.businessPartner = customerData.data.businessPartner;
       setCustomerFields(customerFields);
       AddCustomerApi.update(customerFields);
+      history.push({ pathname: '/cust-details', state: { custId: customerData.data.businessPartner } });
+      setTimeout(function () {
+        window.location.reload(false);
+        dispatch(setBusinessPartnerLoader(false));
+        dispatch(setBusinessPartnerWindowActive(false));
+        document.body.classList.remove('body-scroll-hidden');
+      }, 3000);
     }
     if (contactFields) {
       contactFields.forEach((item: any) => {
@@ -255,20 +280,13 @@ const EditCustomer: React.FC<Props> = (data) => {
       });
       if (contactsId !== '') {
         customerFields.contactDC = contactsId;
-        CustomerDetailsApi.updateContactDetails(customerFields);
+        dispatch(updateCustomerContact(customerFields, customerData.data.businessPartner, 'update'));
       } else {
         customerFields.businessPartner = customerData.data.businessPartner;
         customerFields.ACTIVE = true;
-        CustomerDetailsApi.addContactDetails(customerFields);
+        dispatch(updateCustomerContact(customerFields, customerData.data.businessPartner, 'add'));
       }
     }
-    history.push({ pathname: '/cust-details', state: { custId: customerData.data.businessPartner } });
-    setTimeout(function () {
-      window.location.reload(false);
-      dispatch(setBusinessPartnerLoader(false));
-      dispatch(setBusinessPartnerWindowActive(false));
-      document.body.classList.remove('body-scroll-hidden');
-    }, 3000);
   };
 
   const closeAction = () => {
@@ -306,6 +324,12 @@ const EditCustomer: React.FC<Props> = (data) => {
     getAttributes();
     getAttributesValues();
   }, [customerData]);
+
+  React.useEffect(() => {
+    if (contactData && key === 'contact fields') {
+      setContactFields(contactData);
+    }
+  }, [contactData]);
 
   return (
     <>
