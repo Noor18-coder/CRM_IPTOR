@@ -166,12 +166,14 @@ const CustomerInfo: React.FC<Data> = (props) => {
         <>
           <NavSection backToOpportunityList={backToOpportunityList} />
           {state.addBusinessPartner.error ? (
-            <div className="alert-wrapper">
-              <div role="alert" className="alert alert-danger">
-                <button className="btn alert-close" type="button" onClick={hideErrorMessage}>
-                  <img src={ImageConfig.CLOSE_BTN} alt="close" />
-                </button>
-                {`This ${state.addBusinessPartner.error.split(' ').slice(1).join(' ')}`}
+            <div className="iptor-alert">
+              <div className="alert-wrapper">
+                <div role="alert" className="alert alert-danger">
+                  <button className="btn alert-close" type="button" onClick={hideErrorMessage}>
+                    <img src={ImageConfig.CLOSE_BTN} alt="close" />
+                  </button>
+                  {`This ${state.addBusinessPartner.error.split(' ').slice(1).join(' ')}`}
+                </div>
               </div>
             </div>
           ) : null}

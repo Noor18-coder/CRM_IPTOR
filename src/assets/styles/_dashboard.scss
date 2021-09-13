@@ -294,6 +294,163 @@ body{
             }
         }
     }
+
+    .newsandupdates {
+        margin-top: 24px;
+        margin-bottom: 24px;
+
+        .section-title {
+            margin-bottom: 16px;
+            color: $limed-spruce;
+            padding-left: 2px;
+
+            font: {
+                weight: $font-weight-bold;
+                size: $base-font-size + 2;
+            }
+        }
+
+        .news-container,
+        .calendar-container {
+            background: $white;
+        }
+
+        .news-container {
+            min-height: 400px;
+            max-height: 400px;
+            overflow-y: auto;
+            border-top: solid 1px $geyser;
+
+            .news-collections-list{
+                
+                li{
+                    
+                    .month-val{
+                        padding: 16px;
+                        border-bottom: solid 1px $geyser;
+                        background: rgba($geyser, 0.2);
+                        font: {
+                            weight: $font-weight-bold;
+                            size: $base-font-size + 2;
+                        }
+                    }
+
+                    .news-feeds-items{
+                        >.news-feed{
+                            padding: 16px;
+                            border-bottom: solid 1px $geyser;
+                            margin-bottom: inherit;
+                            .title{
+                                margin-bottom: 8px;
+                                font: {
+                                    weight: $font-weight-bold;
+                                    size: $base-font-size;
+                                }
+                            }
+
+                            .desc{
+                                color: rgba($tundora, 0.7);
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+
+                            .viewmore{
+                                margin-top: 16px;
+                                border: solid 1px $geyser;
+                                color: $tundora;
+                                text-decoration: none;
+                                background: $white;
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                                &:hover{
+                                    background: $persian-green;
+                                    border: solid 1px $persian-green;
+                                    color: $white;
+                                    box-shadow: none;
+                                }
+                            }
+
+                            &:last-child{
+                                border-bottom: none;
+                            }
+                            @include transition;
+
+                            &:hover{
+                                background: rgba($geyser, 0.1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .calendar-container {
+            min-height: 400px;
+            max-height: 400px;
+            overflow-y: auto;
+            border-top: solid 1px $geyser;
+
+            .calendar-events-list{
+                
+                li{
+                    
+                    .date-val{
+                        padding: 16px;
+                        border-bottom: solid 1px $geyser;
+                        background: rgba($geyser, 0.2);
+                        font: {
+                            weight: $font-weight-bold;
+                            size: $base-font-size + 2;
+                        }
+                    }
+
+                    .cal-events-items{
+                        >.events-list{
+                            padding: 16px;
+                            border-bottom: solid 1px $geyser;
+                            margin-bottom: inherit;
+                            .date-time{
+                                color: $persian-green;
+                                margin-bottom: 8px;
+                                font: {
+                                    weight: $font-weight-semibold;
+                                    size: $base-font-size;
+                                }
+                            }
+                            .title{
+                                margin-bottom: 8px;
+                                font: {
+                                    weight: $font-weight-bold;
+                                    size: $base-font-size;
+                                }
+                            }
+
+                            .desc{
+                                color: rgba($tundora, 0.7);
+                                font: {
+                                    weight: $font-weight-regular;
+                                    size: $base-font-size;
+                                }
+                            }
+
+                            &:last-child{
+                                border-bottom: none;
+                            }
+                            @include transition;
+
+                            &:hover{
+                                background: rgba($geyser, 0.1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .dshbrd-sticky-header {
@@ -359,8 +516,65 @@ body{
         display: block;
     }
 
-    .newsandupdates {
-        margin-bottom: 62px;
+    .mobview-user-prof-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1040;
+        background-color: #fff;
+        background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
+        backdrop-filter: blur(12px); // This be the blur
+
+        .panel-container {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0 16px;
+            background: $white;
+
+            .user-settings-list {
+                li {
+                    padding: 32px 0;
+
+                    a {
+                        padding-left: 48px;
+                        vertical-align: middle;
+                        color: $limed-spruce;
+                        text-decoration: none;
+
+                        font: {
+                            size: $base-font-size + 2;
+                            weight: $font-weight-semibold;
+                        }
+                    }
+
+                    &.username {
+                        background: url(../images/mob-customer-icon.svg) no-repeat left center;
+                    }
+
+                    &.logout {
+                        background: url(../images/mob-logout-icon.svg) no-repeat left center;
+                    }
+                }
+            }
+        }
+    }
+
+    .newsandupdates{
+        padding-bottom: 40px;
+        .lft-col, .rgt-col{
+            margin-bottom: 24px;
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .dshbrd-sticky-header {
+        display: block;
     }
 
     .mobview-user-prof-container {
@@ -410,62 +624,10 @@ body{
             }
         }
     }
-}
-
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .dshbrd-sticky-header {
-        display: block;
-    }
-
-    .newsandupdates {
-        margin-bottom: 62px;
-    }
-
-    .mobview-user-prof-container {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1040;
-        background-color: #fff;
-        background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
-        backdrop-filter: blur(12px); // This be the blur
-
-        .panel-container {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 0 16px;
-            background: $white;
-
-            .user-settings-list {
-                li {
-                    padding: 32px 0;
-
-                    a {
-                        padding-left: 48px;
-                        vertical-align: middle;
-                        color: $limed-spruce;
-                        text-decoration: none;
-
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-
-                    &.username {
-                        background: url(../images/mob-customer-icon.svg) no-repeat left center;
-                    }
-
-                    &.logout {
-                        background: url(../images/mob-logout-icon.svg) no-repeat left center;
-                    }
-                }
-            }
+    .newsandupdates{
+        padding-bottom: 40px;
+        .lft-col, .rgt-col{
+            margin-bottom: 24px;
         }
     }
 }
@@ -476,10 +638,6 @@ body{
         display: block;
     }
 
-    .newsandupdates {
-        margin-bottom: 62px;
-    }
-
     .mobview-user-prof-container {
         display: none;
         position: fixed;
@@ -525,6 +683,12 @@ body{
                     }
                 }
             }
+        }
+    }
+    .newsandupdates{
+        padding-bottom: 40px;
+        .lft-col, .rgt-col{
+            margin-bottom: 24px;
         }
     }
 
