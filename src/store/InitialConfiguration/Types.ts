@@ -11,6 +11,7 @@ import {
   AreaInfo,
   DropDownValue,
   ForeCastInfo,
+  Reason,
 } from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
@@ -30,6 +31,7 @@ export enum AppLoadingTypes {
   SAVE_INDUSTRY_INFO = 'SAVE_INDUSTRY_INFO',
   SAVE_PRODUCT_INFO = 'SAVE_PRODUCT_INFO',
   SAVE_FORECAST_INFO = 'SAVE_FORECAST_INFO',
+  SAVE_REASON_CODES = 'SAVE_REASON_CODES',
 }
 
 /** Authentication success action */
@@ -96,6 +98,11 @@ export interface SaveForecastInfo extends Action<AppLoadingTypes.SAVE_FORECAST_I
   forecastInfo: ForeCastInfo[];
 }
 
+/** Authentication success action */
+export interface SaveReasonCodes extends Action<AppLoadingTypes.SAVE_REASON_CODES> {
+  reasons: Reason[];
+}
+
 export type AppLoadingActions =
   | SaveOpportunityTypes
   | SaveOpportunityStages
@@ -111,7 +118,8 @@ export type AppLoadingActions =
   | SaveOpportunityContactRoles
   | SaveIndustryInfo
   | SaveProductInfo
-  | SaveForecastInfo;
+  | SaveForecastInfo
+  | SaveReasonCodes;
 
 /** Authentication state definition */
 export interface InitialConfigState {
@@ -129,4 +137,5 @@ export interface InitialConfigState {
   readonly crmIndustries: DropDownValue[];
   readonly crmProductFamily: DropDownValue[];
   readonly forecastInfo: ForeCastInfo[];
+  readonly reasons: Reason[];
 }

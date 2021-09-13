@@ -16,6 +16,7 @@ import {
   getCustomerIndustry,
   getCustomerProducts,
   getCustomerContactRoles,
+  getReasonCodes,
 } from '../../store/InitialConfiguration/Actions';
 
 const Dashboard: React.FC = () => {
@@ -33,6 +34,7 @@ const Dashboard: React.FC = () => {
     dispatch(getCustomerIndustry());
     dispatch(getCustomerProducts());
     dispatch(getCustomerContactRoles());
+    dispatch(getReasonCodes());
   }, []);
 
   return (

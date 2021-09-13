@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { StageInfo } from '../../helpers/Api/models';
 import { saveOpportunityStages } from '../../store/InitialConfiguration/Actions';
-import { editOpportunity } from '../../store/OpportunityDetails/Actions';
+import { editOpportunity, openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 import { AppState } from '../../store/store';
 import { APPROVAL_STATUS } from '../../config/Constants';
 
@@ -26,6 +26,13 @@ const Staging: React.FC<Props> = (props) => {
   React.useEffect(() => {
     if (!state.enviornmentConfigs.crmOpportunityStage.length) dispatch(saveOpportunityStages());
   }, []);
+
+  const changeActiveStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const active: boolean = e.currentTarget.checked;
+    if (active) {
+      dispatch(openOpportunityForm({ open: true, groupName: 'deactivate-opportunity', action: 'edit' }));
+    }
+  };
 
   return (
     <>
@@ -54,7 +61,7 @@ const Staging: React.FC<Props> = (props) => {
                 );
               } else {
                 // eslint-disable-next-line no-lonely-if
-                if (state.opportuntyDetails.editOportunity.allowEdit && status !== APPROVAL_STATUS.SUBMITTED && status !== APPROVAL_STATUS.REJECTED) {
+                if (state.opportuntyDetails.editOportunity.allowEdit) {
                   return (
                     <li className="list-inline-item normal" role="presentation" onClick={() => updateStage(obj)}>
                       {obj.salesStage} <span>{obj.description}</span>
@@ -71,13 +78,15 @@ const Staging: React.FC<Props> = (props) => {
             })}
           </ul>
         </div>
-        <div className="rgt-col">
-          <p className="oppt-lost">Opportunity Lost</p>
-          <label className="switch">
-            <input type="checkbox" />
-            <span className="slider round" />
-          </label>
-        </div>
+        {state.opportuntyDetails.editOportunity.allowEdit ? (
+          <div className="rgt-col">
+            <p className="oppt-lost">Opportunity Lost</p>
+            <label className="switch">
+              <input type="checkbox" id="oppty-lost" onChange={changeActiveStatus} />
+              <span className="slider round" />
+            </label>
+          </div>
+        ) : null}
       </div>
     </>
   );

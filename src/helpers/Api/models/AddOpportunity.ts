@@ -1,6 +1,7 @@
 import { ErrorMessage } from './Approvals';
 
 export interface AddOpportunityDefaultParams {
+  opportunityId?: string;
   area?: string;
   handler?: string;
   reason?: string;
@@ -16,6 +17,7 @@ export interface AddOpportunityDefaultParams {
   startDate?: string;
   desc?: string;
   customer?: string;
+  activ?: boolean;
 }
 
 export interface AddOpportunityResponse {

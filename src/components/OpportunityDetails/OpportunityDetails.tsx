@@ -22,6 +22,7 @@ import Container from '../EditOpportunity/Container';
 import ImageConfig from '../../config/ImageConfig';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import { setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
+import { APPROVAL_STATUS } from '../../config/Constants';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 
 export const OpportunityDetails: React.FC = (props: any) => {
@@ -65,7 +66,14 @@ export const OpportunityDetails: React.FC = (props: any) => {
   };
 
   const isOpportunityEditable = (opptyDetails: models.OpportunityDetailsDefault) => {
-    if (state.auth.user.user === opptyDetails.handler || state.auth.user.role?.toLowerCase() === 'admin') {
+    // Only active opportunity is editable and its approval status is not either submitted or rejected.
+    // Also, only admin and handler can edit the opportunity.
+    if (
+      opptyDetails.activ === true &&
+      opptyDetails.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+      opptyDetails.approvalStatus !== APPROVAL_STATUS.REJECTED &&
+      (state.auth.user.role?.toLowerCase() === 'admin' || state.auth.user.user === opptyDetails.handler)
+    ) {
       dispatch(openOpportunityForm({ allowEdit: true }));
     } else {
       dispatch(openOpportunityForm({ allowEdit: false }));

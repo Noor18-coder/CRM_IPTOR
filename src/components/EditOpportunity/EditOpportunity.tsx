@@ -9,6 +9,7 @@ import EditBasicInfo from './EditBasicInfo';
 import AddContact from './AddContact';
 import EditItem from './EditItem';
 import AddItem from './AddItem';
+import DeactivateOpportunity from './DeactivateOpportunity';
 import AssignOpportunity from './AssignOpportunity';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 
@@ -28,34 +29,51 @@ const EditOpportunity: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   const loadComponent = () => {
     const { groupName } = state.opportuntyDetails.editOportunity;
 
-    if (groupName === 'opportunity_defaults') {
-      return <EditBasicInfo reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+    switch (groupName) {
+      case 'opportunity_defaults':
+        return <EditBasicInfo reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        break;
+      case 'add_contact':
+        return <AddContact refresh={reloadOpportunityDetailsPage} />;
+        break;
+      case 'edit_item':
+        return <EditItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        break;
+      case 'add_item':
+        return <AddItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        break;
+      case 'assign_opportunity':
+        return <AssignOpportunity reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        break;
+      case 'deactivate-opportunity':
+        return <DeactivateOpportunity />;
+        break;
+      default:
+        return <EditAttributes reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
     }
-    if (groupName === 'add_contact') {
-      return <AddContact refresh={reloadOpportunityDetailsPage} />;
-    }
-    if (groupName === 'edit_item') {
-      return <EditItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
-    }
-    if (groupName === 'add_item') {
-      return <AddItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
-    }
-    if (groupName === 'assign_opportunity') {
-      return <AssignOpportunity reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
-    }
-    return <EditAttributes reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
   };
 
   React.useEffect(() => {
     const { groupName } = state.opportuntyDetails.editOportunity;
-    if (groupName === 'add_contact') {
-      setHeaderName('Add Contacts');
-    } else if (groupName === 'add_item') {
-      setHeaderName('Add Product');
-    } else if (groupName === 'edit_item') {
-      setHeaderName('Edit Product');
-    } else if (groupName === 'assign_opportunity') {
-      setHeaderName('Assign Opportunity');
+
+    switch (groupName) {
+      case 'add_contact':
+        setHeaderName('Add Contacts');
+        break;
+      case 'edit_item':
+        setHeaderName('Edit Product');
+        break;
+      case 'add_item':
+        setHeaderName('Add Product');
+        break;
+      case 'assign_opportunity':
+        setHeaderName('Assign Opportunity');
+        break;
+      case 'deactivate-opportunity':
+        setHeaderName('Deactivate Opportunity');
+        break;
+      default:
+        setHeaderName('Edit Opportunity');
     }
   }, []);
 

@@ -24,6 +24,7 @@ export const createInitalConfigDefaultState = (): InitialConfigState => {
     crmIndustries: [],
     crmProductFamily: [],
     forecastInfo: [],
+    reasons: [],
   };
 };
 
@@ -106,6 +107,11 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
       return {
         ...state,
         forecastInfo: action.forecastInfo,
+      };
+    case AppLoadingTypes.SAVE_REASON_CODES:
+      return {
+        ...state,
+        reasons: action.reasons,
       };
     default:
       return state;

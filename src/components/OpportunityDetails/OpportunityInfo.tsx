@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import i18n from '../../i18n';
-import { ApprovalLogsDefault, OpportunityDetailsDefault, InitiateSubmitApprovalPopupData } from '../../helpers/Api/models';
+import { ApprovalLogsDefault, OpportunityDetailsDefault, InitiateSubmitApprovalPopupData, Reason } from '../../helpers/Api/models';
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import Staging from './Staging';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
@@ -51,6 +51,14 @@ const OpportunityInfo: React.FC = () => {
     };
     dispatch(openOpportunityForm({ open: true, submitApprovalData, action: 'approval', groupName: 'submit_approval', subGroupName }));
     document.body.classList.add('body-scroll-hidden');
+  };
+
+  const getReasonText = (text?: string) => {
+    if (!text) return '';
+    const errorObject: Reason | undefined = state.enviornmentConfigs.reasons.find((obj: Reason) => {
+      return obj.reasonCode === text;
+    });
+    return errorObject && errorObject.description;
   };
 
   return (
@@ -136,7 +144,9 @@ const OpportunityInfo: React.FC = () => {
               </button>
             </div>
           )}
-          {data.approvalStatus === APPROVAL_STATUS.LOST && data.approver !== user && <div className="rgt-col">Opportunity lost due to</div>}
+          {data.approvalStatus === APPROVAL_STATUS.LOST && data.approver !== user && (
+            <div className="rgt-col">Opportunity lost due to {getReasonText(data.reason)}</div>
+          )}
           {data.approver === user && data.approvalStatus === APPROVAL_STATUS.SUBMITTED && (
             <div className="rgt-col">
               <button

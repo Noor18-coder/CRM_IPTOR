@@ -7,3 +7,4 @@ export * from './OpportunityType';
 export * from './Attributes';
 export * from './ForeCastsInfo';
 export * from './Countries';
+export * from './ReasonCodes';

@@ -13,11 +13,12 @@ import {
   SaveForecastInfo,
   SaveIndustryInfo,
   SaveProductInfo,
+  SaveReasonCodes,
 } from './Types';
 
 import * as actionTypes from './Types';
 import { AppState } from '../store';
-import { OpportunityType, StagesInfo, CurrencyInfo, Attributes, CountryInfo, ForeCastsInfo } from '../../helpers/Api';
+import { OpportunityType, StagesInfo, CurrencyInfo, Attributes, CountryInfo, ForeCastsInfo, ReasonCodes } from '../../helpers/Api';
 
 export const CUSTOMER_PARAMS = {
   PRODUCT_FAMILY: 'productFamily',
@@ -137,6 +138,13 @@ export const saveForeCastInfo: ActionCreator<SaveForecastInfo> = (forecastInfo: 
   };
 };
 
+export const saveReasonCodes: ActionCreator<SaveReasonCodes> = (_reasons: models.Reason[]) => {
+  return {
+    type: AppLoadingTypes.SAVE_REASON_CODES,
+    reasons: _reasons,
+  };
+};
+
 export const getOpportunityTypes: ActionCreator<
   ThunkAction<Promise<actionTypes.SaveOpportunityTypes>, AppState, undefined, actionTypes.SaveOpportunityTypes>
 > = () => {
@@ -232,8 +240,16 @@ export const getCustomerContactRoles: ActionCreator<
 > = () => {
   return async (dispatch: Dispatch) => {
     const attributeType = await Attributes.getAttributeType(CUSTOMER_PARAMS.ROLE, CUSTOMER_PARAMS.CONTACTS_FILE);
-    const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
-    return dispatch(saveOpportunityContactRoles(attributeValues.items));
+    if (attributeType && attributeType.data && attributeType.data.attributeId) {
+      const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
+      if (attributeValues.items) {
+        return dispatch(saveOpportunityContactRoles(attributeValues.items));
+      } else {
+        return dispatch(saveOpportunityContactRoles([]));
+      }
+    } else {
+      return dispatch(saveOpportunityContactRoles([]));
+    }
   };
 };
 
@@ -280,3 +296,15 @@ export const getCustomerIndustry: ActionCreator<
     }
   };
 };
+
+export const getReasonCodes: ActionCreator<ThunkAction<Promise<actionTypes.SaveReasonCodes>, AppState, undefined, actionTypes.SaveReasonCodes>> =
+  () => {
+    return async (dispatch: Dispatch) => {
+      try {
+        const reasons = await ReasonCodes.get();
+        return dispatch(saveReasonCodes(reasons));
+      } catch (error) {
+        return dispatch(saveReasonCodes([]));
+      }
+    };
+  };
