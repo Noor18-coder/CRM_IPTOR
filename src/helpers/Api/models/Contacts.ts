@@ -16,6 +16,17 @@ export interface OpportunityContact {
   role?: string;
 }
 
+export interface ContactInfo {
+  contactPerson: string;
+  contactDC: string;
+  whatsApp: string;
+  phone: number;
+  mobile?: string;
+  linkedin?: string;
+  fax?: string;
+  email: string;
+}
+
 export interface OpportunityContactsParams {
   rootId: string;
 }

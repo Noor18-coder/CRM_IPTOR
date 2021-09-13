@@ -1,24 +1,24 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
-import { AttributeField, AttributeValueAndType, AttributeValueObject, UpdateAttributeParams } from '../../helpers/Api/models';
+import { AttributeField, AttributeValueAndType, AttributeValueObject } from '../../helpers/Api/models';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
-import { Attributes } from '../../helpers/Api/Attributes';
+// import { Attributes } from '../../helpers/Api/Attributes';
+import { updateAllAtrributeValues } from '../../store/OpportunityDetails/Actions';
 
 const regex = /^-?\d+\.?\d*$/;
-
-interface Props {
-  reloadOpportunityDetailsPage: () => void;
-}
 
 interface ErrorMessages {
   [index: string]: string;
 }
 
-const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+const EditAttributes: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
   const [attributes, setFields] = React.useState<models.AttributeField[]>([]);
   const [attributeValues, setAttributeValues] = React.useState<models.UserDefinedFieldsValueDropDown>();
   const [attributesSet, setAttributesSet] = React.useState<AttributeValueAndType[]>([]);
@@ -72,40 +72,7 @@ const EditAttributes: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   };
 
   const onNextButtonClick = () => {
-    const attributesForUpdate: UpdateAttributeParams[] = [];
-    const attributesForAdd: AttributeValueAndType[] = [];
-
-    attributesSet.forEach((obj: AttributeValueAndType) => {
-      const attributeExist = state.opportuntyDetails.attributes.find(
-        (valueObj: AttributeValueObject) => valueObj.attributeType === obj.attributeType
-      );
-
-      if (attributeExist) {
-        attributesForUpdate.push({ attributeType: obj.attributeType, attributeValue: obj.attributeValue, valueId: attributeExist.valueId });
-      } else {
-        attributesForAdd.push(obj);
-      }
-    });
-
-    const opptyId = state.opportuntyDetails.opportunityDefaultParams.opportunityId;
-
-    Promise.all(
-      attributesForUpdate.map((obj: UpdateAttributeParams) => {
-        return Attributes.updateAttribute(obj.attributeType, obj.valueId, obj.attributeValue);
-      })
-    ).then((data) => {
-      reloadOpportunityDetailsPage();
-      return data;
-    });
-
-    Promise.all(
-      attributesForAdd.map((obj: AttributeValueAndType) => {
-        return Attributes.addAttribute('opportunity', opptyId, obj.attributeType, obj.attributeValue);
-      })
-    ).then((data) => {
-      reloadOpportunityDetailsPage();
-      return data;
-    });
+    dispatch(updateAllAtrributeValues(attributesSet));
   };
 
   const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {

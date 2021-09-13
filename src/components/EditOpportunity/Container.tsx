@@ -10,10 +10,7 @@ import EditOpportunity from './EditOpportunity';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 import ApprovalPopup from '../Approvals/ApprovalPopup';
 
-interface Props {
-  reloadOpportunityDetailsPage: () => void;
-}
-const Container: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+const Container: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -23,7 +20,6 @@ const Container: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   const closeDrawerAndRefresh = () => {
     document.body.classList.remove('body-scroll-hidden');
     dispatch(openOpportunityForm({ open: false }));
-    reloadOpportunityDetailsPage();
   };
 
   return (
@@ -32,7 +28,7 @@ const Container: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
       {isMobile || isTablet ? (
         state.opportuntyDetails.editOportunity.open ? (
           state.opportuntyDetails.editOportunity.action === 'edit' ? (
-            <EditOpportunity reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+            <EditOpportunity />
           ) : state.opportuntyDetails.editOportunity.action === 'approval' ? (
             <ApprovalPopup reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
           ) : null
@@ -41,7 +37,7 @@ const Container: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
         <Drawer anchor="right" open={state.opportuntyDetails.editOportunity.open}>
           {state.opportuntyDetails.editOportunity.open ? (
             state.opportuntyDetails.editOportunity.action === 'edit' ? (
-              <EditOpportunity reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
+              <EditOpportunity />
             ) : state.opportuntyDetails.editOportunity.action === 'approval' ? (
               <ApprovalPopup reloadOpportunityDetailsPage={closeDrawerAndRefresh} />
             ) : null

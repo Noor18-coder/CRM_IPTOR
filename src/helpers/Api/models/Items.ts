@@ -37,6 +37,9 @@ export interface Item {
   itemSegment6: string;
   primarySegmant: string;
   msdsId: string;
+  version?: string;
+  cost?: string;
+  revenue?: string;
 }
 
 export interface ItemResponse {

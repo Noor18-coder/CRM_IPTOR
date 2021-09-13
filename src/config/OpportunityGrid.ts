@@ -1,5 +1,6 @@
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../helpers/utilities/lib';
 import Dots from '../assets/images/nav-more.svg';
+import { APPROVAL_STATUS } from './Constants';
 
 const OpportunityGridOptions = [
   {
@@ -42,7 +43,24 @@ const OpportunityGridOptions = [
     sortable: true,
     headerName: 'Stage',
     cellRenderer: (params: any) => {
-      return `<span class="o-stage">${params.value ? params.value : ''}</span>`;
+      let approvalClass = 'o-stage grade';
+
+      if (params.data && params.data.approvalStatus) {
+        if (params.data.approvalStatus === APPROVAL_STATUS.SUBMITTED) {
+          approvalClass = 'o-stage submit';
+        } else if (params.data.approvalStatus === APPROVAL_STATUS.REJECTED) {
+          approvalClass = 'o-stage reject';
+        } else if (params.data.approvalStatus === APPROVAL_STATUS.APPROVED) {
+          approvalClass = 'o-stage grade';
+        } else if (params.data.approvalStatus === APPROVAL_STATUS.LOST) {
+          approvalClass = 'o-stage lost';
+        } else {
+          approvalClass = 'o-stage grade';
+        }
+        return `<span class="${approvalClass}">${params.value ? params.value : ''}</span>`;
+      } else {
+        return `<span class="o-stage">${params.value ? params.value : ''}</span>`;
+      }
     },
   },
 

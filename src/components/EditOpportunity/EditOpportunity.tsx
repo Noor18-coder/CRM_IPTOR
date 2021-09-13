@@ -13,10 +13,7 @@ import DeactivateOpportunity from './DeactivateOpportunity';
 import AssignOpportunity from './AssignOpportunity';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 
-interface Props {
-  reloadOpportunityDetailsPage: () => void;
-}
-const EditOpportunity: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+const EditOpportunity: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
   const [headerName, setHeaderName] = React.useState<string>('Edit Opportunity');
@@ -31,25 +28,25 @@ const EditOpportunity: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
 
     switch (groupName) {
       case 'opportunity_defaults':
-        return <EditBasicInfo reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        return <EditBasicInfo />;
         break;
       case 'add_contact':
-        return <AddContact refresh={reloadOpportunityDetailsPage} />;
+        return <AddContact />;
         break;
       case 'edit_item':
-        return <EditItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        return <EditItem />;
         break;
       case 'add_item':
-        return <AddItem reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        return <AddItem />;
         break;
       case 'assign_opportunity':
-        return <AssignOpportunity reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        return <AssignOpportunity />;
         break;
       case 'deactivate-opportunity':
         return <DeactivateOpportunity />;
         break;
       default:
-        return <EditAttributes reloadOpportunityDetailsPage={reloadOpportunityDetailsPage} />;
+        return <EditAttributes />;
     }
   };
 

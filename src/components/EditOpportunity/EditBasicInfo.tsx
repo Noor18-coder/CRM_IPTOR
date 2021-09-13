@@ -1,29 +1,29 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { get, pick, isArray } from 'lodash';
+
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { get, pick } from 'lodash';
 import { Image } from 'react-bootstrap';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
-import i18n from '../../i18n';
 import errorIcon from '../../assets/images/error.png';
 import UserSearchField from '../Shared/Search/UserSearchField';
-import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
+import { editOpportunity } from '../../store/OpportunityDetails/Actions';
 import { OpportunityDefaultFields } from '../../config/OpportunityDefaultFields';
 import AsyncSearchInput from '../Shared/Search/AsyncSearchInput';
 import CustomerList from '../../helpers/Api/CustomerList';
 import DateInput from '../Shared/Picker/DateInput';
 
 const regex = /^-?\d+\.?\d*$/;
-interface Props {
-  reloadOpportunityDetailsPage: () => void;
-}
 
 interface ErrorMessages {
   [index: string]: string;
 }
 
-const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+// const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+const EditBasicInfo: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
   const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, [
     'opportunityId',
     'area',
@@ -42,7 +42,6 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   const [opportunity, setOpportunity] = React.useState<models.AddOpportunityDefaultParams>(opportunityDetails);
   const [fields, setOpportunityFields] = React.useState<models.AddOpportunityField[]>([]);
   const [errors, setErrorMessages] = React.useState<ErrorMessages>({});
-  const [updateError, setUpdateError] = React.useState<string>('');
 
   React.useEffect(() => {
     setOpportunityFields(OpportunityDefaultFields);
@@ -117,16 +116,7 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   };
 
   const onNextButtonClick = async () => {
-    const data: models.UpdateOpportunityResponse = await AddOpportunityApi.update(opportunity);
-    if (data && data.error) {
-      if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
-        setUpdateError(data.messages[0].text);
-      } else {
-        setUpdateError(i18n.t('commonErrorMessage'));
-      }
-    } else {
-      reloadOpportunityDetailsPage();
-    }
+    dispatch(editOpportunity(opportunity));
   };
 
   const searchCustomers = async (key: string) => {
@@ -154,10 +144,10 @@ const EditBasicInfo: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
   return (
     <>
       <div className="opportunity-edit-form">
-        {updateError ? (
+        {state.opportuntyDetails.editOportunity.error ? (
           <p className="error">
             <Image className="alert-icon" src={errorIcon} width={15} height={12} />
-            &nbsp; {updateError}
+            &nbsp; {state.opportuntyDetails.editOportunity.error}
           </p>
         ) : null}
         <form>

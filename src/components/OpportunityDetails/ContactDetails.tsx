@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Card, Image, Accordion } from 'react-bootstrap';
 import { DeleteCustomerContactParams, OpportunityContact } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
@@ -8,36 +9,49 @@ import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store';
 import { Attributes } from '../../helpers/Api';
 
+import { deleteContactFromOpportunity, openOpportunityForm, getOpportunityContacts } from '../../store/OpportunityDetails/Actions';
+
 export interface ContactProps {
   data: OpportunityContact;
-  deleteContact: (params: DeleteCustomerContactParams) => void;
 }
 
 interface Props {
-  title: string;
-  data: OpportunityContact[];
-  openAddContactForm: () => void;
-  deleteContact: (params: DeleteCustomerContactParams) => void;
+  opportunityId: string;
 }
 
-export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactForm, deleteContact }) => {
+export const ContactAccordian: React.FC<Props> = ({ opportunityId }) => {
   const [activeClass, setActiveClass] = React.useState('');
+  const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
+  const { contacts } = state.opportuntyDetails;
   const toggleAccordion = () => {
     setActiveClass(activeClass === '' ? 'active' : '');
   };
+
+  const openAddContactForm = () => {
+    document.body.classList.add('body-scroll-hidden');
+    dispatch(openOpportunityForm({ open: true, groupName: 'add_contact', action: 'edit' }));
+  };
+
+  React.useEffect(() => {
+    dispatch(getOpportunityContacts(opportunityId));
+  }, []);
+
   return (
     <Accordion defaultActiveKey="0">
       <Card className="add-details">
         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
-          {title}
-          <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" onClick={openAddContactForm} />
+          Contacts
+          {state.opportuntyDetails.editOportunity.allowEdit ? (
+            <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" onClick={openAddContactForm} />
+          ) : null}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           <div className="container-fluid">
             <div className="row">
-              {data.length ? (
-                data.map((obj: OpportunityContact) => {
-                  return <ContactCards data={obj} deleteContact={deleteContact} />;
+              {contacts.length ? (
+                contacts.map((obj: OpportunityContact) => {
+                  return <ContactCards data={obj} />;
                 })
               ) : (
                 <div className="no-data-txt"> No Contacts Found </div>
@@ -50,8 +64,9 @@ export const ContactAccordian: React.FC<Props> = ({ title, data, openAddContactF
   );
 };
 
-export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ data, deleteContact }) => {
+export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ data }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
   const [contactDetails, setContactDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
   const [opportunityRole, setOpportunityRole] = React.useState<string | undefined>('');
   React.useEffect(() => {
@@ -68,13 +83,13 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
     setOpportunityRole(roleObj?.attributeValue);
   };
 
-  const removeContact = () => {
+  const removeContact = async () => {
     const params: DeleteCustomerContactParams = {
       contactId: data.contactId,
       contactParentId: data.contactParentId,
       contactParentFile: data.contactParentFile,
     };
-    deleteContact(params);
+    dispatch(deleteContactFromOpportunity(params));
   };
 
   const changeRole = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -104,19 +119,25 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
             <p className="contact-num">{data.phone ? data.phone : '--'}</p>
             <p className="contact-address">{data.visitingAddress ? data.visitingAddress : '--'}</p>
           </div>
-          <button type="button" className="address-card-close link-anchor-button" onClick={removeContact}>
-            <Image className="card-delete" height="20" src={ImageConfig.CLOSE_BTN} />
-          </button>
+          {state.opportuntyDetails.editOportunity.allowEdit ? (
+            <button type="button" className="address-card-close link-anchor-button" onClick={removeContact}>
+              <Image className="card-delete" height="20" src={ImageConfig.CLOSE_BTN} />
+            </button>
+          ) : null}
 
           <div className="select-opportunity-sec">
-            <div className="form-group">
-              <label htmlFor="contact-role">Select Opportunity Role</label>
-              <select className="form-control opportunity-dd" id="contact-role" value={opportunityRole} multiple={false} onChange={changeRole}>
-                {state.enviornmentConfigs.opportunityContactRoles.map((obj: models.DropDownValue) => {
-                  return <option value={obj.valueField}>{obj.valueField}</option>;
-                })}
-              </select>
-            </div>
+            {state.opportuntyDetails.editOportunity.allowEdit ? (
+              <div className="form-group">
+                <label htmlFor="contact-role">Select Opportunity Role</label>
+                <select className="form-control opportunity-dd" id="contact-role" value={opportunityRole} multiple={false} onChange={changeRole}>
+                  {state.enviornmentConfigs.opportunityContactRoles.map((obj: models.DropDownValue) => {
+                    return <option value={obj.valueField}>{obj.valueField}</option>;
+                  })}
+                </select>
+              </div>
+            ) : (
+              <p className="contact-address">{opportunityRole || '--'}</p>
+            )}
           </div>
         </div>
       </div>

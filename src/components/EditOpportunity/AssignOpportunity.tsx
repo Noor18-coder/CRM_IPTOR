@@ -1,39 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { pick } from 'lodash';
 import { AppState } from '../../store/store';
 
 import * as models from '../../helpers/Api/models';
-import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import UserSearchField from '../Shared/Search/UserSearchField';
+import { editOpportunity } from '../../store/OpportunityDetails/Actions';
 
-interface Props {
-  reloadOpportunityDetailsPage: () => void;
-}
-
-const AssignOpportunity: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+const AssignOpportunity: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
-  const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, [
-    'opportunityId',
-    'area',
-    'handler',
-    'reason',
-    'endDate',
-    'probability',
-    'oppRecordType',
-    'estimatedValue',
-    'stage',
-    'currency',
-    'desc',
-    'customer',
-  ]);
+  const dispatch: Dispatch<any> = useDispatch();
+  const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, ['opportunityId', 'handler']);
   const [opportunity, setOpportunity] = React.useState<models.AddOpportunityDefaultParams>(opportunityDetails);
   const [handler, setHandler] = React.useState<string | undefined>(opportunityDetails?.handler);
 
   const onNextButtonClick = () => {
-    AddOpportunityApi.update(opportunity).then(() => {
-      reloadOpportunityDetailsPage();
-    });
+    dispatch(editOpportunity(opportunity));
   };
 
   const onHandlerChange = (user: models.UserItem[]) => {

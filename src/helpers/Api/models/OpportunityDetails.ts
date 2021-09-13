@@ -40,6 +40,7 @@ export interface OpportunityDetailsDefault {
   minimumStage?: number;
   level?: number;
   approvalStatus?: string;
+  error?: string;
 }
 
 export interface OpportunityDetailsGroupItem {

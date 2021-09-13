@@ -40,6 +40,13 @@ const OpportunityInfo: React.FC = () => {
     document.body.classList.add('body-scroll-hidden');
   };
 
+  const getEstimatedValue = (basicInfo: OpportunityDetailsDefault) => {
+    // eslint-disable-next-line max-len
+    return `${
+      state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA && getCurrencySymbol(state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
+    } ${basicInfo?.estimatedValueSys}`;
+  };
+
   const submitApproval = (subGroupName: string) => {
     const submitApprovalData: InitiateSubmitApprovalPopupData = {
       defaultApprover: data.defaultApprover ? data.defaultApprover : '',
@@ -79,7 +86,7 @@ const OpportunityInfo: React.FC = () => {
               close quarter<span>{getQuarterOfYearFromDate(data.endDate)}</span>
             </li>
             <li className="list-inline-item">
-              Opportunity Value<span>{`${getCurrencySymbol(data.currency)} ${data.currentValue}`}</span>
+              Opportunity Value<span>{`${getEstimatedValue(data)}`}</span>
             </li>
             <li className="list-inline-item">
               Opportunity Type<span>{data.oppRecordType}</span>
@@ -164,7 +171,7 @@ const OpportunityInfo: React.FC = () => {
             </div>
           )}
         </div>
-        <Staging stage={data.stage} status={data.approvalStatus} />
+        <Staging />
       </section>
     </>
   );

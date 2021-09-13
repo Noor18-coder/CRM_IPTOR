@@ -12,6 +12,7 @@
 
 @import "~ag-grid-community/src/styles/ag-grid.scss";
 @import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
+@import "global-variables.scss";
 
 .ag-theme-alpine {
 
@@ -167,17 +168,99 @@
               font-weight: 600;  
               background: #EEF0F2;
               border-radius: 22px;
-              font-style: normal;
-              font-weight: bold;
-              font-size: 14px;
+              
               line-height: 19px;
               display: flex;
               align-items: center;
               text-align: center;
               text-transform: uppercase;
               color: #2F3C46;
-              padding: 6.4px 24px;
+              padding: 8px 16px;
               display: inline-block;
+
+              font: {
+                size: $base-font-size + 2;
+                weight: $font-weight-bold;
+              }
+
+              &.grade {
+                background: #E9F9F9;
+                // background: $mercury;
+                padding: 8px 16px;
+                position: relative;
+                @include border-radius(20px);
+
+                
+
+                color: $persian-green;
+                margin-right: 60px;
+              }
+
+            &.reject {
+                background: #FBDBE1;
+                padding: 8px 16px;
+                position: relative;
+                @include border-radius(20px);
+
+                font: {
+                    size: $base-font-size + 2;
+                    weight: $font-weight-bold;
+                }
+
+                color: #EB617C;
+                margin-right: 60px;
+
+            }
+
+            &.submit {
+                background: #FFDF99;
+                padding: 8px 16px;
+                position: relative;
+                @include border-radius(20px);
+
+                font: {
+                    size: $base-font-size + 2;
+                    weight: $font-weight-bold;
+                }
+
+                color: #E09900;
+                margin-right: 60px;
+            }
+
+            &.lost {
+                background: #EEF0F2;
+                padding: 8px 16px;
+                position: relative;
+                @include border-radius(20px);
+
+                font: {
+                    size: $base-font-size + 2;
+                    weight: $font-weight-bold;
+                }
+
+                color: #2F3C46;
+                margin-right: 60px;
+            }
+
+            &.status {
+                color: $persian-green;
+                text-transform: capitalize;
+
+                font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-semibold;
+                }
+            }
+
+            &.rejectStatus {
+                color: #EB617C;
+            }
+
+            &.submitStatus {
+                color: #2F3C46;
+            }
+
+              
           }
           .stage {
             padding-left:12px;

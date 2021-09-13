@@ -1,23 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store/store';
 import { Attributes } from '../../helpers/Api/Attributes';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
+import { getProductInformation } from '../../store/OpportunityDetails/Actions';
 
 import * as models from '../../helpers/Api/models';
 
 const regex = /^-?\d+\.?\d*$/;
 
-interface Props {
-  reloadOpportunityDetailsPage: () => void;
-}
-
 interface ErrorMessages {
   [index: string]: string;
 }
 
-const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
+const EditItem: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
   const [oldAttributeValues, setOldAtrributeValues] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
   const [item, setItem] = React.useState<models.Product>();
   const [attributeFields, setAttributeFields] = React.useState<models.AttributeField[]>([]);
@@ -38,9 +37,9 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     }
   };
 
-  const onNextButtonClick = () => {
+  const onNextButtonClick = async () => {
     if (item) {
-      Promise.all(
+      const data = await Promise.all(
         attributesSet.map(async (obj: models.AttributeValueAndType) => {
           const find: models.OpportunityDetailsGroupItem | undefined = oldAttributeValues.find((val: models.OpportunityDetailsGroupItem) => {
             return val.attributeType === obj.attributeType;
@@ -50,10 +49,12 @@ const EditItem: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
           }
           return await Attributes.addAttributes('SROMOPI', item.itemId, obj.attributeType, obj.attributeValue);
         })
-      ).then((data) => {
-        reloadOpportunityDetailsPage();
-        return data;
+      ).then((res) => {
+        return res;
       });
+      if (data) {
+        dispatch(getProductInformation(item.itemId));
+      }
     }
   };
 

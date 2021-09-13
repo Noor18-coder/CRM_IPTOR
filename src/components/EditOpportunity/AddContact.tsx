@@ -1,30 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
 
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
-import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
+import { addContactToOpportunity } from '../../store/OpportunityDetails/Actions';
 
-interface ContactInfo {
-  contactPerson: string;
-  contactDC: string;
-  whatsApp: string;
-  phone: number;
-  mobile?: string;
-  linkedin?: string;
-  fax?: string;
-  email: string;
-}
-
-interface Props {
-  refresh: () => void;
-}
-
-const AddContact: React.FC<Props> = ({ refresh }) => {
+const AddContact: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
   const [customerContacts, setCustomerContacts] = React.useState<models.CustomerDetailsContactsGroupItem[]>([]);
-  const [contact, setContact] = React.useState<ContactInfo>();
+  const [contact, setContact] = React.useState<models.ContactInfo>();
 
   React.useEffect(() => {
     loadCustomerContacts();
@@ -42,7 +29,7 @@ const AddContact: React.FC<Props> = ({ refresh }) => {
     );
 
     if (selectedContact) {
-      const tempContact: ContactInfo = {
+      const tempContact: models.ContactInfo = {
         contactPerson: selectedContact.contactPerson,
         contactDC: selectedContact.contactDC,
         whatsApp: '',
@@ -70,9 +57,7 @@ const AddContact: React.FC<Props> = ({ refresh }) => {
         fax: contact.fax,
         email: contact.email,
       };
-      AddOpportunityApi.addContact(params).then(() => {
-        refresh();
-      });
+      dispatch(addContactToOpportunity(opptyId, params));
     }
   };
 

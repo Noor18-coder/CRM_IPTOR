@@ -7,14 +7,14 @@ import { editOpportunity, openOpportunityForm } from '../../store/OpportunityDet
 import { AppState } from '../../store/store';
 import { APPROVAL_STATUS } from '../../config/Constants';
 
-interface Props {
-  stage: string;
-  status: any;
-}
+// interface Props {
+//   stage: string;
+//   status: any;
+// }
 
-const Staging: React.FC<Props> = (props) => {
-  const { stage, status } = props;
+const Staging: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const { approvalStatus, stage } = state.opportuntyDetails.opportunityDefaultParams;
   const dispatch: Dispatch<any> = useDispatch();
 
   const updateStage = async (obj: StageInfo) => {
@@ -44,15 +44,15 @@ const Staging: React.FC<Props> = (props) => {
                 return (
                   <li
                     className={
-                      status === APPROVAL_STATUS.NEW
+                      approvalStatus === APPROVAL_STATUS.NEW
                         ? 'list-inline-item active'
-                        : status === APPROVAL_STATUS.REJECTED
+                        : approvalStatus === APPROVAL_STATUS.REJECTED
                         ? 'list-inline-item rejected'
-                        : status === APPROVAL_STATUS.SUBMITTED
+                        : approvalStatus === APPROVAL_STATUS.SUBMITTED
                         ? 'list-inline-item submit'
-                        : status === APPROVAL_STATUS.APPROVED
+                        : approvalStatus === APPROVAL_STATUS.APPROVED
                         ? 'list-inline-item active'
-                        : status === APPROVAL_STATUS.LOST
+                        : approvalStatus === APPROVAL_STATUS.LOST
                         ? 'list-inline-item lost'
                         : 'list-inline-item normal'
                     }>

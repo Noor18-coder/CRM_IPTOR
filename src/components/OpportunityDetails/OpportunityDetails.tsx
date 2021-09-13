@@ -1,13 +1,12 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Popover, Image } from 'react-bootstrap';
 import { isArray } from 'lodash';
+import i18n from '../../i18n';
 import { AppState } from '../../store/store';
-
 import Header from '../Shared/Header/Header';
 import Footer from '../Shared/Footer/Footer';
 import { InfoAccordion, InfoAccordionGroups, AccordianForMobileWithGroups } from './InfoAccordion';
@@ -19,13 +18,10 @@ import * as models from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import { NavSection } from '../Shared/DetailsNav/NavSection';
 import Loader from '../Shared/Loader/Loader';
-import i18n from '../../i18n';
 import Container from '../EditOpportunity/Container';
 import ImageConfig from '../../config/ImageConfig';
-import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
-import { setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
-import { APPROVAL_STATUS } from '../../config/Constants';
-import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm } from '../../store/OpportunityDetails/Actions';
+
+import { getOpportunityDetails, openOpportunityForm, getOpportunityAttributes } from '../../store/OpportunityDetails/Actions';
 import { getCurrencySymbol } from '../../helpers/utilities/lib';
 
 export const OpportunityDetails: React.FC = (props: any) => {
@@ -37,12 +33,6 @@ export const OpportunityDetails: React.FC = (props: any) => {
   const dispatch: Dispatch<any> = useDispatch();
   // eslint-disable-next-line react/destructuring-assignment
   const opportunityId = props.location.state.oppid;
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [defaultOpptyDetail, setDefaultOpptyDetails] = React.useState<models.OpportunityDetailsDefault>();
-  const [opptyDataBasicGroup, setOpptyDataForBasicInfoGroup] = React.useState<models.OpportunityDetailsBasicInfo[]>();
-  const [opptyDataMoreInfoGroup, setOpptyDataForMoreInfoGroup] = React.useState<models.AttributeValueObject[]>();
-  const [opptyDataContactInfo, setOpptyDataContactInfo] = React.useState<models.OpportunityContact[]>([]);
-  const [opptyDataProductInfo, setOpptyDataProductInfo] = React.useState<models.Product[]>([]);
 
   const getName = (str: string) => {
     const userObj = state.users.users.find((obj) => obj.handler === str);
@@ -68,43 +58,9 @@ export const OpportunityDetails: React.FC = (props: any) => {
     );
   };
 
-  const isOpportunityEditable = (opptyDetails: models.OpportunityDetailsDefault) => {
-    // Only active opportunity is editable and its approval status is not either submitted or rejected.
-    // Also, only admin and handler can edit the opportunity.
-    if (
-      opptyDetails.activ === true &&
-      opptyDetails.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
-      opptyDetails.approvalStatus !== APPROVAL_STATUS.REJECTED &&
-      (state.auth.user.role?.toLowerCase() === 'admin' || state.auth.user.user === opptyDetails.handler)
-    ) {
-      dispatch(openOpportunityForm({ allowEdit: true }));
-    } else {
-      dispatch(openOpportunityForm({ allowEdit: false }));
-    }
-  };
-
-  const fetchOpportunityDetails = async (opptyId: string) => {
-    setLoading(true);
-    dispatch(setLoadingMask());
-    const opptyDetails: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opptyId);
-    setDefaultOpptyDetails(opptyDetails);
-    isOpportunityEditable(opptyDetails);
-    dispatch(saveOpportunityDetails(opptyDetails));
-    getBasicInfo(opptyDetails);
-    const attributeValues: models.AttributeValueObject[] = await OpportunityDetailsApi.getGroupInfo(opptyId);
-    setOpptyDataForMoreInfoGroup(attributeValues);
-    dispatch(saveOpportunityAttributes(attributeValues));
-    const contactData = await OpportunityDetailsApi.getOpportunityContact(opptyId);
-    setOpptyDataContactInfo(contactData);
-    const opptyItems = await OpportunityDetailsApi.getOpportunityItems(opptyId);
-    setOpptyDataProductInfo(opptyItems);
-
-    dispatch(removeLoadingMask());
-    setLoading(false);
-  };
-
   React.useEffect(() => {
-    fetchOpportunityDetails(opportunityId);
+    dispatch(getOpportunityDetails(opportunityId));
+    dispatch(getOpportunityAttributes(opportunityId));
     dispatch(openOpportunityForm({ open: false }));
     document.body.classList.remove('body-scroll-hidden');
   }, []);
@@ -142,7 +98,7 @@ export const OpportunityDetails: React.FC = (props: any) => {
           break;
       }
     });
-    setOpptyDataForBasicInfoGroup(data);
+    return data;
   };
 
   const getEstimatedValue = (basicInfo: models.OpportunityDetailsDefault) => {
@@ -168,11 +124,6 @@ export const OpportunityDetails: React.FC = (props: any) => {
     dispatch(openOpportunityForm({ open: true, groupName: 'opportunity_defaults', action: 'edit' }));
   };
 
-  const openAddContactForm = () => {
-    document.body.classList.add('body-scroll-hidden');
-    dispatch(openOpportunityForm({ open: true, groupName: 'add_contact', action: 'edit' }));
-  };
-
   const deleteOpportunity = async () => {
     try {
       const response: models.OpportunityDeleteResponse = await OpportunityDetailsApi.opportunityDelete(opportunityId);
@@ -192,61 +143,36 @@ export const OpportunityDetails: React.FC = (props: any) => {
     dispatch(openOpportunityForm({ open: true, groupName: 'assign_opportunity', action: 'edit' }));
   };
 
-  const openAddItemForm = (action: string, data?: models.Product) => {
-    if (action === 'delete_item') {
-      const params: models.DeleteOpportunityItemParams = {
-        parentId: opportunityId,
-        itemId: data && data.itemId ? data.itemId : '',
-      };
-      OpportunityDetailsApi.deleteItem(params).then(() => {
-        reloadOpportunity();
-      });
-    } else {
-      document.body.classList.add('body-scroll-hidden');
-      dispatch(openOpportunityForm({ open: true, groupName: action, data, action: 'edit' }));
-    }
-  };
-
-  const deleteContact = (params: models.DeleteCustomerContactParams) => {
-    AddOpportunityApi.deleteContact(params).then(() => {
-      reloadOpportunity();
-    });
-  };
-
-  const reloadOpportunity = () => {
-    fetchOpportunityDetails(opportunityId);
-  };
-
   return (
     <>
       <Header page={1} />
-      {loading || state.opportuntyDetails.loader ? (
-        <Loader component="opportunity" />
-      ) : (
-        <section className="main-wrapper opportunity">
-          <div className="container-fluid">
-            <NavSection backToOpportunityList={backToOpportunityList} popover={popover} />
-            {defaultOpptyDetail ? <OpportunityInfo /> : null}
-            {defaultOpptyDetail ? <OpportunityInfoMobile data={defaultOpptyDetail} reloadOpportunityDetailsPage={reloadOpportunity} /> : null}
-            <section className="sec-info-accordion">
-              {opptyDataBasicGroup?.length ? (
-                <InfoAccordion title="Basics" data={opptyDataBasicGroup} openEditOpportunity={openOpportunityBasicEdit} />
-              ) : null}
-              {isDesktop && opptyDataMoreInfoGroup ? (
-                <InfoAccordionGroups title="More Information" data={opptyDataMoreInfoGroup} openEditForm={openEditForm} />
-              ) : null}
-              {(isTablet || isMobile) && opptyDataMoreInfoGroup ? (
-                <AccordianForMobileWithGroups title="More Information" data={opptyDataMoreInfoGroup} openEditForm={openEditForm} />
-              ) : null}
-
-              <ProductAccordian title="Products & Modules" data={opptyDataProductInfo} openAddItemForm={openAddItemForm} />
-              <ContactAccordian title="Contacts" data={opptyDataContactInfo} openAddContactForm={openAddContactForm} deleteContact={deleteContact} />
-            </section>
-          </div>
-        </section>
-      )}
+      {state.opportuntyDetails.loader ? <Loader component="opportunity" /> : null}
+      <section className="main-wrapper opportunity">
+        <div className="container-fluid">
+          <NavSection backToOpportunityList={backToOpportunityList} popover={popover} />
+          {state.opportuntyDetails.opportunityDefaultParams ? <OpportunityInfo /> : null}
+          {state.opportuntyDetails.opportunityDefaultParams ? <OpportunityInfoMobile /> : null}
+          <section className="sec-info-accordion">
+            {state.opportuntyDetails.opportunityDefaultParams ? (
+              <InfoAccordion
+                title="Basics"
+                data={getBasicInfo(state.opportuntyDetails.opportunityDefaultParams)}
+                openEditOpportunity={openOpportunityBasicEdit}
+              />
+            ) : null}
+            {isDesktop && state.opportuntyDetails.attributes ? (
+              <InfoAccordionGroups title="More Information" data={state.opportuntyDetails.attributes} openEditForm={openEditForm} />
+            ) : null}
+            {(isTablet || isMobile) && state.opportuntyDetails.attributes ? (
+              <AccordianForMobileWithGroups title="More Information" data={state.opportuntyDetails.attributes} openEditForm={openEditForm} />
+            ) : null}
+            <ProductAccordian opportunityId={opportunityId} />
+            <ContactAccordian opportunityId={opportunityId} />
+          </section>
+        </div>
+      </section>
       <Footer />
-      <Container reloadOpportunityDetailsPage={reloadOpportunity} />
+      <Container />
     </>
   );
 };

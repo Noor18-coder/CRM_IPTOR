@@ -23,6 +23,8 @@ export const createOpportunityDetailsInitialState = (): OpportunityDetailsState 
       oppRecordType: '',
     },
     attributes: [],
+    products: [],
+    contacts: [],
     editOportunity: {
       open: false,
     },
@@ -81,7 +83,21 @@ const opportuntyDetailsReducer: Reducer<OpportunityDetailsState, OpportunityDeta
         ...state,
         editOportunity: { ...state.editOportunity, approvalSubmitMessage: action.message },
       };
-
+    case OpportunityDetailsTypes.SET_OPPORTUNITY_DETAILS_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      };
+    case OpportunityDetailsTypes.SAVE_OPPORTUNITY_PRODUCTS:
+      return {
+        ...state,
+        products: action.products,
+      };
+    case OpportunityDetailsTypes.SAVE_OPPORTUNITY_CONTACTS:
+      return {
+        ...state,
+        contacts: action.contacts,
+      };
     default:
       return state;
   }

@@ -10,7 +10,8 @@ import { AppState } from '../store';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import { ApprovalLog } from '../../helpers/Api/ApprovalLog';
-// import { setLoadingMask, removeLoadingMask } from '../InitialConfiguration/Actions';
+import { APPROVAL_STATUS } from '../../config/Constants';
+import { Attributes } from '../../helpers/Api/Attributes';
 
 /** Action to set auth state logged in status */
 export const saveOpportunityDetails: ActionCreator<types.SaveOpportunityDetailsAction> = (opportunity: models.OpportunityDetailsDefault) => {
@@ -24,6 +25,27 @@ export const saveOpportunityAttributes: ActionCreator<types.SaveOpportunityAttri
   return {
     type: types.OpportunityDetailsTypes.SAVE_OPPORTUNITY_ATTRIBUTE_VALUES,
     attributes,
+  };
+};
+
+export const saveOpportunityProducts: ActionCreator<types.SaveOpportunityProducts> = (products: models.Product[]) => {
+  return {
+    type: types.OpportunityDetailsTypes.SAVE_OPPORTUNITY_PRODUCTS,
+    products,
+  };
+};
+
+export const saveProductinformation: ActionCreator<types.SaveProductInformation> = (product: models.Product) => {
+  return {
+    type: types.OpportunityDetailsTypes.SAVE_PRODUCT_INFORMATION,
+    product,
+  };
+};
+
+export const saveOpportunityContacts: ActionCreator<types.SaveOpportunityContacts> = (contacts: models.OpportunityContact[]) => {
+  return {
+    type: types.OpportunityDetailsTypes.SAVE_OPPORTUNITY_CONTACTS,
+    contacts,
   };
 };
 
@@ -44,6 +66,13 @@ export const setOpportunityEditSuccess: ActionCreator<types.SetOpportunityEditSt
 export const setEditOpportunityErrorMessage: ActionCreator<types.SetOpportunityEditErrorMessage> = (_error: string) => {
   return {
     type: types.OpportunityDetailsTypes.SET_EDIT_OPPORTUNITY_ERROR,
+    error: _error,
+  };
+};
+
+export const setOpportunityDetailsError: ActionCreator<types.SetOpportunityDetailsError> = (_error: string) => {
+  return {
+    type: types.OpportunityDetailsTypes.SET_OPPORTUNITY_DETAILS_ERROR,
     error: _error,
   };
 };
@@ -78,7 +107,7 @@ export const editOpportunity: ActionCreator<
     types.SetOpportunityEditStatus | types.SetOpportunityEditErrorMessage
   >
 > = (opportunity: models.OpportunityDetailsDefault) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch, getState) => {
     dispatch(setOpportunityDetailsLoader());
     try {
       const data: models.UpdateOpportunityResponse = await AddOpportunityApi.update(opportunity);
@@ -94,6 +123,21 @@ export const editOpportunity: ActionCreator<
       } else {
         const details: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opportunity.opportunityId);
         dispatch(saveOpportunityDetails(details));
+        const { auth } = getState();
+        if (
+          details &&
+          details.activ &&
+          details.approvalStatus &&
+          details.activ === true &&
+          details.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+          details.approvalStatus !== APPROVAL_STATUS.REJECTED &&
+          (auth.user.role?.toLowerCase() === 'admin' || auth.user.user === details.handler)
+        ) {
+          dispatch(openOpportunityForm({ allowEdit: true }));
+        } else {
+          dispatch(openOpportunityForm({ allowEdit: false }));
+        }
+
         if (
           details &&
           details.defaultApprover &&
@@ -146,4 +190,270 @@ export const submitAutoApprovals = async (opportunity: models.OpportunityDetails
     const message = 'Unable to update the approval status.';
     return dispatch(setApprovalSubmitStatus(message));
   }
+};
+
+export const getOpportunityDetails: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityDetailsAction | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityDetailsAction | types.SetOpportunityDetailsError
+  >
+> = (opportunityId: string) => {
+  return async (dispatch: Dispatch, getState) => {
+    dispatch(setOpportunityDetailsLoader());
+    const { auth } = getState();
+    try {
+      const data: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opportunityId);
+      dispatch(removeOpportunityDetailsLoader());
+      if (data && data.error) {
+        // eslint-disable-next-line no-alert
+        return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      } else {
+        if (
+          data &&
+          data.activ &&
+          data.approvalStatus &&
+          data.activ === true &&
+          data.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+          data.approvalStatus !== APPROVAL_STATUS.REJECTED &&
+          (auth.user.role?.toLowerCase() === 'admin' || auth.user.user === data.handler)
+        ) {
+          dispatch(openOpportunityForm({ allowEdit: true }));
+        } else {
+          dispatch(openOpportunityForm({ allowEdit: false }));
+        }
+        return dispatch(saveOpportunityDetails(data));
+      }
+    } catch {
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    }
+  };
+};
+
+export const getOpportunityAttributes: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityAttributesAction | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityAttributesAction | types.SetOpportunityDetailsError
+  >
+> = (opportunityId: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const attributeValues: models.AttributeValueObject[] = await OpportunityDetailsApi.getGroupInfo(opportunityId);
+      return dispatch(saveOpportunityAttributes(attributeValues));
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    }
+  };
+};
+
+export const updateAllAtrributeValues: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityAttributesAction | types.SetOpportunityEditErrorMessage>,
+    AppState,
+    undefined,
+    types.SaveOpportunityAttributesAction | types.SetOpportunityEditErrorMessage
+  >
+> = (attributesSet: models.AttributeValueAndType[]) => {
+  // eslint-disable-next-line consistent-return
+  return async (dispatch: Dispatch, getState) => {
+    const { opportuntyDetails } = getState();
+    const { opportunityId } = opportuntyDetails.opportunityDefaultParams;
+    dispatch(setOpportunityDetailsLoader());
+    try {
+      const data = await Promise.all(
+        attributesSet.map((obj: any) => {
+          const attributeExist = opportuntyDetails.attributes.find(
+            (valueObj: models.AttributeValueObject) => valueObj.attributeType === obj.attributeType
+          );
+
+          if (attributeExist) {
+            return Attributes.updateAttribute(obj.attributeType, attributeExist.valueId, obj.attributeValue);
+          } else {
+            return Attributes.addAttribute('opportunity', opportunityId, obj.attributeType, obj.attributeValue);
+          }
+        })
+      ).then((res: any) => {
+        return res;
+      });
+      if (data) {
+        const attributeValues: models.AttributeValueObject[] = await OpportunityDetailsApi.getGroupInfo(opportunityId);
+        dispatch(removeOpportunityDetailsLoader());
+        document.body.classList.remove('body-scroll-hidden');
+        dispatch(openOpportunityForm({ open: false }));
+        return dispatch(saveOpportunityAttributes(attributeValues));
+      } else {
+        dispatch(removeOpportunityDetailsLoader());
+        return dispatch(setEditOpportunityErrorMessage('Something went wrong.'));
+      }
+    } catch (error) {
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(setEditOpportunityErrorMessage('Something went wrong.'));
+    }
+  };
+};
+
+export const getOpportunityProducts: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityProducts | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityProducts | types.SetOpportunityDetailsError
+  >
+> = (opportunityId: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const products: models.Product[] = await OpportunityDetailsApi.getOpportunityItems(opportunityId);
+      return dispatch(saveOpportunityProducts(products));
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    }
+  };
+};
+
+export const getOpportunityContacts: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityContacts | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityContacts | types.SetOpportunityDetailsError
+  >
+> = (opportunityId: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const contacts: models.OpportunityContact[] = await OpportunityDetailsApi.getOpportunityContact(opportunityId);
+      return dispatch(saveOpportunityContacts(contacts));
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    }
+  };
+};
+
+export const addItemsToOpportunity: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityProducts | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityProducts | types.SetOpportunityDetailsError
+  >
+> = (opportunityId: string, filterItems: models.Item[]) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const data = await Promise.all(
+        filterItems.map((item: models.Item) => {
+          return AddOpportunityApi.addItem(opportunityId, item.item, 1, item.stockingUnit);
+        })
+      ).then((result) => {
+        return result;
+      });
+      if (data) {
+        const products: models.Product[] = await OpportunityDetailsApi.getOpportunityItems(opportunityId);
+        return dispatch(saveOpportunityProducts(products));
+      } else {
+        return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      }
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    } finally {
+      document.body.classList.remove('body-scroll-hidden');
+      dispatch(openOpportunityForm({ open: false }));
+    }
+  };
+};
+
+export const getProductInformation: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityProducts | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityProducts | types.SetOpportunityDetailsError
+  >
+> = (itemId: string) => {
+  return async (dispatch: Dispatch, getState) => {
+    try {
+      const { opportuntyDetails } = getState();
+      const products = [...opportuntyDetails.products];
+      const index: number = products.findIndex((obj: models.Product) => obj.itemId === itemId);
+      const productDetails: models.OpportunityDetailsGroupItem[] = await OpportunityDetailsApi.getProductDetails(itemId);
+      if (index > -1) {
+        const costObj = productDetails.find((obj) => obj.attributeType === 'COST');
+        // eslint-disable-next-line no-param-reassign
+        products[index].cost = costObj?.attributeValue;
+        const revenueObj = productDetails.find((obj) => obj.attributeType === 'REVENUE_TYPE');
+        // eslint-disable-next-line no-param-reassign
+        products[index].revenue = revenueObj?.attributeValue;
+        const versionObj = productDetails.find((obj) => obj.attributeType === 'VERSION');
+        // eslint-disable-next-line no-param-reassign
+        products[index].version = versionObj?.attributeValue;
+        return dispatch(saveOpportunityProducts(products));
+      }
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    } finally {
+      document.body.classList.remove('body-scroll-hidden');
+      dispatch(openOpportunityForm({ open: false }));
+    }
+  };
+};
+
+export const addContactToOpportunity: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityContacts | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityContacts | types.SetOpportunityDetailsError
+  >
+> = (opportunityId: string, contact: models.AddCustomerContactRequestParams) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const params: models.AddCustomerContactRequestParams = {
+        contactParentId: opportunityId,
+        contactPerson: contact.contactPerson,
+        phone: contact.phone,
+        mobile: contact.mobile,
+        whatsApp: contact.whatsApp,
+        linkedin: contact.linkedin,
+        fax: contact.fax,
+        email: contact.email,
+      };
+      dispatch(setOpportunityDetailsLoader());
+      await AddOpportunityApi.addContact(params);
+      const contacts: models.OpportunityContact[] = await OpportunityDetailsApi.getOpportunityContact(opportunityId);
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(saveOpportunityContacts(contacts));
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    } finally {
+      document.body.classList.remove('body-scroll-hidden');
+      dispatch(openOpportunityForm({ open: false }));
+    }
+  };
+};
+
+export const deleteContactFromOpportunity: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityContacts | types.SetOpportunityDetailsError>,
+    AppState,
+    undefined,
+    types.SaveOpportunityContacts | types.SetOpportunityDetailsError
+  >
+> = (params: models.DeleteCustomerContactParams) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch(setOpportunityDetailsLoader());
+      await AddOpportunityApi.deleteContact(params);
+      const contacts: models.OpportunityContact[] = await OpportunityDetailsApi.getOpportunityContact(params.contactParentId);
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(saveOpportunityContacts(contacts));
+    } catch {
+      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+    } finally {
+      document.body.classList.remove('body-scroll-hidden');
+      dispatch(openOpportunityForm({ open: false }));
+    }
+  };
 };

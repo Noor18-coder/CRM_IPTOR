@@ -5,11 +5,16 @@ import { isArray } from 'lodash';
 import { useHistory } from 'react-router';
 import i18n from '../../i18n';
 import { AppState } from '../../store/store';
-import { OpportunityDetailsDefault, ApprovalLogsDefault, UpdateOpportunityResponse, InitiateSubmitApprovalPopupData } from '../../helpers/Api/models';
+import {
+  ApprovalLogsDefault,
+  UpdateOpportunityResponse,
+  InitiateSubmitApprovalPopupData,
+  OpportunityDetailsDefault,
+  StageInfo,
+} from '../../helpers/Api/models';
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import ImageConfig from '../../config/ImageConfig';
 import { StagesInfo } from '../../helpers/Api/StagesInfo';
-import { StageInfo } from '../../helpers/Api/models/StageInfo';
 import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 import { setOpportunityLoader } from '../../store/AddOpportunity/Actions';
 import { ApprovalInfo } from '../../helpers/Api/Approvals';
@@ -18,24 +23,25 @@ import { setLoadingMask, removeLoadingMask } from '../../store/InitialConfigurat
 
 import { APPROVAL_STATUS } from '../../config/Constants';
 
-export interface Data {
-  data: OpportunityDetailsDefault;
-  reloadOpportunityDetailsPage: () => void;
-}
+// export interface Data {
+//   data: OpportunityDetailsDefault;
+//   reloadOpportunityDetailsPage: () => void;
+// }
 
-const OpportunityInfoMobile: React.FC<Data> = (props) => {
+const OpportunityInfoMobile: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const { user } = state.auth.user;
   const history = useHistory();
 
   const dispatch: Dispatch<any> = useDispatch();
-  const { data, reloadOpportunityDetailsPage } = props;
+  const { opportunityDefaultParams } = state.opportuntyDetails;
+
   const [stages, setStages] = React.useState<StageInfo[]>();
   const [logsData, setLogsData] = React.useState<ApprovalLogsDefault[]>([]);
 
   React.useEffect(() => {
     dispatch(setOpportunityLoader(true));
-    ApprovalInfo.getApprovalLogs(data.opportunityId).then((logResponse) => {
+    ApprovalInfo.getApprovalLogs(opportunityDefaultParams.opportunityId).then((logResponse) => {
       setLogsData(logResponse);
     });
     dispatch(setOpportunityLoader(false));
@@ -64,12 +70,12 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
 
   const submitApproval = (subGroupName: string) => {
     const submitApprovalData: InitiateSubmitApprovalPopupData = {
-      defaultApprover: data.defaultApprover ? data.defaultApprover : '',
-      salesStage: data.stage ? data.stage : '',
-      levelId: data.level ? data.level : 0,
-      opportunityId: data.opportunityId,
-      approvalLogStatus: data.approvalStatus ? data.approvalStatus : '',
-      approver: data.approver ? data.approver : '',
+      defaultApprover: opportunityDefaultParams.defaultApprover ? opportunityDefaultParams.defaultApprover : '',
+      salesStage: opportunityDefaultParams.stage ? opportunityDefaultParams.stage : '',
+      levelId: opportunityDefaultParams.level ? opportunityDefaultParams.level : 0,
+      opportunityId: opportunityDefaultParams.opportunityId,
+      approvalLogStatus: opportunityDefaultParams.approvalStatus ? opportunityDefaultParams.approvalStatus : '',
+      approver: opportunityDefaultParams.approver ? opportunityDefaultParams.approver : '',
     };
     dispatch(openOpportunityForm({ open: true, submitApprovalData, action: 'approval', groupName: 'submit_approval', subGroupName }));
     document.body.classList.add('body-scroll-hidden');
@@ -90,8 +96,15 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
         alert(i18n.t('commonErrorMessage'));
       }
     } else {
-      reloadOpportunityDetailsPage();
+      //  reloadOpportunityDetailsPage();
     }
+  };
+
+  const getEstimatedValue = (basicInfo: OpportunityDetailsDefault) => {
+    // eslint-disable-next-line max-len
+    return `${
+      state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA && getCurrencySymbol(state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
+    } ${basicInfo?.estimatedValueSys}`;
   };
 
   return (
@@ -100,8 +113,8 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
       <div className="d-flex justify-content-between product-name-action-row">
         <div role="presentation" className="lft-prodname" onClick={backToOpportunityList}>
           <p>
-            {data.customerName} <span className="id-num">{data.customer} </span>
-            <span className="location">{data.handler}, NA</span>
+            {opportunityDefaultParams.customerName} <span className="id-num">{opportunityDefaultParams.customer} </span>
+            <span className="location">{opportunityDefaultParams.handler}, NA</span>
           </p>
         </div>
         <div className="rgt-actioncol">
@@ -123,19 +136,19 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
         <ul className="list-inline">
           <li
             className={
-              data.approvalStatus === APPROVAL_STATUS.REJECTED
+              opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.REJECTED
                 ? 'list-inline-item reject'
-                : data.approvalStatus === APPROVAL_STATUS.SUBMITTED
+                : opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.SUBMITTED
                 ? 'list-inline-item submit'
-                : data.approvalStatus === APPROVAL_STATUS.APPROVED
+                : opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.APPROVED
                 ? 'list-inline-item grade'
-                : data.approvalStatus === APPROVAL_STATUS.LOST
+                : opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.LOST
                 ? 'list-inline-item lost'
                 : 'list-inline-item grade'
             }>
-            {data.stage}
+            {opportunityDefaultParams.stage}
           </li>
-          <li className="list-inline-item status">{data.approvalStatus}</li>
+          <li className="list-inline-item status">{opportunityDefaultParams.approvalStatus}</li>
         </ul>
       </div>
 
@@ -143,13 +156,13 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
         <div className="curr-qtr">
           <p>
             <span>Close Quarter</span>
-            {getQuarterOfYearFromDate(data.endDate)}
+            {getQuarterOfYearFromDate(opportunityDefaultParams.endDate)}
           </p>
         </div>
 
         <div className="deal-size">
           <p>
-            <span>Deal Size</span> {`${getCurrencySymbol(data.currency)} ${data.currentValue}`}
+            <span>Deal Size</span> {getEstimatedValue(opportunityDefaultParams)}
           </p>
         </div>
       </div>
@@ -162,17 +175,17 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
             <ul className="list-inline stage-circles d-flex justify-content-between">
               {stages
                 ? stages.map((obj) => {
-                    if (data.stage === obj.salesStage) {
+                    if (opportunityDefaultParams.stage === obj.salesStage) {
                       return (
                         <li
                           className={
-                            data.approvalStatus === APPROVAL_STATUS.REJECTED
+                            opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.REJECTED
                               ? 'list-inline-item reject'
-                              : data.approvalStatus === APPROVAL_STATUS.SUBMITTED
+                              : opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.SUBMITTED
                               ? 'list-inline-item submit'
-                              : data.approvalStatus === APPROVAL_STATUS.APPROVED
+                              : opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.APPROVED
                               ? 'list-inline-item active'
-                              : data.approvalStatus === APPROVAL_STATUS.LOST
+                              : opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.LOST
                               ? 'list-inline-item lost'
                               : 'list-inline-item active'
                           }>
@@ -182,8 +195,8 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
                     }
                     if (
                       state.opportuntyDetails.editOportunity.allowEdit &&
-                      data.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
-                      data.approvalStatus !== APPROVAL_STATUS.REJECTED
+                      opportunityDefaultParams.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+                      opportunityDefaultParams.approvalStatus !== APPROVAL_STATUS.REJECTED
                     ) {
                       return (
                         <li className="list-inline-item" role="presentation" onClick={() => updateStage(obj)}>
@@ -201,9 +214,11 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
                 : null}
             </ul>
           </div>
-          {data.approvalStatus === APPROVAL_STATUS.SUBMITTED && data.approver !== user && (
+          {opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.SUBMITTED && opportunityDefaultParams.approver !== user && (
             <div className="sec-change-approver sec-change-submit d-flex justify-content-between">
-              <div className="cont">Shared for approval with {getUserName(data.approver ? data.approver : '')}</div>
+              <div className="cont">
+                Shared for approval with {getUserName(opportunityDefaultParams.approver ? opportunityDefaultParams.approver : '')}
+              </div>
               <div className="action-btn">
                 <button type="button" className="ghost-btn" onClick={() => submitApproval('changeApprover')}>
                   {i18n.t('changeApprover')}
@@ -211,7 +226,7 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
               </div>
             </div>
           )}
-          {data.approvalStatus === APPROVAL_STATUS.REJECTED && data.approver !== user && (
+          {opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.REJECTED && opportunityDefaultParams.approver !== user && (
             <div className="sec-change-approver sec-change-reject d-flex justify-content-between">
               <div className="action-btn">
                 <button type="button" className="txt-link reject-text" onClick={() => toggleDrawer(true, logsData, 'approval', 'history', '')}>
@@ -223,33 +238,35 @@ const OpportunityInfoMobile: React.FC<Data> = (props) => {
               </div>
             </div>
           )}
-          {data.approvalStatus === APPROVAL_STATUS.NEW && data.approvalRequired === true && data.approver !== user && (
-            <div className="sec-change-approver sec-change-new d-flex justify-content-between">
-              <div className="action-btn">
-                <button type="button" className="txt-link submit-text" onClick={() => submitApproval('')}>
-                  {i18n.t('submitApproval')}
-                </button>
+          {opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.NEW &&
+            opportunityDefaultParams.approvalRequired === true &&
+            opportunityDefaultParams.approver !== user && (
+              <div className="sec-change-approver sec-change-new d-flex justify-content-between">
+                <div className="action-btn">
+                  <button type="button" className="txt-link submit-text" onClick={() => submitApproval('')}>
+                    {i18n.t('submitApproval')}
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
-          {data.approvalStatus === APPROVAL_STATUS.LOST && data.approver !== user && (
+            )}
+          {opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.LOST && opportunityDefaultParams.approver !== user && (
             <div className="sec-change-approver sec-change-lost d-flex justify-content-between">
               <div>Opportunity lost due to</div>
             </div>
           )}
-          {data.approver === user && data.approvalStatus === APPROVAL_STATUS.SUBMITTED && (
+          {opportunityDefaultParams.approver === user && opportunityDefaultParams.approvalStatus === APPROVAL_STATUS.SUBMITTED && (
             <div className="sec-change-approver sec-change-submit d-flex justify-content-between">
               <div className="action-btn">
                 <button
                   type="button"
                   className="approver-reject-btn"
-                  onClick={() => toggleDrawer(true, data, 'approval', 'approverSubmit', 'rejected')}>
+                  onClick={() => toggleDrawer(true, opportunityDefaultParams, 'approval', 'approverSubmit', 'rejected')}>
                   <img src={ImageConfig.BTN_CLOSE_ICON} alt="Cross Icon" className="btn-icon" /> {i18n.t('reject')}
                 </button>
                 <button
                   type="button"
                   className="approver-approve-btn"
-                  onClick={() => toggleDrawer(true, data, 'approval', 'approverSubmit', 'approved')}>
+                  onClick={() => toggleDrawer(true, opportunityDefaultParams, 'approval', 'approverSubmit', 'approved')}>
                   <img src={ImageConfig.BTN_CHECK_ICON} alt="Right Icon" className="btn-icon" /> {i18n.t('approve')}
                 </button>
               </div>

@@ -1,66 +1,91 @@
 import React from 'react';
 import { Card, Image, Table, Accordion } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Product } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import * as models from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
+import { AppState } from '../../store/store';
+import {
+  getOpportunityProducts,
+  getProductInformation,
+  setOpportunityDetailsLoader,
+  removeOpportunityDetailsLoader,
+  openOpportunityForm,
+} from '../../store/OpportunityDetails/Actions';
 
 export interface ContactProps {
-  data: Product;
-  openAddItemForm: (groupName: string, data?: models.Product) => void;
+  data: models.Product;
+  opportunityId: string;
 }
 
 interface Props {
-  title: string;
-  data: Product[];
-  openAddItemForm: (groupName: string, data?: models.Product) => void;
+  opportunityId: string;
 }
 
-export const ProductAccordian: React.FC<Props> = ({ title, data, openAddItemForm }) => {
+export const ProductAccordian: React.FC<Props> = ({ opportunityId }) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+
   const [activeClass, setActiveClass] = React.useState('');
+  const state: AppState = useSelector((appState: AppState) => appState);
+  const dispatch: Dispatch<any> = useDispatch();
+  const { products } = state.opportuntyDetails;
   const toggleAccordion = () => {
     setActiveClass(activeClass === '' ? 'active' : '');
   };
+  const openAddItemForm = (str: string) => {
+    document.body.classList.add('body-scroll-hidden');
+    dispatch(openOpportunityForm({ open: true, groupName: str, action: 'edit' }));
+  };
+
+  React.useEffect(() => {
+    dispatch(getOpportunityProducts(opportunityId));
+  }, []);
+
   return (
     <Accordion defaultActiveKey="0">
       <Card className="add-details">
         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
-          {title}
-          <Image className="addnew-red-icon" src={ImageConfig.ADD_BTN} alt="Add New" title="Add New" onClick={() => openAddItemForm('add_item')} />
+          Products and Moudules
+          {state.opportuntyDetails.editOportunity.allowEdit ? (
+            <Image className="addnew-red-icon" src={ImageConfig.ADD_BTN} alt="Add New" title="Add New" onClick={() => openAddItemForm('add_item')} />
+          ) : null}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           <div className="accr-body-container prod-modules-tbl mob-prod-modules-tbl">
             {(() => {
-              if (data.length) {
+              if (products.length) {
                 if (isMobile || isTablet) {
-                  return data.map((obj: Product) => {
-                    return <ProductCards data={obj} openAddItemForm={openAddItemForm} />;
+                  return products.map((obj: Product) => {
+                    return <ProductCards data={obj} opportunityId={opportunityId} />;
                   });
+                } else {
+                  return (
+                    <Table borderless>
+                      <thead>
+                        <tr>
+                          <th>ITEM ID</th>
+                          <th>ITEM NAME</th>
+                          <th>VERSION</th>
+                          <th>COST</th>
+                          <th>REVENUE TYPE</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {state.opportuntyDetails.products.length &&
+                          state.opportuntyDetails.products.map((obj: Product) => {
+                            return <ProductCardsTable data={obj} opportunityId={opportunityId} />;
+                          })}
+                      </tbody>
+                    </Table>
+                  );
                 }
-                return (
-                  <Table borderless>
-                    <thead>
-                      <tr>
-                        <th>ITEM ID</th>
-                        <th>ITEM NAME</th>
-                        <th>VERSION</th>
-                        <th>COST</th>
-                        <th>REVENUE TYPE</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.length &&
-                        data.map((obj: Product) => {
-                          return <ProductCardsTable data={obj} openAddItemForm={openAddItemForm} />;
-                        })}
-                    </tbody>
-                  </Table>
-                );
+              } else {
+                return <div className="no-prod-data-txt"> No Records Found </div>;
               }
-              return <div className="no-prod-data-txt"> No Records Found </div>;
             })()}
           </div>
         </Accordion.Collapse>
@@ -69,23 +94,30 @@ export const ProductAccordian: React.FC<Props> = ({ title, data, openAddItemForm
   );
 };
 
-export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) => {
-  const [productDetails, setProductDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
+export const ProductCards: React.FC<ContactProps> = ({ data, opportunityId }) => {
+  // const state: AppState = useSelector((appState: AppState) => appState);
   React.useEffect(() => {
-    OpportunityDetailsApi.getProductDetails(data.itemId).then((contactData) => {
-      setProductDetails(contactData);
-    });
+    dispatch(getProductInformation(data.itemId));
   }, []);
 
-  const costObj = productDetails.find((obj) => obj.attributeType === 'COST');
-  // eslint-disable-next-line no-param-reassign
-  data.cost = costObj?.attributeValue;
-  const revenueObj = productDetails.find((obj) => obj.attributeType === 'REVENUE_TYPE');
-  // eslint-disable-next-line no-param-reassign
-  data.revenue = revenueObj?.attributeValue;
-  const versionObj = productDetails.find((obj) => obj.attributeType === 'VERSION');
-  // eslint-disable-next-line no-param-reassign
-  data.version = versionObj?.attributeValue;
+  const dispatch: Dispatch<any> = useDispatch();
+
+  const openAddItemForm = (action: string) => {
+    if (action === 'delete_item') {
+      const params: models.DeleteOpportunityItemParams = {
+        parentId: opportunityId,
+        itemId: data && data.itemId ? data.itemId : '',
+      };
+      dispatch(setOpportunityDetailsLoader());
+      OpportunityDetailsApi.deleteItem(params).then(() => {
+        dispatch(removeOpportunityDetailsLoader());
+        dispatch(getOpportunityProducts(opportunityId));
+      });
+    } else {
+      document.body.classList.add('body-scroll-hidden');
+      dispatch(openOpportunityForm({ open: true, groupName: action, data, action: 'edit' }));
+    }
+  };
   return (
     <>
       <div className="mr-10 mob-prod-modules-card">
@@ -115,13 +147,13 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
           <button
             type="button"
             className=" d-flex justify-content-between product-row icon-class mr-6"
-            onClick={() => openAddItemForm('delete_item', data)}>
+            onClick={() => openAddItemForm('delete_item')}>
             <span className="icon">
               <Image className="del-icon" src={ImageConfig.DELETE_ICON} alt="edit" title="edit" />
               Delete
             </span>
           </button>
-          <button type="button" className=" d-flex justify-content-between product-row icon-class" onClick={() => openAddItemForm('edit_item', data)}>
+          <button type="button" className=" d-flex justify-content-between product-row icon-class" onClick={() => openAddItemForm('edit_item')}>
             <span className="icon">
               <Image className="del-icon" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
               Edit
@@ -133,41 +165,54 @@ export const ProductCards: React.FC<ContactProps> = ({ data, openAddItemForm }) 
   );
 };
 
-export const ProductCardsTable: React.FC<ContactProps> = ({ data, openAddItemForm }) => {
-  const [productDetails, setProductDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
+export const ProductCardsTable: React.FC<ContactProps> = ({ opportunityId, data }) => {
+  const state: AppState = useSelector((appState: AppState) => appState);
+  // const data: models.Product | undefined = state.opportuntyDetails.products.find((obj: models.Product) => obj.itemId === itemId);
+  const dispatch: Dispatch<any> = useDispatch();
   React.useEffect(() => {
-    OpportunityDetailsApi.getProductDetails(data.itemId).then((contactData) => {
-      setProductDetails(contactData);
-    });
+    dispatch(getProductInformation(data.itemId));
   }, []);
-  const costObj = productDetails.find((obj) => obj.attributeType === 'COST');
-  // eslint-disable-next-line no-param-reassign
-  data.cost = costObj?.attributeValue;
-  const revenueObj = productDetails.find((obj) => obj.attributeType === 'REVENUE_TYPE');
-  // eslint-disable-next-line no-param-reassign
-  data.revenue = revenueObj?.attributeValue;
-  const versionObj = productDetails.find((obj) => obj.attributeType === 'VERSION');
-  // eslint-disable-next-line no-param-reassign
-  data.version = versionObj?.attributeValue;
+
+  const openAddItemForm = (action: string) => {
+    if (action === 'delete_item') {
+      const params: models.DeleteOpportunityItemParams = {
+        parentId: opportunityId,
+        itemId: data && data.itemId ? data.itemId : '',
+      };
+      dispatch(setOpportunityDetailsLoader());
+      OpportunityDetailsApi.deleteItem(params).then(() => {
+        dispatch(removeOpportunityDetailsLoader());
+        dispatch(getOpportunityProducts(opportunityId));
+      });
+    } else {
+      document.body.classList.add('body-scroll-hidden');
+      dispatch(openOpportunityForm({ open: true, groupName: action, data, action: 'edit' }));
+    }
+  };
+
   return (
     <>
-      <tr>
-        <td className="prod-class">{data.item}</td>
-        <td className="prod-class">{data.itemDescription}</td>
-        <td className="prod-class">{data.version}</td>
-        <td className="prod-class">{data.cost}</td>
-        <td className="prod-class">{data.revenue}</td>
-        <td className="prod-revenue-class">
-          <div className="d-flex justify-content-between title-row float-right">
-            <button type="button" className="lft-col" onClick={() => openAddItemForm('delete_item', data)}>
-              <Image src={ImageConfig.CLOSE_BTN} alt="delete" title="delete" />
-            </button>
-            <button type="button" className="rgt-col" onClick={() => openAddItemForm('edit_item', data)}>
-              <Image src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
-            </button>
-          </div>
-        </td>
-      </tr>
+      {data ? (
+        <tr>
+          <td className="prod-class">{data.item}</td>
+          <td className="prod-class">{data.itemDescription}</td>
+          <td className="prod-class">{data.version}</td>
+          <td className="prod-class">{data.cost}</td>
+          <td className="prod-class">{data.revenue}</td>
+          <td className="prod-revenue-class">
+            {state.opportuntyDetails.editOportunity.allowEdit ? (
+              <div className="d-flex justify-content-between title-row float-right">
+                <button type="button" className="lft-col" onClick={() => openAddItemForm('delete_item')}>
+                  <Image src={ImageConfig.CLOSE_BTN} alt="delete" title="delete" />
+                </button>
+                <button type="button" className="rgt-col" onClick={() => openAddItemForm('edit_item')}>
+                  <Image src={ImageConfig.EDIT_ICON} alt="edit" title="edit" />
+                </button>
+              </div>
+            ) : null}
+          </td>
+        </tr>
+      ) : null}
     </>
   );
 };
