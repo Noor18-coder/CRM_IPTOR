@@ -17,3 +17,28 @@ export interface LogsListParams {
   logParentFile?: string;
   loggedAction?: string;
 }
+
+export interface StatisticsDetailsItem {
+  industry: string;
+  total: number;
+  inProgress: number;
+  won: number;
+  lost: number;
+  totalValue: number;
+  inProgressValue: number;
+  wonValue: number;
+  lostValue: number;
+  currency: string;
+}
+
+export interface StatisticsDetailsResponse {
+  data: {
+    items: StatisticsDetailsItem[];
+  };
+}
+
+export interface StatisticsDetailsParams {
+  groupBy?: string;
+  closeDateFrom?: string;
+  closeDateTo?: string;
+}

@@ -46,5 +46,18 @@
   "approval": "Approval",
   "changeApprover": "Change Approver",
   "opportunityDeletedSuccess": "Opportunity Deleted Successfully.",
-  "loadingData": "Loading Data..."
+  "loadingData": "Loading Data...",
+  "customer": "Customer",
+  "newAdded": "Newly Added",
+  "inactive": "Inactive",
+  "wonLost": "Won vs Lost",
+  "allRegions": "All Regions",
+  "allIndustry": "All Industry",
+  "type": "Type",
+  "topSalesPerson": "Top Sales Person",
+  "opportunity": "Opportunity",
+  "week": "Week",
+  "month": "Month",
+  "year": "Year",
+  "pipeline": "Pipline"
 }

@@ -3,21 +3,27 @@ import i18n from '../../i18n';
 import { DashboardInfo } from '../../helpers/Api/DashboardInfo';
 import { LogsListParams, LogsInfoItem, BusinessPartnerListParams } from '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+import { Attributes } from '../../helpers/Api';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
+import { Constants } from '../../config/Constants';
 
 const DashboarCustomerdWidgets: React.FC = () => {
   const [newCustomers, setNewCustomers] = React.useState<any>();
   const [inactiveCustomers, setInactiveCustomers] = React.useState<any>();
+  const [targatedCustomers, setTargatedCustomers] = React.useState<any>();
   const [showNewCustomer, setShowNewCustomer] = React.useState<boolean>(true);
   const [showInactiveCustomer, setShowInactiveCustomer] = React.useState<boolean>(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [campaignList, setCampaignList] = React.useState<any>();
+  const [campaignFilters] = React.useState<BusinessPartnerListParams>({});
+  const [isNewLoading, setIsNewLoading] = React.useState<boolean>(false);
+  const [isCampaignLoading, setIsCampaignLoading] = React.useState<boolean>(false);
 
   const LogParams: LogsListParams = {
-    logParentFile: 'SRONAM',
-    loggedAction: 'ADD',
+    logParentFile: Constants.CUSTOMER_PARENT_FILE,
+    loggedAction: Constants.ADD_ACTION,
   };
 
-  const CustomerFilters: BusinessPartnerListParams = {
+  const InactiveFilters: BusinessPartnerListParams = {
     businessPartnerTextSearch: '',
     searchField: '',
     includeInactive: true,
@@ -28,8 +34,8 @@ const DashboarCustomerdWidgets: React.FC = () => {
   };
 
   const getCustomerLogs = async () => {
-    setIsLoading(true);
-    const logsData: any = await DashboardInfo.getLogs(4, 'logId DESC', LogParams);
+    setIsNewLoading(true);
+    const logsData: any = await DashboardInfo.getLogs(Constants.MIN_DATA_LIMIT, Constants.LOGID_DESC, LogParams);
     if (logsData) {
       Promise.all(
         logsData.map((obj: LogsInfoItem) => {
@@ -37,38 +43,74 @@ const DashboarCustomerdWidgets: React.FC = () => {
         })
       ).then((entityData) => {
         setNewCustomers(entityData);
-        setIsLoading(false);
+        setIsNewLoading(false);
         return entityData;
       });
     }
   };
 
-  const handleAddedCustomer = (type: string) => {
-    if (type === 'new') {
+  const getCampaigns = async () => {
+    setIsCampaignLoading(true);
+    const attributeType = await Attributes.getAttributeType(Constants.ATTRIBUTE_CAMPAIGN, Constants.CUSTOMER_PARENT_FILE);
+    if (attributeType.data) {
+      const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
+      if (attributeValues.items) {
+        setCampaignList(attributeValues.items);
+        setIsCampaignLoading(false);
+      }
+    }
+  };
+
+  const handleRecentCustomer = (type: string) => {
+    if (type === Constants.NEW_TYPE) {
       setShowNewCustomer(true);
       setShowInactiveCustomer(false);
     } else {
       setShowNewCustomer(false);
       setShowInactiveCustomer(true);
       if (!inactiveCustomers) {
-        setIsLoading(true);
-        BusinessPartnerList.get('', 4, 0, '', CustomerFilters).then((data) => {
-          setInactiveCustomers(data.data.items);
-          setIsLoading(false);
-          return data;
-        });
+        setIsNewLoading(true);
+        getCustomers(InactiveFilters);
       }
     }
   };
 
+  const getCustomers = (filters: BusinessPartnerListParams) => {
+    BusinessPartnerList.get('', Constants.MIN_DATA_LIMIT, 0, '', filters).then((data) => {
+      if (filters.includeInactive) {
+        setInactiveCustomers(data.data.items);
+        setIsNewLoading(false);
+      } else {
+        setTargatedCustomers(data.data.items);
+        setIsCampaignLoading(false);
+      }
+      setIsNewLoading(false);
+      return data;
+    });
+  };
+
+  const onSelectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    campaignFilters.crmAttributesTextSearch = `CAMPAIGN ${e.target.value}`;
+    getCustomers(campaignFilters);
+  };
+
   React.useEffect(() => {
     getCustomerLogs();
+    getCampaigns();
   }, []);
+
+  React.useEffect(() => {
+    if (campaignList) {
+      campaignFilters.crmAttributesTextSearch = `CAMPAIGN ${campaignList[0].valueField}`;
+      setIsCampaignLoading(true);
+      getCustomers(campaignFilters);
+    }
+  }, [campaignList]);
 
   return (
     <div className="row">
       <div className="col-12">
-        <p className="cardsec-title">Customer</p>
+        <p className="cardsec-title">{i18n.t('customer')}</p>
       </div>
       <div className="col-lg-4 col-md-6 col-sm-6">
         <div className="card mb-2">
@@ -81,8 +123,8 @@ const DashboarCustomerdWidgets: React.FC = () => {
                       className={showNewCustomer ? 'nav-link active' : 'nav-link'}
                       id="cust-newlyadded"
                       type="button"
-                      onClick={() => handleAddedCustomer('new')}>
-                      Newly Added
+                      onClick={() => handleRecentCustomer('new')}>
+                      {i18n.t('newAdded')}
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">
@@ -90,8 +132,8 @@ const DashboarCustomerdWidgets: React.FC = () => {
                       className={showInactiveCustomer ? 'nav-link active' : 'nav-link'}
                       id="custinactive"
                       type="button"
-                      onClick={() => handleAddedCustomer('inactive')}>
-                      Inactive
+                      onClick={() => handleRecentCustomer('inactive')}>
+                      {i18n.t('inactive')}
                     </button>
                   </li>
                 </ul>
@@ -102,7 +144,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
           <div className="card-body">
             <div className="tab-content">
               <div className="tab-pane fade show active" id="cust-newly-added" role="tabpanel" aria-labelledby="cust-newlyadded">
-                {isLoading && <div className="text-center">{i18n.t('loadingData')}</div>}
+                {isNewLoading && <div className="text-center">{i18n.t('loadingData')}</div>}
                 {showNewCustomer && (
                   <ul className="recent-customer-list">
                     {newCustomers &&
@@ -142,9 +184,6 @@ const DashboarCustomerdWidgets: React.FC = () => {
               <div className="col-4">
                 <select className="form-control dshbrd-cards-dd">
                   <option>Top 3 by Opportunities</option>
-                  <option>Top Opportunity 1</option>
-                  <option>Top Opportunity 2</option>
-                  <option>Top Opportunity 3</option>
                 </select>
               </div>
               <div className="col-8 text-right">
@@ -184,20 +223,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
           <div className="card-body">
             <div className="tab-content">
               <div className="tab-pane fade show active" id="opp-qone" role="tabpanel" aria-labelledby="qone">
-                Q1 tab content goes here Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi architecto dolor similique praesentium id illo
-                eveniet, quo dicta, earum fugit molestiae dolorem et, rem nisi debitis esse illum aliquid obcaecati!
-              </div>
-              <div className="tab-pane fade" id="opp-qtwo" role="tabpanel" aria-labelledby="qtwo">
-                Q2 tab content goes here Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos odio quos maxime earum non quis eveniet
-                eligendi eius quisquam magnam minus sunt aperiam, repellat voluptatum accusamus soluta dolorem? Ipsam, sunt.
-              </div>
-              <div className="tab-pane fade" id="opp-qthree" role="tabpanel" aria-labelledby="qthree">
-                Q3 tab content goes here Dignissimos odio quos maxime earum non quis eveniet eligendi eius quisquam magnam minus sunt aperiam,
-                repellat voluptatum accusamus soluta dolorem? Ipsam, sunt.
-              </div>
-              <div className="tab-pane fade" id="opp-qfour" role="tabpanel" aria-labelledby="qfour">
-                Q4 tab content goes here Dignissimos odio quos maxime earum non quis eveniet eligendi eius quisquam magnam minus sunt aperiam,
-                repellat voluptatum accusamus soluta dolorem? Ipsam, sunt.
+                Top 3 By Opportunity
               </div>
             </div>
           </div>
@@ -212,23 +238,23 @@ const DashboarCustomerdWidgets: React.FC = () => {
                 <p className="card-title">Targeted Customers</p>
               </div>
               <div className="col text-right">
-                <select className="form-control dshbrd-cards-dd float-right">
-                  <option>Pharma</option>
-                  <option>Pharma 1</option>
-                  <option>Pharma 2</option>
-                  <option>Pharma 3</option>
+                <select className="form-control dshbrd-cards-dd float-right" onChange={onSelectChange}>
+                  {campaignList &&
+                    campaignList.map((obj: any) => {
+                      return <option value={obj.valueField}>{obj.valueField}</option>;
+                    })}
                 </select>
               </div>
             </div>
           </div>
 
           <div className="card-body">
+            {isCampaignLoading && <div className="text-center">{i18n.t('loadingData')}</div>}
             <ul className="target-customer-list">
-              <li>Astra Zeneca</li>
-              <li>Universal Life Science</li>
-              <li>Johnson &amp; Johnson</li>
-              <li>Pfizer Inc</li>
-              <li>Merck &amp; Co.</li>
+              {targatedCustomers &&
+                targatedCustomers.map((items: any) => {
+                  return <li>{items.internalName}</li>;
+                })}
             </ul>
           </div>
         </div>

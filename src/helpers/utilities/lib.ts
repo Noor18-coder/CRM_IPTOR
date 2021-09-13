@@ -1,7 +1,42 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
 import moment from 'moment';
 
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 export const getCurrencySymbol = (currency: string): string => `${getSymbolFromCurrency(currency)}`;
+
+export const yearStartDate = new Date(new Date().getFullYear(), 0, 1);
+
+export const yearEndDate = new Date(new Date().getFullYear(), 11, 31);
+
+export const monthStartDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+export const monthEndDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+
+export const weekStartDate = moment().startOf('week').toDate();
+
+export const weekEndDate = moment().endOf('week').toDate();
+
+export const getDashDateFormat = (date: any): string => {
+  const mnth = `0${date.getMonth() + 1}`.slice(-2);
+  const day = `0${date.getDate()}`.slice(-2);
+  return [date.getFullYear(), mnth, day].join('-');
+};
+
+export const getMonthsList = (from: any, to: any) => {
+  const datFrom = new Date(`1 ${from}`);
+  const datTo = new Date(`1 ${to}`);
+  let arr = monthNames.slice(datFrom.getMonth(), datTo.getMonth() + 1);
+  if (!arr.length) {
+    arr = monthNames.slice(datFrom.getMonth(), 12);
+    arr = arr.concat(monthNames.slice(0, datTo.getMonth() + 1));
+  }
+  return arr;
+};
+
+export const getMonthName = (date: string): any => {
+  return moment(date, 'YYYY-MM-DD').format('MMMM');
+};
 
 export const getQuarterOfYearFromDate = (strDate: string): string => {
   const date = new Date(strDate);
