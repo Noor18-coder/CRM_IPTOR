@@ -12,6 +12,7 @@ import { getCurrencySymbol } from '../../helpers/utilities/lib';
 import OpportunityList from '../../helpers/Api/OpportunityList';
 import { setBusinessPartnerLoader } from '../../store/AddCustomer/Actions';
 import Loader from '../Shared/Loader/Loader';
+import { APPROVAL_STATUS } from '../../config/Constants';
 
 const NotificationList: React.FC = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -30,7 +31,6 @@ const NotificationList: React.FC = () => {
   const fetchOpptyNotificationList = async () => {
     dispatch(setBusinessPartnerLoader(true));
     params.selectApprover = state.auth.user.handler;
-    params.selectApprovalStatus = 'submitted';
     setParams(params);
     const data: any = await OpportunityList.get('', '', 30, 0, '', params);
     if (data && data.data && data.data.items) {
@@ -52,6 +52,15 @@ const NotificationList: React.FC = () => {
       <Header page={4} />
       {state.addBusinessPartner.loader && <Loader component="opportunity" />}
       <div className="section-notification">
+        <div className="row s-header filterrow">
+          <div className="col-2">
+            <div className="filter-btn-group">
+              <button className="active" type="button">
+                All
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="notification-list-items">
           {opptyNotificationList
             ? opptyNotificationList &&
@@ -75,7 +84,20 @@ const NotificationList: React.FC = () => {
                         {obj.estValue}
                       </span>
                     </div>
-                    <div className="table-cell justify-content-center">{obj.approvalStatus}</div>
+                    <div className="table-cell justify-content-center">
+                      <span
+                        className={
+                          obj.approvalStatus === APPROVAL_STATUS.REJECTED
+                            ? 'status-rejected'
+                            : obj.approvalStatus === APPROVAL_STATUS.SUBMITTED
+                            ? 'status-pending'
+                            : obj.approvalStatus === APPROVAL_STATUS.APPROVED
+                            ? 'status-approved'
+                            : 'status-pending'
+                        }>
+                        {obj.approvalStatus}
+                      </span>
+                    </div>
                     <div className="table-cell justify-content-center" />
                     <div className="table-cell justify-content-center align-items-end last-cell" />
                   </div>
