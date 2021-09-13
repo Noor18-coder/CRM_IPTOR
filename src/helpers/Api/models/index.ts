@@ -18,6 +18,8 @@ export * from './Attributes';
 export * from './AddCustomer';
 export * from './Countries';
 export * from './ForeCastInfo';
+export * from './ReportOpptyList';
+export * from './ReportFilter';
 export * from './Approvals';
 export * from './Notes';
 export * from './ReasonCodes';

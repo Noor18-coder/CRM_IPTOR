@@ -125,7 +125,6 @@ const LoginForm: React.FC = () => {
                     <Form.Group>
                       {userError || state.auth.error ? <Form.Label className="err-text">User ID</Form.Label> : <Form.Label>User ID</Form.Label>}
                       <Form.Control
-                        autoComplete="off"
                         className="form-control"
                         placeholder="Enter UserId"
                         id="user"

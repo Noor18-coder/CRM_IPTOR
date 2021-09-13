@@ -45,3 +45,18 @@ export const getCurrPrevNextYearQuarters = () => {
   const currPrevQuarters = currentQuarters.concat(previousQuarters);
   return currPrevQuarters.concat(nextQuarters);
 };
+
+export const getStartDateOfQuarterAndYear = (quarter: string, year: string): any => {
+  const y = parseInt(year, 10);
+  const q = parseInt(quarter, 10);
+  const firstDate = new Date(y, (q - 1) * 3, 1);
+  return moment(firstDate).format('YYYY-MM-DD');
+};
+
+export const getEndDateOfQuarterAndYear = (quarter: string, year: string): any => {
+  const y = parseInt(year, 10);
+  const q = parseInt(quarter, 10);
+  const firstDate = new Date(y, (q - 1) * 3, 1);
+  const endDate = new Date(y, firstDate.getMonth() + 3, 0);
+  return moment(endDate).format('YYYY-MM-DD');
+};

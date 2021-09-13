@@ -20,6 +20,8 @@ import { AddBusinessPartnerState } from './AddCustomer/Types';
 import addBusinessPartnerReducer from './AddCustomer/Reducers';
 import { OpportunityDetailsState } from './OpportunityDetails/Types';
 import opportuntyDetailsReducer from './OpportunityDetails/Reducers';
+import reportsReducer from './Reports/Reducers';
+import { ReportsState } from './Reports/Types';
 
 const persistConfig = {
   key: 'root',
@@ -38,6 +40,7 @@ export interface AppState {
   readonly addOpportunity: AddOpportunityState;
   readonly addBusinessPartner: AddBusinessPartnerState;
   readonly opportuntyDetails: OpportunityDetailsState;
+  readonly reports: ReportsState;
 }
 const appReducer = combineReducers({
   auth: authReducer,
@@ -48,6 +51,7 @@ const appReducer = combineReducers({
   addOpportunity: addOpportunityReducer,
   addBusinessPartner: addBusinessPartnerReducer,
   opportuntyDetails: opportuntyDetailsReducer,
+  reports: reportsReducer,
 });
 
 const rootReducer = (state: any, action: AppActions) => {
