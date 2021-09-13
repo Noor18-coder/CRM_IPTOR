@@ -1,4 +1,4 @@
-import Dots from '../assets/images/nav-more.svg';
+// import Dots from '../assets/images/nav-more.svg';
 
 const CustomerGridOptions = [
   {
@@ -41,16 +41,15 @@ const CustomerGridOptions = [
       return `<span class="c-active-oppt">${params.value || params.value === 0 ? params.value : ''}</span>`;
     },
   },
-  {
-    field: '',
-    sortable: false,
-    suppressAutoSize: true,
-    width: 30,
-    headerName: '',
-    cellRenderer: (): string => {
-      return `<img class="nav-more-menu" src="${Dots}" alt="..."/>`;
-    },
-  },
+  // Commented non-working button  field: '',
+  //   sortable: false,
+  //   suppressAutoSize: true,
+  //   width: 30,
+  //   headerName: '',
+  //   cellRenderer: (): string => {
+  //     return `<img class="nav-more-menu" src="${Dots}" alt="..."/>`;
+  //   },
+  // },
 ];
 
 export default CustomerGridOptions;

@@ -10,7 +10,7 @@ import ImageConfig from '../../config/ImageConfig';
 import { AppState } from '../../store/store';
 import { AllContactsAccordian } from './AllContactDetails';
 import { MoreInfoAccordian, MoreInfoAccordianMobile } from './MoreInfo';
-import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, Area, CrmUserDetails, IStringList } from '../../helpers/Api/models';
+import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, Area, IStringList } from '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
@@ -24,14 +24,14 @@ export interface Data {
 
 const CustomerCard: React.FC<Data> = (props) => {
   const {
-    customerData: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily },
+    customerData: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily, owner, active },
     contactsData,
     customerData,
   } = props;
+
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<CustomerDetailsDefault[]>([]);
-  const [ownerDetails, setOwnerDetails] = React.useState<CrmUserDetails>();
   const inactiveCount = numberOfInactiveOpportunities || 0;
   const activeCount = numberOfActiveOpportunities || 0;
   const [area, setArea] = React.useState<Area[]>([]);
@@ -43,9 +43,6 @@ const CustomerCard: React.FC<Data> = (props) => {
   const { customerAttributes } = state.enviornmentConfigs;
 
   React.useEffect(() => {
-    CustomerDetailsApi.getOwnerDetailsByName(props.customerData.OWNER_ID).then((data) => {
-      setOwnerDetails(data);
-    });
     if (props.customerData.subsidiaryEntities) {
       Promise.all(
         props.customerData.subsidiaryEntities.map((id: any) => {
@@ -98,6 +95,21 @@ const CustomerCard: React.FC<Data> = (props) => {
     history.push({ pathname: '/opportunities', state: { selectCustomer: props.customerData.businessPartner, activeOp: flag } });
   };
 
+  const getUserName = (str: string) => {
+    const userObj = state.users.users.find((obj) => obj.user === str);
+    return userObj?.description ? userObj?.description : '--';
+  };
+
+  const getOwnerEmail = (str: string) => {
+    const userObj = state.users.users.find((obj) => obj.user === str);
+    return userObj?.EMAIL ? userObj?.EMAIL[0] : '--';
+  };
+
+  const getOwnerPhone = (str: string) => {
+    const userObj = state.users.users.find((obj) => obj.user === str);
+    return userObj?.PHONE ? userObj?.PHONE[0] : '--';
+  };
+
   return (
     <>
       <section className="sec-info-accordion mob-moreinfo-accordion">
@@ -108,15 +120,29 @@ const CustomerCard: React.FC<Data> = (props) => {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="1">
               <Card.Body className="accr-body-container">
-                <div className="group-icon">
-                  <Image
-                    src={ImageConfig.EDIT_ICON}
-                    className="action-icon"
-                    alt="Edit"
-                    title="Edit"
-                    onClick={() => toggleDrawer(true, 'default fields')}
-                  />
-                </div>
+                {!active ? (
+                  ((!!state.auth.user.role && state.auth.user.role === 'Admin') || state.auth.user.user === owner) && (
+                    <div className="group-icon">
+                      <Image
+                        src={ImageConfig.EDIT_ICON}
+                        className="action-icon"
+                        alt="Edit"
+                        title="Edit"
+                        onClick={() => toggleDrawer(true, 'default fields')}
+                      />
+                    </div>
+                  )
+                ) : (
+                  <div className="group-icon">
+                    <Image
+                      src={ImageConfig.EDIT_ICON}
+                      className="action-icon"
+                      alt="Edit"
+                      title="Edit"
+                      onClick={() => toggleDrawer(true, 'default fields')}
+                    />
+                  </div>
+                )}
                 <ul className="list-inline bdy-list-item accr-list-columns padd-24">
                   <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
                     <span>Contact Address</span>
@@ -149,8 +175,10 @@ const CustomerCard: React.FC<Data> = (props) => {
 
       <section className="sec-info-accordion">
         {isMobile || isTablet
-          ? customerMoreInfoGroup && <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={customerMoreInfoGroup} />
-          : customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} />}
+          ? customerMoreInfoGroup && (
+              <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={customerData} />
+            )
+          : customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={customerData} />}
       </section>
 
       {isMobile || isTablet ? (
@@ -158,14 +186,14 @@ const CustomerCard: React.FC<Data> = (props) => {
           <div className="customer-details d-flex justify-content-between">
             <div className="lft-col">
               Account owner
-              <span>{ownerDetails && ownerDetails.user ? ownerDetails.user : '--'}</span>
+              <span>{getUserName(owner)}</span>
             </div>
 
             <div className="right-data">{/* <p><Image className="edit" src={ImageConfig.EDIT_ICON} alt="edit" title="edit" /></p> */}</div>
           </div>
           <div className="customer-details d-flex justify-content-between">
             <div className="lft-col">
-              <span>{ownerDetails && ownerDetails.PHONE ? ownerDetails.PHONE : '--'}</span>
+              <span>{getOwnerPhone(owner)}</span>
             </div>
 
             <div className="right-data">
@@ -177,7 +205,7 @@ const CustomerCard: React.FC<Data> = (props) => {
 
           <div className="customer-details d-flex justify-content-between">
             <div className="lft-col">
-              <span>{ownerDetails && ownerDetails.EMAIL ? ownerDetails.EMAIL : '--'}</span>
+              <span>{getOwnerEmail(owner)}</span>
             </div>
 
             <div className="right-data">
@@ -192,15 +220,15 @@ const CustomerCard: React.FC<Data> = (props) => {
           <div className="accr-body-container">
             <ul className="list-inline bdy-list-item owner-section d-flex align-items-center">
               <li className="list-inline-item">
-                <span>Account owner</span> {ownerDetails && ownerDetails.user ? ownerDetails.user : '--'}
+                <span>Account owner</span> {getUserName(owner)}
               </li>
               <li className="list-inline-item">
                 <Image width="25" src={ImageConfig.PHONE} alt="phone" title="phone" />
-                &nbsp;&nbsp;{ownerDetails && ownerDetails.PHONE ? ownerDetails.PHONE : '--'}
+                &nbsp;&nbsp;{getOwnerPhone(owner)}
               </li>
               <li className="list-inline-item">
                 <Image width="25" src={ImageConfig.MAIL} alt="mail" title="mail" /> &nbsp;&nbsp;
-                {ownerDetails && ownerDetails.PHONE ? ownerDetails.EMAIL : '--'}
+                {getOwnerEmail(owner)}
               </li>
             </ul>
           </div>

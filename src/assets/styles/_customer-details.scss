@@ -20,7 +20,7 @@
 
 
             .cust-name {
-                width: 27%;
+                width: 30%;
                 margin-right: 60px;
 
                 p {
@@ -45,8 +45,34 @@
                 }
             }
 
+            .parent-name {
+                width: 30%;
+                margin-right: 60px;
+
+                p {
+                    font: {
+                        size: $base-font-size + 4;
+                        weight: 600;
+                    }
+
+                    line-height: 26px;
+                    color: $o-black;
+                    margin-bottom: 0;
+
+                    span {
+                        display: block;
+
+                        font: {
+                            size: $base-font-size + 2;
+                            weight: $font-weight-regular;
+                        }
+
+                    }
+                }
+            }
+
             .mid-sec {
-                width: 80%;
+                width: 40%;
 
                 ul {
                     display: grid;
@@ -392,6 +418,25 @@ input:checked+.slider:before {
     margin-bottom: 24px;
     padding: 0;
 
+    .lft-col {
+        color: $o-black;
+        padding: 18px;
+
+        font: {
+            size: $base-font-size;
+        }
+
+        span {
+            padding-top: 4px;
+            display: block;
+
+            font: {
+                size: $base-font-size + 2;
+                weight: $font-weight-semibold;
+            }
+        }
+    }
+
     .customer-row {
         border-bottom: solid 1px $mercury;
 
@@ -478,25 +523,6 @@ input:checked+.slider:before {
                     }
                 }
             }
-        }
-    }
-}
-
-.lft-col {
-    color: $o-black;
-    padding: 18px;
-
-    font: {
-        size: $base-font-size;
-    }
-
-    span {
-        padding-top: 4px;
-        display: block;
-
-        font: {
-            size: $base-font-size + 2;
-            weight: $font-weight-semibold;
         }
     }
 }
@@ -602,4 +628,8 @@ input:checked+.slider:before {
 
 .area-text{
     font-size: 12px;
+}
+
+section.main-wrapper.customer {
+    padding-bottom: 40px;
 }

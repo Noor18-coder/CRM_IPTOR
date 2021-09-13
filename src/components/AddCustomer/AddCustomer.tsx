@@ -179,7 +179,11 @@ const AddCustomer: React.FC = () => {
                           {i18n.t('selectArea')}
                         </option>
                         {state.enviornmentConfigs.crmAreaInfo.map((obj: AreaInfo) => {
-                          return <option value={obj.area}>{obj.description}</option>;
+                          return (
+                            <option value={obj.area}>
+                              {obj.area} - {obj.description}
+                            </option>
+                          );
                         })}
                       </select>
                     </div>

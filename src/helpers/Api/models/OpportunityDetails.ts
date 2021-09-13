@@ -90,6 +90,7 @@ export interface IStringList {
 export interface OpportunityMoreInfoSection {
   title: string;
   data: IStringList;
+  customerDetails?: any;
 }
 
 export interface OpportunityEditOptions {

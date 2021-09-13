@@ -1,5 +1,5 @@
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../helpers/utilities/lib';
-import Dots from '../assets/images/nav-more.svg';
+// import Dots from '../assets/images/nav-more.svg';
 import { APPROVAL_STATUS } from './Constants';
 
 const OpportunityGridOptions = [
@@ -91,16 +91,16 @@ const OpportunityGridOptions = [
       }</span></div>`;
     },
   },
-  {
-    field: '',
-    sortable: true,
-    suppressAutoSize: true,
-    width: 30,
-    headerName: '',
-    cellRenderer: () => {
-      return `<img class="nav-more-menu" src="${Dots}" alt="..."/>`;
-    },
-  },
+  // Commented non-working button {
+  //   field: '',
+  //   sortable: true,
+  //   suppressAutoSize: true,
+  //   width: 30,
+  //   headerName: '',
+  //   cellRenderer: () => {
+  //     return `<img class="nav-more-menu" src="${Dots}" alt="..."/>`;
+  //   },
+  // },
 ];
 
 export default OpportunityGridOptions;

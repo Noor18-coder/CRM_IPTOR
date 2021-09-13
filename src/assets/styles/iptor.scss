@@ -24,6 +24,25 @@
     background: rgba($persian-green, 0.8);
 }
 
+.form-control::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #B6C4CE;
+}
+.form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #B6C4CE;
+}
+.form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #B6C4CE;
+}
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #B6C4CE;
+}
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+   color:    #B6C4CE;
+}
+.form-control::placeholder { /* Most modern browsers support this now. */
+   color:    #B6C4CE;
+}
+
 body {
     background: $mercury;
     text-rendering: optimizeLegibility;

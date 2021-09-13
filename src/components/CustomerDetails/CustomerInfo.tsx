@@ -72,7 +72,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
               </p>
             </div>
             <div className="rgt-actioncol">
-              <ul className="list-inline ">
+              {/* Commented non-working buttons<ul className="list-inline ">
                 <li className="list-inline-item">
                   <img src={ImageConfig.HISTORY} alt="History" title="History" />
                 </li>
@@ -82,7 +82,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
                 <li className="list-inline-item">
                   <img src={ImageConfig.MORE_V_ELLIPSIS} alt="More" title="More" />
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
 
@@ -119,33 +119,28 @@ const CustomerInfo: React.FC<Data> = (props) => {
             </div>
 
             <div className="right-data">
-              <p>
-                <span>
-                  <label className="switch" htmlFor="isParent">
-                    <input type="checkbox" checked={isParent} id="isParent" />
-                    <span className="slider round disabled-checkbox" />
-                  </label>
-                </span>
-              </p>
+              <p>{isParent ? 'Yes' : 'No'}</p>
             </div>
           </div>
 
-          <div className="customer-details d-flex align-items-center justify-content-between">
-            <div className="left-data">
-              <p>
-                <span>New Opportunity</span>
-              </p>
-            </div>
+          {customerFields.active && (
+            <div className="customer-details d-flex align-items-center justify-content-between">
+              <div className="left-data">
+                <p>
+                  <span>New Opportunity</span>
+                </p>
+              </div>
 
-            <div className="right-data">
-              <p>
-                <span>
-                  {' '}
-                  <Image src={ImageConfig.ADD_ICON} onClick={toggleDrawer} />
-                </span>
-              </p>
+              <div className="right-data">
+                <p>
+                  <span>
+                    {' '}
+                    <Image src={ImageConfig.ADD_ICON} onClick={toggleDrawer} />
+                  </span>
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </section>
       ) : (
         <>
@@ -182,23 +177,23 @@ const CustomerInfo: React.FC<Data> = (props) => {
                     </label>{' '}
                   </span>{' '}
                 </li>
-                <li className="list-inline-item">
-                  <span className="p-left">
-                    Parent Group{' '}
-                    <label className="switch" htmlFor="deskParent">
-                      <input type="checkbox" checked={isParent} id="deskParent" />
-                      <span className="slider round disabled-checkbox" />
-                    </label>{' '}
-                  </span>
-                </li>
               </ul>
             </div>
 
-            <div className="sec-add-cust ">
-              <button className="btn add-customer" type="button" onClick={toggleDrawer}>
-                + New Opportunity
-              </button>
+            <div className="parent-name">
+              <p>
+                Parent Group
+                <span>{isParent ? 'Yes' : 'No'}</span>
+              </p>
             </div>
+
+            {customerFields.active && (
+              <div className="sec-add-cust ">
+                <button className="btn add-customer" type="button" onClick={toggleDrawer}>
+                  + New Opportunity
+                </button>
+              </div>
+            )}
           </section>
         </>
       )}

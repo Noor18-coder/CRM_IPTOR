@@ -119,12 +119,15 @@ const OpportunityInfoMobile: React.FC = () => {
         </div>
         <div className="rgt-actioncol">
           <ul className="list-inline ">
-            <li className="list-inline-item">
+            {
+              // Commented Non- Functioning Buttons
+              /* <li className="list-inline-item">
               <img src={ImageConfig.HISTORY} alt="History" title="History" />
             </li>
             <li className="list-inline-item">
               <img src={ImageConfig.STAR} alt="Star" title="Star" />
-            </li>
+            </li> */
+            }
             <li className="list-inline-item">
               <img src={ImageConfig.MORE_V_ELLIPSIS} alt="More" title="More" />
             </li>

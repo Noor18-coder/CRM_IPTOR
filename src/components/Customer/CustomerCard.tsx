@@ -1,5 +1,5 @@
 import { BusinessPartnerListItem } from '../../helpers/Api/models/Customer';
-import ImageConfig from '../../config/ImageConfig';
+// import ImageConfig from '../../config/ImageConfig';
 
 interface OppProps {
   businesspartner: BusinessPartnerListItem;
@@ -31,9 +31,9 @@ const BusinessPartnerCard: React.FC<React.PropsWithChildren<OppProps>> = (props)
           <span className="display-inline"> Active Opp - </span>{' '}
           <span className="customer-card-text display-inline">{numberOfActiveOpportunities}</span>
         </div>
-        <div className="rgt-col">
+        {/* Commented non-working button <div className="rgt-col">
           <img src={ImageConfig.NAV_MORE_DOTS} alt="More" title="More" />
-        </div>
+        </div> */}
       </div>
     </>
   );

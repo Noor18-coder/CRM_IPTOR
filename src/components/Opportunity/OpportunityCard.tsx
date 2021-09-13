@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import { OpportunityListItem } from '../../helpers/Api/models';
-import ImageConfig from '../../config/ImageConfig';
+// import ImageConfig from '../../config/ImageConfig';
 import { AppState } from '../../store/store';
 import { UsersData } from '../../store/Users/Types';
 
@@ -67,9 +67,9 @@ const OpportunityCard: React.FC<React.PropsWithChildren<OppProps>> = (props) => 
 
       <div className="d-flex justify-content-between location-row">
         <div className="lft-col">{formatDealSizeValue()}</div>
-        <div className="rgt-col">
+        {/* Commented non-working button <div className="rgt-col">
           <img src={ImageConfig.NAV_MORE_DOTS} alt="More" title="More" />
-        </div>
+        </div> */}
       </div>
     </>
   );

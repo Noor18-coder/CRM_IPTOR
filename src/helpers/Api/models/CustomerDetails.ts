@@ -31,7 +31,7 @@ export interface CustomerDetailsDefault {
   GLOBAL_PARENT: number;
   IBS_ASW_RELEASE: number;
   industry: string;
-  OWNER_ID: string;
+  owner: string;
   PERP_USE_MAINT_CONV: boolean;
   REFERENCEABLE: boolean;
   TYPE: [];
