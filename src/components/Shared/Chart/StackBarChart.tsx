@@ -35,10 +35,12 @@ const StackBarChart: React.FC<Props> = ({ data, selectedFilter }) => {
           areaDataArr.push(item.area);
         }
         if (selectedFilter === 'industry') {
-          areaDataArr.push(item.industry);
+          const industry = item.industry.split(' ')[0];
+          areaDataArr.push(industry);
         }
         if (selectedFilter === 'type') {
-          areaDataArr.push(item.oppRecordType);
+          const type = item.oppRecordType.split(' ')[0];
+          areaDataArr.push(type);
         }
         if (selectedFilter === 'salesPerson') {
           const userName = getUserName(item.user);

@@ -16,6 +16,8 @@ export class Attributes {
 
   private static addAttributeMethod = 'mopAttribute.add';
 
+  private static getAttributeMethod = 'mopAttribute.get';
+
   private static updateAttributeMethod = 'mopAttribute.update';
 
   private static mopAttributeTypeGet = 'mopAttributeType.get';
@@ -55,6 +57,17 @@ export class Attributes {
   static async addAttribute(params: apiModels.SaveAttributeFieldParam): Promise<any> {
     // const filename = type === 'opportunity' ? this.opportunityAttributesFileName : this.customersAttributesFileName;
     const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.addAttributeMethod, params);
+    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    return get(response, 'data');
+  }
+
+  static async getAttribute(parentId: string, parentFile: string, attributeType: string): Promise<any> {
+    const params = {
+      parentId,
+      parentFile,
+      attributeType,
+    };
+    const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.getAttributeMethod, params);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
   }

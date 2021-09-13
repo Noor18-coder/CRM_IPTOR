@@ -192,9 +192,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                   Add customer contact <span className="opt-field">(Optional field)</span>
                 </label>
                 <select className="form-control iptor-dd" id="customer-contact" onChange={onCustomerContactSelect}>
-                  <option disabled selected>
-                    Select Customer Contact
-                  </option>
+                  <option selected>Select Customer Contact</option>
                   {customerContacts.map((obj: models.CustomerDetailsContactsGroupItem) => {
                     return <option value={obj.contactId}>{obj.contactPerson}</option>;
                   })}

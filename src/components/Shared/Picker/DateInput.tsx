@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
-  currentDate: string | undefined;
+  currentDate?: string;
   onDateSelect: (key: string) => void;
 }
 

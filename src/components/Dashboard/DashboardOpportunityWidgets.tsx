@@ -24,8 +24,8 @@ const DashboardOpportunityWidgets: React.FC = () => {
   const wonRevenueFilter = [{ valueField: i18n.t('wonLost') }, { valueField: i18n.t('revenue') }];
   const regionTypeFilter = [
     { valueField: i18n.t('allRegions') },
-    { valueField: i18n.t('allIndustry') },
-    { valueField: i18n.t('type') },
+    { valueField: i18n.t('topIndustry') },
+    { valueField: i18n.t('topType') },
     { valueField: i18n.t('topSalesPerson') },
   ];
 
@@ -126,10 +126,24 @@ const DashboardOpportunityWidgets: React.FC = () => {
         getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
       }
       if (areaFilterType === 'industry') {
-        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate), true);
+        getStatisticsDetails(
+          Constants.INDUSTRY_TYPE,
+          getDashDateFormat(yearStartDate),
+          getDashDateFormat(yearEndDate),
+          true,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaFilterType === 'type') {
-        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
+        getStatisticsDetails(
+          Constants.OPPORTUNITY_RECORD_TYPE,
+          getDashDateFormat(yearStartDate),
+          getDashDateFormat(yearEndDate),
+          false,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaFilterType === 'salesPerson') {
         getStatisticsDetails(
@@ -149,10 +163,24 @@ const DashboardOpportunityWidgets: React.FC = () => {
         getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
       }
       if (areaFilterType === 'industry') {
-        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate), true);
+        getStatisticsDetails(
+          Constants.INDUSTRY_TYPE,
+          getDashDateFormat(monthStartDate),
+          getDashDateFormat(monthEndDate),
+          true,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaFilterType === 'type') {
-        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
+        getStatisticsDetails(
+          Constants.OPPORTUNITY_RECORD_TYPE,
+          getDashDateFormat(monthStartDate),
+          getDashDateFormat(monthEndDate),
+          false,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaFilterType === 'salesPerson') {
         getStatisticsDetails(
@@ -172,10 +200,24 @@ const DashboardOpportunityWidgets: React.FC = () => {
         getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
       }
       if (areaFilterType === 'industry') {
-        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate), true);
+        getStatisticsDetails(
+          Constants.INDUSTRY_TYPE,
+          getDashDateFormat(weekStartDate),
+          getDashDateFormat(weekEndDate),
+          true,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaFilterType === 'type') {
-        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
+        getStatisticsDetails(
+          Constants.OPPORTUNITY_RECORD_TYPE,
+          getDashDateFormat(weekStartDate),
+          getDashDateFormat(weekEndDate),
+          false,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaFilterType === 'salesPerson') {
         getStatisticsDetails(
@@ -204,29 +246,71 @@ const DashboardOpportunityWidgets: React.FC = () => {
       }
       setAreaFilterType('regions');
     }
-    if (e.currentTarget.value === i18n.t('allIndustry')) {
+    if (e.currentTarget.value === i18n.t('topIndustry')) {
       setRegionDataLoading(true);
       if (areaGroupType === Constants.YEAR_TYPE) {
-        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate), true);
+        getStatisticsDetails(
+          Constants.INDUSTRY_TYPE,
+          getDashDateFormat(yearStartDate),
+          getDashDateFormat(yearEndDate),
+          true,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaGroupType === Constants.MONTH_TYPE) {
-        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate), true);
+        getStatisticsDetails(
+          Constants.INDUSTRY_TYPE,
+          getDashDateFormat(monthStartDate),
+          getDashDateFormat(monthEndDate),
+          true,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaGroupType === Constants.WEEK_TYPE) {
-        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate), true);
+        getStatisticsDetails(
+          Constants.INDUSTRY_TYPE,
+          getDashDateFormat(weekStartDate),
+          getDashDateFormat(weekEndDate),
+          true,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       setAreaFilterType('industry');
     }
-    if (e.currentTarget.value === i18n.t('type')) {
+    if (e.currentTarget.value === i18n.t('topType')) {
       setRegionDataLoading(true);
       if (areaGroupType === Constants.YEAR_TYPE) {
-        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
+        getStatisticsDetails(
+          Constants.OPPORTUNITY_RECORD_TYPE,
+          getDashDateFormat(yearStartDate),
+          getDashDateFormat(yearEndDate),
+          false,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaGroupType === Constants.MONTH_TYPE) {
-        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
+        getStatisticsDetails(
+          Constants.OPPORTUNITY_RECORD_TYPE,
+          getDashDateFormat(monthStartDate),
+          getDashDateFormat(monthEndDate),
+          false,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       if (areaGroupType === Constants.WEEK_TYPE) {
-        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
+        getStatisticsDetails(
+          Constants.OPPORTUNITY_RECORD_TYPE,
+          getDashDateFormat(weekStartDate),
+          getDashDateFormat(weekEndDate),
+          false,
+          Constants.DATA_LIMIT_10,
+          Constants.TOTAL_DESC
+        );
       }
       setAreaFilterType('type');
     }

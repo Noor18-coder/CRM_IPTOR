@@ -5,6 +5,8 @@ const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'Jul
 
 export const getCurrencySymbol = (currency: string): string => `${getSymbolFromCurrency(currency)}`;
 
+export const currentRunningYear = new Date().getFullYear();
+
 export const yearStartDate = new Date(new Date().getFullYear(), 0, 1);
 
 export const yearEndDate = new Date(new Date().getFullYear(), 11, 31);

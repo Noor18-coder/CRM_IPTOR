@@ -1,11 +1,14 @@
 import React from 'react';
+import _ from 'lodash';
 import i18n from '../../i18n';
 import { DashboardInfo } from '../../helpers/Api/DashboardInfo';
-import { LogsListParams, LogsInfoItem, BusinessPartnerListParams } from '../../helpers/Api/models';
+import { LogsListParams, LogsInfoItem, BusinessPartnerListParams, StatisticsDetailsParams } from '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import { Attributes } from '../../helpers/Api';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import { Constants } from '../../config/Constants';
+import HorizontalBarChart from '../Shared/Chart/HorizontalBarChart';
+import { getStartDateOfQuarterAndYear, getEndDateOfQuarterAndYear, currentRunningYear } from '../../helpers/utilities/lib';
 
 const DashboarCustomerdWidgets: React.FC = () => {
   const [newCustomers, setNewCustomers] = React.useState<any>();
@@ -17,6 +20,9 @@ const DashboarCustomerdWidgets: React.FC = () => {
   const [campaignFilters] = React.useState<BusinessPartnerListParams>({});
   const [isNewLoading, setIsNewLoading] = React.useState<boolean>(false);
   const [isCampaignLoading, setIsCampaignLoading] = React.useState<boolean>(false);
+  const [topOpportunityData, setTopOpportunityData] = React.useState<any>();
+  const [topOpportunityDataLoading, setTopOpportunityDataLoading] = React.useState<any>();
+  const [selectedQuater, setSelectedQuater] = React.useState<string>('');
 
   const LogParams: LogsListParams = {
     logParentFile: Constants.CUSTOMER_PARENT_FILE,
@@ -61,6 +67,40 @@ const DashboarCustomerdWidgets: React.FC = () => {
     }
   };
 
+  const getStatisticsDetails = (groupBy: string, closeDateFrom: string, closeDateTo: string, limit?: number, orderBy?: string) => {
+    setTopOpportunityDataLoading(true);
+    const statisticsParams: StatisticsDetailsParams = {
+      groupBy,
+      closeDateFrom,
+      closeDateTo,
+    };
+    DashboardInfo.getOpportunityStatistics(limit, orderBy, statisticsParams).then((data) => {
+      if (groupBy === Constants.CUSTOMER_TYPE) {
+        const topCustorerData: any = data;
+        if (topCustorerData) {
+          Promise.all(
+            topCustorerData.map((obj: any) => {
+              return CustomerDetailsApi.get(obj.customer);
+            })
+          ).then((response) => {
+            const customerData: any = response;
+            customerData.forEach((customer: any) => {
+              topCustorerData.forEach((element: any) => {
+                if (element.customer === customer.businessPartner) {
+                  _.set(element, 'customerName', customer.internalName);
+                }
+              });
+            });
+            setTopOpportunityData(topCustorerData);
+            return response;
+          });
+        }
+        setTopOpportunityDataLoading(false);
+      }
+      return data;
+    });
+  };
+
   const handleRecentCustomer = (type: string) => {
     if (type === Constants.NEW_TYPE) {
       setShowNewCustomer(true);
@@ -92,11 +132,63 @@ const DashboarCustomerdWidgets: React.FC = () => {
   const onSelectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     campaignFilters.crmAttributesTextSearch = `CAMPAIGN ${e.target.value}`;
     getCustomers(campaignFilters);
+    setIsCampaignLoading(true);
+  };
+
+  const onQuaterChange = (quaterType: string) => {
+    if (quaterType === 'first') {
+      getStatisticsDetails(
+        Constants.CUSTOMER_TYPE,
+        getStartDateOfQuarterAndYear(Constants.FIRST_QUATER, currentRunningYear.toString()),
+        getEndDateOfQuarterAndYear(Constants.FIRST_QUATER, currentRunningYear.toString()),
+        Constants.DATA_LIMIT_3,
+        Constants.TOTAL_VALUE_DESC
+      );
+      setSelectedQuater('first');
+    }
+    if (quaterType === 'second') {
+      getStatisticsDetails(
+        Constants.CUSTOMER_TYPE,
+        getStartDateOfQuarterAndYear(Constants.SECOND_QUATER, currentRunningYear.toString()),
+        getEndDateOfQuarterAndYear(Constants.SECOND_QUATER, currentRunningYear.toString()),
+        Constants.DATA_LIMIT_3,
+        Constants.TOTAL_VALUE_DESC
+      );
+      setSelectedQuater('second');
+    }
+    if (quaterType === 'third') {
+      getStatisticsDetails(
+        Constants.CUSTOMER_TYPE,
+        getStartDateOfQuarterAndYear(Constants.THIRD_QUATER, currentRunningYear.toString()),
+        getEndDateOfQuarterAndYear(Constants.THIRD_QUATER, currentRunningYear.toString()),
+        Constants.DATA_LIMIT_3,
+        Constants.TOTAL_VALUE_DESC
+      );
+      setSelectedQuater('third');
+    }
+    if (quaterType === 'fourth') {
+      getStatisticsDetails(
+        Constants.CUSTOMER_TYPE,
+        getStartDateOfQuarterAndYear(Constants.FOURTH_QUATER, currentRunningYear.toString()),
+        getEndDateOfQuarterAndYear(Constants.FOURTH_QUATER, currentRunningYear.toString()),
+        Constants.DATA_LIMIT_3,
+        Constants.TOTAL_VALUE_DESC
+      );
+      setSelectedQuater('fourth');
+    }
   };
 
   React.useEffect(() => {
     getCustomerLogs();
     getCampaigns();
+    getStatisticsDetails(
+      Constants.CUSTOMER_TYPE,
+      getStartDateOfQuarterAndYear(Constants.FIRST_QUATER, currentRunningYear.toString()),
+      getEndDateOfQuarterAndYear(Constants.FIRST_QUATER, currentRunningYear.toString()),
+      Constants.DATA_LIMIT_3,
+      Constants.TOTAL_VALUE_DESC
+    );
+    setSelectedQuater('first');
   }, []);
 
   React.useEffect(() => {
@@ -106,6 +198,26 @@ const DashboarCustomerdWidgets: React.FC = () => {
       getCustomers(campaignFilters);
     }
   }, [campaignList]);
+
+  React.useEffect(() => {
+    if (newCustomers) {
+      Promise.all(
+        newCustomers.map((obj: any) => {
+          return Attributes.getAttribute(obj.businessPartner, Constants.CUSTOMER_PARENT_FILE, Constants.INDUSTRY_TYPE);
+        })
+      ).then((response) => {
+        const industryData: any = response;
+        industryData.forEach((industry: any) => {
+          newCustomers.forEach((element: any) => {
+            if (element.businessPartner === industry.parentId) {
+              _.set(element, 'industry', industry.attributeValue);
+            }
+          });
+        });
+        return response;
+      });
+    }
+  }, [newCustomers]);
 
   return (
     <div className="row">
@@ -152,7 +264,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
                         return (
                           <li>
                             <p className="no-mb">{items.internalName}</p>
-                            <span>{items.area}</span>
+                            <span>{items.industry ? items.industry : '--'}</span>
                           </li>
                         );
                       })}
@@ -165,7 +277,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
                         return (
                           <li>
                             <p className="no-mb">{items.internalName}</p>
-                            <span>{items.area}</span>
+                            <span>{items.industry ? items.industry : '--'}</span>
                           </li>
                         );
                       })}
@@ -189,31 +301,40 @@ const DashboarCustomerdWidgets: React.FC = () => {
               <div className="col-8 text-right">
                 <ul className="nav nav-tabs dsbd-tabs float-right" role="tablist">
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link" id="qone" data-toggle="tab" href="#opp-qone" role="tab" aria-controls="opp-qone" aria-selected="true">
+                    <button
+                      className={selectedQuater === 'first' ? 'nav-link active' : 'nav-link'}
+                      id="qone"
+                      type="button"
+                      onClick={() => onQuaterChange('first')}>
                       Q1
-                    </a>
+                    </button>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link" id="qtwo" data-toggle="tab" href="#opp-qtwo" role="tab" aria-controls="opp-qtwo" aria-selected="false">
+                    <button
+                      className={selectedQuater === 'second' ? 'nav-link active' : 'nav-link'}
+                      id="qtwo"
+                      type="button"
+                      onClick={() => onQuaterChange('second')}>
                       Q2
-                    </a>
+                    </button>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <a
-                      className="nav-link active"
+                    <button
+                      className={selectedQuater === 'third' ? 'nav-link active' : 'nav-link'}
                       id="qthree"
-                      data-toggle="tab"
-                      href="#opp-qthree"
-                      role="tab"
-                      aria-controls="opp-qthree"
-                      aria-selected="false">
+                      type="button"
+                      onClick={() => onQuaterChange('third')}>
                       Q3
-                    </a>
+                    </button>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <a className="nav-link" id="qfour" data-toggle="tab" href="#opp-qfour" role="tab" aria-controls="opp-qfour" aria-selected="false">
+                    <button
+                      className={selectedQuater === 'fourth' ? 'nav-link active' : 'nav-link'}
+                      id="qfour"
+                      type="button"
+                      onClick={() => onQuaterChange('fourth')}>
                       Q4
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -223,7 +344,11 @@ const DashboarCustomerdWidgets: React.FC = () => {
           <div className="card-body">
             <div className="tab-content">
               <div className="tab-pane fade show active" id="opp-qone" role="tabpanel" aria-labelledby="qone">
-                Top 3 By Opportunity
+                {topOpportunityDataLoading ? (
+                  <div className="text-center">{i18n.t('loadingData')}</div>
+                ) : (
+                  <HorizontalBarChart data={topOpportunityData} />
+                )}
               </div>
             </div>
           </div>
@@ -249,13 +374,16 @@ const DashboarCustomerdWidgets: React.FC = () => {
           </div>
 
           <div className="card-body">
-            {isCampaignLoading && <div className="text-center">{i18n.t('loadingData')}</div>}
-            <ul className="target-customer-list">
-              {targatedCustomers &&
-                targatedCustomers.map((items: any) => {
-                  return <li>{items.internalName}</li>;
-                })}
-            </ul>
+            {isCampaignLoading ? (
+              <div className="text-center">{i18n.t('loadingData')}</div>
+            ) : (
+              <ul className="target-customer-list">
+                {targatedCustomers &&
+                  targatedCustomers.map((items: any) => {
+                    return <li>{items.internalName}</li>;
+                  })}
+              </ul>
+            )}
           </div>
         </div>
       </div>

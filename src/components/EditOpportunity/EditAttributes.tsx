@@ -295,7 +295,7 @@ const Form: React.FC<FormFields> = ({ attributes, addElement }) => {
                     <label htmlFor="endDate" className="opp-label">
                       {obj.description}
                     </label>
-                    <DateInput onDateSelect={(value: string) => onDateChange(value, obj)} currentDate={currentValue} />
+                    <DateInput onDateSelect={(value: string) => onDateChange(value, obj)} />
                     {obj.uniqueRecord === false ? (
                       <button type="button" onClick={() => addElement(index, obj)}>
                         Add

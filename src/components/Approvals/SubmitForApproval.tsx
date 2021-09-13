@@ -77,15 +77,15 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
 
   const getName = (str: string) => {
     if (str) {
-      const userObj = state.users.users.find((obj) => obj.handler === str);
+      const userObj = state.users.users.find((obj) => obj.user === str);
       return userObj?.description;
     }
     return '';
   };
 
-  const onHandlerChange = (user: models.UserItem[]) => {
-    if (user && user.length) {
-      setApprover(user[0].handler);
+  const onHandlerChange = (user: models.UserItem) => {
+    if (user) {
+      setApprover(user.handler);
     }
     setChangeApprover(false);
   };
@@ -103,7 +103,7 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
         </label>
         <>
           {changeApprover ? (
-            <ApproverSearchField onChange={onHandlerChange} description="Owner" />
+            <ApproverSearchField onChange={onHandlerChange} description="Owner" currentSelectedUser={approver} />
           ) : (
             <div className="approver-search-container">
               <button

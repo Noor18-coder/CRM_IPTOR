@@ -3,7 +3,7 @@ import { Card, Image, Accordion } from 'react-bootstrap';
 import { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
-import { CustomerDetailsContactsGroupItem } from '../../helpers/Api/models';
+import * as models from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
 import {
   setBusinessPartnerWindowActive,
@@ -15,10 +15,11 @@ import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 
 interface Props {
   title: string;
-  contactData: CustomerDetailsContactsGroupItem[];
+  contactData: models.CustomerDetailsContactsGroupItem[];
+  customerData: models.CustomerDetailsDefault;
 }
 
-export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) => {
+export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, customerData }) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const [activeClass, setActiveClass] = React.useState('');
@@ -63,20 +64,22 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData }) =>
           <span className="cust-info">
             <span>{contactData.length} CONTACTS</span>
           </span>
-          <Image
-            src={ImageConfig.ADD_BTN}
-            className="add-img action-icon"
-            alt="Add"
-            title="Add"
-            onClick={() => toggleDrawer('add contact fields', '')}
-          />
+          {customerData.active ? (
+            <Image
+              src={ImageConfig.ADD_BTN}
+              className="add-img action-icon"
+              alt="Add"
+              title="Add"
+              onClick={() => toggleDrawer('add contact fields', '')}
+            />
+          ) : null}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           <div className="accr-body-container customers-comp">
             <div className="container-fluid">
               <div className="row">
                 {contactData.length ? (
-                  contactData.map((obj: CustomerDetailsContactsGroupItem) => {
+                  contactData.map((obj: models.CustomerDetailsContactsGroupItem) => {
                     return (
                       <div className="col-md-4">
                         <Card className="accordian-card mb-4">

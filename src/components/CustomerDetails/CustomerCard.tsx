@@ -18,14 +18,15 @@ import Container from '../AddCustomer/Container';
 import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, setBusinessPartnerWindowGroup } from '../../store/AddCustomer/Actions';
 
 export interface Data {
-  data: CustomerDetailsDefault;
+  customerData: CustomerDetailsDefault;
   contactsData: CustomerDetailsContactsGroupItem[];
 }
 
 const CustomerCard: React.FC<Data> = (props) => {
   const {
-    data: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily },
+    customerData: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily },
     contactsData,
+    customerData,
   } = props;
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
@@ -42,12 +43,12 @@ const CustomerCard: React.FC<Data> = (props) => {
   const { customerAttributes } = state.enviornmentConfigs;
 
   React.useEffect(() => {
-    CustomerDetailsApi.getOwnerDetailsByName(props.data.OWNER_ID).then((data) => {
+    CustomerDetailsApi.getOwnerDetailsByName(props.customerData.OWNER_ID).then((data) => {
       setOwnerDetails(data);
     });
-    if (props.data.subsidiaryEntities) {
+    if (props.customerData.subsidiaryEntities) {
       Promise.all(
-        props.data.subsidiaryEntities.map((id: any) => {
+        props.customerData.subsidiaryEntities.map((id: any) => {
           return CustomerDetailsApi.get(id);
         })
       ).then((entityData) => {
@@ -56,11 +57,11 @@ const CustomerCard: React.FC<Data> = (props) => {
       });
     }
 
-    CustomerDetailsApi.getArea(props.data.area).then((data) => {
+    CustomerDetailsApi.getArea(props.customerData.area).then((data) => {
       setArea(data);
     });
 
-    OpportunityDetailsApi.getCustomerGroupInfo(props.data.businessPartner.toString()).then((data) => {
+    OpportunityDetailsApi.getCustomerGroupInfo(props.customerData.businessPartner.toString()).then((data) => {
       customerAttributes.forEach((item) => {
         if (!data.some((ele) => ele.attributeType === item.attributeType)) {
           data.push({ attributeType: item.attributeType, group: item.group, attributeValue: '', description: item.description });
@@ -94,7 +95,7 @@ const CustomerCard: React.FC<Data> = (props) => {
   };
 
   const openOpptyList = (flag: boolean) => {
-    history.push({ pathname: '/opportunities', state: { selectCustomer: props.data.businessPartner, activeOp: flag } });
+    history.push({ pathname: '/opportunities', state: { selectCustomer: props.customerData.businessPartner, activeOp: flag } });
   };
 
   return (
@@ -226,7 +227,7 @@ const CustomerCard: React.FC<Data> = (props) => {
       </section>
 
       <section className="sec-info-accordion">
-        <AllContactsAccordian title=" All Contact" contactData={contactsData} />
+        <AllContactsAccordian title=" All Contact" contactData={contactsData} customerData={customerData} />
       </section>
 
       <section className="d-flex sec-customer-desc">

@@ -25,12 +25,15 @@ export const NavSection: React.FC<Props> = ({ backToOpportunityList, popover }) 
         </div>
         <div className="rgt-actionitem">
           <ul className="list-inline ">
-            <li className="list-inline-item">
-              <img src={ImageConfig.HISTORY} alt="History" title="History" />
-            </li>
-            <li className="list-inline-item">
-              <img src={ImageConfig.STAR} alt="Star" title="Star" />
-            </li>
+            {
+              // Commented Non- Functioning Buttons
+              /* <li className="list-inline-item">
+                <img src={ImageConfig.HISTORY} alt="History" title="History" />
+              </li>
+              <li className="list-inline-item">
+                <img src={ImageConfig.STAR} alt="Star" title="Star" />
+              </li> */
+            }
             {popup ? (
               <OverlayTrigger rootClose trigger="click" placement="bottom" overlay={popup}>
                 <img src={ImageConfig.MORE_V_ELLIPSIS} alt="More" title="More" />

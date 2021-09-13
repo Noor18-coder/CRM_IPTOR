@@ -121,14 +121,15 @@ const Header: React.FC<Props> = ({ page }) => {
           </ul>
 
           <ul className="nav navbar-toolbar">
-            <li className="nav-item no-p">
+            {/* <li className="nav-item no-p">
               <button className="nav-link navbar-avatar header-search" aria-expanded="false" data-animation="scale-up" type="button">
                 <span className="avatar avatar-online">
                   <img src={ImageConfig.NAV_SEARCH_ICON} alt="..." />
                   <i />
                 </span>
               </button>
-            </li>
+               Commented Non- Functioning Buttons
+            </li> */}
             <OverlayTrigger rootClose trigger="click" placement="bottom" overlay={popover}>
               <button className="logout" type="button">
                 {state.description && getIntialsFromFullName(state.description)}
