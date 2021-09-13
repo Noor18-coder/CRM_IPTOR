@@ -35,7 +35,7 @@ export const OpportunityDetails: React.FC = (props: any) => {
   const opportunityId = props.location.state.oppid;
 
   const getName = (str: string) => {
-    const userObj = state.users.users.find((obj) => obj.handler === str);
+    const userObj = state.users.users.find((obj) => obj.user === str);
     return userObj?.description ? userObj?.description : '';
   };
 

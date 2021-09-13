@@ -80,7 +80,7 @@ const Opportunities: React.FC = (props: any) => {
   });
 
   const getName = (str: string) => {
-    const userObj = oppState.users.users.find((obj) => obj.handler === str);
+    const userObj = oppState.users.users.find((obj) => obj.user === str);
     return userObj?.description;
   };
 
@@ -102,7 +102,7 @@ const Opportunities: React.FC = (props: any) => {
     };
 
     if (filter?.handler) {
-      filters.selectHandler = filter.handler === 'all' ? '' : oppState.auth.user.handler;
+      filters.selectHandler = filter.handler === 'all' ? '' : oppState.auth.user.user;
     }
 
     if (filter?.selectParam === 'selectStage') {

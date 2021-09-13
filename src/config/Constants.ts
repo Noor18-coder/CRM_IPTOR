@@ -1,10 +1,12 @@
 export const Constants = {
   ADD_OPPTY_PRODUCTS_LOAD_LIMIT: 50,
-  MIN_DATA_LIMIT: 4,
-  MED_DATA_LIMIT: 9,
+  DATA_LIMIT_4: 4,
+  DATA_LIMIT_5: 5,
+  DATA_LIMIT_9: 9,
   LOGID_DESC: 'logId DESC',
   ATTRIBUTE_CAMPAIGN: 'CAMPAIGN',
   CUSTOMER_PARENT_FILE: 'SRONAM',
+  OPPORTUNITY_ATTRIBUTES_PARENT_FILE: 'SROMOPH',
   ADD_ACTION: 'ADD',
   NEW_TYPE: 'new',
   INDUSTRY_TYPE: 'industry',
@@ -14,7 +16,10 @@ export const Constants = {
   MONTH_TYPE: 'month',
   WEEK_TYPE: 'week',
   REVENUE_TYPE: 'Revenue',
+  OPPORTUNITY_RECORD_TYPE: 'oppRecordType',
+  USER_TYPE: 'user',
   INPROGRESS_DESC: 'inProgress DESC',
+  TOTAL_DESC: 'total DESC',
 };
 
 export const APPROVAL_STATUS = {

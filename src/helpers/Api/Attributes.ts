@@ -52,25 +52,14 @@ export class Attributes {
     return get(response, 'data');
   }
 
-  static async addAttribute(type: string, parentId: string, attributeType: string, attributeValue: string | number): Promise<any> {
+  static async addAttribute(params: apiModels.SaveAttributeFieldParam): Promise<any> {
     // const filename = type === 'opportunity' ? this.opportunityAttributesFileName : this.customersAttributesFileName;
-    const params: apiModels.SaveAttributeFieldParam = {
-      attributeType,
-      parentFile: this.opportunityAttributesFileName,
-      parentId,
-      attributeValue,
-    };
     const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.addAttributeMethod, params);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
   }
 
-  static async updateAttribute(attributeType: string, valueId: string, attributeValue: string | number): Promise<any> {
-    const params: apiModels.SaveAttributeFieldParam = {
-      valueId,
-      attributeValue,
-      attributeType,
-    };
+  static async updateAttribute(params: apiModels.SaveAttributeFieldParam): Promise<any> {
     const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.updateAttributeMethod, params);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');
@@ -88,13 +77,26 @@ export class Attributes {
     return response.data.data;
   }
 
-  static async addAttributes(fileName: string, parentId: string, attributeType: string, attributeValue: string | number): Promise<any> {
+  static async addAttributes(
+    fileName: string,
+    parentId: string,
+    attributeType: string,
+    attributeValue: string | number,
+    attributeValueB?: boolean,
+    attributeValueD?: string
+  ): Promise<any> {
     const params: apiModels.SaveAttributeFieldParam = {
       attributeType,
       parentFile: fileName,
       parentId,
-      attributeValue,
     };
+    if (attributeValueB) {
+      params.attributeValueB = attributeValueB;
+    } else if (attributeValueD) {
+      params.attributeValueD = attributeValueD;
+    } else {
+      params.attributeValue = attributeValue;
+    }
     const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.addAttributeMethod, params);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');

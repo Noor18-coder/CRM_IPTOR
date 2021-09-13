@@ -44,8 +44,14 @@ const EditItem: React.FC = () => {
           const find: models.OpportunityDetailsGroupItem | undefined = oldAttributeValues.find((val: models.OpportunityDetailsGroupItem) => {
             return val.attributeType === obj.attributeType;
           });
+
           if (find && find.valueId) {
-            return Attributes.updateAttribute(find.attributeType, find.valueId, obj.attributeValue);
+            const params: models.SaveAttributeFieldParam = {
+              attributeType: find.attributeType,
+              attributeValue: obj.attributeValue,
+              valueId: find.valueId,
+            };
+            return Attributes.updateAttribute(params);
           }
           return await Attributes.addAttributes('SROMOPI', item.itemId, obj.attributeType, obj.attributeValue);
         })

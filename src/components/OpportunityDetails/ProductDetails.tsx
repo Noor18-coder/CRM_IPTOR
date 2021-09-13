@@ -3,6 +3,7 @@ import { Card, Image, Table, Accordion } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
+import i18n from '../../i18n';
 import { Product } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import * as models from '../../helpers/Api/models';
@@ -49,7 +50,7 @@ export const ProductAccordian: React.FC<Props> = ({ opportunityId }) => {
     <Accordion defaultActiveKey="0">
       <Card className="add-details">
         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
-          Products and Moudules
+          {i18n.t('productSectionTitle')}
           {state.opportuntyDetails.editOportunity.allowEdit ? (
             <Image className="addnew-red-icon" src={ImageConfig.ADD_BTN} alt="Add New" title="Add New" onClick={() => openAddItemForm('add_item')} />
           ) : null}

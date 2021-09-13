@@ -62,7 +62,7 @@ const OpportunityListMobile: React.FC<Props> = ({ getDataRows, refresh }) => {
   }, [refresh]);
 
   const getName = (str: string) => {
-    const userObj = state.users.users.find((obj) => obj.handler === str);
+    const userObj = state.users.users.find((obj) => obj.user === str);
     const handlerName = userObj?.description ? userObj.description : str;
     return handlerName;
   };

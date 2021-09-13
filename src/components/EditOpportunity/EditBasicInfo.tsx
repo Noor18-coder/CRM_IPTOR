@@ -7,12 +7,13 @@ import { Image } from 'react-bootstrap';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
 import errorIcon from '../../assets/images/error.png';
-import UserSearchField from '../Shared/Search/UserSearchField';
+import { UserSearchField } from '../Shared/Search/UserSearchField';
 import { editOpportunity } from '../../store/OpportunityDetails/Actions';
 import { OpportunityDefaultFields } from '../../config/OpportunityDefaultFields';
 import AsyncSearchInput from '../Shared/Search/AsyncSearchInput';
 import CustomerList from '../../helpers/Api/CustomerList';
 import DateInput from '../Shared/Picker/DateInput';
+import i18n from '../../i18n';
 
 const regex = /^-?\d+\.?\d*$/;
 
@@ -85,6 +86,25 @@ const EditBasicInfo: React.FC = () => {
   };
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { id, value } = e.currentTarget;
+    const field: models.AddOpportunityField | undefined = fields.find((obj: models.AddOpportunityField) => obj.attributeType === id);
+
+    if (field && field.valueFormat === 'NUMERIC') {
+      const element = document.getElementById(id) as HTMLInputElement;
+      if (value.length && !value.match(regex)) {
+        setErrorMessages({
+          ...errors,
+          [id]: i18n.t('numericFieldError'),
+        });
+        element.style.border = '1px solid #ED2024';
+      } else {
+        setErrorMessages({
+          ...errors,
+          [id]: '',
+        });
+        element.style.border = '1px solid #DAE2E7';
+      }
+    }
     setOpportunity({
       ...opportunity,
       [e.currentTarget.id]: e.currentTarget.value,
@@ -98,7 +118,7 @@ const EditBasicInfo: React.FC = () => {
     if (field && field.valueFormat === 'N' && !value.match(regex)) {
       setErrorMessages({
         ...errors,
-        [id]: 'Please enter numeric value',
+        [id]: i18n.t('numericFieldError'),
       });
     } else if (field && field.valueFormat === 'N') {
       setErrorMessages({
@@ -132,11 +152,11 @@ const EditBasicInfo: React.FC = () => {
     });
   };
 
-  const onHandlerChange = (user: models.UserItem[]) => {
-    if (user && user.length) {
+  const onHandlerChange = (user: models.UserItem) => {
+    if (user) {
       setOpportunity({
         ...opportunity,
-        handler: user[0].handler,
+        handler: user.user,
       });
     }
   };
@@ -159,7 +179,7 @@ const EditBasicInfo: React.FC = () => {
                       <label htmlFor="owner" className="opp-label">
                         {obj.description}
                       </label>
-                      <UserSearchField onChange={onHandlerChange} description="Owner" />
+                      <UserSearchField onChange={onHandlerChange} description="Owner" currentSelectedUser={getValue(obj.attributeType)} />
                     </div>
                   );
                 }
@@ -173,13 +193,13 @@ const EditBasicInfo: React.FC = () => {
                     </div>
                   );
                 }
-                if (obj.dateInput) {
+                if (obj.valueFormatDesc === 'DATE') {
                   return (
                     <div className="form-group oppty-form-elements">
                       <label htmlFor="endDate" className="opp-label">
                         {obj.description}
                       </label>
-                      <DateInput onDateSelect={(value: string) => onDateChange(obj.attributeType, value)} />
+                      <DateInput onDateSelect={(value: string) => onDateChange(obj.attributeType, value)} currentDate={getValue(obj.attributeType)} />
                     </div>
                   );
                 }
@@ -204,7 +224,7 @@ const EditBasicInfo: React.FC = () => {
                       type="text"
                       value={getValue(obj.attributeType)}
                       className="form-control"
-                      placeholder={`${obj.description} : ${obj.valueFormat}`}
+                      placeholder={`${obj.description}`}
                       id={obj.attributeType}
                       onChange={onInputValueChange}
                       onBlur={onBlur}

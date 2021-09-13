@@ -18,6 +18,33 @@ export interface AttributeField {
   valuesExist: boolean;
 }
 
+export interface AttributeFormField {
+  parentFile: string;
+  attributeType: string;
+  description: string;
+  preloaded: boolean;
+  allowCopy: boolean;
+  valueFormat: string;
+  valueFormatDesc: string;
+  attributeId: string;
+  validate: boolean;
+  uniqueRecord: boolean;
+  statement: string;
+  sequence: number;
+  group: string;
+  initializeAttribute: boolean;
+  initialValueN: number;
+  protectData: boolean;
+  valuesExist: boolean;
+  attributeValue?: string;
+  attributeValueD?: string;
+  attributeValueB?: boolean;
+  attributeValueA?: string;
+  id?: string;
+  valueId?: string;
+  error?: string;
+}
+
 export interface AttributeParams {
   parentFile: string;
   attributeType?: string;
@@ -39,7 +66,10 @@ export interface AttributeValueObject {
   rootId: string;
   group: string;
   valueId: string;
-  attributeValue: string;
+  attributeValue?: string;
+  attributeValueD?: string;
+  attributeValueB?: boolean;
+  attributeValueA?: string;
   description: string;
 }
 
@@ -53,8 +83,12 @@ export interface SaveAttributeFieldParam {
   parentFile?: string;
   parentId?: string;
   attributeType?: string;
-  attributeValue?: string | number;
+  attributeValue?: string | number | boolean;
   valueId?: string;
+  attributeValueD?: string;
+  attributeValueB?: string | boolean;
+  attributeValueA?: string;
+  id?: string;
 }
 
 export interface UpdateAttributeParams {

@@ -5,17 +5,26 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface Props {
+  currentDate: string | undefined;
   onDateSelect: (key: string) => void;
 }
 
-const DateInput: React.FC<Props> = ({ onDateSelect }) => {
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
+const DateInput: React.FC<Props> = ({ currentDate, onDateSelect }) => {
+  const [selectedDate, setSelectedDate] = React.useState<Date>();
 
   const onChange = (date: any) => {
     const formatDate = moment(date).format('YYYY-MM-DD');
     setSelectedDate(date);
     onDateSelect(formatDate);
   };
+
+  React.useEffect(() => {
+    if (currentDate) {
+      setSelectedDate(new Date(currentDate));
+    } else {
+      setSelectedDate(new Date());
+    }
+  }, []);
 
   return (
     <DatePicker

@@ -10,7 +10,7 @@ import { AppState } from '../store';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import { ApprovalLog } from '../../helpers/Api/ApprovalLog';
-import { APPROVAL_STATUS } from '../../config/Constants';
+import { APPROVAL_STATUS, Constants } from '../../config/Constants';
 import { Attributes } from '../../helpers/Api/Attributes';
 
 /** Action to set auth state logged in status */
@@ -257,7 +257,7 @@ export const updateAllAtrributeValues: ActionCreator<
     undefined,
     types.SaveOpportunityAttributesAction | types.SetOpportunityEditErrorMessage
   >
-> = (attributesSet: models.AttributeValueAndType[]) => {
+> = (attributesSet: models.AttributeFormField[]) => {
   // eslint-disable-next-line consistent-return
   return async (dispatch: Dispatch, getState) => {
     const { opportuntyDetails } = getState();
@@ -266,14 +266,34 @@ export const updateAllAtrributeValues: ActionCreator<
     try {
       const data = await Promise.all(
         attributesSet.map((obj: any) => {
-          const attributeExist = opportuntyDetails.attributes.find(
-            (valueObj: models.AttributeValueObject) => valueObj.attributeType === obj.attributeType
-          );
-
-          if (attributeExist) {
-            return Attributes.updateAttribute(obj.attributeType, attributeExist.valueId, obj.attributeValue);
+          if (obj && obj.valueId) {
+            const params: models.SaveAttributeFieldParam = {
+              parentFile: Constants.OPPORTUNITY_ATTRIBUTES_PARENT_FILE,
+              attributeType: obj.attributeType,
+              valueId: obj.valueId,
+            };
+            if (obj.attributeValueB) {
+              params.attributeValueB = obj.attributeValueB === 'Y';
+            } else if (obj.attributeValueD) {
+              params.attributeValueD = obj.attributeValueD;
+            } else {
+              params.attributeValue = obj.attributeValue;
+            }
+            return Attributes.updateAttribute(params);
           } else {
-            return Attributes.addAttribute('opportunity', opportunityId, obj.attributeType, obj.attributeValue);
+            const params: models.SaveAttributeFieldParam = {
+              parentFile: Constants.OPPORTUNITY_ATTRIBUTES_PARENT_FILE,
+              parentId: opportuntyDetails.opportunityDefaultParams.opportunityId,
+              attributeType: obj.attributeType,
+            };
+            if (obj.attributeValueB) {
+              params.attributeValueB = obj.attributeValueB === 'Y';
+            } else if (obj.attributeValueD) {
+              params.attributeValueD = obj.attributeValueD;
+            } else {
+              params.attributeValue = obj.attributeValue;
+            }
+            return Attributes.addAttribute(params);
           }
         })
       ).then((res: any) => {

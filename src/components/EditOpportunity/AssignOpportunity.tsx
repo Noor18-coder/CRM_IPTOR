@@ -5,7 +5,7 @@ import { pick } from 'lodash';
 import { AppState } from '../../store/store';
 
 import * as models from '../../helpers/Api/models';
-import UserSearchField from '../Shared/Search/UserSearchField';
+import { UserSearchField } from '../Shared/Search/UserSearchField';
 import { editOpportunity } from '../../store/OpportunityDetails/Actions';
 
 const AssignOpportunity: React.FC = () => {
@@ -19,11 +19,11 @@ const AssignOpportunity: React.FC = () => {
     dispatch(editOpportunity(opportunity));
   };
 
-  const onHandlerChange = (user: models.UserItem[]) => {
-    if (user && user.length) {
+  const onHandlerChange = (user: models.UserItem) => {
+    if (user) {
       setOpportunity({
         ...opportunity,
-        handler: user[0].handler,
+        handler: user.handler,
       });
       setHandler(handler);
     }
@@ -37,7 +37,7 @@ const AssignOpportunity: React.FC = () => {
             <label htmlFor="owner" className="opp-label">
               Assign Opportunity
             </label>
-            <UserSearchField onChange={onHandlerChange} description="Owner" />
+            <UserSearchField onChange={onHandlerChange} description="Owner" currentSelectedUser={opportunityDetails.handler} />
           </div>
         </div>
       </div>

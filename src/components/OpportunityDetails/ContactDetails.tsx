@@ -98,7 +98,12 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
     if (opportunityRole) {
       const roleObj = contactDetails.find((obj) => obj.attributeType === 'ROLE');
       const valueId = roleObj?.valueId ? roleObj.valueId : '';
-      await Attributes.updateAttribute('ROLE', valueId, newValue);
+      const params: models.SaveAttributeFieldParam = {
+        attributeType: 'ROLE',
+        attributeValue: newValue,
+        valueId,
+      };
+      await Attributes.updateAttribute(params);
       setOpportunityRole(newValue);
     } else {
       await Attributes.addAttributes('SROMOPCH', data.contactId, 'ROLE', newValue);

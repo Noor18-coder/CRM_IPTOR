@@ -137,12 +137,35 @@ export const DisplayGroup: React.FC<GroupData> = ({ title, fields, data, openEdi
       <div className="accr-body-container">
         <ul className="list-inline bdy-list-item accr-list-columns">
           {fields.map((obj: AttributeField) => {
-            return (
-              <li className="list-inline-item">
-                <span>{obj.description}</span>
-                {getValue(obj.attributeType)}
-              </li>
-            );
+            if (obj.uniqueRecord) {
+              return (
+                <li className="list-inline-item">
+                  <span>{obj.description}</span>
+                  {getValue(obj.attributeType)}
+                </li>
+              );
+            } else {
+              const dataObj: AttributeValueObject[] = data.filter((dataObject: AttributeValueObject) => {
+                return dataObject.attributeType === obj.attributeType;
+              });
+              if (dataObj.length) {
+                return dataObj.map((elem: AttributeValueObject) => {
+                  return (
+                    <li className="list-inline-item">
+                      <span>{obj.description}</span>
+                      {elem.attributeValue}
+                    </li>
+                  );
+                });
+              } else {
+                return (
+                  <li className="list-inline-item">
+                    <span>{obj.description}</span>
+                    --
+                  </li>
+                );
+              }
+            }
           })}
         </ul>
       </div>

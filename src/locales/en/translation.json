@@ -46,6 +46,9 @@
   "approval": "Approval",
   "changeApprover": "Change Approver",
   "opportunityDeletedSuccess": "Opportunity Deleted Successfully.",
+  "blankFieldError": "Field can't be left blank", 
+  "numericFieldError" : " Please enter number value",
+  "productSectionTitle": "Products and Modules",
   "loadingData": "Loading Data...",
   "customer": "Customer",
   "newAdded": "Newly Added",
@@ -59,5 +62,6 @@
   "week": "Week",
   "month": "Month",
   "year": "Year",
-  "pipeline": "Pipline"
+  "pipeline": "Pipline",
+  "viewAll": "View All"
 }

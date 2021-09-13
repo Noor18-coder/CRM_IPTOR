@@ -10,10 +10,13 @@ import { Constants } from '../../config/Constants';
 const DashboardOpportunityWidgets: React.FC = () => {
   const [pipelineData, setPipelineData] = React.useState<any>();
   const [closeDateData, setCloseDateData] = React.useState<any>();
+  const [regionData, setRegionData] = React.useState<any>();
   const [minCloseDate, setMinCloseDate] = React.useState<any>();
   const [maxCloseDate, setMaxCloseDate] = React.useState<any>();
   const [groupType, setGroupType] = React.useState<string>('');
+  const [areaGroupType, setAreaGroupType] = React.useState<string>('');
   const [filterType, setFilterType] = React.useState<string>('');
+  const [areaFilterType, setAreaFilterType] = React.useState<string>('');
   const [pipelineDataLoading, setPipelineDataLoading] = React.useState<boolean>(false);
   const [wonDataLoading, setWonDataLoading] = React.useState<boolean>(false);
   const [regionDataLoading, setRegionDataLoading] = React.useState<boolean>(false);
@@ -26,14 +29,21 @@ const DashboardOpportunityWidgets: React.FC = () => {
     { valueField: i18n.t('topSalesPerson') },
   ];
 
-  const getStatisticsDetails = (groupBy: string, closeDateFrom: string, closeDateTo: string, limit?: number, orderBy?: string) => {
+  const getStatisticsDetails = (
+    groupBy: string,
+    closeDateFrom: string,
+    closeDateTo: string,
+    isChartData?: boolean,
+    limit?: number,
+    orderBy?: string
+  ) => {
     const statisticsParams: StatisticsDetailsParams = {
       groupBy,
       closeDateFrom,
       closeDateTo,
     };
     DashboardInfo.getOpportunityStatistics(limit, orderBy, statisticsParams).then((data) => {
-      if (groupBy === Constants.INDUSTRY_TYPE) {
+      if (groupBy === Constants.INDUSTRY_TYPE && !isChartData) {
         setPipelineData(data);
         setPipelineDataLoading(false);
       }
@@ -42,6 +52,19 @@ const DashboardOpportunityWidgets: React.FC = () => {
         setWonDataLoading(false);
       }
       if (groupBy === Constants.AREA_TYPE) {
+        setRegionData(data);
+        setRegionDataLoading(false);
+      }
+      if (groupBy === Constants.INDUSTRY_TYPE && isChartData) {
+        setRegionData(data);
+        setRegionDataLoading(false);
+      }
+      if (groupBy === Constants.OPPORTUNITY_RECORD_TYPE) {
+        setRegionData(data);
+        setRegionDataLoading(false);
+      }
+      if (groupBy === Constants.USER_TYPE) {
+        setRegionData(data);
         setRegionDataLoading(false);
       }
       return data;
@@ -66,7 +89,7 @@ const DashboardOpportunityWidgets: React.FC = () => {
     }
   };
 
-  const onWonRevenueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const onWonRevenueFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.currentTarget.value === Constants.REVENUE_TYPE) {
       setWonDataLoading(true);
       if (groupType === Constants.YEAR_TYPE) {
@@ -95,6 +118,154 @@ const DashboardOpportunityWidgets: React.FC = () => {
     }
   };
 
+  const onAreaYearChange = (type: string) => {
+    if (type === Constants.YEAR_TYPE) {
+      setRegionDataLoading(true);
+      setAreaGroupType('year');
+      if (areaFilterType === 'regions') {
+        getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
+      }
+      if (areaFilterType === 'industry') {
+        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate), true);
+      }
+      if (areaFilterType === 'type') {
+        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
+      }
+      if (areaFilterType === 'salesPerson') {
+        getStatisticsDetails(
+          Constants.USER_TYPE,
+          getDashDateFormat(yearStartDate),
+          getDashDateFormat(yearEndDate),
+          false,
+          Constants.DATA_LIMIT_5,
+          Constants.TOTAL_DESC
+        );
+      }
+    }
+    if (type === Constants.MONTH_TYPE) {
+      setRegionDataLoading(true);
+      setAreaGroupType('month');
+      if (areaFilterType === 'regions') {
+        getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
+      }
+      if (areaFilterType === 'industry') {
+        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate), true);
+      }
+      if (areaFilterType === 'type') {
+        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
+      }
+      if (areaFilterType === 'salesPerson') {
+        getStatisticsDetails(
+          Constants.USER_TYPE,
+          getDashDateFormat(monthStartDate),
+          getDashDateFormat(monthEndDate),
+          false,
+          Constants.DATA_LIMIT_5,
+          Constants.TOTAL_DESC
+        );
+      }
+    }
+    if (type === Constants.WEEK_TYPE) {
+      setRegionDataLoading(true);
+      setAreaGroupType('week');
+      if (areaFilterType === 'regions') {
+        getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
+      }
+      if (areaFilterType === 'industry') {
+        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate), true);
+      }
+      if (areaFilterType === 'type') {
+        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
+      }
+      if (areaFilterType === 'salesPerson') {
+        getStatisticsDetails(
+          Constants.USER_TYPE,
+          getDashDateFormat(weekStartDate),
+          getDashDateFormat(weekEndDate),
+          false,
+          Constants.DATA_LIMIT_5,
+          Constants.TOTAL_DESC
+        );
+      }
+    }
+  };
+
+  const onAreaFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (e.currentTarget.value === i18n.t('allRegions')) {
+      setRegionDataLoading(true);
+      if (areaGroupType === Constants.YEAR_TYPE) {
+        getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
+      }
+      if (areaGroupType === Constants.MONTH_TYPE) {
+        getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
+      }
+      if (areaGroupType === Constants.WEEK_TYPE) {
+        getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
+      }
+      setAreaFilterType('regions');
+    }
+    if (e.currentTarget.value === i18n.t('allIndustry')) {
+      setRegionDataLoading(true);
+      if (areaGroupType === Constants.YEAR_TYPE) {
+        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate), true);
+      }
+      if (areaGroupType === Constants.MONTH_TYPE) {
+        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate), true);
+      }
+      if (areaGroupType === Constants.WEEK_TYPE) {
+        getStatisticsDetails(Constants.INDUSTRY_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate), true);
+      }
+      setAreaFilterType('industry');
+    }
+    if (e.currentTarget.value === i18n.t('type')) {
+      setRegionDataLoading(true);
+      if (areaGroupType === Constants.YEAR_TYPE) {
+        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
+      }
+      if (areaGroupType === Constants.MONTH_TYPE) {
+        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(monthStartDate), getDashDateFormat(monthEndDate));
+      }
+      if (areaGroupType === Constants.WEEK_TYPE) {
+        getStatisticsDetails(Constants.OPPORTUNITY_RECORD_TYPE, getDashDateFormat(weekStartDate), getDashDateFormat(weekEndDate));
+      }
+      setAreaFilterType('type');
+    }
+    if (e.currentTarget.value === i18n.t('topSalesPerson')) {
+      setRegionDataLoading(true);
+      if (areaGroupType === Constants.YEAR_TYPE) {
+        getStatisticsDetails(
+          Constants.USER_TYPE,
+          getDashDateFormat(yearStartDate),
+          getDashDateFormat(yearEndDate),
+          false,
+          Constants.DATA_LIMIT_5,
+          Constants.TOTAL_DESC
+        );
+      }
+      if (areaGroupType === Constants.MONTH_TYPE) {
+        getStatisticsDetails(
+          Constants.USER_TYPE,
+          getDashDateFormat(monthStartDate),
+          getDashDateFormat(monthEndDate),
+          false,
+          Constants.DATA_LIMIT_5,
+          Constants.TOTAL_DESC
+        );
+      }
+      if (areaGroupType === Constants.WEEK_TYPE) {
+        getStatisticsDetails(
+          Constants.USER_TYPE,
+          getDashDateFormat(weekStartDate),
+          getDashDateFormat(weekEndDate),
+          false,
+          Constants.DATA_LIMIT_5,
+          Constants.TOTAL_DESC
+        );
+      }
+      setAreaFilterType('salesPerson');
+    }
+  };
+
   React.useEffect(() => {
     setPipelineDataLoading(true);
     setWonDataLoading(true);
@@ -103,13 +274,16 @@ const DashboardOpportunityWidgets: React.FC = () => {
       Constants.INDUSTRY_TYPE,
       getDashDateFormat(yearStartDate),
       getDashDateFormat(yearEndDate),
-      Constants.MED_DATA_LIMIT,
+      false,
+      Constants.DATA_LIMIT_9,
       Constants.INPROGRESS_DESC
     );
     getStatisticsDetails(Constants.CLOSE_DATE_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
     getStatisticsDetails(Constants.AREA_TYPE, getDashDateFormat(yearStartDate), getDashDateFormat(yearEndDate));
     setGroupType('year');
+    setAreaGroupType('year');
     setFilterType('wonLost');
+    setAreaFilterType('regions');
   }, []);
 
   React.useEffect(() => {
@@ -129,7 +303,7 @@ const DashboardOpportunityWidgets: React.FC = () => {
           <div className="card-title-row">
             <div className="row">
               <div className="col-4">
-                <select className="form-control dshbrd-cards-dd" onChange={onWonRevenueChange}>
+                <select className="form-control dshbrd-cards-dd" onChange={onWonRevenueFilterChange}>
                   {wonRevenueFilter &&
                     wonRevenueFilter.map((obj: any) => {
                       return <option value={obj.valueField}>{obj.valueField}</option>;
@@ -171,7 +345,7 @@ const DashboardOpportunityWidgets: React.FC = () => {
             </div>
           </div>
 
-          <div className="card-body">
+          <div className="card-body card-body-height">
             <div className="tab-content">
               {wonDataLoading ? (
                 <div className="text-center">{i18n.t('loadingData')}</div>
@@ -188,7 +362,7 @@ const DashboardOpportunityWidgets: React.FC = () => {
           <div className="card-title-row">
             <div className="row">
               <div className="col-4">
-                <select className="form-control dshbrd-cards-dd">
+                <select className="form-control dshbrd-cards-dd" onChange={onAreaFilterChange}>
                   {regionTypeFilter &&
                     regionTypeFilter.map((obj: any) => {
                       return <option value={obj.valueField}>{obj.valueField}</option>;
@@ -198,17 +372,29 @@ const DashboardOpportunityWidgets: React.FC = () => {
               <div className="col-8 text-right">
                 <ul className="nav nav-tabs dsbd-tabs float-right" role="tablist">
                   <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="day-tab" type="button">
+                    <button
+                      className={areaGroupType === 'week' ? 'nav-link active' : 'nav-link'}
+                      id="day-tab"
+                      type="button"
+                      onClick={() => onAreaYearChange('week')}>
                       {i18n.t('week')}
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="month-tab" type="button">
+                    <button
+                      className={areaGroupType === 'month' ? 'nav-link active' : 'nav-link'}
+                      id="month-tab"
+                      type="button"
+                      onClick={() => onAreaYearChange('month')}>
                       {i18n.t('month')}
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">
-                    <button className="nav-link active" id="year-tab" type="button">
+                    <button
+                      className={areaGroupType === 'year' ? 'nav-link active' : 'nav-link'}
+                      id="year-tab"
+                      type="button"
+                      onClick={() => onAreaYearChange('year')}>
                       {i18n.t('year')}
                     </button>
                   </li>
@@ -217,8 +403,14 @@ const DashboardOpportunityWidgets: React.FC = () => {
             </div>
           </div>
 
-          <div className="card-body">
-            <div className="tab-content">{regionDataLoading ? <div className="text-center">{i18n.t('loadingData')}</div> : <StackBarChart />}</div>
+          <div className="card-body card-body-height">
+            <div className="tab-content">
+              {regionDataLoading ? (
+                <div className="text-center">{i18n.t('loadingData')}</div>
+              ) : (
+                <StackBarChart data={regionData} selectedFilter={areaFilterType} />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -232,13 +424,13 @@ const DashboardOpportunityWidgets: React.FC = () => {
               </div>
               <div className="col-6 text-right singlelink">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className="pipeline-title-link">
-                  View All
+                <a href="/opportunities" className="pipeline-title-link">
+                  {i18n.t('viewAll')}
                 </a>
               </div>
             </div>
           </div>
-          <div className="card-body pipeline">
+          <div className="card-body pipeline card-body-height">
             {pipelineDataLoading ? (
               <div className="text-center">{i18n.t('loadingData')}</div>
             ) : (

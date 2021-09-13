@@ -35,7 +35,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
 
   const getCustomerLogs = async () => {
     setIsNewLoading(true);
-    const logsData: any = await DashboardInfo.getLogs(Constants.MIN_DATA_LIMIT, Constants.LOGID_DESC, LogParams);
+    const logsData: any = await DashboardInfo.getLogs(Constants.DATA_LIMIT_4, Constants.LOGID_DESC, LogParams);
     if (logsData) {
       Promise.all(
         logsData.map((obj: LogsInfoItem) => {
@@ -76,7 +76,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
   };
 
   const getCustomers = (filters: BusinessPartnerListParams) => {
-    BusinessPartnerList.get('', Constants.MIN_DATA_LIMIT, 0, '', filters).then((data) => {
+    BusinessPartnerList.get('', Constants.DATA_LIMIT_4, 0, '', filters).then((data) => {
       if (filters.includeInactive) {
         setInactiveCustomers(data.data.items);
         setIsNewLoading(false);
