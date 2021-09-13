@@ -218,7 +218,11 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                       Select stage
                     </option>
                     {state.enviornmentConfigs.crmOpportunityStage.map((obj: models.StageInfo) => {
-                      return <option>{obj.salesStage}</option>;
+                      return (
+                        <option value={obj.salesStage} selected={state.enviornmentConfigs.defaultOpprtunityInfo.stageCreated === obj.salesStage}>
+                          {obj.salesStage} - {obj.description}
+                        </option>
+                      );
                     })}
                   </select>
                   <span className="form-hints">{errors?.stage}</span>

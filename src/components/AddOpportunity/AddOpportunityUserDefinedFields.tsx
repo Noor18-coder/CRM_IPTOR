@@ -336,7 +336,11 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                         Select currency
                       </option>
                       {state.enviornmentConfigs.currency.map((obj: CurrencyItem) => {
-                        return <option value={obj.currency}>{obj.currency}</option>;
+                        return (
+                          <option value={obj.currency} selected={state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA === obj.currency}>
+                            {obj.currency}
+                          </option>
+                        );
                       })}
                     </select>
                     <span className="form-hints">{errors?.currency}</span>

@@ -265,10 +265,12 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options
           Select {description}
         </option>
         {options.map((obj: models.DropDownValue) => {
-          return (
+          return obj.fieldDescription ? (
             <option value={obj.valueField}>
               {obj.valueField} - {obj.fieldDescription}
             </option>
+          ) : (
+            <option value={obj.valueField}>{obj.valueField}</option>
           );
         })}
       </select>

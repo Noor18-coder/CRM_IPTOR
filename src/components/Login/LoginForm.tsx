@@ -60,9 +60,9 @@ const LoginForm: React.FC = () => {
     dispatch(logOutSuccess());
   };
 
-  const validateField = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const validateField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const element = document.getElementById(e.currentTarget.id) as HTMLInputElement;
-    if (e.currentTarget.value === '' || e.currentTarget.value.includes('Select')) {
+    if (e.currentTarget.value.length >= 1) {
       element.style.border = '1px solid #ED2024';
       if (e.currentTarget.id === 'user') {
         setUserError(true);

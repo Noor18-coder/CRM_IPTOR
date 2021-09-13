@@ -18,6 +18,7 @@ export interface DefaultOpportunityInfo {
   language?: string;
   user?: string;
   currencyLDA?: string;
+  stageCreated?: string;
 }
 
 export interface DefaultOpportunityInfoResponse {
