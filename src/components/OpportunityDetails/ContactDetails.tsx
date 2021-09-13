@@ -8,6 +8,7 @@ import ImageConfig from '../../config/ImageConfig';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store';
 import { Attributes } from '../../helpers/Api';
+import i18n from '../../i18n';
 
 import { deleteContactFromOpportunity, openOpportunityForm, getOpportunityContacts } from '../../store/OpportunityDetails/Actions';
 
@@ -41,7 +42,7 @@ export const ContactAccordian: React.FC<Props> = ({ opportunityId }) => {
     <Accordion defaultActiveKey="0">
       <Card className="add-details">
         <Accordion.Toggle className={activeClass} onClick={toggleAccordion} as={Card.Link} eventKey="1">
-          Contacts
+          {i18n.t('titleContacts')}
           {state.opportuntyDetails.editOportunity.allowEdit ? (
             <Image src={ImageConfig.ADD_BTN} alt="Add" title="Add" onClick={openAddContactForm} />
           ) : null}
@@ -54,7 +55,7 @@ export const ContactAccordian: React.FC<Props> = ({ opportunityId }) => {
                   return <ContactCards data={obj} />;
                 })
               ) : (
-                <div className="no-data-txt"> No Contacts Found </div>
+                <div className="no-data-txt">{i18n.t('opportunityNoContacts')}</div>
               )}
             </div>
           </div>
@@ -95,6 +96,10 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
   const changeRole = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.currentTarget.value;
 
+    if (newValue === i18n.t('selectRoleOption')) {
+      return;
+    }
+
     if (opportunityRole) {
       const roleObj = contactDetails.find((obj) => obj.attributeType === 'ROLE');
       const valueId = roleObj?.valueId ? roleObj.valueId : '';
@@ -118,7 +123,7 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
           <div className="name-add-sec">
             <p className="person-name-desig">
               <span className="name">{data.contactPerson}</span>
-              <span className="designation">Associate - Sales</span>
+              <span className="designation">{}</span>
             </p>
             <p className="mailid">{data.email ? data.email : '--'}</p>
             <p className="contact-num">{data.phone ? data.phone : '--'}</p>
@@ -133,8 +138,9 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
           <div className="select-opportunity-sec">
             {state.opportuntyDetails.editOportunity.allowEdit ? (
               <div className="form-group">
-                <label htmlFor="contact-role">Select Opportunity Role</label>
+                <label htmlFor="contact-role">{i18n.t('opportuntiyContactSelectRole')}</label>
                 <select className="form-control opportunity-dd" id="contact-role" value={opportunityRole} multiple={false} onChange={changeRole}>
+                  <option>{i18n.t('selectRoleOption')}</option>
                   {state.enviornmentConfigs.opportunityContactRoles.map((obj: models.DropDownValue) => {
                     return obj.fieldDescription ? (
                       <option value={obj.valueField}>

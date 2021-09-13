@@ -17,6 +17,7 @@ export const createInitalConfigDefaultState = (): InitialConfigState => {
     error: false,
     customerAttributes: [],
     opportunityAttributes: [],
+    productAttributes: [],
     defaultOpprtunityInfo: {},
     crmCountryInfo: [],
     crmAreaInfo: [],
@@ -72,6 +73,11 @@ const configReducer: Reducer<InitialConfigState, AppLoadingActions> = (state = i
       return {
         ...state,
         opportunityAttributes: action.attributes,
+      };
+    case AppLoadingTypes.SAVE_PRODUCTS_ATTRIBUTES:
+      return {
+        ...state,
+        productAttributes: action.attributes,
       };
     case AppLoadingTypes.SAVE_OPPORTUNITY_DEFAULT:
       return {

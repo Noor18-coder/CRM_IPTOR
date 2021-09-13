@@ -18,7 +18,7 @@ import { BusinessPartnerListItem, BusinessPartnerListParams } from '../../helper
 import { saveBusinessPartnerList, saveBusinessPartnerFilters } from '../../store/Customer/Actions';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import BusinessPartnerListMobile from './CustomerListMobile';
-import { setBusinessPartnerWindowActive } from '../../store/AddCustomer/Actions';
+import { setBusinessPartnerWindowActive, resetBusinessPartnerFields } from '../../store/AddCustomer/Actions';
 
 import { GridFilter } from '../Shared/Filter/GridFilter';
 import Container from '../AddCustomer/Container';
@@ -117,6 +117,7 @@ export const BusinessPartners: React.FC = () => {
   };
 
   React.useEffect(() => {
+    dispatch(resetBusinessPartnerFields());
     if (state.businesspartners.length === 0) setLoader(true);
   }, []);
 

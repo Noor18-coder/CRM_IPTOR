@@ -15,7 +15,12 @@ import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
 import Container from '../AddCustomer/Container';
-import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, setBusinessPartnerWindowGroup } from '../../store/AddCustomer/Actions';
+import {
+  setBusinessPartnerWindowActive,
+  setBusinessPartnerLoader,
+  setBusinessPartnerWindowGroup,
+  saveBusinessPartnerAttributes,
+} from '../../store/AddCustomer/Actions';
 
 export interface Data {
   data: any;
@@ -33,7 +38,7 @@ const CustomerCard: React.FC<Data> = (props) => {
   const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<any[]>([]);
   const inactiveCount = numberOfInactiveOpportunities || 0;
   const activeCount = numberOfActiveOpportunities || 0;
-  const [customerMoreInfoGroup, setCustomerMoreInfoGroup] = React.useState<IStringList>();
+  const [customerMoreInfoGroup, setCustomerMoreInfoGroup] = React.useState<IStringList[]>();
 
   const dispatch: Dispatch<any> = useDispatch();
   const history = useHistory();
@@ -51,8 +56,7 @@ const CustomerCard: React.FC<Data> = (props) => {
         return entityData;
       });
     }
-
-    OpportunityDetailsApi.getCustomerGroupInfo(props.data.businessPartner.toString()).then((dataResult) => {
+    OpportunityDetailsApi.getCustomerGroupInfo(props.data.businessPartner && props.data.businessPartner.toString()).then((dataResult) => {
       customerAttributes.forEach((item) => {
         if (!dataResult.some((ele) => ele.attributeType === item.attributeType)) {
           dataResult.push({ attributeType: item.attributeType, group: item.group, attributeValue: '', description: item.description });
@@ -72,7 +76,13 @@ const CustomerCard: React.FC<Data> = (props) => {
     });
     dispatch(setBusinessPartnerLoader(false));
     dispatch(setBusinessPartnerWindowActive(false));
-  }, []);
+  }, [data]);
+
+  React.useEffect(() => {
+    if (customerMoreInfoGroup) {
+      dispatch(saveBusinessPartnerAttributes(customerMoreInfoGroup));
+    }
+  }, [customerMoreInfoGroup]);
 
   const [activeClass, setActiveClass] = React.useState('');
   const toggleAccordion = () => {
@@ -176,8 +186,12 @@ const CustomerCard: React.FC<Data> = (props) => {
 
       <section className="sec-info-accordion">
         {isMobile || isTablet
-          ? customerMoreInfoGroup && <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={data} />
-          : customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={data} />}
+          ? customerMoreInfoGroup && (
+              <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={state.addBusinessPartner.attributes} customerDetails={data} />
+            )
+          : customerMoreInfoGroup && (
+              <MoreInfoAccordian title={i18n.t('moreInfo')} data={state.addBusinessPartner.attributes} customerDetails={data} />
+            )}
       </section>
 
       {isMobile || isTablet ? (

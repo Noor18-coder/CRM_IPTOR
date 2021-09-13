@@ -13,7 +13,8 @@ import {
   SetAddBusinessPartnerLoaderAction,
   SetAddBusinessPartnerDrawerActive,
   RemoveBusinessPartnerDataAction,
-  SaveBusinessPartnerAddAttributeAction,
+  RemoveBusinessPartnerFieldsAction,
+  SaveBusinessPartnerAttributeAction,
   SaveBusinessPartnerContactAction,
   AddBusinessPartnerTypes,
   SetEditBusinessPartnerDrawerGroup,
@@ -30,11 +31,11 @@ export const saveCustomerDefaultFields: ActionCreator<SaveBusinessPartnerParamAc
   };
 };
 
-export const saveBusinessPartnerAttributes: ActionCreator<SaveBusinessPartnerAddAttributeAction> = (
-  attributes: models.UserDefinedFieldReduxParams[]
+export const saveBusinessPartnerAttributes: ActionCreator<SaveBusinessPartnerAttributeAction> = (
+  attributes: models.OpportunityDetailsGroupItem[]
 ) => {
   return {
-    type: AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE,
+    type: AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_ATTRIBUTE,
     attributes,
   };
 };
@@ -91,6 +92,12 @@ export const setUpdateCustomerError: ActionCreator<SetUpdateCustomerError> = (er
 export const resetBusinessPartnerData: ActionCreator<RemoveBusinessPartnerDataAction> = () => {
   return {
     type: AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_DATA,
+  };
+};
+
+export const resetBusinessPartnerFields: ActionCreator<RemoveBusinessPartnerFieldsAction> = () => {
+  return {
+    type: AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_FIELDS,
   };
 };
 

@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import i18n from '../../i18n';
-import { Product } from '../../helpers/Api/models';
+import { AttributeValueObject, Product } from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import * as models from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
@@ -68,11 +68,11 @@ export const ProductAccordian: React.FC<Props> = ({ opportunityId }) => {
                     <Table borderless>
                       <thead>
                         <tr>
-                          <th>ITEM ID</th>
-                          <th>ITEM NAME</th>
-                          <th>VERSION</th>
-                          <th>COST</th>
-                          <th>REVENUE TYPE</th>
+                          <th>{i18n.t('itemId')}</th>
+                          <th>{i18n.t('itemName')}</th>
+                          {state.enviornmentConfigs.productAttributes.map((obj: models.AttributeField) => {
+                            return <th>{obj.attributeType}</th>;
+                          })}
                         </tr>
                       </thead>
                       <tbody>
@@ -96,7 +96,7 @@ export const ProductAccordian: React.FC<Props> = ({ opportunityId }) => {
 };
 
 export const ProductCards: React.FC<ContactProps> = ({ data, opportunityId }) => {
-  // const state: AppState = useSelector((appState: AppState) => appState);
+  const state: AppState = useSelector((appState: AppState) => appState);
   React.useEffect(() => {
     dispatch(getProductInformation(data.itemId));
   }, []);
@@ -124,26 +124,36 @@ export const ProductCards: React.FC<ContactProps> = ({ data, opportunityId }) =>
       <div className="mr-10 mob-prod-modules-card">
         <div className="d-flex justify-content-between product-row">
           <div className="lft-col">
-            Item ID <span>{data.item}</span>
+            {i18n.t('itemId')} <span>{data.item}</span>
           </div>
           <div className="rgt-col">
-            Item Name <span className="danger">{data.itemDescription}</span>
+            {i18n.t('itemName')} <span className="danger">{data.itemDescription}</span>
           </div>
         </div>
         <div className="d-flex justify-content-between product-row">
-          <div className="lft-col">
-            Version <span>{data.version ? data.version : '--'}</span>
-          </div>
-          <div className="rgt-col">
-            Cost <span className="danger">{data.cost ? data.cost : '--'}</span>
-          </div>
+          {state.enviornmentConfigs.productAttributes.map((obj: models.AttributeField, index: number) => {
+            const attribute: AttributeValueObject | undefined =
+              data.attributes &&
+              data.attributes.find((dataAttributeValue: AttributeValueObject) => {
+                return obj.attributeType === dataAttributeValue.attributeType;
+              });
+
+            if (index % 2 === 0) {
+              return (
+                <div className="lft-col">
+                  {obj.description} <div className="values">{attribute?.attributeValue ? attribute.attributeValue : '--'}</div>
+                </div>
+              );
+            } else {
+              return (
+                <div className="rgt-col">
+                  {obj.description} <div className="values">{attribute?.attributeValue ? attribute.attributeValue : '--'}</div>
+                </div>
+              );
+            }
+          })}
         </div>
-        <div className="d-flex justify-content-between product-row">
-          <div className="lft-col">
-            Revenue Type <span>{data.revenue ? data.revenue : '--'}</span>
-          </div>
-          <div className="rgt-col" />
-        </div>
+
         <div className="d-flex justify-content-between product-row action-row">
           <button
             type="button"
@@ -191,15 +201,36 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ opportunityId, data 
     }
   };
 
+  const getValue = (obj: models.AttributeField) => {
+    const attribute: models.AttributeValueObject | undefined =
+      data &&
+      data.attributes &&
+      data.attributes.find((dataAttributeValue: AttributeValueObject) => {
+        return obj.attributeType === dataAttributeValue.attributeType;
+      });
+
+    const value = attribute && attribute.attributeValue ? attribute.attributeValue : '';
+
+    if (obj?.valueFormatDesc === 'DATE') {
+      const year = value.substring(0, 4);
+      const month = value.substring(4, 6);
+      const day = value.substring(6, 8);
+      return `${year}-${month}-${day}`;
+    } else if (obj?.valueFormatDesc === 'BOOLEAN') {
+      return value ? (value === 'Y' ? 'No' : 'Yes') : '--';
+    }
+    return value;
+  };
+
   return (
     <>
       {data ? (
         <tr>
           <td className="prod-class">{data.item}</td>
           <td className="prod-class">{data.itemDescription}</td>
-          <td className="prod-class">{data.version}</td>
-          <td className="prod-class">{data.cost}</td>
-          <td className="prod-class">{data.revenue}</td>
+          {state.enviornmentConfigs.productAttributes.map((obj: models.AttributeField) => {
+            return <td className="prod-class">{getValue(obj)}</td>;
+          })}
           <td className="prod-revenue-class">
             {state.opportuntyDetails.editOportunity.allowEdit ? (
               <div className="d-flex justify-content-between title-row float-right">

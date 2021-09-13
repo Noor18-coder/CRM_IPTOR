@@ -74,6 +74,7 @@ export interface AddCustomerContactParams {
   linkedin?: string;
   fax?: string;
   email?: string;
+  contactDC?: string;
 }
 
 export interface AddOpportunityField {

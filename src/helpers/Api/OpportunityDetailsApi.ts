@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import * as apiModels from './models';
 import { ApiRequest } from './ApiRequest';
+import { Constants } from '../../config/Constants';
 
 export default class OpportunityDetailsApi {
   /** API Method */
@@ -10,8 +11,6 @@ export default class OpportunityDetailsApi {
   private static attributesFileName = 'SROMOPH';
 
   private static attributesContactFileName = 'SROMOPCH';
-
-  private static attributesProductFileName = 'SROMOPI';
 
   private static customerAttributesFileName = 'SRONAM';
 
@@ -66,10 +65,10 @@ export default class OpportunityDetailsApi {
     return get(response, 'data.data.items', []);
   }
 
-  static async getProductDetails(itemId: string): Promise<apiModels.OpportunityDetailsGroupItem[]> {
+  static async getProductDetails(itemId: string): Promise<apiModels.AttributeValueObject[]> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsGroupItemParams>(this.apiGroupMethod, {
       parentId: itemId,
-      parentFile: this.attributesProductFileName,
+      parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
     });
     const response = await axios.post<apiModels.AttributeValuesResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
@@ -87,7 +86,7 @@ export default class OpportunityDetailsApi {
   static async deleteItem(params: apiModels.DeleteOpportunityItemParams): Promise<any> {
     const requestData = new ApiRequest<apiModels.DeleteOpportunityItemParams>(this.apiDeleteItem, {
       parentId: params.parentId,
-      parentFile: this.attributesProductFileName,
+      parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
       itemId: params.itemId,
     });
     const response = await axios.post<AxiosResponse>('/api/service', requestData);

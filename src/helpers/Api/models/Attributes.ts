@@ -82,7 +82,7 @@ export interface AttributeValuesResponse {
 export interface SaveAttributeFieldParam {
   parentFile?: string;
   parentId?: string;
-  attributeType?: string;
+  attributeType: string;
   attributeValue?: string | number | boolean;
   valueId?: string;
   attributeValueD?: string | number | boolean;

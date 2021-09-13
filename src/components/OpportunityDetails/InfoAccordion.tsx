@@ -115,11 +115,23 @@ interface GroupData {
 }
 
 export const DisplayGroup: React.FC<GroupData> = ({ title, fields, data, openEditForm, allowEdit }) => {
-  const getValue = (attributeType: string) => {
-    const obj = data.find((object: AttributeValueObject) => {
-      return object.attributeType === attributeType;
+  const getValue = (obj: AttributeField) => {
+    const dataObject = data.find((object: AttributeValueObject) => {
+      return object.attributeType === obj.attributeType;
     });
-    const value = obj && obj.attributeValue ? obj.attributeValue : '--';
+    const field = fields.find((object: AttributeField) => {
+      return object.attributeType === obj.attributeType;
+    });
+    const value = dataObject && dataObject.attributeValue ? dataObject.attributeValue : '';
+
+    if (field?.valueFormatDesc === 'DATE') {
+      const year = value.substring(0, 4);
+      const month = value.substring(4, 6);
+      const day = value.substring(6, 8);
+      return `${year}-${month}-${day}`;
+    } else if (field?.valueFormatDesc === 'BOOLEAN') {
+      return value ? (value === 'Y' ? 'No' : 'Yes') : '--';
+    }
     return value;
   };
 
@@ -140,7 +152,7 @@ export const DisplayGroup: React.FC<GroupData> = ({ title, fields, data, openEdi
               return (
                 <li className="list-inline-item">
                   <span>{obj.description}</span>
-                  {getValue(obj.attributeType)}
+                  {getValue(obj)}
                 </li>
               );
             } else {
@@ -178,14 +190,23 @@ interface GroupMobileData {
 }
 
 export const DisplayGroupMobile: React.FC<GroupMobileData> = ({ fields, data }) => {
-  const getValue = (attributeType: string) => {
-    const obj = data.find((objs: AttributeValueObject) => {
-      return objs.attributeType === attributeType;
+  const getValue = (obj: AttributeField) => {
+    const dataObject = data.find((object: AttributeValueObject) => {
+      return object.attributeType === obj.attributeType;
     });
-    const value = obj && obj.attributeValue ? obj.attributeValue : '--';
+
+    const value = dataObject && dataObject.attributeValue ? dataObject.attributeValue : '';
+
+    if (obj?.valueFormatDesc === 'DATE') {
+      const year = value.substring(0, 4);
+      const month = value.substring(4, 6);
+      const day = value.substring(6, 8);
+      return `${year}-${month}-${day}`;
+    } else if (obj?.valueFormatDesc === 'BOOLEAN') {
+      return value ? (value === 'Y' ? 'No' : 'Yes') : '--';
+    }
     return value;
   };
-
   return (
     <div className="more-info-group-container">
       <div className="accr-body-container">
@@ -194,7 +215,7 @@ export const DisplayGroupMobile: React.FC<GroupMobileData> = ({ fields, data }) 
             return (
               <li className="list-inline-item">
                 <span>{obj.description}</span>
-                {getValue(obj.attributeType)}
+                {getValue(obj)}
               </li>
             );
           })}

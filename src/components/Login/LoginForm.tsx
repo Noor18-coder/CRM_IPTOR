@@ -60,23 +60,21 @@ const LoginForm: React.FC = () => {
     dispatch(logOutSuccess());
   };
 
-  const validateField = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element = document.getElementById(e.currentTarget.id) as HTMLInputElement;
-    if (e.currentTarget.value.length >= 1) {
-      element.style.border = '1px solid #ED2024';
-      if (e.currentTarget.id === 'user') {
+  const validateField = (_event: any) => {
+    const user = document.getElementById('user') as HTMLInputElement;
+    const password = document.getElementById('password') as HTMLInputElement;
+    if (_event.key.length === 9 && _event.key.length !== 3) {
+      if (user.value === '') {
+        user.style.border = '1px solid #ED2024';
         setUserError(true);
       }
-      if (e.currentTarget.id === 'password') {
+
+      if (password.value === '') {
+        password.style.border = '1px solid #ED2024';
         setPasswordError(true);
       }
       setIsSubmit(false);
       setError(true);
-    } else {
-      element.style.border = '1px solid #DAE2E7';
-      setIsSubmit(true);
-      setUserError(false);
-      setPasswordError(false);
     }
   };
   React.useEffect(() => {
@@ -130,7 +128,7 @@ const LoginForm: React.FC = () => {
                         id="user"
                         type="text"
                         onChange={handleChange}
-                        onBlur={validateField}
+                        onKeyDown={validateField}
                       />
                     </Form.Group>
 
@@ -142,7 +140,7 @@ const LoginForm: React.FC = () => {
                         type="password"
                         id="password"
                         onChange={handleChange}
-                        onBlur={validateField}
+                        onKeyDown={validateField}
                       />
                     </Form.Group>
                     {/* <Nav.Item className="forgotpswd">

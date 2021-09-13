@@ -64,5 +64,11 @@
   "year": "Year",
   "pipeline": "Pipline",
   "viewAll": "View All",
-  "formNotLoading": "Sorry, we are not able to load form at the moment. Please try later."
+  "formNotLoading": "Sorry, we are not able to load form at the moment. Please try later.",
+  "itemId": "Item ID", 
+  "itemName": "Item Name", 
+  "selectRoleOption": "Select Role",
+  "opportuntiyContactSelectRole": "Select Opportunity Role",
+  "opportunityNoContacts": "No contacts.",
+  "titleContacts": "Contacts"
 }

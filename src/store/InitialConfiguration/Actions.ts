@@ -69,6 +69,14 @@ export const saveCustomerAttributes: ActionCreator<actionTypes.SaveCustomerAttri
 };
 
 /** Action to set auth state logged in status */
+export const saveProductsAttributes: ActionCreator<actionTypes.SaveProductsAttributes> = (attributes: models.AttributeField[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SAVE_PRODUCTS_ATTRIBUTES,
+    attributes,
+  };
+};
+
+/** Action to set auth state logged in status */
 export const setLoadingMask: ActionCreator<actionTypes.SetLoadingMaskAction> = () => {
   return {
     type: actionTypes.AppLoadingTypes.SET_LOADING_MASK,
@@ -308,3 +316,12 @@ export const getReasonCodes: ActionCreator<ThunkAction<Promise<actionTypes.SaveR
       }
     };
   };
+
+export const getProductAttributes: ActionCreator<
+  ThunkAction<Promise<actionTypes.SaveProductsAttributes>, AppState, undefined, actionTypes.SaveProductsAttributes>
+> = () => {
+  return async (dispatch: Dispatch) => {
+    const attributes: models.AttributeField[] = await Attributes.getProductAttribues();
+    return dispatch(saveProductsAttributes(attributes));
+  };
+};

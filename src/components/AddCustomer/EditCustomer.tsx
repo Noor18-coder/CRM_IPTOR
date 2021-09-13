@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
 import _ from 'lodash';
 
 import i18n from '../../i18n';
@@ -15,6 +14,7 @@ import {
   resetBusinessPartnerData,
   updateCustomerContact,
   updateCustomerDefaultFields,
+  saveBusinessPartnerAttributes,
 } from '../../store/AddCustomer/Actions';
 import { Attributes } from '../../helpers/Api/Attributes';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
@@ -47,12 +47,12 @@ const EditCustomer: React.FC<Props> = (data) => {
   const [selectedArea, setSelectedArea] = React.useState<any>();
   const [fieldError, setFieldError] = React.useState<boolean>(false);
 
-  const history = useHistory();
   const contextValue = React.useContext(Context);
   const key = groupType;
   const contactsId = contactId;
   const contactData = state.addBusinessPartner.contacts;
   const defaultData = state.addBusinessPartner.businessPartnerDefaultFields;
+  const storedAttributes = state.enviornmentConfigs.customerAttributes;
 
   const getAttributes = async () => {
     dispatch(setBusinessPartnerLoader(true));
@@ -94,7 +94,6 @@ const EditCustomer: React.FC<Props> = (data) => {
       const filteredArr = contactField.filter((item) => item.attributeType !== 'role');
       setContactFields(filteredArr);
     } else {
-      const storedAttributes = state.enviornmentConfigs.customerAttributes;
       storedAttributes.sort(function (a, b) {
         return a.sequence - b.sequence;
       });
@@ -253,13 +252,27 @@ const EditCustomer: React.FC<Props> = (data) => {
         return dataItems;
       });
       getAttributesValues();
-      history.push({ pathname: '/cust-details', state: { custId: customerData.data.businessPartner } });
-      setTimeout(function () {
-        window.location.reload(false);
+      OpportunityDetailsApi.getCustomerGroupInfo(customerData.data.businessPartner).then((dataResult) => {
+        storedAttributes.forEach((item) => {
+          if (!dataResult.some((ele) => ele.attributeType === item.attributeType)) {
+            dataResult.push({ attributeType: item.attributeType, group: item.group, attributeValue: '', description: item.description });
+          }
+        });
+        const groups = new Set(
+          dataResult.map((obj) => {
+            return obj.group;
+          })
+        );
+        const response: any = {};
+        groups.forEach((group: string) => {
+          const groupName = group.toLowerCase();
+          response[groupName] = dataResult.filter((obj) => obj.group.toLowerCase() === groupName);
+        });
+        dispatch(saveBusinessPartnerAttributes(response));
         dispatch(setBusinessPartnerLoader(false));
         dispatch(setBusinessPartnerWindowActive(false));
         document.body.classList.remove('body-scroll-hidden');
-      }, 3000);
+      });
     }
     if (defaultFields) {
       defaultFields.forEach((item: any) => {

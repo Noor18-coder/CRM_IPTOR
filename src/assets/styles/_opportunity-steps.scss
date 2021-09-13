@@ -513,3 +513,81 @@
    }
 
 // TOASTER STYLE END
+
+// ADDING INPUT TEXT FIELD STYLES START
+
+.adding-txt-field-container {
+    position: relative;
+
+    .add-txt-field {
+        position: absolute;
+        right: 0;
+        top: -10px;
+        text-decoration: none;
+        color: $persian-green;
+        border: none;
+        box-shadow: none;
+
+        font: {
+            family: $base-font-family;
+            size: $base-font-size;
+            weight: $font-weight-semibold;
+        }
+
+        &:focus {
+            border: none;
+            box-shadow: none;
+        }
+
+        &:hover {
+            border: none;
+            box-shadow: none;
+            color: $limed-spruce;
+        }
+    }
+
+    .oppty-form-elements {
+        margin-bottom: 12px !important;
+    }
+
+    .add-new-ipfield {
+        position: relative;
+
+        .oppty-form-elements label.opp-label {
+            font-size: $base-font-size + 4;
+            color: #506574;
+            font-weight: $font-weight-semibold;
+            margin-bottom: 8px;
+        }
+
+        input[type=text] {
+            padding-right: 40px;
+        }
+
+        .ip-delete-field {
+            position: absolute;
+            right: 8px;
+            top: 6px;
+            width: 26px;
+            height: 26px;
+            background: url(../images/remove-field.svg) no-repeat;
+            background-size: 24px;
+            z-index: 9;
+            outline: none;
+            border: none;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &:focus {
+                outline: none;
+                border: none;
+                box-shadow: none;
+            }
+        }
+    }
+
+}
+
+// ADDING INPUT TEXT FIELD STYLES END

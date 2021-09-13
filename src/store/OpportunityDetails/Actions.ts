@@ -397,17 +397,10 @@ export const getProductInformation: ActionCreator<
       const { opportuntyDetails } = getState();
       const products = [...opportuntyDetails.products];
       const index: number = products.findIndex((obj: models.Product) => obj.itemId === itemId);
-      const productDetails: models.OpportunityDetailsGroupItem[] = await OpportunityDetailsApi.getProductDetails(itemId);
+      const productDetails: models.AttributeValueObject[] = await OpportunityDetailsApi.getProductDetails(itemId);
+
       if (index > -1) {
-        const costObj = productDetails.find((obj) => obj.attributeType === 'COST');
-        // eslint-disable-next-line no-param-reassign
-        products[index].cost = costObj?.attributeValue;
-        const revenueObj = productDetails.find((obj) => obj.attributeType === 'REVENUE_TYPE');
-        // eslint-disable-next-line no-param-reassign
-        products[index].revenue = revenueObj?.attributeValue;
-        const versionObj = productDetails.find((obj) => obj.attributeType === 'VERSION');
-        // eslint-disable-next-line no-param-reassign
-        products[index].version = versionObj?.attributeValue;
+        products[index].attributes = productDetails;
         return dispatch(saveOpportunityProducts(products));
       }
       return dispatch(setOpportunityDetailsError('Something went wrong.'));

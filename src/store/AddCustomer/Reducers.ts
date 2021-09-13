@@ -36,7 +36,7 @@ const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPar
         ...state,
         businessPartnerDefaultFields: { ...state.businessPartnerDefaultFields, ...action.businessPartner },
       };
-    case AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE:
+    case AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_ATTRIBUTE:
       return {
         ...state,
         attributes: action.attributes,
@@ -81,12 +81,19 @@ const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPar
         ...state,
         loader: false,
         addBusinessPartnerWindowActive: false,
-        attributes: [],
         items: [],
         businessPartnerWindowGroup: '',
         businessPartnerContactId: '',
         success: false,
         error: '',
+      };
+
+    case AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_FIELDS:
+      return {
+        ...state,
+        businessPartnerDefaultFields: {},
+        attributes: [],
+        contacts: [],
       };
 
     default:

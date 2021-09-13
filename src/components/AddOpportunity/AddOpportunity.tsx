@@ -65,6 +65,7 @@ const AddOpportunity: React.FC = () => {
             linkedin: '',
             fax: contact.fax,
             email: contact.email,
+            contactDC: contact.contactDC,
           };
           return AddOpportunityApi.addContact(params);
         })

@@ -89,7 +89,7 @@ export interface IStringList {
 
 export interface OpportunityMoreInfoSection {
   title: string;
-  data: IStringList;
+  data: any;
   customerDetails?: any;
 }
 

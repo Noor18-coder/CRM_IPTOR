@@ -5,10 +5,11 @@ import * as models from '../../helpers/Api/models';
 export enum AddBusinessPartnerTypes {
   SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS = 'SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS',
   CLEAR_ADD_DEFAULT_OBJECTS = 'CLEAR_ADD_DEFAULT_OBJECTS',
-  SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE = 'SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE',
+  SAVE_BUSINESS_PARTNER_ATTRIBUTE = 'SAVE_BUSINESS_PARTNER_ATTRIBUTE',
   SAVE_BUSINESS_PARTNER_CONTACT = 'SAVE_BUSINESS_PARTNER_CONTACT',
   SET_ADD_BUSINESS_PARTNER_LOADER = 'SET_ADD_BUSINESS_PARTNER_LOADER',
   RESET_BUSINESS_PARTNER_DATA = 'RESET_BUSINESS_PARTNER_DATA',
+  RESET_BUSINESS_PARTNER_FIELDS = 'RESET_BUSINESS_PARTNER_FIELDS',
   SET_ADD_BUSINESS_PARTNER_WINDOW = 'SET_ADD_BUSINESS_PARTNER_WINDOW',
   SET_BUSINESS_PARTNER_WINDOW_GROUP = 'SET_BUSINESS_PARTNER_WINDOW_GROUP',
   SET_BUSINESS_PARTNER_CONTACT_ID = 'SET_BUSINESS_PARTNER_CONTACT_ID',
@@ -22,8 +23,8 @@ export interface SaveBusinessPartnerParamAction extends Action<AddBusinessPartne
 }
 
 /** Action to save attributes (user defined) parameters of business partner */
-export interface SaveBusinessPartnerAddAttributeAction extends Action<AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE> {
-  attributes: models.UserDefinedFieldReduxParams[];
+export interface SaveBusinessPartnerAttributeAction extends Action<AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_ATTRIBUTE> {
+  attributes: models.OpportunityDetailsGroupItem[];
 }
 
 export interface SaveBusinessPartnerContactAction extends Action<AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_CONTACT> {
@@ -32,6 +33,8 @@ export interface SaveBusinessPartnerContactAction extends Action<AddBusinessPart
 
 /** Authentication success action */
 export interface RemoveBusinessPartnerDataAction extends Action<AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_DATA> {}
+
+export interface RemoveBusinessPartnerFieldsAction extends Action<AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_FIELDS> {}
 
 /** Authentication success action */
 export interface SetAddBusinessPartnerLoaderAction extends Action<AddBusinessPartnerTypes.SET_ADD_BUSINESS_PARTNER_LOADER> {
@@ -61,9 +64,10 @@ export interface SetUpdateCustomerError extends Action<AddBusinessPartnerTypes.S
 
 export type AddBusinessPartnerReduxActions =
   | SaveBusinessPartnerParamAction
-  | SaveBusinessPartnerAddAttributeAction
+  | SaveBusinessPartnerAttributeAction
   | SaveBusinessPartnerContactAction
   | RemoveBusinessPartnerDataAction
+  | RemoveBusinessPartnerFieldsAction
   | SetAddBusinessPartnerLoaderAction
   | SetAddBusinessPartnerDrawerActive
   | SetEditBusinessPartnerDrawerGroup
@@ -75,7 +79,7 @@ export type AddBusinessPartnerReduxActions =
 export interface AddBusinessPartnerState {
   readonly addBusinessPartnerWindowActive: boolean;
   readonly businessPartnerDefaultFields: models.CustomerDetailsDefaultFields;
-  readonly attributes: models.UserDefinedFieldReduxParams[];
+  readonly attributes: models.OpportunityDetailsGroupItem[];
   readonly contacts: models.CustomerDetailsContactsGroupItem[];
   readonly businessPartnerWindowGroup: string;
   readonly businessPartnerContactId: string;

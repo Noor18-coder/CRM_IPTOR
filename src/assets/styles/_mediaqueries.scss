@@ -976,11 +976,20 @@
                 .product-row {
                     padding: 0;
                     border:none;
+                    flex-wrap: wrap;
 
                     .lft-col,
                     .rgt-col {
                         padding: 16px;
                         padding-bottom: 0;
+                        width: 50%;
+                        text-align: unset;
+                        
+                        .values {
+                            max-width: 120px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                        }
 
                         span {
                             max-width: 120px;
@@ -992,6 +1001,7 @@
 
                     &.action-row {
                         padding-top: 16px;
+                        flex-wrap: nowrap;
                     }
                 }
             }

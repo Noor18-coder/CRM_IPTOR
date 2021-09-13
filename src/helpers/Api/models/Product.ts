@@ -1,3 +1,5 @@
+import { AttributeValueObject } from './Attributes';
+
 export interface Product {
   itemId: string;
   itemDescription: string;
@@ -15,9 +17,7 @@ export interface Product {
   hasNote: boolean;
   hasContact: boolean;
   hasAttribute: boolean;
-  cost?: string;
-  revenue?: string;
-  version?: string;
+  attributes?: AttributeValueObject[];
 }
 
 export interface ProductParams {

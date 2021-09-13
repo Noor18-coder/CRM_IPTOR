@@ -52,7 +52,7 @@ export const OpportunityDefaultFields: AddOpportunityField[] = [
     reduxKey: 'currency',
   },
   {
-    description: 'Total Deal Price',
+    description: 'Opp Value',
     attributeType: 'estimatedValue',
     valueFormatDesc: 'NUMERIC',
     valueFormat: 'NUMERIC',

@@ -20,6 +20,7 @@ import {
   getCustomerProducts,
   getCustomerContactRoles,
   getReasonCodes,
+  getProductAttributes,
 } from '../../store/InitialConfiguration/Actions';
 
 const Dashboard: React.FC = () => {
@@ -38,6 +39,7 @@ const Dashboard: React.FC = () => {
     dispatch(getCustomerProducts());
     dispatch(getCustomerContactRoles());
     dispatch(getReasonCodes());
+    dispatch(getProductAttributes());
   }, []);
 
   return (

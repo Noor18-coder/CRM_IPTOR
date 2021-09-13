@@ -2,13 +2,14 @@ import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import * as apiModels from './models';
 import { ApiRequest } from './ApiRequest';
+import { Constants } from '../../config/Constants';
 
 export class Attributes {
   /** API Method */
 
-  private static opportunityAttributesFileName = 'SROMOPH';
+  private static opportunityAttributesFileName = Constants.OPPORTUNITY_ATTRIBUTES_PARENT_FILE;
 
-  private static customersAttributesFileName = 'SRONAM';
+  private static customersAttributesFileName = Constants.CUSTOMER_PARENT_FILE;
 
   private static mopAttributesGet = 'mopAttributes.get';
 
@@ -25,13 +26,19 @@ export class Attributes {
   private static mopAttributeValues = 'mopAttributeValues.get';
 
   static async getOpportunityAttributes(): Promise<apiModels.AttributeResponse> {
-    const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile: this.opportunityAttributesFileName });
+    const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile: Constants.OPPORTUNITY_ATTRIBUTES_PARENT_FILE });
     const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }
 
   static async getCustomerAttributes(): Promise<apiModels.AttributeResponse> {
-    const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile: this.customersAttributesFileName });
+    const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile: Constants.CUSTOMER_PARENT_FILE });
+    const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
+    return get(response, 'data.data.items', []);
+  }
+
+  static async getProductAttribues(): Promise<apiModels.AttributeField[]> {
+    const requestData = new ApiRequest<apiModels.AttributeParams>(this.attributeMethod, { parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE });
     const response = await axios.post<apiModels.AttributeResponse>('/api/service', requestData);
     return get(response, 'data.data.items', []);
   }

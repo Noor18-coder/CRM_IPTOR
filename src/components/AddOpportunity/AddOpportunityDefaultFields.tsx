@@ -129,6 +129,11 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
       dispatch(getOpportunityTypes());
     }
 
+    setOpportunityField({
+      ...opportunity,
+      stage: state.enviornmentConfigs.defaultOpprtunityInfo.stageCreated,
+    });
+
     if (!state.enviornmentConfigs.crmOpportunityStage.length) {
       dispatch(saveOpportunityStages());
     }
@@ -214,9 +219,6 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                     Select Stage
                   </label>
                   <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange} onBlur={validateField}>
-                    <option disabled selected>
-                      Select stage
-                    </option>
                     {state.enviornmentConfigs.crmOpportunityStage.map((obj: models.StageInfo) => {
                       return (
                         <option value={obj.salesStage} selected={state.enviornmentConfigs.defaultOpprtunityInfo.stageCreated === obj.salesStage}>

@@ -32,6 +32,7 @@ export enum AppLoadingTypes {
   SAVE_PRODUCT_INFO = 'SAVE_PRODUCT_INFO',
   SAVE_FORECAST_INFO = 'SAVE_FORECAST_INFO',
   SAVE_REASON_CODES = 'SAVE_REASON_CODES',
+  SAVE_PRODUCTS_ATTRIBUTES = 'SAVE_PRODUCTS_ATTRIBUTES',
 }
 
 /** Authentication success action */
@@ -56,6 +57,11 @@ export interface SaveOpportunityAttributes extends Action<AppLoadingTypes.SAVE_O
 
 /** Authentication success action */
 export interface SaveCustomerAttributes extends Action<AppLoadingTypes.SAVE_CUSTOMER_ATTRIBUTES> {
+  attributes: AttributeField[];
+}
+
+/** Authentication success action */
+export interface SaveProductsAttributes extends Action<AppLoadingTypes.SAVE_PRODUCTS_ATTRIBUTES> {
   attributes: AttributeField[];
 }
 
@@ -119,7 +125,8 @@ export type AppLoadingActions =
   | SaveIndustryInfo
   | SaveProductInfo
   | SaveForecastInfo
-  | SaveReasonCodes;
+  | SaveReasonCodes
+  | SaveProductsAttributes;
 
 /** Authentication state definition */
 export interface InitialConfigState {
@@ -130,6 +137,7 @@ export interface InitialConfigState {
   readonly error: boolean;
   readonly customerAttributes: AttributeField[];
   readonly opportunityAttributes: AttributeField[];
+  readonly productAttributes: AttributeField[];
   readonly defaultOpprtunityInfo: DefaultOpportunityInfo;
   readonly crmCountryInfo: CountryInfo[];
   readonly crmAreaInfo: AreaInfo[];

@@ -1,59 +1,175 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { Constants } from '../../config/Constants';
 import { AppState } from '../../store/store';
 import { Attributes } from '../../helpers/Api/Attributes';
-import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import { getProductInformation } from '../../store/OpportunityDetails/Actions';
-
+import i18n from '../../i18n';
 import * as models from '../../helpers/Api/models';
+import DateInput from '../Shared/Picker/DateInput';
+import { AttributeFormField } from '../../helpers/Api/models';
 
 const regex = /^-?\d+\.?\d*$/;
 
-interface ErrorMessages {
-  [index: string]: string;
-}
-
 const EditItem: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
+  const [fields, setFields] = React.useState<models.AttributeFormField[]>([]);
+
+  React.useEffect(() => {
+    const tempAttributes: models.AttributeField[] = state.enviornmentConfigs.productAttributes;
+    const tempAttributesArray: models.AttributeFormField[] = [];
+    const data: models.Product | null = state.opportuntyDetails.editOportunity.data ? state.opportuntyDetails.editOportunity.data : null;
+    if (data) {
+      let currentIndex = 0;
+
+      tempAttributes.forEach((obj: models.AttributeField) => {
+        if (obj.uniqueRecord) {
+          const tempObj: models.AttributeFormField = { ...obj };
+          tempObj.id = `${obj?.attributeType}_${currentIndex}`;
+          currentIndex += 1;
+
+          if (data && data.attributes) {
+            const attribute: models.AttributeValueObject | undefined = data.attributes.find((objs: models.AttributeValueObject) => {
+              return objs.attributeType === obj.attributeType;
+            });
+
+            tempObj.valueId = (attribute && attribute.valueId) || '';
+            tempObj.attributeValue = (attribute && attribute.attributeValue) || '';
+          }
+          tempAttributesArray.push(tempObj);
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          const attributeValueArray: models.AttributeValueObject[] | undefined =
+            data &&
+            data.attributes &&
+            data.attributes.filter((objs: models.AttributeValueObject) => {
+              return objs.attributeType === obj.attributeType;
+            });
+
+          if (attributeValueArray && attributeValueArray.length) {
+            attributeValueArray.forEach((objs: models.AttributeValueObject) => {
+              const tempObj: models.AttributeFormField = { ...obj };
+              tempObj.attributeValue = objs?.attributeValue;
+              tempObj.valueId = objs?.valueId;
+              tempObj.id = `${obj?.attributeType}_${currentIndex}`;
+              currentIndex += 1;
+              tempAttributesArray.push(tempObj);
+            });
+          } else {
+            const tempObj: models.AttributeFormField = { ...obj };
+            tempObj.id = `${obj?.attributeType}_${currentIndex}`;
+            currentIndex += 1;
+            tempAttributesArray.push(tempObj);
+          }
+        }
+      });
+      setFields(tempAttributesArray);
+    }
+  }, []);
+
+  return (
+    <>
+      {/* {fields?.length ? <EditItemForm formFields={fields} addElement={addElement} /> : null} */}
+      {fields?.length ? <EditItemForm formFields={fields} /> : null}
+    </>
+  );
+};
+
+interface FormFields {
+  formFields: models.AttributeFormField[];
+  // addElement: (obj: models.AttributeFormField) => void;
+}
+
+const EditItemForm: React.FC<FormFields> = ({ formFields }) => {
+  const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
-  const [oldAttributeValues, setOldAtrributeValues] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
+  const [fields, setFields] = React.useState<models.AttributeFormField[]>([]);
+  const [attributeTypes, setAttributeTypes] = React.useState<string[]>([]);
+  const [changeValues, setChangedFields] = React.useState<models.AttributeFormField[]>([]);
   const [item, setItem] = React.useState<models.Product>();
-  const [attributeFields, setAttributeFields] = React.useState<models.AttributeField[]>([]);
-  const [errors, setErrorMessages] = React.useState<ErrorMessages>({});
 
-  const [attributesSet, setAttributesSet] = React.useState<models.AttributeValueAndType[]>([]);
+  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { id, value } = e.currentTarget;
+    const obj = fields.find((element: models.AttributeFormField) => element.id === id);
+    if (obj) {
+      const inputElement = document.getElementById(id) as HTMLInputElement;
 
-  const setValue = (e: React.FocusEvent<HTMLInputElement>) => {
-    const elementIndex = attributesSet.findIndex((element: models.AttributeValueAndType) => element.attributeType === e.currentTarget.id);
+      if (obj && value.length && obj.valueFormat === 'N' && !value.match(regex)) {
+        obj.error = i18n.t('numericFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+      } else {
+        obj.error = '';
+        inputElement.style.border = '1px solid #DAE2E7';
+      }
 
-    if (elementIndex === -1) {
-      const attribute: models.AttributeValueAndType = { attributeType: e.currentTarget.id, attributeValue: e.currentTarget.value };
-      setAttributesSet([...attributesSet, attribute]);
+      obj.attributeValue = value;
+      const newArray = [...fields];
+      const elementIndex = fields.findIndex((element: models.SaveAttributeFieldParam) => element.id === id);
+      newArray[elementIndex].attributeValue = value;
+      setFields(newArray);
+      onUpdateValues(obj);
+    }
+  };
+
+  const onDateChange = (value: string, dataObject: models.AttributeFormField) => {
+    const { id } = dataObject;
+    if (dataObject) {
+      dataObject.attributeValueD = value;
+      const newArray = [...fields];
+      const elementIndex = fields.findIndex((element: models.SaveAttributeFieldParam) => element.id === id);
+      newArray[elementIndex].attributeValueD = value;
+      setFields(newArray);
+      onUpdateValues(dataObject);
+    }
+  };
+
+  const onUpdateValues = (obj: models.AttributeFormField) => {
+    const changedItemIndex = changeValues.findIndex((element: models.AttributeFormField) => element.id === obj.id);
+    if (changedItemIndex > -1) {
+      const newArray = [...changeValues];
+      newArray[changedItemIndex] = obj;
+      setChangedFields(newArray);
     } else {
-      const newArray = [...attributesSet];
-      newArray[elementIndex].attributeValue = e.currentTarget.value;
-      setAttributesSet(newArray);
+      setChangedFields([...changeValues, obj]);
     }
   };
 
   const onNextButtonClick = async () => {
     if (item) {
       const data = await Promise.all(
-        attributesSet.map(async (obj: models.AttributeValueAndType) => {
-          const find: models.OpportunityDetailsGroupItem | undefined = oldAttributeValues.find((val: models.OpportunityDetailsGroupItem) => {
-            return val.attributeType === obj.attributeType;
-          });
-
-          if (find && find.valueId) {
+        changeValues.map(async (obj: models.AttributeFormField) => {
+          if (obj.valueId) {
             const params: models.SaveAttributeFieldParam = {
-              attributeType: find.attributeType,
-              attributeValue: obj.attributeValue,
-              valueId: find.valueId,
+              parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
+              attributeType: obj.attributeType,
+              valueId: obj.valueId,
             };
+            if (obj.attributeValueB) {
+              params.attributeValueB = true;
+            } else if (obj.attributeValueD) {
+              params.attributeValueD = obj.attributeValueD;
+            } else {
+              params.attributeValue = obj.attributeValue;
+            }
             return Attributes.updateAttribute(params);
+          } else {
+            const params: models.SaveAttributeFieldParam = {
+              parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
+              parentId: item.itemId,
+              attributeType: obj.attributeType,
+            };
+            if (obj.valueFormatDesc === 'BOOLEAN') {
+              params.attributeValueB = obj.attributeValueB;
+            } else if (obj.attributeValueD) {
+              params.attributeValueD = obj.attributeValueD;
+            } else {
+              params.attributeValue = obj.attributeValue;
+            }
+            return Attributes.addAttribute(params);
           }
-          return await Attributes.addAttributes('SROMOPI', item.itemId, obj.attributeType, obj.attributeValue);
         })
       ).then((res) => {
         return res;
@@ -64,48 +180,42 @@ const EditItem: React.FC = () => {
     }
   };
 
-  const getFields = async () => {
-    const fields = await Attributes.getAttributeTypes('SROMOPI');
-    const tempObject = { ...errors };
-    fields.forEach((obj: models.AttributeField) => {
-      tempObject[obj.attributeType] = '';
-    });
-    setErrorMessages(tempObject);
-    setAttributeFields(fields);
-  };
-
-  const getAttributeValues = async (itemId: string) => {
-    const attributes: models.OpportunityDetailsGroupItem[] = await OpportunityDetailsApi.getProductDetails(itemId);
-    setOldAtrributeValues(attributes);
-  };
-
   React.useEffect(() => {
-    getFields();
     const data: models.Product | null = state.opportuntyDetails.editOportunity.data ? state.opportuntyDetails.editOportunity.data : null;
-
     if (data) {
       setItem(data);
-      getAttributeValues(data.itemId);
     }
+
+    const tempAttributeTypes = formFields.map((obj: models.AttributeFormField) => {
+      return obj.attributeType;
+    });
+    const attributeTypeSet = new Set(tempAttributeTypes);
+    setAttributeTypes(Array.from(attributeTypeSet));
+    const newArray = [...formFields];
+
+    setFields(newArray);
   }, []);
 
-  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.currentTarget;
-    const element = document.getElementById(id) as HTMLInputElement;
-    const field = attributeFields.find((obj: models.AttributeField) => obj.attributeType === id);
-    if (field && field.valueFormat === 'N' && value.length && !value.match(regex)) {
-      setErrorMessages({
-        ...errors,
-        [id]: 'Please enter numeric value',
-      });
-      element.style.border = '1px solid #ED2024';
-    } else if (field && field.valueFormat === 'N') {
-      setErrorMessages({
-        ...errors,
-        [id]: '',
-      });
-      element.style.border = '1px solid #DAE2E7';
+  const addElement = (obj: models.AttributeFormField) => {
+    const tempFields = [...fields];
+    const currentIndex = formFields.length + 1;
+    const tempObj: models.AttributeFormField = { ...obj };
+    tempObj.id = `${obj?.attributeType}_${currentIndex}`;
+    tempObj.attributeValue = '';
+    tempObj.valueId = '';
+    if (obj.valueFormatDesc === 'DATE') {
+      tempObj.attributeValueD = moment(new Date()).format('YYYY-MM-DD');
+    } else if (obj.valueFormatDesc === 'BOOLEAN') {
+      tempObj.attributeValueB = false;
+    } else {
+      tempObj.attributeValue = '';
     }
+
+    tempFields.push(tempObj);
+    const tempArray = tempFields.map((fieldObj: models.AttributeFormField) => {
+      return { ...fieldObj };
+    });
+    setFields(tempArray);
   };
 
   return (
@@ -116,45 +226,27 @@ const EditItem: React.FC = () => {
         <form>
           <div className="form-group oppty-form-elements">
             <label htmlFor="item" className="opp-label">
-              Item ID
+              {i18n.t('itemId')}
             </label>
             <input type="text" value={item?.item} className="form-control" disabled={false} />
           </div>
           <div className="form-group oppty-form-elements">
             <label htmlFor="description" className="opp-label">
-              {item?.itemDescription}
+              {i18n.t('itemName')}
             </label>
             <input type="text" value={item?.itemDescription} className="form-control" disabled={false} />
           </div>
-          {attributeFields.length
-            ? attributeFields.map((obj: models.AttributeField) => {
-                let currentValue: string | '';
-                const currentValueObj: any = attributesSet.find((valueObj) => valueObj.attributeType === obj.attributeType);
-                if (currentValueObj) {
-                  currentValue = currentValueObj.attributeValue;
+          {attributeTypes.length
+            ? attributeTypes.map((str: string) => {
+                const attributeFields: models.AttributeFormField[] = fields.filter((obj: AttributeFormField) => {
+                  return obj.attributeType === str;
+                });
+
+                if (attributeFields[0].valueFormatDesc === 'DATE') {
+                  return <DateInputComponent obj={attributeFields} onDateChange={onDateChange} />;
                 } else {
-                  const value: models.OpportunityDetailsGroupItem | undefined = oldAttributeValues.find(
-                    (valueObj) => valueObj.attributeType === obj.attributeType
-                  );
-                  currentValue = value && value.attributeValue ? value.attributeValue : '';
+                  return <TextInputField obj={attributeFields} onInputValueChange={onInputValueChange} addElement={addElement} />;
                 }
-                return obj.valuesExist === true ? null : (
-                  <div className="form-group oppty-form-elements">
-                    <label htmlFor={obj.attributeType} className="opp-label">
-                      {obj.description}
-                    </label>
-                    <input
-                      type="text"
-                      value={currentValue}
-                      className="form-control"
-                      placeholder={obj.description}
-                      id={obj.attributeType}
-                      onChange={setValue}
-                      onBlur={onBlur}
-                    />
-                    <span className="form-hints">{errors[obj.attributeType]}</span>
-                  </div>
-                );
               })
             : null}
         </form>
@@ -164,6 +256,78 @@ const EditItem: React.FC = () => {
           </button>
         </div>
       </div>
+    </div>
+  );
+};
+
+interface TextInputFieldProps {
+  obj: models.AttributeFormField[];
+  onInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  addElement: (data: models.AttributeFormField) => void;
+}
+
+const TextInputField: React.FC<TextInputFieldProps> = ({ obj, onInputValueChange, addElement }) => {
+  return (
+    <>
+      <div className="adding-txt-field-container">
+        {obj[0].uniqueRecord === false ? (
+          <button type="button" className="btn btn-link add-txt-field" onClick={() => addElement(obj[0])}>
+            + ADD
+          </button>
+        ) : null}
+
+        {obj.map((fieldObj: models.AttributeFormField, index: number) => {
+          if (index === 0) {
+            return (
+              <div className="form-group oppty-form-elements">
+                <label className="opp-label" htmlFor={fieldObj.attributeType}>
+                  {fieldObj.description}
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder={`${fieldObj.description}`}
+                  id={fieldObj.id}
+                  value={fieldObj.attributeValue}
+                  onChange={onInputValueChange}
+                />
+                <span className="form-hints">{fieldObj?.error}</span>
+              </div>
+            );
+          } else {
+            return (
+              <div className="form-group oppty-form-elements add-new-ipfield">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder={`${fieldObj.description}`}
+                  id={fieldObj.id}
+                  value={fieldObj.attributeValue}
+                  onChange={onInputValueChange}
+                />
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                <button type="button" className="btn btn-link ip-delete-field" />
+              </div>
+            );
+          }
+        })}
+      </div>
+    </>
+  );
+};
+
+interface DateInputProps {
+  obj: models.AttributeFormField[];
+  onDateChange: (str: string, object: models.AttributeFormField) => void;
+}
+
+const DateInputComponent: React.FC<DateInputProps> = ({ obj, onDateChange }) => {
+  return (
+    <div className="form-group oppty-form-elements">
+      <label htmlFor="endDate" className="opp-label">
+        {obj[0].description}
+      </label>
+      <DateInput onDateSelect={(value: string) => onDateChange(value, obj[0])} />
     </div>
   );
 };
