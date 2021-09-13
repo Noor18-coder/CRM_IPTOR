@@ -31,6 +31,9 @@ export default class BusinessPartnerList {
       crmAttributesTextSearch: otherparams?.crmAttributesTextSearch,
       industry: otherparams?.industry,
       area: otherparams?.area,
+      productFamily: otherparams?.productFamily,
+      includeAddresses: otherparams?.includeAddresses,
+      includeContacts: otherparams?.includeContacts,
       active: otherparams?.active,
     };
     const requestData = new ApiRequest<BusinessPartnerListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });

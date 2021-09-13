@@ -21,3 +21,11 @@ export interface ReportRequestParams {
   selectForecastCategory: string[];
   selectCloseDate: DateParams[];
 }
+
+export interface CustomerFilters {
+  area: string[];
+  productFamily: string[];
+  industry: string[];
+  includeAddresses: boolean;
+  includeContacts: boolean;
+}

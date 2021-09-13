@@ -15,6 +15,7 @@ import { AppState } from '../../store/store';
 import { setBusinessPartnerLoader } from '../../store/AddCustomer/Actions';
 import Loader from '../Shared/Loader/Loader';
 import { getEndDateOfQuarterAndYear, getStartDateOfQuarterAndYear } from '../../helpers/utilities/lib';
+import BusinessPartnerList from '../../helpers/Api/CustomerList';
 
 const Reports: React.FC = () => {
   const state: AppState = useSelector((reportState: AppState) => reportState);
@@ -27,10 +28,18 @@ const Reports: React.FC = () => {
   const [opportunityList, setReportsOpptyBasicList] = React.useState<apiModels.ReportOpptyList[]>([]);
   const [opptyProdList, setReportsopptyProdList] = React.useState<apiModels.ReportOpptyList[]>([]);
   const [opptyContList, setReportsopptyContList] = React.useState<apiModels.ReportOpptyList[]>([]);
+  const [customerList, setcustomerList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
+  const [custAddrList, setcustAddrList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
+  const [custContList, setcustcontList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
 
   const csvLinkRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const csvProdRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const csvContRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
+
+  const csvCustLinkRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
+  const csvAddrRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
+  const csvCustContRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
+
   const onClickOpptReport = (opptReport: string) => {
     setSelectedReport(opptReport);
     setShowCustomerResults(false);
@@ -287,6 +296,156 @@ const Reports: React.FC = () => {
     { label: 'Fax', key: 'fax' },
   ];
 
+  const fetchCustomerList = async () => {
+    dispatch(setBusinessPartnerLoader(true));
+    const params: apiModels.CustomerFilters = state.reports.customerReportParams;
+    const data: any = await BusinessPartnerList.get('', 50, 0, '', params);
+    const custReportsData = data.data.items.map((obj: apiModels.BusinessPartnerListItem) => {
+      return {
+        businessPartner: obj.businessPartner,
+        description: obj.description,
+        type: obj.type,
+        internalName: obj.internalName,
+        area: obj.area,
+        addressLine1: obj.addressLine1,
+        addressLine2: obj.addressLine2,
+        addressLine3: obj.addressLine3,
+        addressLine4: obj.addressLine4,
+        country: obj.country,
+        postalCode: obj.postalCode,
+        phone: obj.phone,
+        industry: obj.industry,
+        owner: obj.owner,
+        numberOfActiveOpportunities: obj.numberOfActiveOpportunities,
+        active: obj.active,
+      };
+    });
+
+    const custReportsAddressData = data.data.items.map((aobj: apiModels.BusinessPartnerListItem) => {
+      return (
+        aobj.addresses &&
+        aobj.addresses.map((addrobj: apiModels.AddressesList) => {
+          return {
+            address: addrobj.address,
+            name: addrobj.name,
+            addressLine1: addrobj.addressLine1,
+            addressLine2: addrobj.addressLine2,
+            addressLine4: addrobj.addressLine4,
+            postalCode: addrobj.postalCode,
+            country: addrobj.country,
+            isDispatchAddress: addrobj.isDispatchAddress,
+            isConfirmationAddress: addrobj.isConfirmationAddress,
+            isInvoiceAddress: addrobj.isInvoiceAddress,
+            isDebtorAddress: addrobj.isDebtorAddress,
+            isPurchaseOrderAddress: addrobj.isPurchaseOrderAddress,
+            isPayeeAddress: addrobj.isPayeeAddress,
+            isSupplierDispatchAddress: addrobj.isSupplierDispatchAddress,
+            isMsdsAddress: addrobj.isMsdsAddress,
+            isDirectDeliveryPreferred: addrobj.isDirectDeliveryPreferred,
+            isDEAAddress: addrobj.isDEAAddress,
+            isValidAsShipToAddress: addrobj.isValidAsShipToAddress,
+          };
+        })
+      );
+    });
+
+    const AddressesObj = custReportsAddressData.flat().filter(function addr(element: any) {
+      return element !== undefined;
+    });
+
+    const custReportsContactsData = data.data.items.map((cobj: apiModels.BusinessPartnerListItem) => {
+      return (
+        cobj.contacts &&
+        cobj.contacts.map((contobj: apiModels.CustomerContactsList) => {
+          return {
+            contactDC: contobj.contactDC,
+            contactPerson: contobj.contactPerson,
+            isPublicContact: contobj.isPublicContact,
+            userID: contobj.userID,
+            phone: contobj.phone,
+            email: contobj.email,
+            fax: contobj.fax,
+            DO_NOT_CONTACT: contobj.DO_NOT_CONTACT,
+            NO_LONGER_AT_COMP: contobj.NO_LONGER_AT_COMP,
+            OPTED_OUT_OF_EMAIL: contobj.OPTED_OUT_OF_EMAIL,
+            PRIMARY_CONTACT: contobj.PRIMARY_CONTACT,
+            TITLE: contobj.TITLE,
+          };
+        })
+      );
+    });
+
+    const ContactsObj = custReportsContactsData.flat().filter(function addr(element: any) {
+      return element !== undefined;
+    });
+
+    setcustomerList(custReportsData);
+    setcustAddrList(AddressesObj);
+    setcustcontList(ContactsObj);
+    csvCustLinkRef?.current?.link.click();
+    csvAddrRef?.current?.link.click();
+    csvCustContRef?.current?.link.click();
+
+    dispatch(setBusinessPartnerLoader(false));
+  };
+
+  const onDownloadCustReport = () => {
+    fetchCustomerList();
+  };
+  const custHeaders = [
+    { label: 'BusinessPartner Id', key: 'businessPartner' },
+    { label: 'Description', key: 'description' },
+    { label: 'Type', key: 'type' },
+    { label: 'Name', key: 'internalName' },
+    { label: 'Area', key: 'area' },
+    { label: 'AddressLine1', key: 'addressLine1' },
+    { label: 'AddressLine2', key: 'addressLine2' },
+    { label: 'AddressLine3', key: 'addressLine3' },
+    { label: 'AddressLine4', key: 'addressLine4' },
+    { label: 'Country', key: 'country' },
+    { label: 'Postal Code', key: 'postalCode' },
+    { label: 'Phone', key: 'phone' },
+    { label: 'Industry', key: 'industry' },
+    { label: 'Owner', key: 'owner' },
+    { label: 'Number Of ActiveOpportunities', key: 'numberOfActiveOpportunities' },
+    { label: 'Active', key: 'active' },
+  ];
+
+  const custAddrHeaders = [
+    { label: 'Address', key: 'address' },
+    { label: 'Name', key: 'name' },
+    { label: 'Address Line1', key: 'addressLine1' },
+    { label: 'Address Line2', key: 'addressLine2' },
+    { label: 'Address Line4', key: 'addressLine4' },
+    { label: 'Postal Code', key: 'postalCode' },
+    { label: 'Country', key: 'country' },
+    { label: 'isDispatchAddress', key: 'isDispatchAddress' },
+    { label: 'isConfirmationAddress', key: 'isConfirmationAddress' },
+    { label: 'isInvoiceAddress', key: 'isInvoiceAddress' },
+    { label: 'isDebtorAddress', key: 'isDebtorAddress' },
+    { label: 'isPurchaseOrderAddress', key: 'isPurchaseOrderAddress' },
+    { label: 'isSupplierDispatchAddress', key: 'isSupplierDispatchAddress' },
+    { label: 'isMsdsAddress', key: 'isMsdsAddress' },
+    { label: 'isDirectDeliveryPreferred', key: 'isDirectDeliveryPreferred' },
+    { label: 'isDEAAddress', key: 'isDEAAddress' },
+    { label: 'isValidAsShipToAddress', key: 'isValidAsShipToAddress' },
+  ];
+
+  const custContHeaders = [
+    { label: 'Contact DC', key: 'contactDC' },
+    { label: 'Contact Person', key: 'contactPerson' },
+    { label: 'isPublicContact', key: 'isPublicContact' },
+    { label: 'userID', key: 'userID' },
+    { label: 'phone', key: 'phone' },
+    { label: 'email', key: 'email' },
+    { label: 'fax', key: 'fax' },
+    { label: 'DO_NOT_CONTACT', key: 'DO_NOT_CONTACT' },
+    { label: 'NO_LONGER_AT_COMP', key: 'NO_LONGER_AT_COMP' },
+    { label: 'OPTED_OUT_OF_EMAIL', key: 'OPTED_OUT_OF_EMAIL' },
+    { label: 'PRIMARY_CONTACT', key: 'PRIMARY_CONTACT' },
+    { label: 'TITLE', key: 'TITLE' },
+  ];
+
   return (
     <>
       <Header page={3} />
@@ -308,12 +467,20 @@ const Reports: React.FC = () => {
             />
           </div>
           <div className="rgt-col">
-            <input type="button" className="download-csv-btn" value="Download CSV" onClick={() => onDownloadReport()} />
             {showOpportunityResults ? (
               <>
+                <input type="button" className="download-csv-btn" value="Download CSV" onClick={() => onDownloadReport()} />
                 <CSVLink ref={csvLinkRef} data={opportunityList} filename="OpportunityReport.csv" headers={opptHeaders} />
                 <CSVLink ref={csvProdRef} data={opptyProdList} filename="OpportunityReport-products.csv" headers={opptProdHeaders} />
                 <CSVLink ref={csvContRef} data={opptyContList} filename="OpportunityReport-contacts.csv" headers={opptContHeaders} />
+              </>
+            ) : null}
+            {showCustomerResults ? (
+              <>
+                <input type="button" className="download-csv-btn" value="Download CSV" onClick={() => onDownloadCustReport()} />
+                <CSVLink ref={csvCustLinkRef} data={customerList} filename="CustomerReport.csv" headers={custHeaders} />
+                <CSVLink ref={csvAddrRef} data={custAddrList} filename="CustomerReport-adresses.csv" headers={custAddrHeaders} />
+                <CSVLink ref={csvCustContRef} data={custContList} filename="CustomerReport-contacts.csv" headers={custContHeaders} />
               </>
             ) : null}
           </div>
@@ -323,12 +490,20 @@ const Reports: React.FC = () => {
           {showOpportunityResults ? <OpportunityReport /> : null}
           {showCustomerResults ? <CustomerReport /> : null}
         </div>
-        <input type="button" className="mob-download-csv-btn" value="CSV" onClick={() => onDownloadReport()} />
         {showOpportunityResults ? (
           <>
+            <input type="button" className="mob-download-csv-btn" value="CSV" onClick={() => onDownloadReport()} />
             <CSVLink ref={csvLinkRef} data={opportunityList} filename="OpportunityReport.csv" headers={opptHeaders} />
             <CSVLink ref={csvProdRef} data={opptyProdList} filename="OpportunityReport-products.csv" headers={opptProdHeaders} />
             <CSVLink ref={csvContRef} data={opptyContList} filename="OpportunityReport-contacts.csv" headers={opptContHeaders} />
+          </>
+        ) : null}
+        {showCustomerResults ? (
+          <>
+            <input type="button" className="mob-download-csv-btn" value="CSV" onClick={() => onDownloadCustReport()} />
+            <CSVLink ref={csvCustLinkRef} data={customerList} filename="CustomerReport.csv" headers={custHeaders} />
+            <CSVLink ref={csvAddrRef} data={custAddrList} filename="CustomerReport-adresses.csv" headers={custAddrHeaders} />
+            <CSVLink ref={csvCustContRef} data={custContList} filename="CustomerReport-contacts.csv" headers={custContHeaders} />
           </>
         ) : null}
       </div>

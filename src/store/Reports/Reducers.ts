@@ -3,7 +3,7 @@
  */
 
 import { Reducer } from 'redux';
-import { ReportTypes, OpportunityReportActions, ReportsState } from './Types';
+import { ReportTypes, ReportActions, ReportsState } from './Types';
 
 /**
  * Initial State
@@ -16,6 +16,13 @@ export const createReportInitialState = (): ReportsState => {
       selectForecastCategory: [],
       selectCloseDate: [],
     },
+    customerReportParams: {
+      area: [],
+      productFamily: [],
+      industry: [],
+      includeAddresses: true,
+      includeContacts: true,
+    },
   };
 };
 
@@ -26,12 +33,18 @@ const initialState = createReportInitialState();
  * @param state auth state object
  * @param action auth actions
  */
-const reportsReducer: Reducer<ReportsState, OpportunityReportActions> = (state = initialState, action) => {
+const reportsReducer: Reducer<ReportsState, ReportActions> = (state = initialState, action) => {
   switch (action.type) {
     case ReportTypes.SAVE_OPPTY_REPORT_PARAMS:
       return {
         ...state,
         opportunityReportParams: action.opportunityReportParams,
+      };
+      break;
+    case ReportTypes.SAVE_CUST_REPORT_PARAMS:
+      return {
+        ...state,
+        customerReportParams: action.customerReportParams,
       };
       break;
     default:
