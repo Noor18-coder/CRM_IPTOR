@@ -71,9 +71,8 @@ export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data
     );
     const response: IAttributesList[] = [];
     groups.forEach((group: string) => {
-      const groupName = group.toLowerCase();
-      const groupAttributes: IAttributesList = { group: groupName, items: [] };
-      groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group.toLowerCase() === groupName);
+      const groupAttributes: IAttributesList = { group, items: [] };
+      groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group === group);
       response.push(groupAttributes);
     });
     setMoreInformationGroups(response);

@@ -421,3 +421,25 @@
         top: 42px;
     }
 }
+
+.selected-products { 
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+
+    .item-description { 
+        padding: 8px 4px; 
+        background-color:#DDD;
+        color: #000;
+        border:1px solid #EB617C;
+        border-radius: 10px;
+        margin: 4px 5px;
+        padding: 10px 10px;
+        
+        font: {
+            family: $base-font-family;
+            size: $base-font-size;
+            weight: $font-weight-semibold;
+        }
+    }
+}

@@ -57,6 +57,10 @@ export const getDateTimeFormat = (date: string): any => {
   return moment(date, 'YYYY.MM.DD HH:mm').format('D MMMM YYYY, H:mm');
 };
 
+export const getDate = (date: string): any => {
+  return moment(date).toDate();
+};
+
 export const getStartDateOfQuarter = (quarter_name: number): string => {
   const now = new Date();
   const firstDate = new Date(now.getFullYear(), (quarter_name - 1) * 3, 1);

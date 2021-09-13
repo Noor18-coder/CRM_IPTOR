@@ -16,6 +16,8 @@ export const createAddOpportunitInitialState = (): AddOpportunityState => {
     attributes: [],
     items: [],
     contacts: [],
+    success: false,
+    error: '',
   };
 };
 
@@ -51,15 +53,35 @@ const addOpportunityReducer: Reducer<AddOpportunityState, AddOpportunityReduxAct
     case AddOpportunityTypes.SAVE_ADD_OPPTY_ITEMS:
       return {
         ...state,
-        items: action.items,
+        items: [...action.items],
       };
     case AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS:
       return {
         ...state,
         contacts: action.contacts,
       };
+    case AddOpportunityTypes.SET_ADD_OPPORTUNITY_SUCCESS:
+      return {
+        ...state,
+        success: action.success,
+      };
+    case AddOpportunityTypes.SET_ADD_OPPORTUNITY_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      };
     case AddOpportunityTypes.RESET_OPPORTUNITY_DATA:
-      return { ...state, loader: false, addOpptyWindowActive: false, opportunityDefaultParams: {}, attributes: [], items: [], contacts: [] };
+      return {
+        ...state,
+        loader: false,
+        addOpptyWindowActive: false,
+        opportunityDefaultParams: {},
+        attributes: [],
+        items: [],
+        contacts: [],
+        error: '',
+        success: false,
+      };
 
     default:
       return state;

@@ -29,13 +29,22 @@ export default class AddCustomerApi {
     return get(response, 'data');
   }
 
-  static async addAttributes(businessPartnerId: string, attributeType: string, attributeValue: string | number): Promise<AddBusinessPartnerResponse> {
+  static async addAttributes(
+    businessPartnerId: string,
+    attributeType: string,
+    attributeValue: string | number,
+    type?: string
+  ): Promise<AddBusinessPartnerResponse> {
     const params: SaveUserDefinedFieldParam = {
       attributeType,
       parentFile: this.saveAttributeValueMethodFile,
       parentId: businessPartnerId,
       attributeValue,
     };
+    if (type === 'date') {
+      delete params.attributeValue;
+      params.attributeValueD = attributeValue;
+    }
     const requestData = new ApiRequest<SaveUserDefinedFieldParam>(this.saveAttributeValueMethod, params);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');

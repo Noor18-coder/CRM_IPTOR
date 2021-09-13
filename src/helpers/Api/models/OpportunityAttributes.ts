@@ -1,6 +1,7 @@
 export interface UserDefinedFieldReduxParams {
   attributeType: string;
   attributeValue: string | number;
+  valueFormat?: string;
 }
 
 export interface UserDefinedField {
@@ -35,7 +36,8 @@ export interface SaveUserDefinedFieldParam {
   parentFile: string;
   parentId: string;
   attributeType: string;
-  attributeValue: string | number;
+  attributeValue?: string | number;
+  attributeValueD?: string | number;
 }
 
 export interface UserDefinedFieldValuesParams {

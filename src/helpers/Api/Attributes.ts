@@ -40,7 +40,8 @@ export class Attributes {
     businessPartnerId: string,
     attributeType: string,
     attributeValue: string | number,
-    valueId: string
+    valueId: string,
+    type?: string
   ): Promise<apiModels.AddBusinessPartnerResponse> {
     const params: apiModels.SaveAttributeFieldParam = {
       attributeType,
@@ -49,6 +50,10 @@ export class Attributes {
       attributeValue,
       valueId,
     };
+    if (type === 'date') {
+      delete params.attributeValue;
+      params.attributeValueD = attributeValue;
+    }
     const requestData = new ApiRequest<apiModels.SaveAttributeFieldParam>(this.updateAttributeMethod, params);
     const response = await axios.post<AxiosResponse>('/api/service', requestData);
     return get(response, 'data');

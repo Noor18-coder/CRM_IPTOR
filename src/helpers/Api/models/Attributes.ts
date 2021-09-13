@@ -85,10 +85,11 @@ export interface SaveAttributeFieldParam {
   attributeType?: string;
   attributeValue?: string | number | boolean;
   valueId?: string;
-  attributeValueD?: string;
+  attributeValueD?: string | number | boolean;
   attributeValueB?: string | boolean;
   attributeValueA?: string;
   id?: string;
+  valueFormat?: string;
 }
 
 export interface UpdateAttributeParams {

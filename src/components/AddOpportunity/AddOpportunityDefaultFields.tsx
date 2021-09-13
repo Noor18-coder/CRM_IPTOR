@@ -8,6 +8,7 @@ import ImageConfig from '../../config/ImageConfig';
 import * as models from '../../helpers/Api/models';
 import { OpportunityTypeList } from './OpportunityTypeList';
 import { Context } from './AddOpportunityContext';
+import i18n from '../../i18n';
 
 import { AddOpportunityDefaultParams, CustomerDetailsContactsGroupItem } from '../../helpers/Api/models';
 
@@ -15,6 +16,7 @@ import { BusinessPartnerListItem } from '../../helpers/Api/models/Customer';
 import CustomerList from '../../helpers/Api/CustomerList';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import { saveOpportunityParams, setOpportunityContacts } from '../../store/AddOpportunity/Actions';
+import { getOpportunityTypes, saveOpportunityStages } from '../../store/InitialConfiguration/Actions';
 
 interface Props {
   changeStep: (num: number) => void;
@@ -89,9 +91,8 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
 
   const onCustomerContactSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedContactId = e.currentTarget.value;
-
     const selectedContact = customerContacts.filter((obj: CustomerDetailsContactsGroupItem) => {
-      return obj.contactId === selectedContactId;
+      return obj.contactDC === selectedContactId;
     });
     dispatch(setOpportunityContacts(selectedContact));
   };
@@ -103,7 +104,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
     if (value === '' || value.includes('Select')) {
       setErrorMessages({
         ...errors,
-        [id]: 'Field cannot be left blank',
+        [id]: i18n.t('blankFieldError'),
       });
       element.style.border = '1px solid #ED2024';
     } else {
@@ -124,6 +125,14 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
   }, [opportunity]);
 
   React.useEffect(() => {
+    if (!state.enviornmentConfigs.crmOpportunityTypes.length) {
+      dispatch(getOpportunityTypes());
+    }
+
+    if (!state.enviornmentConfigs.crmOpportunityStage.length) {
+      dispatch(saveOpportunityStages());
+    }
+
     if (contextValue?.customerId) {
       setOpportunityField({
         ...opportunity,
@@ -150,106 +159,102 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
       </div>
       <div className="opportunity-forms">
         <p className="stepone-title">Opportunity Name &amp; Type</p>
-
-        <div className="">
-          <div className="steps-one-forms">
-            <form>
-              <div className="form-group oppty-form-elements">
-                <label htmlFor="desc" className="opp-label">
-                  Opportunity Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Give opportunity a name"
-                  id="desc"
-                  onChange={onInputValueChange}
-                  onBlur={validateField}
-                />
-                <span className="form-hints">{errors?.desc}</span>
-              </div>
-              <div className="form-group oppty-form-elements">
-                <label htmlFor="customer" className="opp-label">
-                  Select Customer
-                </label>
-                {contextValue?.customerName && contextValue?.customerId ? (
+        {state.enviornmentConfigs.crmOpportunityTypes.length && state.enviornmentConfigs.crmOpportunityStage.length ? (
+          <div className="">
+            <div className="steps-one-forms">
+              <form>
+                <div className="form-group oppty-form-elements">
+                  <label htmlFor="desc" className="opp-label">
+                    Opportunity Name
+                  </label>
                   <input
                     type="text"
-                    id="customer"
                     className="form-control"
-                    placeholder=""
-                    contentEditable={false}
-                    value={contextValue.customerName}
+                    placeholder="Give opportunity a name"
+                    id="desc"
+                    onChange={onInputValueChange}
+                    onBlur={validateField}
                   />
-                ) : (
-                  <AsynSearchInput id="customer" onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
-                )}
-                <span className="form-hints">{errors?.customer}</span>
-              </div>
+                  <span className="form-hints">{errors?.desc}</span>
+                </div>
+                <div className="form-group oppty-form-elements">
+                  <label htmlFor="customer" className="opp-label">
+                    Select Customer
+                  </label>
+                  {contextValue?.customerName && contextValue?.customerId ? (
+                    <input
+                      type="text"
+                      id="customer"
+                      className="form-control"
+                      placeholder=""
+                      contentEditable={false}
+                      value={contextValue.customerName}
+                    />
+                  ) : (
+                    <AsynSearchInput id="customer" onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
+                  )}
+                  <span className="form-hints">{errors?.customer}</span>
+                </div>
 
-              <div className="form-group oppty-form-elements">
-                <label htmlFor="customer-contact" className="opp-label">
-                  Add customer contact <span className="opt-field">(Optional field)</span>
-                </label>
-                <select className="form-control iptor-dd" id="customer-contact" onChange={onCustomerContactSelect}>
-                  <option selected>Select Customer Contact</option>
-                  {customerContacts.map((obj: models.CustomerDetailsContactsGroupItem) => {
-                    return <option value={obj.contactId}>{obj.contactPerson}</option>;
-                  })}
-                </select>
-              </div>
+                <div className="form-group oppty-form-elements">
+                  <label htmlFor="customer-contact" className="opp-label">
+                    Add customer contact <span className="opt-field">(Optional field)</span>
+                  </label>
+                  <select className="form-control iptor-dd" id="customer-contact" onChange={onCustomerContactSelect}>
+                    <option selected>Select Customer Contact</option>
+                    {customerContacts.map((obj: models.CustomerDetailsContactsGroupItem) => {
+                      return <option value={obj.contactDC}>{obj.contactPerson}</option>;
+                    })}
+                  </select>
+                </div>
 
-              <div className="form-group oppty-form-elements">
-                <label htmlFor="stage" className="opp-label">
-                  Select Stage
-                </label>
-                <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange} onBlur={validateField}>
-                  <option disabled selected>
-                    Select stage
-                  </option>
-                  {state.enviornmentConfigs.crmOpportunityStage.map((obj: models.StageInfo) => {
-                    return <option>{obj.salesStage}</option>;
-                  })}
-                </select>
-                <span className="form-hints">{errors?.stage}</span>
-              </div>
+                <div className="form-group oppty-form-elements">
+                  <label htmlFor="stage" className="opp-label">
+                    Select Stage
+                  </label>
+                  <select className="form-control iptor-dd" id="stage" onChange={onInputValueChange} onBlur={validateField}>
+                    <option disabled selected>
+                      Select stage
+                    </option>
+                    {state.enviornmentConfigs.crmOpportunityStage.map((obj: models.StageInfo) => {
+                      return <option>{obj.salesStage}</option>;
+                    })}
+                  </select>
+                  <span className="form-hints">{errors?.stage}</span>
+                </div>
 
-              <div className="form-group oppty-form-elements">
-                <label htmlFor="oppty-type" className="opp-label">
-                  Select opportunity type
-                </label>
-                <br />
-                <span className="form-hints">{errors?.stage}</span>
-                <div className="opportunity-type-container">
-                  {state.enviornmentConfigs.crmOpportunityTypes.length ? (
+                <div className="form-group oppty-form-elements">
+                  <label htmlFor="oppty-type" className="opp-label">
+                    Select opportunity type
+                  </label>
+                  <br />
+                  <span className="form-hints">{errors?.stage}</span>
+                  <div className="opportunity-type-container">
                     <OpportunityTypeList
                       opptyTypes={state.enviornmentConfigs.crmOpportunityTypes}
                       doClick={onOpportunityTypeSelect}
                       selected={selectedOpportunityType}
                     />
-                  ) : (
-                    <div>
-                      <input type="radio" id="" name="stepone-radiogrp" value="1" />
-                      <span>No Customers</span>
-                    </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
+            <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
+              <button
+                type="button"
+                disabled={nextButtonEnabled}
+                className={nextButtonEnabled ? 'stepone-next-btn inactive' : 'stepone-next-btn '}
+                onClick={onNextButtonClick}>
+                NEXT
+                <span className="right-whit-arrow">
+                  <img src={ImageConfig.CHEVRON_RIGHT_WHITE} alt="Next Arrow" />
+                </span>
+              </button>
+            </div>
           </div>
-          <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-            <button
-              type="button"
-              disabled={nextButtonEnabled}
-              className={nextButtonEnabled ? 'stepone-next-btn inactive' : 'stepone-next-btn '}
-              onClick={onNextButtonClick}>
-              NEXT
-              <span className="right-whit-arrow">
-                <img src={ImageConfig.CHEVRON_RIGHT_WHITE} alt="Next Arrow" />
-              </span>
-            </button>
-          </div>
-        </div>
+        ) : (
+          <p>{i18n.t('formNotLoading')}</p>
+        )}
       </div>
     </>
   );

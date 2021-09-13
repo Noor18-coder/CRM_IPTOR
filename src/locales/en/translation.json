@@ -63,5 +63,6 @@
   "month": "Month",
   "year": "Year",
   "pipeline": "Pipline",
-  "viewAll": "View All"
+  "viewAll": "View All",
+  "formNotLoading": "Sorry, we are not able to load form at the moment. Please try later."
 }

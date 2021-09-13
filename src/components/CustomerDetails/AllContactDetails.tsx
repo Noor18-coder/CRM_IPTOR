@@ -16,10 +16,10 @@ import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 interface Props {
   title: string;
   contactData: models.CustomerDetailsContactsGroupItem[];
-  customerData: models.CustomerDetailsDefault;
+  activeCustomer: boolean;
 }
 
-export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, customerData }) => {
+export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, activeCustomer }) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const [activeClass, setActiveClass] = React.useState('');
@@ -64,7 +64,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, cust
           <span className="cust-info">
             <span>{contactData.length} CONTACTS</span>
           </span>
-          {customerData.active ? (
+          {activeCustomer && (
             <Image
               src={ImageConfig.ADD_BTN}
               className="add-img action-icon"
@@ -72,7 +72,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, cust
               title="Add"
               onClick={() => toggleDrawer('add contact fields', '')}
             />
-          ) : null}
+          )}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           <div className="accr-body-container customers-comp">

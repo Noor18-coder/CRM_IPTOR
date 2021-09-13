@@ -265,7 +265,11 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options
           Select {description}
         </option>
         {options.map((obj: models.DropDownValue) => {
-          return <option value={obj.valueField}>{obj.valueField}</option>;
+          return (
+            <option value={obj.valueField}>
+              {obj.valueField} - {obj.fieldDescription}
+            </option>
+          );
         })}
       </select>
       <span className="form-hints">{error}</span>

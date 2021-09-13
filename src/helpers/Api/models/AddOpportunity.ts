@@ -24,6 +24,8 @@ export interface AddOpportunityResponse {
   data: {
     opportunityId: string;
   };
+  error?: string;
+  messages?: ErrorMessage[];
 }
 
 export interface UpdateOpportunityResponse {

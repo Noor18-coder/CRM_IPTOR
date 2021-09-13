@@ -18,7 +18,7 @@ const EditAttributes: React.FC = () => {
 
   React.useEffect(() => {
     const fields = state.enviornmentConfigs.opportunityAttributes.filter((obj: models.AttributeField) => {
-      return obj.group.toLowerCase() === state.opportuntyDetails.editOportunity.groupName;
+      return obj.group === state.opportuntyDetails.editOportunity.groupName;
     });
 
     const tempArray: models.AttributeFormField[] = [];
@@ -121,7 +121,11 @@ const SelectItem: React.FC<SelectProps> = (props) => {
           Select {description}
         </option>
         {attributeValues?.values.map((obj: models.DropDownValue) => {
-          return <option value={obj.valueField}>{obj.valueField}</option>;
+          return (
+            <option value={obj.valueField}>
+              {obj.valueField} - {obj.fieldDescription}
+            </option>
+          );
         })}
       </select>
       <span className="form-hints">{error}</span>

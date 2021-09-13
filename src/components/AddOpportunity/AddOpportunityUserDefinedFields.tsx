@@ -13,8 +13,8 @@ import {
   DropDownValues,
   DropDownValue,
   AddOpportunityDefaultParams,
-  UserDefinedFieldReduxParams,
   CurrencyItem,
+  SaveAttributeFieldParam,
 } from '../../helpers/Api/models';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
 import { saveOpportunityParams, saveOpportunityAttributes, setOpportunityLoader } from '../../store/AddOpportunity/Actions';
@@ -40,15 +40,13 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
   const [attributes, setAttributes] = React.useState<AttributeField[]>();
   const [attributeValues, setAttributeValues] = React.useState<UserDefinedFieldsValueDropDown>();
   const [opportunity, setOpportunityField] = React.useState<AddOpportunityDefaultParams>();
-  const [attributesSet, setAttributesSet] = React.useState<UserDefinedFieldReduxParams[]>([]);
+  const [attributesSet, setAttributesSet] = React.useState<SaveAttributeFieldParam[]>([]);
   const [mandatoryFields, setMandatoryFields] = React.useState<string[]>([]);
-  const [nextButtonEnabled, setNextButtonEnabled] = React.useState<boolean>(true);
+  const [nextButtonEnabled, setNextButtonEnabled] = React.useState<boolean>(false);
   const [errors, setErrorMessages] = React.useState<ErrorMessages>();
 
   React.useEffect(() => {
     const oppRecordType = state.addOpportunity.opportunityDefaultParams.oppRecordType || '';
-    const opptyTypeAttribute: UserDefinedFieldReduxParams = { attributeType: 'OPP_RECORD_TYPE', attributeValue: oppRecordType };
-    setAttributesSet([opptyTypeAttribute]);
 
     const selectedOpportunityRecordType = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => {
       return obj.oppRecordType.toLowerCase() === oppRecordType?.toLowerCase();
@@ -72,7 +70,13 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
   }, []);
 
   React.useEffect(() => {
-    if (opportunity?.currency && opportunity?.endDate && opportunity?.estimatedValue && checkIfAllFieldsHasValue()) {
+    if (
+      opportunity?.currency &&
+      opportunity?.endDate &&
+      opportunity?.estimatedValue &&
+      isNumeric(opportunity?.estimatedValue) &&
+      checkIfAllFieldsHasValue()
+    ) {
       setNextButtonEnabled(false);
     } else {
       setNextButtonEnabled(true);
@@ -85,6 +89,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     const attributeFields: AttributeField[] = state.enviornmentConfigs.opportunityAttributes.filter((obj: AttributeField) => {
       return fields.indexOf(obj.attributeType) > -1;
     });
+
     attributeFields.sort(function callback(a: AttributeField, b: AttributeField) {
       return a.sequence - b.sequence;
     });
@@ -103,10 +108,15 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     const { id, value } = e.currentTarget;
     const inputElement = document.getElementById(id) as HTMLInputElement;
     if (isValidAttributeValue(id, value)) {
-      const elementIndex = attributesSet.findIndex((element: UserDefinedFieldReduxParams) => element.attributeType === id);
+      const elementIndex = attributesSet.findIndex((element: SaveAttributeFieldParam) => element.attributeType === id);
       if (elementIndex === -1) {
-        const attribute: UserDefinedFieldReduxParams = { attributeType: id, attributeValue: value };
-        setAttributesSet([...attributesSet, attribute]);
+        const field = attributes?.find((obj: AttributeField) => {
+          return obj.attributeType === id;
+        });
+        if (field) {
+          const attribute: SaveAttributeFieldParam = { attributeType: id, attributeValue: value, valueFormat: field?.valueFormat };
+          setAttributesSet([...attributesSet, attribute]);
+        }
       } else {
         const newArray = [...attributesSet];
         newArray[elementIndex].attributeValue = value;
@@ -167,21 +177,6 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
     dispatch(saveOpportunityAttributes(attributesSet));
   };
 
-  const setValue = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { id, value } = e.currentTarget;
-    if (isValidAttributeValue(id, value)) {
-      const elementIndex = attributesSet.findIndex((element: UserDefinedFieldReduxParams) => element.attributeType === id);
-      if (elementIndex === -1) {
-        const attribute: UserDefinedFieldReduxParams = { attributeType: id, attributeValue: value };
-        setAttributesSet([...attributesSet, attribute]);
-      } else {
-        const newArray = [...attributesSet];
-        newArray[elementIndex].attributeValue = value;
-        setAttributesSet(newArray);
-      }
-    }
-  };
-
   const isValidAttributeValue = (id: string, value: string): boolean => {
     const inputElement = document.getElementById(id) as HTMLInputElement;
     if (value === '' || value.includes('Select')) {
@@ -233,21 +228,77 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
         [id]: '',
       });
     }
+
+    const elementIndex = attributesSet.findIndex((element: SaveAttributeFieldParam) => element.attributeType === id);
+    if (elementIndex === -1) {
+      const attribute: SaveAttributeFieldParam = { attributeType: id, attributeValue: value, valueFormat: field?.valueFormat };
+      setAttributesSet([...attributesSet, attribute]);
+    } else {
+      const newArray = [...attributesSet];
+      newArray[elementIndex].attributeValue = value;
+      setAttributesSet(newArray);
+    }
+  };
+
+  const onAttributeDateChanges = (value: string, dataObject: AttributeField) => {
+    const { valueFormat, attributeType } = dataObject;
+    const elementIndex = attributesSet.findIndex((element: SaveAttributeFieldParam) => element.attributeType === attributeType);
+    if (elementIndex === -1) {
+      const attribute: SaveAttributeFieldParam = { attributeType, attributeValueD: value, valueFormat };
+      setAttributesSet([...attributesSet, attribute]);
+    } else {
+      const newArray = [...attributesSet];
+      newArray[elementIndex].attributeValueD = value;
+      setAttributesSet(newArray);
+    }
   };
 
   const checkIfAllFieldsHasValue = () => {
     let check = true;
-    const newErrors = { ...errors };
     mandatoryFields.forEach((field: string) => {
-      const index = attributesSet.find((obj: UserDefinedFieldReduxParams) => {
+      const currField = attributesSet.find((obj: SaveAttributeFieldParam) => {
         return obj.attributeType === field;
       });
-      if (!index || (index && !index.attributeValue)) {
+
+      if (currField && (currField.attributeValue || currField.attributeValueD || currField.attributeValueB)) {
+        if (currField.valueFormat === 'N' && !isNumeric(currField.attributeValue)) {
+          check = false;
+        }
+      } else {
         check = false;
       }
     });
-    setErrorMessages(newErrors);
     return check;
+  };
+
+  const onCheckboxValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, checked } = e.currentTarget;
+    let char = 'N';
+    if (checked) {
+      char = 'Y';
+    }
+
+    const elementIndex = attributesSet.findIndex((element: SaveAttributeFieldParam) => element.attributeType === id);
+    if (elementIndex === -1) {
+      const field = attributes?.find((obj: AttributeField) => {
+        return obj.attributeType === id;
+      });
+      if (field) {
+        const attribute: SaveAttributeFieldParam = { attributeType: id, attributeValue: char, valueFormat: field?.valueFormat };
+        setAttributesSet([...attributesSet, attribute]);
+      }
+    } else {
+      const newArray = [...attributesSet];
+      newArray[elementIndex].attributeValue = char;
+      setAttributesSet(newArray);
+    }
+  };
+
+  const isNumeric = (value: any) => {
+    if (value && !value.match(regex)) {
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -314,7 +365,64 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
 
                   {attributes?.length
                     ? attributes.map((obj: AttributeField) => {
-                        if (obj.valuesExist === true) {
+                        let currentValue;
+                        let currentDate: any = '';
+
+                        if (obj.valueFormat === 'D') {
+                          const field = attributesSet.find((valueObj) => valueObj.attributeType === obj.attributeType);
+                          if (field) {
+                            currentDate = field.attributeValueD ? field.attributeValueD : '';
+                          } else {
+                            const attribute: SaveAttributeFieldParam = {
+                              attributeType: obj.attributeType,
+                              attributeValueD: moment(new Date()).format('YYYY-MM-DD'),
+                              valueFormat: obj.valueFormat,
+                            };
+                            setAttributesSet([...attributesSet, attribute]);
+                            currentDate = moment(new Date()).format('YYYY-MM-DD');
+                          }
+                        } else {
+                          const field = attributesSet.find((valueObj) => valueObj.attributeType === obj.attributeType);
+                          if (field) {
+                            currentValue = field.attributeValueB;
+                          } else {
+                            const attribute: SaveAttributeFieldParam = {
+                              attributeType: obj.attributeType,
+                              attributeValueB: 'N',
+                              valueFormat: obj?.valueFormat,
+                            };
+                            setAttributesSet([...attributesSet, attribute]);
+                            currentValue = 'N';
+                          }
+                        }
+
+                        if (obj.valueFormatDesc === 'BOOLEAN') {
+                          return (
+                            <div className="form-group oppty-form-elements">
+                              <span className="checkbox-label">
+                                {obj.description}
+                                <label className="switch" htmlFor={obj.attributeType}>
+                                  <input
+                                    type="checkbox"
+                                    id={obj.attributeType}
+                                    checked={currentValue !== 'N'}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => onCheckboxValueChange(e)}
+                                  />
+                                  <span className="slider round">&nbsp;</span>
+                                </label>
+                              </span>
+                            </div>
+                          );
+                        } else if (obj.valueFormatDesc === 'DATE') {
+                          return (
+                            <div className="form-group oppty-form-elements">
+                              <label htmlFor="endDate" className="opp-label">
+                                {obj.description}
+                              </label>
+                              <DateInput onDateSelect={(value: string) => onAttributeDateChanges(value, obj)} currentDate={currentDate} />
+                            </div>
+                          );
+                        } else if (obj.valuesExist === true) {
                           return (
                             <SelectItem
                               description={obj.description}
@@ -336,7 +444,6 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                                 className="form-control"
                                 placeholder={`${obj.description}`}
                                 id={obj.attributeType}
-                                onBlur={setValue}
                                 onChange={onChangeAtrributeValue}
                               />
                               <span className="form-hints">{`${errors && errors[obj.attributeType]}`}</span>

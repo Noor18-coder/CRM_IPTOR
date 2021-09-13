@@ -19,6 +19,8 @@ import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import { Context } from './CustomerContext';
 import DefaultFields from '../../helpers/utilities/customerDefaultFields';
 import ContactFields from '../../helpers/utilities/contactDefaultFields';
+import DateInput from '../Shared/Picker/DateInput';
+import { getDate, getDashDateFormat } from '../../helpers/utilities/lib';
 
 interface Props {
   groupType: any;
@@ -176,7 +178,8 @@ const EditCustomer: React.FC<Props> = (data) => {
             customerData.data.businessPartner,
             obj.attributeType,
             obj.attributeValue ? obj.attributeValue : '',
-            obj.valueId ? obj.valueId : ''
+            obj.valueId ? obj.valueId : '',
+            obj.attributeType === 'DATE_FIELD_TEST' ? 'date' : ''
           );
         })
       ).then((response) => {
@@ -184,7 +187,12 @@ const EditCustomer: React.FC<Props> = (data) => {
       });
       Promise.all(
         withoutValueAttributes.map((obj) => {
-          return AddCustomerApi.addAttributes(customerData.data.businessPartner, obj.attributeType, obj.attributeValue ? obj.attributeValue : '');
+          return AddCustomerApi.addAttributes(
+            customerData.data.businessPartner,
+            obj.attributeType,
+            obj.attributeValue ? obj.attributeValue : '',
+            obj.attributeType === 'DATE_FIELD_TEST' ? 'date' : ''
+          );
         })
       ).then((dataItems) => {
         return dataItems;
@@ -235,6 +243,15 @@ const EditCustomer: React.FC<Props> = (data) => {
       }
     }
     setShowAttributes(false);
+  };
+
+  const onDateChange = (value: string, dataObject: any) => {
+    if (attributes) {
+      const elementIndex = attributes.findIndex((element) => element.attributeType === dataObject);
+      const newArray = [...attributes];
+      newArray[elementIndex].attributeValue = value;
+      setAttributes(newArray);
+    }
   };
 
   React.useEffect(() => {
@@ -288,7 +305,11 @@ const EditCustomer: React.FC<Props> = (data) => {
                                   <>
                                     <option selected>{selectedArea && selectedArea[0] ? selectedArea[0].description : ''}</option>
                                     {state.enviornmentConfigs.crmAreaInfo.map((item) => {
-                                      return <option value={item.area}>{item.description}</option>;
+                                      return (
+                                        <option value={item.area}>
+                                          {item.area} - {item.description}
+                                        </option>
+                                      );
                                     })}
                                   </>
                                 )}
@@ -367,6 +388,19 @@ const EditCustomer: React.FC<Props> = (data) => {
                               value={obj.attributeValue}
                               onSelect={onInputValueChange}
                             />
+                          );
+                        }
+                        if (obj.valueFormatDesc === 'DATE') {
+                          return (
+                            <div className="form-group oppty-form-elements">
+                              <label htmlFor="endDate" className="opp-label">
+                                {obj.description}
+                              </label>
+                              <DateInput
+                                onDateSelect={(value: string) => onDateChange(value, obj.attributeType)}
+                                currentDate={obj.attributeValue ? getDashDateFormat(getDate(obj.attributeValue.toString())) : ''}
+                              />
+                            </div>
                           );
                         }
                         if (obj.valueFormatDesc === 'BOOLEAN') {
@@ -448,7 +482,11 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeId, attribute
           <option selected>{value}</option>
         )}
         {attributeValues?.values.map((obj: DropDownValue) => {
-          return <option value={obj.valueField}>{obj.valueField}</option>;
+          return (
+            <option value={obj.valueField}>
+              {obj.valueField} - {obj.fieldDescription}
+            </option>
+          );
         })}
       </select>
     </div>

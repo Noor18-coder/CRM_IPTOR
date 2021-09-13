@@ -29,7 +29,7 @@ const CustomerDetails: React.FC = (props: any) => {
       <section className="main-wrapper customer">
         <div className="container-fluid">
           {defaultCustDetail ? <CustomerInfo data={defaultCustDetail} /> : null}
-          {defaultCustDetail ? <CustomerCard customerData={defaultCustDetail} contactsData={contactDetails} /> : null}
+          {defaultCustDetail ? <CustomerCard data={defaultCustDetail} contactsData={contactDetails} /> : null}
         </div>
       </section>
       <Footer />

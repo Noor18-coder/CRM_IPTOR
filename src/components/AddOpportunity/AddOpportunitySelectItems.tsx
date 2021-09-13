@@ -20,7 +20,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
   const dispatch: Dispatch<any> = useDispatch();
   const [searchText, setSearchText] = React.useState<string>('');
   const [items, setItems] = React.useState<models.Item[]>([]);
-  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = React.useState<models.Item[]>([]);
   const [hasMoreRows, setHasMoreRows] = React.useState<boolean>(false);
   const [pageNumber, setPageNumber] = React.useState<number>(0);
 
@@ -45,13 +45,11 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
   }, [pageNumber]);
 
   const onNextButtonClick = () => {
-    const filterItems: models.Item[] = items?.filter((obj: models.Item) => selectedItems.indexOf(obj.item) > -1) || [];
-    createOpportunity(filterItems);
+    createOpportunity(selectedItems);
   };
 
   const fetchItems = async (currentPage: number, searchstr: string) => {
     dispatch(setOpportunityLoader(true));
-    setSelectedItems([]);
     try {
       const offSet = currentPage * Constants.ADD_OPPTY_PRODUCTS_LOAD_LIMIT;
       const response = await Item.get(searchstr, offSet, Constants.ADD_OPPTY_PRODUCTS_LOAD_LIMIT);
@@ -96,23 +94,30 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
     }
   };
 
-  const onSelect = (item: string) => {
-    if (selectedItems.indexOf(item) === -1) {
-      setSelectedItems([...selectedItems, item]);
-    } else {
-      const newArray = selectedItems.filter((itemObj) => {
-        return itemObj !== item;
+  const onSelect = (str: string) => {
+    const find: models.Item | undefined = selectedItems.find((item: models.Item) => {
+      return item.item === str;
+    });
+
+    if (find) {
+      const newArray = selectedItems.filter((itemObj: models.Item) => {
+        return itemObj.item !== str;
       });
       setSelectedItems(newArray);
+    } else {
+      const newItem: models.Item | undefined = items.find((itemObj: models.Item) => {
+        return itemObj.item === str;
+      });
+      if (newItem) setSelectedItems((prevItems) => [...prevItems, newItem]);
     }
   };
 
   const isSelected = (item: string) => {
     let check = false;
-    const find = selectedItems?.find((selectedItem: string) => {
-      return selectedItem === item;
+    const find = selectedItems?.find((selectedItem: models.Item) => {
+      return selectedItem.item === item;
     });
-    if (find?.length) {
+    if (find) {
       check = true;
     }
     return check;
@@ -141,6 +146,15 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
       </div>
 
       <div className="opportunity-forms">
+        <div className="selected-products">
+          {selectedItems.map((item: models.Item) => {
+            return (
+              <button className="item-description" type="button" onClick={() => onSelect(item.item)}>
+                {item.description}
+              </button>
+            );
+          })}
+        </div>
         <div className="">
           <div className="steps-three-forms">
             <div className="form-group oppty-form-elements">

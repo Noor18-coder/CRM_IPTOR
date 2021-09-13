@@ -18,17 +18,16 @@ import Container from '../AddCustomer/Container';
 import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, setBusinessPartnerWindowGroup } from '../../store/AddCustomer/Actions';
 
 export interface Data {
-  customerData: CustomerDetailsDefault;
+  data: CustomerDetailsDefault;
   contactsData: CustomerDetailsContactsGroupItem[];
 }
 
 const CustomerCard: React.FC<Data> = (props) => {
   const {
-    customerData: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily, owner, active },
+    data: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily, owner, active },
     contactsData,
-    customerData,
+    data,
   } = props;
-
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<CustomerDetailsDefault[]>([]);
@@ -43,9 +42,9 @@ const CustomerCard: React.FC<Data> = (props) => {
   const { customerAttributes } = state.enviornmentConfigs;
 
   React.useEffect(() => {
-    if (props.customerData.subsidiaryEntities) {
+    if (props.data.subsidiaryEntities) {
       Promise.all(
-        props.customerData.subsidiaryEntities.map((id: any) => {
+        props.data.subsidiaryEntities.map((id: any) => {
           return CustomerDetailsApi.get(id);
         })
       ).then((entityData) => {
@@ -54,25 +53,25 @@ const CustomerCard: React.FC<Data> = (props) => {
       });
     }
 
-    CustomerDetailsApi.getArea(props.customerData.area).then((data) => {
-      setArea(data);
+    CustomerDetailsApi.getArea(props.data.area).then((dataResponse) => {
+      setArea(dataResponse);
     });
 
-    OpportunityDetailsApi.getCustomerGroupInfo(props.customerData.businessPartner.toString()).then((data) => {
+    OpportunityDetailsApi.getCustomerGroupInfo(props.data.businessPartner.toString()).then((dataResult) => {
       customerAttributes.forEach((item) => {
-        if (!data.some((ele) => ele.attributeType === item.attributeType)) {
-          data.push({ attributeType: item.attributeType, group: item.group, attributeValue: '', description: item.description });
+        if (!dataResult.some((ele) => ele.attributeType === item.attributeType)) {
+          dataResult.push({ attributeType: item.attributeType, group: item.group, attributeValue: '', description: item.description });
         }
       });
       const groups = new Set(
-        data.map((obj) => {
+        dataResult.map((obj) => {
           return obj.group;
         })
       );
       const response: any = {};
       groups.forEach((group: string) => {
         const groupName = group.toLowerCase();
-        response[groupName] = data.filter((obj) => obj.group.toLowerCase() === groupName);
+        response[groupName] = dataResult.filter((obj) => obj.group.toLowerCase() === groupName);
       });
       setCustomerMoreInfoGroup(response);
     });
@@ -92,7 +91,7 @@ const CustomerCard: React.FC<Data> = (props) => {
   };
 
   const openOpptyList = (flag: boolean) => {
-    history.push({ pathname: '/opportunities', state: { selectCustomer: props.customerData.businessPartner, activeOp: flag } });
+    history.push({ pathname: '/opportunities', state: { selectCustomer: props.data.businessPartner, activeOp: flag } });
   };
 
   const getUserName = (str: string) => {
@@ -151,8 +150,8 @@ const CustomerCard: React.FC<Data> = (props) => {
                   <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
                     <span>Area</span>
                     {area
-                      ? area.map((data: Area) => {
-                          return data.description;
+                      ? area.map((obj: Area) => {
+                          return obj.description;
                         })
                       : '--'}
                   </li>
@@ -175,10 +174,8 @@ const CustomerCard: React.FC<Data> = (props) => {
 
       <section className="sec-info-accordion">
         {isMobile || isTablet
-          ? customerMoreInfoGroup && (
-              <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={customerData} />
-            )
-          : customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={customerData} />}
+          ? customerMoreInfoGroup && <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={data} />
+          : customerMoreInfoGroup && <MoreInfoAccordian title={i18n.t('moreInfo')} data={customerMoreInfoGroup} customerDetails={data} />}
       </section>
 
       {isMobile || isTablet ? (
@@ -255,7 +252,7 @@ const CustomerCard: React.FC<Data> = (props) => {
       </section>
 
       <section className="sec-info-accordion">
-        <AllContactsAccordian title=" All Contact" contactData={contactsData} customerData={customerData} />
+        <AllContactsAccordian title=" All Contact" contactData={contactsData} activeCustomer={active} />
       </section>
 
       <section className="d-flex sec-customer-desc">
@@ -294,12 +291,12 @@ const CustomerCard: React.FC<Data> = (props) => {
           <p>Subsidiary - Entity</p>
         </div>
         {subsidiaryEntities
-          ? subsidiaryEntities.map((data: CustomerDetailsDefault) => {
+          ? subsidiaryEntities.map((objItem: CustomerDetailsDefault) => {
               return (
                 <div className="group-sec">
                   <ul className="list-inline">
                     <li className="list-inline-item">
-                      <span className="cust-info">{`${data.name} - ${data.area}`}</span>{' '}
+                      <span className="cust-info">{`${objItem.name} - ${objItem.area}`}</span>{' '}
                     </li>
                   </ul>
                 </div>

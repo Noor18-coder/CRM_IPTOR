@@ -259,7 +259,7 @@ export const CardList: React.FC<Props> = ({ title, AreaListItems, ProductListIte
                         onKeyDown={(e) => ItemClicked(obj.area, e.currentTarget, 'Areas')}
                         key={obj.description}
                         className={`Area ${activeClass}`}>
-                        {obj.description}
+                        {obj.area} - {obj.description}
                       </li>
                     );
                   })

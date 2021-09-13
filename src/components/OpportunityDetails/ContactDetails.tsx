@@ -136,7 +136,11 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
                 <label htmlFor="contact-role">Select Opportunity Role</label>
                 <select className="form-control opportunity-dd" id="contact-role" value={opportunityRole} multiple={false} onChange={changeRole}>
                   {state.enviornmentConfigs.opportunityContactRoles.map((obj: models.DropDownValue) => {
-                    return <option value={obj.valueField}>{obj.valueField}</option>;
+                    return (
+                      <option value={obj.valueField}>
+                        {obj.valueField} - {obj.fieldDescription}
+                      </option>
+                    );
                   })}
                 </select>
               </div>

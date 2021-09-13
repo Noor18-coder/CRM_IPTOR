@@ -13,6 +13,8 @@ export enum AddOpportunityTypes {
   SET_ADD_OPPORTUNITY_LOADER = 'SET_ADD_OPPORTUNITY_LOADER',
   RESET_OPPORTUNITY_DATA = 'RESET_OPPORTUNITY_DATA',
   SET_ADD_OPPORTUNITY_WINDOW = 'SET_ADD_OPPORTUNITY_WINDOW',
+  SET_ADD_OPPORTUNITY_ERROR = 'SET_ADD_OPPORTUNITY_ERROR',
+  SET_ADD_OPPORTUNITY_SUCCESS = 'SET_ADD_OPPORTUNITY_SUCCESS',
 }
 
 /** Action to save default parameters of opportunity */
@@ -47,6 +49,16 @@ export interface SetAddOpportunityDrawerActive extends Action<AddOpportunityType
 }
 
 /** Authentication success action */
+export interface SetAddOpportunityError extends Action<AddOpportunityTypes.SET_ADD_OPPORTUNITY_ERROR> {
+  error: string;
+}
+
+/** Authentication success action */
+export interface SetAddOpportunitySuccess extends Action<AddOpportunityTypes.SET_ADD_OPPORTUNITY_SUCCESS> {
+  success: boolean;
+}
+
+/** Authentication success action */
 export interface SetAddOpportunityContacts extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS> {
   contacts: CustomerDetailsContactsGroupItem[];
 }
@@ -58,7 +70,9 @@ export type AddOpportunityReduxActions =
   | SetAddOpportunityDrawerActive
   | SaveOpportuntyAddItemsAction
   | RemoveOpportunityDataAction
-  | SetAddOpportunityContacts;
+  | SetAddOpportunityContacts
+  | SetAddOpportunityError
+  | SetAddOpportunitySuccess;
 
 /** Authentication state definition */
 export interface AddOpportunityState {
@@ -68,4 +82,6 @@ export interface AddOpportunityState {
   readonly attributes: UserDefinedFieldReduxParams[];
   readonly items: Item[];
   readonly contacts: CustomerDetailsContactsGroupItem[];
+  readonly error: string;
+  readonly success: boolean;
 }

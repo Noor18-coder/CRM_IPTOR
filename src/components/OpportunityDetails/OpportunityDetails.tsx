@@ -94,6 +94,9 @@ export const OpportunityDetails: React.FC = (props: any) => {
         case 'estimatedValue':
           data.push({ description: 'Opp Value', attributeValue: `${getEstimatedValue(basicInfo)}` });
           break;
+        case 'forecastCategory':
+          data.push({ description: 'Forecast Category', attributeValue: value });
+          break;
         default:
           break;
       }

@@ -12,6 +12,8 @@ import {
   SaveOpportuntyAddItemsAction,
   AddOpportunityTypes,
   SetAddOpportunityContacts,
+  SetAddOpportunityError,
+  SetAddOpportunitySuccess,
 } from './Types';
 
 /** Action to set auth state logged in status */
@@ -60,5 +62,19 @@ export const setOpportunityContacts: ActionCreator<SetAddOpportunityContacts> = 
   return {
     type: AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS,
     contacts,
+  };
+};
+
+export const setAddOpportunitySuccess: ActionCreator<SetAddOpportunitySuccess> = (success: boolean) => {
+  return {
+    type: AddOpportunityTypes.SET_ADD_OPPORTUNITY_SUCCESS,
+    success,
+  };
+};
+
+export const setAddOpportunityError: ActionCreator<SetAddOpportunityError> = (error: string) => {
+  return {
+    type: AddOpportunityTypes.SET_ADD_OPPORTUNITY_ERROR,
+    error,
   };
 };
