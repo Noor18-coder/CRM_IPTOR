@@ -25,6 +25,8 @@ export interface OpportunityListItem {
   attributeExist: boolean;
   forecastCategory: string;
   approver: string;
+  estValueSys: number;
+  exchangeRate: number;
   approvalStatus: string;
 }
 

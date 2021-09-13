@@ -64,7 +64,7 @@ const OpportunityGridOptions = [
     },
   },
   {
-    field: 'estValue',
+    field: 'estValueSys',
     sortable: true,
     headerName: 'Size',
     cellRenderer: (params: any) => {

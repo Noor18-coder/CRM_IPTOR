@@ -35,6 +35,9 @@ export interface OpportunityDetailsDefault {
   defaultApprover?: string;
   approvalRequired?: boolean;
   approver?: string;
+  exchangeRate?: number;
+  estimatedValueSys?: number;
+  minimumStage?: number;
   level?: number;
   approvalStatus?: string;
 }

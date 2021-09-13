@@ -26,6 +26,7 @@ import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import { setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
 import { APPROVAL_STATUS } from '../../config/Constants';
 import { saveOpportunityDetails, saveOpportunityAttributes, openOpportunityForm } from '../../store/OpportunityDetails/Actions';
+import { getCurrencySymbol } from '../../helpers/utilities/lib';
 
 export const OpportunityDetails: React.FC = (props: any) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -135,13 +136,21 @@ export const OpportunityDetails: React.FC = (props: any) => {
           data.push({ description: 'Opportunity Type', attributeValue: value });
           break;
         case 'estimatedValue':
-          data.push({ description: 'Opp Value', attributeValue: `${value}` });
+          data.push({ description: 'Opp Value', attributeValue: `${getEstimatedValue(basicInfo)}` });
           break;
         default:
           break;
       }
     });
     setOpptyDataForBasicInfoGroup(data);
+  };
+
+  const getEstimatedValue = (basicInfo: models.OpportunityDetailsDefault) => {
+    // eslint-disable-next-line max-len
+    return `${
+      state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA && getCurrencySymbol(state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
+    } ${basicInfo?.estimatedValueSys}
+    (${basicInfo.currency ? getCurrencySymbol(basicInfo.currency) : ''} ${basicInfo.estimatedValue ? basicInfo.estimatedValue : ''} )`;
   };
 
   const history = useHistory();

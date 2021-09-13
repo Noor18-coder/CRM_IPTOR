@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 
-import { getStartDateOfQuarter, getEndDateOfQuarter } from '../../helpers/utilities/lib';
+import { getStartDateOfQuarter, getEndDateOfQuarter, getCurrencySymbol } from '../../helpers/utilities/lib';
 import OpportunityListMobile from './OpportunityListMobile';
 
 import { AppState } from '../../store/store';
@@ -59,6 +59,19 @@ const Opportunities: React.FC = (props: any) => {
       obj.cellRenderer = (params: any) => {
         let cellValue = getName(params.value);
         cellValue = cellValue || params.value;
+        return cellValue;
+      };
+      return obj;
+    } else if (obj.field === 'estValueSys') {
+      obj.cellRenderer = (params: any) => {
+        const cellValue = `<span class="o-size">${
+          params.value === undefined
+            ? ''
+            : `${
+                oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA &&
+                getCurrencySymbol(oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
+              } ${params.value}`
+        }</span></div>`;
         return cellValue;
       };
       return obj;
