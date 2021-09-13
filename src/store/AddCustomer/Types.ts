@@ -3,7 +3,7 @@ import * as models from '../../helpers/Api/models';
 
 /** Enum for Authentication Actions */
 export enum AddBusinessPartnerTypes {
-  SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS = 'SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS',
+  SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS = 'SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS',
   CLEAR_ADD_DEFAULT_OBJECTS = 'CLEAR_ADD_DEFAULT_OBJECTS',
   SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE = 'SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE',
   SAVE_BUSINESS_PARTNER_CONTACT = 'SAVE_BUSINESS_PARTNER_CONTACT',
@@ -17,8 +17,8 @@ export enum AddBusinessPartnerTypes {
 }
 
 /** Action to save default parameters of business partner */
-export interface SaveBusinessPartnerParamAction extends Action<AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS> {
-  businessPartner: models.AddBusinessPartnerDefaultParams;
+export interface SaveBusinessPartnerParamAction extends Action<AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS> {
+  businessPartner: models.CustomerDetailsDefaultFields;
 }
 
 /** Action to save attributes (user defined) parameters of business partner */
@@ -74,7 +74,7 @@ export type AddBusinessPartnerReduxActions =
 /** Authentication state definition */
 export interface AddBusinessPartnerState {
   readonly addBusinessPartnerWindowActive: boolean;
-  readonly businessPartnerDefaultParams: models.AddBusinessPartnerDefaultParams;
+  readonly businessPartnerDefaultFields: models.CustomerDetailsDefaultFields;
   readonly attributes: models.UserDefinedFieldReduxParams[];
   readonly contacts: models.CustomerDetailsContactsGroupItem[];
   readonly businessPartnerWindowGroup: string;

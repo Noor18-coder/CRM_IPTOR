@@ -8,8 +8,6 @@ import { isArray } from 'lodash';
 import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
 import ImageConfig from '../../config/ImageConfig';
 import { NavSection } from '../Shared/DetailsNav/NavSection';
-import { CustomerDetailsDefault, CrmCountry } from '../../helpers/Api/models';
-import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import { AppState } from '../../store/store';
 import AddCustomerApi from '../../helpers/Api/AddCustomer';
 import {
@@ -20,12 +18,12 @@ import {
 } from '../../store/AddCustomer/Actions';
 
 export interface Data {
-  data: CustomerDetailsDefault;
+  data: any;
 }
 
 const CustomerInfo: React.FC<Data> = (props) => {
   const {
-    data: { name, isParent },
+    data: { name, isParent, country },
   } = props;
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
@@ -34,7 +32,6 @@ const CustomerInfo: React.FC<Data> = (props) => {
   const backToOpportunityList = () => {
     history.goBack();
   };
-  const [country, setCountry] = React.useState<CrmCountry[]>([]);
   const [customerFields, setCustomerFields] = React.useState<any>({});
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -67,10 +64,15 @@ const CustomerInfo: React.FC<Data> = (props) => {
     return data;
   };
 
+  const getCountryName = (str: string) => {
+    if (str) {
+      const countryObj = state.enviornmentConfigs.crmCountryInfo.find((obj) => obj.country === str);
+      return countryObj?.description;
+    }
+    return '--';
+  };
+
   React.useEffect(() => {
-    CustomerDetailsApi.getCountry(props.data.country).then((data) => {
-      setCountry(data);
-    });
     setCustomerFields(props.data);
     dispatch(resetBusinessPartnerData());
   }, []);
@@ -82,13 +84,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
             <div className="lft-custname" onClick={backToOpportunityList} onKeyDown={backToOpportunityList} role="presentation">
               <p>
                 {name}
-                <span className="location">
-                  {country
-                    ? country.map((data: CrmCountry) => {
-                        return data.description;
-                      })
-                    : null}
-                </span>
+                <span className="location">{getCountryName(country)}</span>
               </p>
             </div>
             <div className="rgt-actioncol">
@@ -181,13 +177,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
             <div className="cust-name">
               <p>
                 {name}
-                <span>
-                  {country
-                    ? country.map((data: CrmCountry) => {
-                        return data.description;
-                      })
-                    : null}
-                </span>
+                <span>{getCountryName(country)}</span>
               </p>
             </div>
             <div className="mid-sec">

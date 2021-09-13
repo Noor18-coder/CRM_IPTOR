@@ -9,7 +9,7 @@ import * as models from '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import Container from '../AddOpportunity/Container';
 import { AppState } from '../../store/store';
-import { saveBusinessPartnerContacts } from '../../store/AddCustomer/Actions';
+import { saveBusinessPartnerContacts, saveCustomerDefaultFields } from '../../store/AddCustomer/Actions';
 
 const CustomerDetails: React.FC = (props: any) => {
   const customerState: AppState = useSelector((EditState: AppState) => EditState);
@@ -18,7 +18,7 @@ const CustomerDetails: React.FC = (props: any) => {
     location: { state },
   } = props;
   const custId = state ? state.custId : '';
-  const [defaultCustDetail, setDefaultCustDetails] = React.useState<models.CustomerDetailsDefault>();
+  const [defaultCustDetail, setDefaultCustDetails] = React.useState<any>(customerState.addBusinessPartner.businessPartnerDefaultFields);
   const [contactDetails, setContactDetails] = React.useState<models.CustomerDetailsContactsGroupItem[]>(customerState.addBusinessPartner.contacts);
 
   React.useEffect(() => {
@@ -36,13 +36,24 @@ const CustomerDetails: React.FC = (props: any) => {
     }
   }, [contactDetails]);
 
+  React.useEffect(() => {
+    if (defaultCustDetail) {
+      dispatch(saveCustomerDefaultFields(defaultCustDetail));
+    }
+  }, [defaultCustDetail]);
+
   return (
     <>
       <Header page={2} />
       <section className="main-wrapper customer">
         <div className="container-fluid">
-          {defaultCustDetail ? <CustomerInfo data={defaultCustDetail} /> : null}
-          {defaultCustDetail ? <CustomerCard data={defaultCustDetail} contactsData={customerState.addBusinessPartner.contacts} /> : null}
+          {defaultCustDetail ? <CustomerInfo data={customerState.addBusinessPartner.businessPartnerDefaultFields} /> : null}
+          {defaultCustDetail ? (
+            <CustomerCard
+              data={customerState.addBusinessPartner.businessPartnerDefaultFields}
+              contactsData={customerState.addBusinessPartner.contacts}
+            />
+          ) : null}
         </div>
       </section>
       <Footer />

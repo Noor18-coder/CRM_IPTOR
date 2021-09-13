@@ -12,7 +12,7 @@ export const createAddBusinessPartnerInitialState = (): AddBusinessPartnerState 
   return {
     loader: false,
     addBusinessPartnerWindowActive: false,
-    businessPartnerDefaultParams: {},
+    businessPartnerDefaultFields: {},
     attributes: [],
     contacts: [],
     businessPartnerWindowGroup: '',
@@ -31,10 +31,10 @@ const initialState = createAddBusinessPartnerInitialState();
  */
 const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPartnerReduxActions> = (state = initialState, action) => {
   switch (action.type) {
-    case AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS:
+    case AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS:
       return {
         ...state,
-        businessPartnerDefaultParams: { ...state.businessPartnerDefaultParams, ...action.businessPartner },
+        businessPartnerDefaultFields: { ...state.businessPartnerDefaultFields, ...action.businessPartner },
       };
     case AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_ATTRIBUTE:
       return {
@@ -81,7 +81,6 @@ const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPar
         ...state,
         loader: false,
         addBusinessPartnerWindowActive: false,
-        businessPartnerDefaultParams: {},
         attributes: [],
         items: [],
         businessPartnerWindowGroup: '',

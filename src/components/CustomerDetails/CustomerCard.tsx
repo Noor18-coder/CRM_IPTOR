@@ -10,7 +10,7 @@ import ImageConfig from '../../config/ImageConfig';
 import { AppState } from '../../store/store';
 import { AllContactsAccordian } from './AllContactDetails';
 import { MoreInfoAccordian, MoreInfoAccordianMobile } from './MoreInfo';
-import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, Area, IStringList } from '../../helpers/Api/models';
+import { CustomerDetailsDefault, CustomerDetailsContactsGroupItem, IStringList } from '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
@@ -18,22 +18,21 @@ import Container from '../AddCustomer/Container';
 import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, setBusinessPartnerWindowGroup } from '../../store/AddCustomer/Actions';
 
 export interface Data {
-  data: CustomerDetailsDefault;
+  data: any;
   contactsData: CustomerDetailsContactsGroupItem[];
 }
 
 const CustomerCard: React.FC<Data> = (props) => {
   const {
-    data: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily, owner, active },
+    data: { numberOfInactiveOpportunities, numberOfActiveOpportunities, addressLine1, phone, productFamily, owner, active, area },
     contactsData,
     data,
   } = props;
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-  const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<CustomerDetailsDefault[]>([]);
+  const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<any[]>([]);
   const inactiveCount = numberOfInactiveOpportunities || 0;
   const activeCount = numberOfActiveOpportunities || 0;
-  const [area, setArea] = React.useState<Area[]>([]);
   const [customerMoreInfoGroup, setCustomerMoreInfoGroup] = React.useState<IStringList>();
 
   const dispatch: Dispatch<any> = useDispatch();
@@ -52,10 +51,6 @@ const CustomerCard: React.FC<Data> = (props) => {
         return entityData;
       });
     }
-
-    CustomerDetailsApi.getArea(props.data.area).then((dataResponse) => {
-      setArea(dataResponse);
-    });
 
     OpportunityDetailsApi.getCustomerGroupInfo(props.data.businessPartner.toString()).then((dataResult) => {
       customerAttributes.forEach((item) => {
@@ -112,6 +107,14 @@ const CustomerCard: React.FC<Data> = (props) => {
     return userObj?.PHONE ? userObj?.PHONE[0] : '--';
   };
 
+  const getAreaName = (str: string) => {
+    if (str) {
+      const areaObj = state.enviornmentConfigs.crmAreaInfo.find((obj) => obj.area === str);
+      return areaObj?.description;
+    }
+    return '--';
+  };
+
   return (
     <>
       <section className="sec-info-accordion mob-moreinfo-accordion">
@@ -152,11 +155,7 @@ const CustomerCard: React.FC<Data> = (props) => {
                   </li>
                   <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
                     <span>Area</span>
-                    {area
-                      ? area.map((obj: Area) => {
-                          return obj.description;
-                        })
-                      : '--'}
+                    {getAreaName(area)}
                   </li>
                   <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
                     <span>Phone Number</span>

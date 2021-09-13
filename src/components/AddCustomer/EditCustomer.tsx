@@ -14,6 +14,7 @@ import {
   setBusinessPartnerLoader,
   resetBusinessPartnerData,
   updateCustomerContact,
+  updateCustomerDefaultFields,
 } from '../../store/AddCustomer/Actions';
 import { Attributes } from '../../helpers/Api/Attributes';
 import AddOpportunityFields from '../../helpers/Api/OpportunityUserDefinedFields';
@@ -51,6 +52,7 @@ const EditCustomer: React.FC<Props> = (data) => {
   const key = groupType;
   const contactsId = contactId;
   const contactData = state.addBusinessPartner.contacts;
+  const defaultData = state.addBusinessPartner.businessPartnerDefaultFields;
 
   const getAttributes = async () => {
     dispatch(setBusinessPartnerLoader(true));
@@ -59,8 +61,8 @@ const EditCustomer: React.FC<Props> = (data) => {
       if (customerData) {
         if (defaultField) {
           defaultField.forEach((item: any) => {
-            if (_.has(customerData.data, item.attributeType)) {
-              _.set(item, 'attributeValue', customerData.data[item.attributeType]);
+            if (_.has(defaultFields, item.attributeType)) {
+              _.set(item, 'attributeValue', defaultFields[item.attributeType]);
             }
             if (item.attributeType === 'country') {
               const selectedCountries = state.enviornmentConfigs.crmCountryInfo.filter((el) => el.country === item.attributeValue);
@@ -265,14 +267,7 @@ const EditCustomer: React.FC<Props> = (data) => {
       });
       customerFields.businessPartner = customerData.data.businessPartner;
       setCustomerFields(customerFields);
-      AddCustomerApi.update(customerFields);
-      history.push({ pathname: '/cust-details', state: { custId: customerData.data.businessPartner } });
-      setTimeout(function () {
-        window.location.reload(false);
-        dispatch(setBusinessPartnerLoader(false));
-        dispatch(setBusinessPartnerWindowActive(false));
-        document.body.classList.remove('body-scroll-hidden');
-      }, 3000);
+      dispatch(updateCustomerDefaultFields(customerFields));
     }
     if (contactFields) {
       contactFields.forEach((item: any) => {
@@ -330,6 +325,12 @@ const EditCustomer: React.FC<Props> = (data) => {
       setContactFields(contactData);
     }
   }, [contactData]);
+
+  React.useEffect(() => {
+    if (defaultData && key === 'default fields') {
+      setDefaultFields(defaultData);
+    }
+  }, [defaultData]);
 
   return (
     <>

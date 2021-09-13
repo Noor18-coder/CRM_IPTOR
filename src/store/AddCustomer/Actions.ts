@@ -6,6 +6,7 @@ import { ThunkAction } from 'redux-thunk';
 import { isArray } from 'lodash';
 import { AppState } from '../store';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+import AddCustomerApi from '../../helpers/Api/AddCustomer';
 import * as models from '../../helpers/Api/models';
 import {
   SaveBusinessPartnerParamAction,
@@ -22,9 +23,9 @@ import {
 } from './Types';
 
 /** Action to set auth state logged in status */
-export const saveOpportunityParams: ActionCreator<SaveBusinessPartnerParamAction> = (businessPartner: models.AddBusinessPartnerDefaultParams) => {
+export const saveCustomerDefaultFields: ActionCreator<SaveBusinessPartnerParamAction> = (businessPartner: models.CustomerDetailsDefaultFields) => {
   return {
-    type: AddBusinessPartnerTypes.SAVE_ADD_BUSINESS_PARTNER_DEFAULT_FIELDS,
+    type: AddBusinessPartnerTypes.SAVE_BUSINESS_PARTNER_DEFAULT_FIELDS,
     businessPartner,
   };
 };
@@ -164,6 +165,37 @@ export const deleteCustomerContact: ActionCreator<
         dispatch(saveBusinessPartnerContacts(details));
 
         dispatch(setBusinessPartnerLoader(false));
+        return dispatch(setUpdateCustomerSuccess(true));
+      }
+    } catch {
+      dispatch(setBusinessPartnerLoader(false));
+      return dispatch(setUpdateCustomerError('Something went wrong.'));
+    }
+  };
+};
+
+export const updateCustomerDefaultFields: ActionCreator<
+  ThunkAction<Promise<SetUpdateCustomerSuccess | SetUpdateCustomerError>, AppState, undefined, SetUpdateCustomerSuccess | SetUpdateCustomerError>
+> = (customerDetails: any) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const data: any = await AddCustomerApi.update(customerDetails);
+      if (data && data.error) {
+        dispatch(setBusinessPartnerLoader(false));
+        if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
+          const error: string = data.messages[0].text;
+          return dispatch(setUpdateCustomerError(error));
+        } else {
+          // eslint-disable-next-line no-alert
+          return dispatch(setUpdateCustomerError('Something went wrong.'));
+        }
+      } else {
+        const details: any = await CustomerDetailsApi.get(customerDetails.businessPartner);
+        dispatch(saveCustomerDefaultFields(details));
+
+        dispatch(setBusinessPartnerLoader(false));
+        dispatch(setBusinessPartnerWindowActive(false));
+        document.body.classList.remove('body-scroll-hidden');
         return dispatch(setUpdateCustomerSuccess(true));
       }
     } catch {

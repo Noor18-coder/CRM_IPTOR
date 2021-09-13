@@ -37,6 +37,20 @@ export interface CustomerDetailsDefault {
   TYPE: [];
 }
 
+export interface CustomerDetailsDefaultFields {
+  businessPartner?: number;
+  internalName?: string;
+  type?: number;
+  name?: string;
+  addressLine1?: string;
+  country?: string;
+  area?: string;
+  active?: boolean;
+  phone?: string;
+  industry?: string;
+  owner?: string;
+}
+
 export interface CustomerDetailsParams {
   businessPartner: string;
 }
