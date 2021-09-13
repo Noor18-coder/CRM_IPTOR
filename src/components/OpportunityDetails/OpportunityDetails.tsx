@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Popover, Image } from 'react-bootstrap';
+import { isArray } from 'lodash';
 import { AppState } from '../../store/store';
 
 import Header from '../Shared/Header/Header';
@@ -18,6 +19,7 @@ import * as models from '../../helpers/Api/models';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import { NavSection } from '../Shared/DetailsNav/NavSection';
 import Loader from '../Shared/Loader/Loader';
+import i18n from '../../i18n';
 import Container from '../EditOpportunity/Container';
 import ImageConfig from '../../config/ImageConfig';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
@@ -162,10 +164,18 @@ export const OpportunityDetails: React.FC = (props: any) => {
     dispatch(openOpportunityForm({ open: true, groupName: 'add_contact', action: 'edit' }));
   };
 
-  const deleteOpportunity = () => {
-    OpportunityDetailsApi.opportunityDelete(opportunityId).then(() => {
-      backToOpportunityList();
-    });
+  const deleteOpportunity = async () => {
+    try {
+      const response: models.OpportunityDeleteResponse = await OpportunityDetailsApi.opportunityDelete(opportunityId);
+      if (response && response.messages && isArray(response.messages) && response.messages[0] && response.messages[0].text) {
+        alert(response.messages[0].text);
+      } else {
+        backToOpportunityList();
+        alert(i18n.t('opportunityDeletedSuccess'));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const assignOpportunity = () => {

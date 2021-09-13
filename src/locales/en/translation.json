@@ -44,5 +44,6 @@
   "comment": "Comment",
   "addComment": "Add comment here",
   "approval": "Approval",
-  "changeApprover": "Change Approver"
+  "changeApprover": "Change Approver",
+  "opportunityDeletedSuccess": "Opportunity Deleted Successfully."
 }

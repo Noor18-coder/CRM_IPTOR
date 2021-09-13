@@ -94,9 +94,9 @@ export default class OpportunityDetailsApi {
     return get(response, 'data');
   }
 
-  static async opportunityDelete(opportunityId: string): Promise<any> {
+  static async opportunityDelete(opportunityId: string): Promise<apiModels.OpportunityDeleteResponse> {
     const requestData = new ApiRequest<apiModels.OpportunityDetailsParams>(this.mopOpportunityDelete, { opportunityId });
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post<apiModels.OpportunityDeleteResponse>('/api/service', requestData);
+    return get(response, 'data', {});
   }
 }

@@ -1,6 +1,6 @@
 import { Product } from './Product';
 import { OpportunityContact } from './Contacts';
-import { ApprovalLogsDefault, InitiateSubmitApprovalPopupData } from './Approvals';
+import { InitiateSubmitApprovalPopupData, ErrorMessage } from './Approvals';
 
 export interface OpportunityDetailsDefault {
   opportunityId: string;
@@ -100,4 +100,23 @@ export interface OpportunityEditOptions {
   submitApprovalData?: InitiateSubmitApprovalPopupData;
   subGroupName?: string;
   approvalSubmitMessage?: string;
+}
+
+export interface OpportunityDeleteResponse {
+  messages?: ErrorMessage[];
+  error?: {
+    code: number;
+    message: string;
+  };
+  data?: {
+    error: boolean;
+  };
+}
+
+export interface UpdateOpportunityError {
+  messages: ErrorMessage[];
+  error: {
+    code: number;
+    message: string;
+  };
 }
