@@ -45,7 +45,7 @@ const Opportunities: React.FC = (props: any) => {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
 
   const oppState: AppState = useSelector((appState: AppState) => appState);
-  const customerState = state || '';
+  const customerState = state;
   const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
   const [searchText, setSearchText] = React.useState<string>('');
@@ -165,10 +165,10 @@ const Opportunities: React.FC = (props: any) => {
 
     dispatch(saveOpportunityFilters(filterOptions));
     if (oppState.opportunities.opportunities.length === 0) setLoader(true);
-    history.replace({
-      ...props.location,
-      state: undefined,
-    });
+    // history.replace({
+    //   ...props.location,
+    //   state: undefined,
+    // });
   }, []);
 
   const onFilter = (obj: SelectOptionMethod) => {
@@ -215,7 +215,13 @@ const Opportunities: React.FC = (props: any) => {
           <div className="row s-header">
             {isMobile ? null : (
               <div className="col col-md-4">
-                <div className="page-title">{searchText.length ? `Showing results for "${searchText}"` : ''}</div>
+                <div className="page-title">
+                  {searchText.length
+                    ? `Showing results for "${searchText}"`
+                    : customerState
+                    ? `Showing results for "${customerState.customerName}"`
+                    : ''}
+                </div>
               </div>
             )}
 

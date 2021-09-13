@@ -16,6 +16,8 @@ export const createAddBusinessPartnerInitialState = (): AddBusinessPartnerState 
     attributes: [],
     businessPartnerWindowGroup: '',
     businessPartnerContactId: '',
+    success: false,
+    error: '',
   };
 };
 
@@ -58,6 +60,16 @@ const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPar
         ...state,
         businessPartnerContactId: action.businessPartnerContactId,
       };
+    case AddBusinessPartnerTypes.SET_UPDATE_CUSTOMER_SUCCESS:
+      return {
+        ...state,
+        success: action.success,
+      };
+    case AddBusinessPartnerTypes.SET_UPDATE_CUSTOMER_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      };
     case AddBusinessPartnerTypes.RESET_BUSINESS_PARTNER_DATA:
       return {
         ...state,
@@ -68,6 +80,8 @@ const addBusinessPartnerReducer: Reducer<AddBusinessPartnerState, AddBusinessPar
         items: [],
         businessPartnerWindowGroup: '',
         businessPartnerContactId: '',
+        success: false,
+        error: '',
       };
 
     default:

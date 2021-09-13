@@ -75,15 +75,22 @@ export const DisplayGroup: React.FC<Props> = ({ title, data, customerDetails }) 
             return (
               <li className="list-inline-item">
                 <span>{obj.description}</span>
-                {obj.attributeValue
-                  ? obj.attributeValue === 'N'
-                    ? 'No'
-                    : obj.attributeValue === 'Y'
-                    ? 'Yes'
-                    : obj.description === 'Account Owner'
-                    ? getUserName(obj.attributeValue)
-                    : obj.attributeValue
-                  : '--'}
+                {obj.attributeValue ? (
+                  obj.attributeValue === 'N' || obj.attributeValue === 'Y' ? (
+                    <span className="checkbox-label">
+                      <label className="switch value-checkbox">
+                        <input type="checkbox" checked={obj.attributeValue !== 'N'} />
+                        <span className="slider round disabled-checkbox">&nbsp;</span>
+                      </label>
+                    </span>
+                  ) : obj.description === 'Account Owner' ? (
+                    getUserName(obj.attributeValue)
+                  ) : (
+                    obj.attributeValue
+                  )
+                ) : (
+                  '--'
+                )}
               </li>
             );
           })}

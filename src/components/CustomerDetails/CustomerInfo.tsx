@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { Image } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { isArray } from 'lodash';
 import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
 import ImageConfig from '../../config/ImageConfig';
 import { NavSection } from '../Shared/DetailsNav/NavSection';
@@ -11,7 +12,12 @@ import { CustomerDetailsDefault, CrmCountry } from '../../helpers/Api/models';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
 import { AppState } from '../../store/store';
 import AddCustomerApi from '../../helpers/Api/AddCustomer';
-import { setBusinessPartnerLoader } from '../../store/AddCustomer/Actions';
+import {
+  setBusinessPartnerLoader,
+  setUpdateCustomerSuccess,
+  setUpdateCustomerError,
+  resetBusinessPartnerData,
+} from '../../store/AddCustomer/Actions';
 
 export interface Data {
   data: CustomerDetailsDefault;
@@ -36,16 +42,29 @@ const CustomerInfo: React.FC<Data> = (props) => {
     dispatch(setOpportunityWindowActive(true));
   };
 
-  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const hideErrorMessage = () => {
+    dispatch(setUpdateCustomerError(''));
+  };
+
+  const onInputValueChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const customerData = { ...customerFields };
     customerData.active = e.currentTarget.checked;
     setCustomerFields(customerData);
-    AddCustomerApi.update(customerData);
+    const data = await AddCustomerApi.update(customerData);
     dispatch(setBusinessPartnerLoader(true));
-    setTimeout(function () {
-      window.location.reload(false);
+    if (data.data && data.data.businessPartner) {
+      setTimeout(function () {
+        // window.location.reload(false);
+        dispatch(setBusinessPartnerLoader(false));
+      }, 3000);
+      return dispatch(setUpdateCustomerSuccess(true));
+    } else if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
+      customerData.active = true;
+      setCustomerFields(customerData);
       dispatch(setBusinessPartnerLoader(false));
-    }, 3000);
+      return dispatch(setUpdateCustomerError(data.messages[0].text));
+    }
+    return data;
   };
 
   React.useEffect(() => {
@@ -53,6 +72,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
       setCountry(data);
     });
     setCustomerFields(props.data);
+    dispatch(resetBusinessPartnerData());
   }, []);
   return (
     <>
@@ -145,6 +165,16 @@ const CustomerInfo: React.FC<Data> = (props) => {
       ) : (
         <>
           <NavSection backToOpportunityList={backToOpportunityList} />
+          {state.addBusinessPartner.error ? (
+            <div className="alert-wrapper">
+              <div role="alert" className="alert alert-danger">
+                <button className="btn alert-close" type="button" onClick={hideErrorMessage}>
+                  <img src={ImageConfig.CLOSE_BTN} alt="close" />
+                </button>
+                {`This ${state.addBusinessPartner.error.split(' ').slice(1).join(' ')}`}
+              </div>
+            </div>
+          ) : null}
           <section className="d-flex justify-content-between align-items-center sec-customer-addr">
             <div className="cust-name">
               <p>

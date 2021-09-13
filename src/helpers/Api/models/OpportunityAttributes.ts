@@ -25,6 +25,7 @@ export interface UserDefinedField {
   attributeValue?: string;
   valueId?: string;
   readOnly?: boolean;
+  error?: string;
 }
 
 export interface UserDefinedFieldParam {

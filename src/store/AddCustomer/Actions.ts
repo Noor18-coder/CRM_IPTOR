@@ -12,6 +12,8 @@ import {
   AddBusinessPartnerTypes,
   SetEditBusinessPartnerDrawerGroup,
   SetBusinessPartnerContactId,
+  SetUpdateCustomerSuccess,
+  SetUpdateCustomerError,
 } from './Types';
 
 /** Action to set auth state logged in status */
@@ -54,6 +56,20 @@ export const setBusinessPartnerContactId: ActionCreator<SetBusinessPartnerContac
   return {
     type: AddBusinessPartnerTypes.SET_BUSINESS_PARTNER_CONTACT_ID,
     businessPartnerContactId,
+  };
+};
+
+export const setUpdateCustomerSuccess: ActionCreator<SetUpdateCustomerSuccess> = (success: boolean) => {
+  return {
+    type: AddBusinessPartnerTypes.SET_UPDATE_CUSTOMER_SUCCESS,
+    success,
+  };
+};
+
+export const setUpdateCustomerError: ActionCreator<SetUpdateCustomerError> = (error: string) => {
+  return {
+    type: AddBusinessPartnerTypes.SET_UPDATE_CUSTOMER_ERROR,
+    error,
   };
 };
 

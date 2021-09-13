@@ -259,7 +259,6 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
       const currField = attributesSet.find((obj: SaveAttributeFieldParam) => {
         return obj.attributeType === field;
       });
-
       if (currField && (currField.attributeValue || currField.attributeValueD || currField.attributeValueB)) {
         if (currField.valueFormat === 'N' && !isNumeric(currField.attributeValue)) {
           check = false;
@@ -358,7 +357,9 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                   </div>
 
                   <div className="form-group oppty-form-elements">
-                    <span className="opp-label">Close Date</span>
+                    <label className="opp-label" htmlFor="endDate">
+                      Close Date
+                    </label>
                     <DateInput onDateSelect={onDateChange} currentDate={opportunity?.endDate} />
                     <span className="form-hints">{errors?.endDate}</span>
                   </div>
@@ -381,7 +382,7 @@ const AddOpportunityUserDefinedFields: React.FC<Props> = ({ changeStep }) => {
                             setAttributesSet([...attributesSet, attribute]);
                             currentDate = moment(new Date()).format('YYYY-MM-DD');
                           }
-                        } else {
+                        } else if (obj.valueFormat === 'B') {
                           const field = attributesSet.find((valueObj) => valueObj.attributeType === obj.attributeType);
                           if (field) {
                             currentValue = field.attributeValueB;

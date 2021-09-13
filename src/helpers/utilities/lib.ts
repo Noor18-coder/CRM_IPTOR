@@ -74,8 +74,6 @@ export const getEndDateOfQuarter = (quarter_name: number): string => {
   return moment(endDate).format('YYYY-MM-DD');
 };
 
-export const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
-
 export const getCurrPrevNextYearQuarters = () => {
   const currentYear = new Date().getFullYear();
   const previousYear = currentYear - 1;
@@ -101,3 +99,7 @@ export const getEndDateOfQuarterAndYear = (quarter: string, year: string): any =
   const endDate = new Date(y, firstDate.getMonth() + 3, 0);
   return moment(endDate).format('YYYY-MM-DD');
 };
+
+// regx
+export const emailPattern = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+export const numberPattern = /^-?\d+\.?\d*$/;

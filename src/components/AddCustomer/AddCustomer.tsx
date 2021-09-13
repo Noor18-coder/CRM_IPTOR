@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 import i18n from '../../i18n';
 import { AppState } from '../../store/store';
 import ImageConfig from '../../config/ImageConfig';
-import { validEmail } from '../../helpers/utilities/lib';
+import { emailPattern, numberPattern } from '../../helpers/utilities/lib';
 
 import { AddBusinessPartnerDefaultParams, UserDefinedFieldReduxParams, CountryInfo, AreaInfo } from '../../helpers/Api/models';
 import { setBusinessPartnerWindowActive, setBusinessPartnerLoader, resetBusinessPartnerData } from '../../store/AddCustomer/Actions';
@@ -19,9 +19,25 @@ const AddCustomer: React.FC = () => {
   const [attributes, setAttributes] = React.useState<UserDefinedFieldReduxParams[]>([]);
   const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
   const [emailErr, setEmailErr] = React.useState<boolean>(false);
+  const [phoneErr, setPhoneErr] = React.useState<boolean>(false);
   const history = useHistory();
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { value, id } = e.currentTarget;
+    const inputElement = document.getElementById(id) as HTMLInputElement;
+    if (value.length && id === 'EMAIL' && !value.match(emailPattern)) {
+      inputElement.style.border = '1px solid #ED2024';
+      setIsSubmit(false);
+      setEmailErr(true);
+    } else if (value.length && id === 'phone' && !value.match(numberPattern)) {
+      inputElement.style.border = '1px solid #ED2024';
+      setIsSubmit(false);
+      setPhoneErr(true);
+    } else {
+      inputElement.style.border = '1px solid #DAE2E7';
+      setEmailErr(false);
+      setPhoneErr(false);
+    }
     setCustomerFields({
       ...customerFields,
       [e.currentTarget.id]: e.currentTarget.value,
@@ -72,19 +88,8 @@ const AddCustomer: React.FC = () => {
     }
   };
 
-  const validate = () => {
-    if (!validEmail.test(customerFields.EMAIL ? customerFields.EMAIL : '')) {
-      setEmailErr(true);
-      return false;
-    }
-
-    return true;
-  };
-
   const onSubmit = () => {
-    if (validate()) {
-      createCustomer();
-    }
+    createCustomer();
   };
 
   const closeAction = () => {
@@ -106,7 +111,9 @@ const AddCustomer: React.FC = () => {
       customerFields?.country &&
       customerFields?.EMAIL &&
       customerFields?.area &&
-      customerFields?.phone
+      customerFields?.phone &&
+      !emailErr &&
+      !phoneErr
     )
       setIsSubmit(true);
   }, [customerFields]);
@@ -199,6 +206,7 @@ const AddCustomer: React.FC = () => {
                         onChange={onInputValueChange}
                         onBlur={validateField}
                       />
+                      {phoneErr && <span className="form-hints">{i18n.t('numericFieldError')}</span>}
                     </div>
                     <p className="add-subtitle">{i18n.t('accountInfo')}</p>
                     <div className="form-group oppty-form-elements">
@@ -213,7 +221,7 @@ const AddCustomer: React.FC = () => {
                         onChange={onInputValueChange}
                         onBlur={validateField}
                       />
-                      {emailErr && <p className="error-text">{i18n.t('validEmail')}</p>}
+                      {emailErr && <span className="form-hints">{i18n.t('emailFieldError')}</span>}
                     </div>
                   </form>
                 </div>

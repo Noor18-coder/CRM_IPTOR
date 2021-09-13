@@ -20,7 +20,7 @@ import { Context } from './CustomerContext';
 import DefaultFields from '../../helpers/utilities/customerDefaultFields';
 import ContactFields from '../../helpers/utilities/contactDefaultFields';
 import DateInput from '../Shared/Picker/DateInput';
-import { getDate, getDashDateFormat } from '../../helpers/utilities/lib';
+import { getDate, getDashDateFormat, numberPattern, emailPattern } from '../../helpers/utilities/lib';
 
 interface Props {
   groupType: any;
@@ -40,6 +40,7 @@ const EditCustomer: React.FC<Props> = (data) => {
   const [customerFields, setCustomerFields] = React.useState<any>({});
   const [selectedCountry, setSelectedCountry] = React.useState<any>();
   const [selectedArea, setSelectedArea] = React.useState<any>();
+  const [fieldError, setFieldError] = React.useState<boolean>(false);
 
   const history = useHistory();
   const contextValue = React.useContext(Context);
@@ -146,23 +147,64 @@ const EditCustomer: React.FC<Props> = (data) => {
     }
   };
 
-  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, dataObject?: any) => {
+    const { value, id } = e.currentTarget;
+    const inputElement = document.getElementById(id) as HTMLInputElement;
     if (attributes) {
-      const elementIndex = attributes.findIndex((element) => element.attributeType === e.currentTarget.id);
+      const elementIndex = attributes.findIndex((element) => element.attributeType === id);
       const newArray = [...attributes];
-      newArray[elementIndex].attributeValue = e.currentTarget.value;
+      newArray[elementIndex].attributeValue = value;
+      if (value.length && dataObject.valueFormat === 'N' && !value.match(numberPattern)) {
+        dataObject.error = i18n.t('numericFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+        setFieldError(true);
+      } else if (value.length && dataObject.attributeType === 'EMAIL' && !value.match(emailPattern)) {
+        dataObject.error = i18n.t('emailFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+        setFieldError(true);
+      } else {
+        dataObject.error = '';
+        inputElement.style.border = '1px solid #DAE2E7';
+        setFieldError(false);
+      }
       setAttributes(newArray);
     }
     if (defaultFields) {
-      const elementIndex = defaultFields.findIndex((element: any) => element.attributeType === e.currentTarget.id);
+      const elementIndex = defaultFields.findIndex((element: any) => element.attributeType === id);
       const newArray = [...defaultFields];
-      newArray[elementIndex].attributeValue = e.currentTarget.value;
+      newArray[elementIndex].attributeValue = value;
+      if (value === '') {
+        dataObject.error = i18n.t('blankFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+        setFieldError(true);
+      } else if (value.length && dataObject.attributeType === 'phone' && !value.match(numberPattern)) {
+        dataObject.error = i18n.t('numericFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+        setFieldError(true);
+      } else {
+        dataObject.error = '';
+        inputElement.style.border = '1px solid #DAE2E7';
+        setFieldError(false);
+      }
       setDefaultFields(newArray);
     }
     if (contactFields) {
       const elementIndex = contactFields.findIndex((element: any) => element.attributeType === e.currentTarget.id);
       const newArray = [...contactFields];
       newArray[elementIndex].attributeValue = e.currentTarget.value;
+      if (value.length && dataObject.attributeType === 'email' && !value.match(emailPattern)) {
+        dataObject.error = i18n.t('emailFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+        setFieldError(true);
+      } else if (value.length && dataObject.attributeType === 'phone' && !value.match(numberPattern)) {
+        dataObject.error = i18n.t('numericFieldError');
+        inputElement.style.border = '1px solid #ED2024';
+        setFieldError(true);
+      } else {
+        dataObject.error = '';
+        inputElement.style.border = '1px solid #DAE2E7';
+        setFieldError(false);
+      }
       setContactFields(newArray);
     }
   };
@@ -179,7 +221,7 @@ const EditCustomer: React.FC<Props> = (data) => {
             obj.attributeType,
             obj.attributeValue ? obj.attributeValue : '',
             obj.valueId ? obj.valueId : '',
-            obj.attributeType === 'DATE_FIELD_TEST' ? 'date' : ''
+            obj.valueFormatDesc === 'DATE' ? 'date' : ''
           );
         })
       ).then((response) => {
@@ -191,7 +233,7 @@ const EditCustomer: React.FC<Props> = (data) => {
             customerData.data.businessPartner,
             obj.attributeType,
             obj.attributeValue ? obj.attributeValue : '',
-            obj.attributeType === 'DATE_FIELD_TEST' ? 'date' : ''
+            obj.valueFormatDesc === 'DATE' ? 'date' : ''
           );
         })
       ).then((dataItems) => {
@@ -328,8 +370,9 @@ const EditCustomer: React.FC<Props> = (data) => {
                               placeholder={obj.description}
                               id={obj.attributeType}
                               value={obj.attributeValue}
-                              onChange={onInputValueChange}
+                              onChange={(e) => onInputValueChange(e, obj)}
                             />
+                            <span className="form-hints">{obj?.error}</span>
                           </div>
                         );
                       })
@@ -369,8 +412,9 @@ const EditCustomer: React.FC<Props> = (data) => {
                                 placeholder={obj.description}
                                 id={obj.attributeType}
                                 value={obj.attributeValue}
-                                onChange={onInputValueChange}
+                                onChange={(e) => onInputValueChange(e, obj)}
                               />
+                              <span className="form-hints">{obj?.error}</span>
                             </div>
                           );
                         }
@@ -432,15 +476,19 @@ const EditCustomer: React.FC<Props> = (data) => {
                                 placeholder={obj.description}
                                 id={obj.attributeType}
                                 value={obj.attributeValue}
-                                onChange={onInputValueChange}
+                                onChange={(e) => onInputValueChange(e, obj)}
                               />
+                              <span className="form-hints">{obj?.error}</span>
                             </div>
                           );
                         }
                       })}
                 </div>
                 <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-                  <button className="customer-btn" onClick={updateCustomer} type="button">
+                  <button
+                    className={fieldError ? 'customer-btn disable-link' : 'customer-btn'}
+                    onClick={!fieldError ? updateCustomer : undefined}
+                    type="button">
                     {key === 'add contact fields' ? i18n.t('addContact') : i18n.t('save')}
                   </button>
                 </div>

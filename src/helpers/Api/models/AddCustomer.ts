@@ -1,3 +1,5 @@
+import { ErrorMessage } from './Approvals';
+
 export interface AddBusinessPartnerDefaultParams {
   area?: string;
   country?: string;
@@ -16,4 +18,6 @@ export interface AddBusinessPartnerResponse {
   data: {
     businessPartner: string;
   };
+  error?: string;
+  messages?: ErrorMessage[];
 }

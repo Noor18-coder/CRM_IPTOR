@@ -42,7 +42,6 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
     dispatch(setBusinessPartnerLoader(true));
     CustomerDetailsApi.updateContactDetails(selectedContact[0]);
     setTimeout(function () {
-      window.location.reload(false);
       dispatch(setBusinessPartnerLoader(false));
     }, 3000);
   };

@@ -188,6 +188,7 @@ const AddOpportunityDefaultFields: React.FC<Props> = ({ changeStep }) => {
                       className="form-control"
                       placeholder=""
                       contentEditable={false}
+                      disabled
                       value={contextValue.customerName}
                     />
                   ) : (

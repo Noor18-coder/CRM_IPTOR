@@ -91,7 +91,10 @@ const CustomerCard: React.FC<Data> = (props) => {
   };
 
   const openOpptyList = (flag: boolean) => {
-    history.push({ pathname: '/opportunities', state: { selectCustomer: props.data.businessPartner, activeOp: flag } });
+    history.push({
+      pathname: '/opportunities',
+      state: { selectCustomer: props.data.businessPartner, activeOp: flag, customerName: props.data.internalName },
+    });
   };
 
   const getUserName = (str: string) => {
