@@ -136,6 +136,13 @@ const OpportunityInfo: React.FC = () => {
               </button>
             </div>
           )}
+          {data.approvalStatus === APPROVAL_STATUS.APPROVED && data.approver !== user && (
+            <div className="rgt-col">
+              <button type="button" className="ghost-btn" onClick={() => toggleDrawer(true, logsData, 'approval', 'history', '')}>
+                {i18n.t('approvalHistory')}
+              </button>
+            </div>
+          )}
           {data.approvalStatus === APPROVAL_STATUS.REJECTED && data.approver !== user && (
             <div className="rgt-col">
               <button type="button" className="reject-btn" onClick={() => toggleDrawer(true, logsData, 'approval', 'history', '')}>
