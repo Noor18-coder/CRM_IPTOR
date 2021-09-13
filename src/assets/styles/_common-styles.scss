@@ -449,3 +449,80 @@ form {
 button.stepone-next-btn{
      margin-top: 40px;
 }
+
+.dshbrd-cards-dd {
+    border: none;
+    border-bottom: solid 2px $blue-bayoux;
+    @include border-radius(0);
+    height: 57px;
+    padding-bottom: 4px;
+    padding-left: 0;
+    width: auto;
+
+    font: {
+        weight: $font-weight-bold;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: $blue-bayoux !important;
+    }
+
+    &.inc-width {
+        width: 220px;
+    }
+}
+
+
+.dsbd-tabs {
+    border-bottom: none;
+    margin-top: 15px;
+
+    .nav-item {
+        .nav-link {
+            margin-bottom: 0;
+            border: none;
+            color: $limed-spruce;
+            padding-left: 10px;
+            padding-right: 0;
+
+            font: {
+                weight: $font-weight-regular;
+                size: $base-font-size;
+            }
+
+            &.active {
+                font: {
+                    weight: $font-weight-bold;
+                    size: $base-font-size;
+                }
+            }
+        }
+    }
+
+    &.lftside-tabs {
+        .nav-item {
+            .nav-link {
+                color: $bermuda-gray;
+                padding-left: 0;
+                padding-right: 22px;
+                background-color: transparent;
+
+                font: {
+                    size: $base-font-size;
+                    weight: $font-weight-semibold;
+                }
+
+                &.active {
+                    color: $limed-spruce;
+
+                    font: {
+                        weight: $font-weight-bold;
+                    }
+                }
+            }
+        }
+
+    }
+}

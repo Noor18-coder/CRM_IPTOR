@@ -23,3 +23,4 @@ export * from './ReportFilter';
 export * from './Approvals';
 export * from './Notes';
 export * from './ReasonCodes';
+export * from './DashboardInfo';

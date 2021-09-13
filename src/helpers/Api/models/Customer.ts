@@ -25,6 +25,7 @@ export interface BusinessPartnerListParams {
   crmAttributesTextSearch?: string;
   industry?: string;
   area?: string;
+  active?: boolean;
 }
 
 export interface BusinessPartnerFilterItem {

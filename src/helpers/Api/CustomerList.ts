@@ -31,6 +31,7 @@ export default class BusinessPartnerList {
       crmAttributesTextSearch: otherparams?.crmAttributesTextSearch,
       industry: otherparams?.industry,
       area: otherparams?.area,
+      active: otherparams?.active,
     };
     const requestData = new ApiRequest<BusinessPartnerListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });
     const response = await axios.post<BusinessPartnerListResponse>('/api/service', requestData);

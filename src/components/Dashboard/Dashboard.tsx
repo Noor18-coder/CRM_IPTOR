@@ -6,6 +6,7 @@ import { AppState } from '../../store/store';
 import Header from '../Shared/Header/Header';
 import Loader from '../Shared/Loader/Loader';
 import FooterMobile from '../Shared/Footer/FooterMobile';
+import DashboardWidgets from './DashboardWidgets';
 
 import {
   loadInitialConfig,
@@ -51,7 +52,7 @@ const Dashboard: React.FC = () => {
           <h1>Error Occurred!!!</h1>
         </div>
       ) : (
-        <h1> Dashboard </h1>
+        <DashboardWidgets />
       )}
       {isMobile || isTablet ? <FooterMobile page={0} /> : null}
     </>
