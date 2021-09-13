@@ -28,6 +28,7 @@ export const Constants = {
   INPROGRESS_DESC: 'inProgress DESC',
   TOTAL_DESC: 'total DESC',
   TOTAL_VALUE_DESC: 'totalValue DESC',
+  OPPORTUNITY_REPORT_COUNT: 100,
 };
 
 export const APPROVAL_STATUS = {

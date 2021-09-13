@@ -1,4 +1,5 @@
 export interface ProductList {
+  opportunityId: string;
   itemId: string;
   itemDescription: string;
   lineNumber: number;
@@ -23,7 +24,7 @@ export interface ContactsList {
 export interface ReportOpptyList {
   handler: string;
   reason: string;
-  endDate: Date;
+  endDate?: Date;
   rootId: string;
   estValueSys: number;
   logExist: boolean;
@@ -42,51 +43,51 @@ export interface ReportOpptyList {
   stage: string;
   forecastCategory: string;
   name: string;
-  mustYN: boolean;
+  mustYN?: boolean;
   salesman: string;
   activ: boolean;
-  startDate: string;
+  startDate?: string;
   desc: string;
   customer: string;
   currency: string;
   ACTION_PENDING: string;
-  CLOUD_OPP_SIZING: string;
-  CLOUD_Y1: number;
-  CLOUD_Y2: number;
-  CLOUD_Y3: number;
-  CLOUD_Y4: number;
-  CLOUD_Y5: number;
-  CLOUD_Y6: number;
-  CLOUD_Y7: number;
-  CMP_ONE_OFF_FEE: number;
-  CMS_PRESALE_CONS: number;
-  CONTACT_TERM_M: number;
-  ENTER_ILF_OPP_VALUE: number;
-  LEADSOURCE: string;
-  LICENSE_CATEGORY: string;
-  LICENSE_SUM: number;
-  MAINT_SUPP_FIRST_Y: number;
-  NEXTSTEP: string;
-  PARTNER: string;
-  PBU: string;
-  PRESALE_CONULTANT: string;
-  PS_REVENUE_GENERATED: number;
-  REGION: string;
-  REP_ANNUAL_REVE_CMS: number;
-  REP_ANNUAL_REVE_CS: number;
-  REP_ANNUAL_REVENUE: number;
-  RLF_VALUE: string;
-  SUBSCRIPTION_Y1: number;
-  SUBSCRIPTION_Y2: number;
-  SUBSCRIPTION_Y3: number;
-  SUBSCRIPTION_Y4: number;
-  SUBSCRIPTION_Y5: number;
-  SUBSCRIPTION_Y6: number;
-  SUBSCRIPTION_Y7: number;
-  TEST_NUMERIC_MANDATO: number;
-  THIRD_PARTY_COGS: number;
-  products: ProductList[];
-  contacts: ContactsList[];
+  CLOUD_OPP_SIZING: string | string[];
+  CLOUD_Y1: number | number[];
+  CLOUD_Y2: number | number[];
+  CLOUD_Y3: number | number[];
+  CLOUD_Y4: number | number[];
+  CLOUD_Y5: number | number[];
+  CLOUD_Y6: number | number[];
+  CLOUD_Y7: number | number[];
+  CMP_ONE_OFF_FEE: number | number[];
+  CMS_PRESALE_CONS: number | number[];
+  CONTACT_TERM_M: number | number[];
+  ENTER_ILF_OPP_VALUE: number | number[];
+  LEADSOURCE: string | string[];
+  LICENSE_CATEGORY: string | string[];
+  LICENSE_SUM: number | number[];
+  MAINT_SUPP_FIRST_Y: number | number[];
+  NEXTSTEP: string | string[];
+  PARTNER: string | string[];
+  PBU: string | string[];
+  PRESALE_CONULTANT: string | string[];
+  PS_REVENUE_GENERATED: number | number[];
+  REGION: string | string[];
+  REP_ANNUAL_REVE_CMS: number | number[];
+  REP_ANNUAL_REVE_CS: number | number[];
+  REP_ANNUAL_REVENUE: number | number[];
+  RLF_VALUE: string | string[];
+  SUBSCRIPTION_Y1: number | number[];
+  SUBSCRIPTION_Y2: number | number[];
+  SUBSCRIPTION_Y3: number | number[];
+  SUBSCRIPTION_Y4: number | number[];
+  SUBSCRIPTION_Y5: number | number[];
+  SUBSCRIPTION_Y6: number | number[];
+  SUBSCRIPTION_Y7: number | number[];
+  TEST_NUMERIC_MANDATO: number | number[];
+  THIRD_PARTY_COGS: number | number[];
+  products?: ProductList[];
+  contacts?: ContactsList[];
 }
 
 export interface ReportsOpptyParams {
@@ -116,7 +117,7 @@ export interface ReportsOpptyResponse {
   control?: {
     total: number;
   };
-  data: {
+  data?: {
     items: ReportOpptyList[];
   };
 }

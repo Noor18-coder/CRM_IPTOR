@@ -11,9 +11,9 @@ export class ReportsOpptyList {
    * Helper function to fetch Report Opportunity List
    * @returns  Opportunity Report
    */
-  static async get(filterParams: apiModels.ReportRequestParams): Promise<apiModels.ReportOpptyList[]> {
-    const requestData = new ApiRequest<apiModels.ReportRequestParams>(this.apiMethod, filterParams);
+  static async get(filterParams: apiModels.ReportRequestParams, offset: number, limit: number): Promise<apiModels.ReportsOpptyResponse> {
+    const requestData = new ApiRequest<apiModels.ReportRequestParams>(this.apiMethod, filterParams, { limit, offset });
     const response = await axios.post<apiModels.ReportsOpptyResponse>('/api/service', requestData);
-    return get(response, 'data.data.items', []);
+    return get(response, 'data', {});
   }
 }

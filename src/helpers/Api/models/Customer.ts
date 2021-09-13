@@ -45,15 +45,34 @@ export interface BusinessPartnerListItem {
   addressLine3: string;
   addressLine4: string;
   country: string;
-  creationDate: Date;
+  creationDate?: Date;
   postalCode: string;
   phone: number;
-  industry: string;
-  owner: string;
   numberOfActiveOpportunities: number;
   active: boolean;
-  addresses: AddressesList[];
-  contacts: CustomerContactsList[];
+  attributeExist: boolean;
+  BASICTEST2: number | number[];
+  BASICTEST3: boolean;
+  BOOL_FIELD_TEST: boolean;
+  CAMPAIGN: string | string[];
+  CMS_ACCOUNT_OWNER: string | string[];
+  CMS_SERVICES: string | string[];
+  CURRENT_SYSTEM: string | string[];
+  CUSTOMER_AT_RISK: boolean;
+  CUSTOMER_UNTIL: string | string[];
+  DC1_VERSION: string | string[];
+  DO_NOT_CONTACT: boolean;
+  industry: string | string[];
+  IP1_VERSION: string | string[];
+  NUMERIC_TEST_FIELD: number | number[];
+  owner: string | string[];
+  productFamily: string | string[];
+  PARENT_ID: string | string[];
+  PERP_USE_MAINT_CONV: boolean;
+  REFERENCEABLE: boolean;
+  TYPE: string | string[];
+  addresses?: AddressesList[];
+  contacts?: CustomerContactsList[];
 }
 
 export interface BusinessPartnerListParams {

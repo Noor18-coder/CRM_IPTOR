@@ -16,6 +16,7 @@ import { setBusinessPartnerLoader } from '../../store/AddCustomer/Actions';
 import Loader from '../Shared/Loader/Loader';
 import { getEndDateOfQuarterAndYear, getStartDateOfQuarterAndYear } from '../../helpers/utilities/lib';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
+import { Constants } from '../../config/Constants';
 
 const Reports: React.FC = () => {
   const state: AppState = useSelector((reportState: AppState) => reportState);
@@ -26,11 +27,11 @@ const Reports: React.FC = () => {
   const [showOpportunityResults, setShowOpportunityResults] = React.useState(false);
   const [selectedReport, setSelectedReport] = React.useState<string>('Opportunity');
   const [opportunityList, setReportsOpptyBasicList] = React.useState<apiModels.ReportOpptyList[]>([]);
-  const [opptyProdList, setReportsopptyProdList] = React.useState<apiModels.ReportOpptyList[]>([]);
-  const [opptyContList, setReportsopptyContList] = React.useState<apiModels.ReportOpptyList[]>([]);
+  const [opptyProdList, setReportsopptyProdList] = React.useState<apiModels.ProductList[]>([]);
+  const [opptyContList, setReportsopptyContList] = React.useState<apiModels.ContactsList[]>([]);
   const [customerList, setcustomerList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
-  const [custAddrList, setcustAddrList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
-  const [custContList, setcustcontList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
+  const [custAddrList, setcustAddrList] = React.useState<apiModels.AddressesList[]>([]);
+  const [custContList, setcustcontList] = React.useState<apiModels.CustomerContactsList[]>([]);
 
   const csvLinkRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const csvProdRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
@@ -57,8 +58,8 @@ const Reports: React.FC = () => {
   }, []);
   const OpportunityButton = selectedReport === 'Opportunity' ? ' active' : '';
   const CustomerButton = selectedReport === 'Customer' ? ' active' : '';
+
   const fetchOpptyList = async () => {
-    dispatch(setBusinessPartnerLoader(true));
     const params: apiModels.SelectedFilters = JSON.parse(JSON.stringify(state.reports.opportunityReportsParams));
     const dateParams = params.selectCloseDate.map((CloseDate: string) => {
       return {
@@ -72,7 +73,69 @@ const Reports: React.FC = () => {
       selectForecastCategory: params.selectForecastCategory,
       selectCloseDate: dateParams,
     };
-    const data: any = await ReportsOpptyList.get(opptyReportRequestParams);
+
+    const allData: apiModels.ReportOpptyList[] = [];
+    const prodData: apiModels.ProductList[] = [];
+    const contData: apiModels.ContactsList[] = [];
+
+    let newOffset = 0;
+
+    dispatch(setBusinessPartnerLoader(true));
+    const data: any = await ReportsOpptyList.get(opptyReportRequestParams, newOffset, Constants.OPPORTUNITY_REPORT_COUNT);
+
+    if (data && data.control && data.control.total && newOffset < data.control.total) {
+      const Promises = [];
+      newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
+      while (newOffset < data.control.total) {
+        const p1 = ReportsOpptyList.get(opptyReportRequestParams, newOffset, Constants.OPPORTUNITY_REPORT_COUNT);
+        Promises.push(p1);
+        newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
+      }
+
+      Promise.all(Promises).then((response: any) => {
+        dispatch(setBusinessPartnerLoader(false));
+        response.forEach((res: any) => {
+          allData.splice(allData.length, 0, ...res.data.items);
+        });
+        response.forEach((res: any) => {
+          res.data.items.forEach((rptData: apiModels.ReportOpptyList) => {
+            if (rptData.products) {
+              rptData.products.forEach((pData: apiModels.ProductList) => {
+                prodData.splice(prodData.length, 0, pData);
+              });
+            }
+            if (rptData.contacts) {
+              rptData.contacts.forEach((cData: apiModels.ContactsList) => {
+                contData.splice(contData.length, 0, cData);
+              });
+            }
+          });
+        });
+        createOpportunityReports(allData);
+        createProdReports(prodData);
+        createContReports(contData);
+      });
+    } else {
+      allData.push(data.data.items);
+      data.data.items.forEach((rptData: apiModels.ReportOpptyList) => {
+        if (rptData.products) {
+          rptData.products.forEach((pData: apiModels.ProductList) => {
+            prodData.push(pData);
+          });
+        }
+        if (rptData.contacts) {
+          rptData.contacts.forEach((cData: apiModels.ContactsList) => {
+            contData.push(cData);
+          });
+        }
+      });
+      createOpportunityReports(allData);
+      createProdReports(prodData);
+      createContReports(contData);
+    }
+  };
+
+  const createOpportunityReports = (data: apiModels.ReportOpptyList[]) => {
     const opptReportsData = data.map((rptobj: apiModels.ReportOpptyList) => {
       const getCsvValues = (objValue: any) => {
         if (isArray(objValue)) {
@@ -150,62 +213,56 @@ const Reports: React.FC = () => {
         THIRD_PARTY_COGS: getCsvValues(rptobj.THIRD_PARTY_COGS),
       };
     });
-    const opptReportsProdData = data.map((pobj: apiModels.ReportOpptyList) => {
-      return (
-        pobj.products &&
-        pobj.products.map((prodpobj: apiModels.ProductList) => {
-          return {
-            opportunityId: pobj.opportunityId,
-            itemId: prodpobj.itemId,
-            itemDescription: prodpobj.itemDescription,
-            lineNumber: prodpobj.lineNumber,
-            item: prodpobj.item,
-            ourPrice: prodpobj.ourPrice,
-            systemPrice: prodpobj.systemPrice,
-            quantity: prodpobj.quantity,
-            unit: prodpobj.unit,
-            isFreeOfCharge: prodpobj.isFreeOfCharge,
-          };
-        })
-      );
-    });
+    setReportsOpptyBasicList(opptReportsData);
+    csvLinkRef?.current?.link.click();
+  };
 
+  const createProdReports = (data: apiModels.ProductList[]) => {
+    const opptReportsProdData = data.map((pobj: apiModels.ProductList) => {
+      return {
+        opportunityId: pobj.opportunityId,
+        itemId: pobj.itemId,
+        itemDescription: pobj.itemDescription,
+        lineNumber: pobj.lineNumber,
+        item: pobj.item,
+        ourPrice: pobj.ourPrice,
+        systemPrice: pobj.systemPrice,
+        quantity: pobj.quantity,
+        unit: pobj.unit,
+        isFreeOfCharge: pobj.isFreeOfCharge,
+      };
+    });
     const prodObj = opptReportsProdData.flat().filter(function prod(element: any) {
       return element !== undefined;
     });
+    setReportsopptyProdList(prodObj);
+    csvProdRef?.current?.link.click();
+  };
 
-    const opptReportsContData = data.map((cobj: apiModels.ReportOpptyList) => {
-      return (
-        cobj.contacts &&
-        cobj.contacts.map((contObj: apiModels.ContactsList) => {
-          return {
-            opportunityId: cobj.opportunityId,
-            contactId: contObj.contactId,
-            contactPerson: contObj.contactPerson,
-            contactDC: contObj.contactDC,
-            email: contObj.email,
-            phone: contObj.phone,
-            mobile: contObj.mobile,
-            fax: contObj.fax,
-          };
-        })
-      );
+  const createContReports = (data: apiModels.ContactsList[]) => {
+    const opptReportsContData = data.map((cObj: apiModels.ContactsList) => {
+      return {
+        contactId: cObj.contactId,
+        contactPerson: cObj.contactPerson,
+        contactDC: cObj.contactDC,
+        email: cObj.email,
+        phone: cObj.phone,
+        mobile: cObj.mobile,
+        fax: cObj.fax,
+      };
     });
-
     const contactObj = opptReportsContData.flat().filter(function contact(element: any) {
       return element !== undefined;
     });
-    setReportsOpptyBasicList(opptReportsData);
-    setReportsopptyProdList(prodObj);
     setReportsopptyContList(contactObj);
-    csvLinkRef?.current?.link.click();
-    csvProdRef?.current?.link.click();
     csvContRef?.current?.link.click();
-    dispatch(setBusinessPartnerLoader(false));
   };
 
   const onDownloadReport = () => {
     fetchOpptyList();
+    setReportsOpptyBasicList([]);
+    setReportsopptyProdList([]);
+    setReportsopptyContList([]);
   };
 
   const opptHeaders = [
@@ -273,7 +330,6 @@ const Reports: React.FC = () => {
   ];
 
   const opptProdHeaders = [
-    { label: 'Opportunity Id', key: 'opportunityId' },
     { label: 'Item Id', key: 'itemId' },
     { label: 'Item Desc', key: 'itemDescription' },
     { label: 'Line Number', key: 'lineNumber' },
@@ -286,7 +342,6 @@ const Reports: React.FC = () => {
   ];
 
   const opptContHeaders = [
-    { label: 'Opportunity Id', key: 'opportunityId' },
     { label: 'Contact Id', key: 'contactId' },
     { label: 'contact Person', key: 'contactPerson' },
     { label: 'Contact DC', key: 'contactDC' },
@@ -299,8 +354,78 @@ const Reports: React.FC = () => {
   const fetchCustomerList = async () => {
     dispatch(setBusinessPartnerLoader(true));
     const params: apiModels.CustomerFilters = state.reports.customerReportParams;
-    const data: any = await BusinessPartnerList.get('', 50, 0, '', params);
-    const custReportsData = data.data.items.map((obj: apiModels.BusinessPartnerListItem) => {
+
+    const allData: apiModels.BusinessPartnerListItem[] = [];
+    const addrData: apiModels.AddressesList[] = [];
+    const contData: apiModels.CustomerContactsList[] = [];
+    let newOffset = 0;
+
+    dispatch(setBusinessPartnerLoader(true));
+    const data: any = await BusinessPartnerList.get('', Constants.OPPORTUNITY_REPORT_COUNT, newOffset, '', params);
+
+    if (data && data.control && data.control.total && newOffset < data.control.total) {
+      const Promises = [];
+      newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
+      while (newOffset < data.control.total) {
+        const p1 = BusinessPartnerList.get('', Constants.OPPORTUNITY_REPORT_COUNT, newOffset, '', params);
+        Promises.push(p1);
+        newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
+      }
+
+      Promise.all(Promises).then((response: any) => {
+        dispatch(setBusinessPartnerLoader(false));
+        response.forEach((res: any) => {
+          allData.splice(allData.length, 0, ...res.data.items);
+          res.data.items.forEach((rptData: apiModels.BusinessPartnerListItem) => {
+            if (rptData.addresses) {
+              rptData.addresses.forEach((aData: apiModels.AddressesList) => {
+                addrData.splice(addrData.length, 0, aData);
+              });
+            }
+            if (rptData.contacts) {
+              rptData.contacts.forEach((cData: apiModels.CustomerContactsList) => {
+                contData.splice(contData.length, 0, cData);
+              });
+            }
+          });
+        });
+        createCustomerReportsData(allData);
+        createAddressReports(addrData);
+        createCustomerContactsReports(contData);
+      });
+    } else if (data && data.data && data.data.items && data.data.items.length) {
+      data.data.items.forEach((rptData: apiModels.BusinessPartnerListItem) => {
+        if (rptData.addresses) {
+          rptData.addresses.forEach((aData: apiModels.AddressesList) => {
+            addrData.push(aData);
+          });
+        }
+        if (rptData.contacts) {
+          rptData.contacts.forEach((cData: apiModels.CustomerContactsList) => {
+            contData.push(cData);
+          });
+        }
+      });
+      dispatch(setBusinessPartnerLoader(false));
+      createCustomerReportsData(data.data.items);
+      createAddressReports(addrData);
+      createCustomerContactsReports(contData);
+    }
+  };
+
+  const createCustomerReportsData = (data: apiModels.BusinessPartnerListItem[]) => {
+    const custReportsData = data.map((obj: apiModels.BusinessPartnerListItem) => {
+      const getCsvValues = (objValue: any) => {
+        if (isArray(objValue)) {
+          return Array.prototype.map
+            .call(objValue, function csvFormat(csvobj) {
+              return csvobj;
+            })
+            .join(',');
+        } else {
+          return objValue;
+        }
+      };
       return {
         businessPartner: obj.businessPartner,
         description: obj.description,
@@ -314,83 +439,94 @@ const Reports: React.FC = () => {
         country: obj.country,
         postalCode: obj.postalCode,
         phone: obj.phone,
-        industry: obj.industry,
-        owner: obj.owner,
         numberOfActiveOpportunities: obj.numberOfActiveOpportunities,
         active: obj.active,
+        attributeExist: obj.attributeExist,
+        BASICTEST2: getCsvValues(obj.BASICTEST2),
+        BASICTEST3: getCsvValues(obj.BASICTEST3),
+        BOOL_FIELD_TEST: getCsvValues(obj.BOOL_FIELD_TEST),
+        CAMPAIGN: getCsvValues(obj.CAMPAIGN),
+        CMS_ACCOUNT_OWNER: getCsvValues(obj.CMS_ACCOUNT_OWNER),
+        CMS_SERVICES: getCsvValues(obj.CMS_SERVICES),
+        CURRENT_SYSTEM: getCsvValues(obj.CURRENT_SYSTEM),
+        CUSTOMER_AT_RISK: getCsvValues(obj.CUSTOMER_AT_RISK),
+        CUSTOMER_UNTIL: getCsvValues(obj.CUSTOMER_UNTIL),
+        DC1_VERSION: getCsvValues(obj.DC1_VERSION),
+        DO_NOT_CONTACT: getCsvValues(obj.DO_NOT_CONTACT),
+        industry: getCsvValues(obj.industry),
+        IP1_VERSION: getCsvValues(obj.IP1_VERSION),
+        NUMERIC_TEST_FIELD: getCsvValues(obj.NUMERIC_TEST_FIELD),
+        owner: getCsvValues(obj.owner),
+        productFamily: getCsvValues(obj.productFamily),
+        PARENT_ID: getCsvValues(obj.PARENT_ID),
+        PERP_USE_MAINT_CONV: getCsvValues(obj.PERP_USE_MAINT_CONV),
+        REFERENCEABLE: getCsvValues(obj.REFERENCEABLE),
+        TYPE: getCsvValues(obj.TYPE),
       };
     });
-
-    const custReportsAddressData = data.data.items.map((aobj: apiModels.BusinessPartnerListItem) => {
-      return (
-        aobj.addresses &&
-        aobj.addresses.map((addrobj: apiModels.AddressesList) => {
-          return {
-            address: addrobj.address,
-            name: addrobj.name,
-            addressLine1: addrobj.addressLine1,
-            addressLine2: addrobj.addressLine2,
-            addressLine4: addrobj.addressLine4,
-            postalCode: addrobj.postalCode,
-            country: addrobj.country,
-            isDispatchAddress: addrobj.isDispatchAddress,
-            isConfirmationAddress: addrobj.isConfirmationAddress,
-            isInvoiceAddress: addrobj.isInvoiceAddress,
-            isDebtorAddress: addrobj.isDebtorAddress,
-            isPurchaseOrderAddress: addrobj.isPurchaseOrderAddress,
-            isPayeeAddress: addrobj.isPayeeAddress,
-            isSupplierDispatchAddress: addrobj.isSupplierDispatchAddress,
-            isMsdsAddress: addrobj.isMsdsAddress,
-            isDirectDeliveryPreferred: addrobj.isDirectDeliveryPreferred,
-            isDEAAddress: addrobj.isDEAAddress,
-            isValidAsShipToAddress: addrobj.isValidAsShipToAddress,
-          };
-        })
-      );
-    });
-
-    const AddressesObj = custReportsAddressData.flat().filter(function addr(element: any) {
-      return element !== undefined;
-    });
-
-    const custReportsContactsData = data.data.items.map((cobj: apiModels.BusinessPartnerListItem) => {
-      return (
-        cobj.contacts &&
-        cobj.contacts.map((contobj: apiModels.CustomerContactsList) => {
-          return {
-            contactDC: contobj.contactDC,
-            contactPerson: contobj.contactPerson,
-            isPublicContact: contobj.isPublicContact,
-            userID: contobj.userID,
-            phone: contobj.phone,
-            email: contobj.email,
-            fax: contobj.fax,
-            DO_NOT_CONTACT: contobj.DO_NOT_CONTACT,
-            NO_LONGER_AT_COMP: contobj.NO_LONGER_AT_COMP,
-            OPTED_OUT_OF_EMAIL: contobj.OPTED_OUT_OF_EMAIL,
-            PRIMARY_CONTACT: contobj.PRIMARY_CONTACT,
-            TITLE: contobj.TITLE,
-          };
-        })
-      );
-    });
-
-    const ContactsObj = custReportsContactsData.flat().filter(function addr(element: any) {
-      return element !== undefined;
-    });
-
     setcustomerList(custReportsData);
-    setcustAddrList(AddressesObj);
-    setcustcontList(ContactsObj);
     csvCustLinkRef?.current?.link.click();
-    csvAddrRef?.current?.link.click();
-    csvCustContRef?.current?.link.click();
+  };
 
-    dispatch(setBusinessPartnerLoader(false));
+  const createAddressReports = (data: apiModels.AddressesList[]) => {
+    const custReportsAddressData = data.map((addrobj: apiModels.AddressesList) => {
+      return {
+        address: addrobj.address,
+        name: addrobj.name,
+        addressLine1: addrobj.addressLine1,
+        addressLine2: addrobj.addressLine2,
+        addressLine4: addrobj.addressLine4,
+        postalCode: addrobj.postalCode,
+        country: addrobj.country,
+        isDispatchAddress: addrobj.isDispatchAddress,
+        isConfirmationAddress: addrobj.isConfirmationAddress,
+        isInvoiceAddress: addrobj.isInvoiceAddress,
+        isDebtorAddress: addrobj.isDebtorAddress,
+        isPurchaseOrderAddress: addrobj.isPurchaseOrderAddress,
+        isPayeeAddress: addrobj.isPayeeAddress,
+        isSupplierDispatchAddress: addrobj.isSupplierDispatchAddress,
+        isMsdsAddress: addrobj.isMsdsAddress,
+        isDirectDeliveryPreferred: addrobj.isDirectDeliveryPreferred,
+        isDEAAddress: addrobj.isDEAAddress,
+        isValidAsShipToAddress: addrobj.isValidAsShipToAddress,
+      };
+    });
+    const AddressesObj = custReportsAddressData.flat().filter(function prod(element: any) {
+      return element !== undefined;
+    });
+    setcustAddrList(AddressesObj);
+    csvAddrRef?.current?.link.click();
+  };
+
+  const createCustomerContactsReports = (data: apiModels.CustomerContactsList[]) => {
+    const custReportsContactsData = data.map((contobj: apiModels.CustomerContactsList) => {
+      return {
+        contactDC: contobj.contactDC,
+        contactPerson: contobj.contactPerson,
+        isPublicContact: contobj.isPublicContact,
+        userID: contobj.userID,
+        phone: contobj.phone,
+        email: contobj.email,
+        fax: contobj.fax,
+        DO_NOT_CONTACT: contobj.DO_NOT_CONTACT,
+        NO_LONGER_AT_COMP: contobj.NO_LONGER_AT_COMP,
+        OPTED_OUT_OF_EMAIL: contobj.OPTED_OUT_OF_EMAIL,
+        PRIMARY_CONTACT: contobj.PRIMARY_CONTACT,
+        TITLE: contobj.TITLE,
+      };
+    });
+    const contactsObj = custReportsContactsData.flat().filter(function addr(element: any) {
+      return element !== undefined;
+    });
+    setcustcontList(contactsObj);
+    csvCustContRef?.current?.link.click();
   };
 
   const onDownloadCustReport = () => {
     fetchCustomerList();
+    setcustomerList([]);
+    setcustAddrList([]);
+    setcustcontList([]);
   };
   const custHeaders = [
     { label: 'BusinessPartner Id', key: 'businessPartner' },
@@ -405,10 +541,26 @@ const Reports: React.FC = () => {
     { label: 'Country', key: 'country' },
     { label: 'Postal Code', key: 'postalCode' },
     { label: 'Phone', key: 'phone' },
-    { label: 'Industry', key: 'industry' },
-    { label: 'Owner', key: 'owner' },
     { label: 'Number Of ActiveOpportunities', key: 'numberOfActiveOpportunities' },
     { label: 'Active', key: 'active' },
+    { label: 'BASICTEST2', key: 'BASICTEST2' },
+    { label: 'BASICTEST3', key: 'BASICTEST3' },
+    { label: 'BOOL_FIELD_TEST', key: 'BOOL_FIELD_TEST' },
+    { label: 'CMS_ACCOUNT_OWNER', key: 'CMS_ACCOUNT_OWNER' },
+    { label: 'CMS_SERVICES', key: 'CMS_SERVICES' },
+    { label: 'CURRENT_SYSTEM', key: 'CURRENT_SYSTEM' },
+    { label: 'CUSTOMER_AT_RISK', key: 'CUSTOMER_AT_RISK' },
+    { label: 'CUSTOMER_UNTIL', key: 'CUSTOMER_UNTIL' },
+    { label: 'DC1_VERSION', key: 'DC1_VERSION' },
+    { label: 'Industry', key: 'industry' },
+    { label: 'IP1_VERSION', key: 'IP1_VERSION' },
+    { label: 'NUMERIC_TEST_FIELD', key: 'NUMERIC_TEST_FIELD' },
+    { label: 'owner', key: 'owner' },
+    { label: 'productFamily', key: 'productFamily' },
+    { label: 'PARENT_ID', key: 'PARENT_ID' },
+    { label: 'PERP_USE_MAINT_CONV', key: 'PERP_USE_MAINT_CONV' },
+    { label: 'REFERENCEABLE', key: 'REFERENCEABLE' },
+    { label: 'TYPE', key: 'TYPE' },
   ];
 
   const custAddrHeaders = [
