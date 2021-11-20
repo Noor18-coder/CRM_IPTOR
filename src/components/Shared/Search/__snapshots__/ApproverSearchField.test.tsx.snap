@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] ApproverSearchField should renders correctly 1`] = `
+Array [
+  <input
+    className="form-control"
+    disabled={false}
+    type="text"
+    value="theValue"
+  />,
+  <button
+    className="edit-approver-name"
+    onClick={[Function]}
+    type="button"
+  >
+    <img
+      alt="edit"
+      src="edit-icon.svg"
+    />
+  </button>,
+]
+`;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-bootstrap';
 import logo from '../../../assets/images/iptor-logo-white.svg';
 
-const LeftColmData = () => {
+const LeftColmData = (): JSX.Element => {
   return (
     <div className="login-lft-cont-container">
       <Image className="login-cont-logo" src={logo} alt="Iptor" title="Iptor" />

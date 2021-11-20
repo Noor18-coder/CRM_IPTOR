@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] UserSearchField should renders correctly 1`] = `
+<input
+  className="form-control"
+  onFocus={[Function]}
+  type="text"
+  value=""
+/>
+`;

@@ -1,0 +1,341 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[CustomerDetails] CustomerCard should renders correctly 1`] = `
+Array [
+  <section
+    className="sec-info-accordion mob-moreinfo-accordion"
+  >
+    <div
+      className="accordion"
+    >
+      <div
+        className="cust-details card"
+      >
+        <a
+          className="card-link"
+          onClick={[Function]}
+        >
+          Basic Info
+        </a>
+        <div
+          aria-expanded={null}
+          className="collapse"
+        >
+          <div
+            className="accr-body-container card-body"
+          >
+            <div
+              className="group-icon"
+            >
+              <img
+                alt="Edit"
+                className="action-icon"
+                onClick={[Function]}
+                src="edit-icon.svg"
+                title="Edit"
+              />
+            </div>
+            <ul
+              className="list-inline bdy-list-item accr-list-columns padd-24"
+            >
+              <li
+                className="list-inline-item"
+              >
+                <span>
+                  Contact Address
+                </span>
+                
+              </li>
+              <li
+                className="list-inline-item"
+              >
+                <span>
+                  Area
+                </span>
+                --
+              </li>
+              <li
+                className="list-inline-item"
+              >
+                <span>
+                  Phone Number
+                </span>
+                --
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>,
+  <section
+    className="sec-info-accordion"
+  />,
+  <section
+    className="d-flex justify-content-between align-items-center sec-customer-desc"
+  >
+    <div
+      className="accr-body-container"
+    >
+      <ul
+        className="list-inline bdy-list-item owner-section d-flex align-items-center"
+      >
+        <li
+          className="list-inline-item"
+        >
+          <span>
+            Account owner
+          </span>
+           
+          --
+        </li>
+        <li
+          className="list-inline-item"
+        >
+          <img
+            alt="phone"
+            className=""
+            src="phone.svg"
+            title="phone"
+            width="25"
+          />
+            
+          --
+        </li>
+        <li
+          className="list-inline-item"
+        >
+          <img
+            alt="mail"
+            className=""
+            src="mail.svg"
+            title="mail"
+            width="25"
+          />
+             
+          --
+        </li>
+      </ul>
+    </div>
+  </section>,
+  <section
+    className="d-flex align-items-center sec-customer-desc"
+  >
+    <div
+      className="cust-group"
+    >
+      <p>
+        Product Family
+      </p>
+    </div>
+  </section>,
+  <section
+    className="sec-info-accordion"
+  >
+    <div
+      className="accordion"
+    >
+      <div
+        className="contact-class card"
+      >
+        <a
+          className="card-link"
+          onClick={[Function]}
+        >
+          <span
+            className="cust-title"
+          >
+             All Contact
+          </span>
+          <span
+            className="cust-info"
+          >
+            <span>
+              1
+               CONTACTS
+            </span>
+          </span>
+          <img
+            alt="Add"
+            className="add-img action-icon"
+            onClick={[Function]}
+            src="add_btn.svg"
+            title="Add"
+          />
+        </a>
+        <div
+          aria-expanded={null}
+          className="collapse"
+        >
+          <div
+            className="accr-body-container customers-comp"
+          >
+            <div
+              className="container-fluid"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-md-4"
+                >
+                  <div
+                    className="accordian-card mb-4 card"
+                  >
+                    <div
+                      className="card-body"
+                    >
+                      <div
+                        className="name-add-sec"
+                      >
+                        <p
+                          className="person-name-desig"
+                        >
+                          <span
+                            className="name"
+                          >
+                            New
+                          </span>
+                        </p>
+                        <p
+                          className="mailid"
+                        >
+                          Plastic
+                        </p>
+                        <p
+                          className="contact-num"
+                        >
+                          5130757854
+                        </p>
+                         
+                        <br />
+                        <p
+                          className="contact-address"
+                        >
+                          <span
+                            className="line1"
+                          >
+                            Profound
+                          </span>
+                        </p>
+                      </div>
+                      <div
+                        className="card-action-icons"
+                      >
+                        <img
+                          alt="Delete"
+                          className="card-delete action-icon"
+                          height="20"
+                          onClick={[Function]}
+                          src="close.svg"
+                          title="Delete"
+                        />
+                        <img
+                          alt="Edit"
+                          className="action-icon"
+                          onClick={[Function]}
+                          src="edit-icon.svg"
+                          title="Edit"
+                        />
+                      </div>
+                      <div
+                        className="active-switch"
+                      >
+                        <span
+                          className="active-text"
+                        >
+                          Active
+                          <label
+                            className="switch active-box"
+                          >
+                            <input
+                              checked={true}
+                              disabled={false}
+                              id="ACTIVE"
+                              onChange={[Function]}
+                              tabIndex={0}
+                              type="checkbox"
+                            />
+                            <span
+                              className="slider round"
+                            >
+                               
+                            </span>
+                          </label>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>,
+  <section
+    className="d-flex sec-customer-desc"
+  >
+    <div
+      className="cust-group"
+    >
+      <p>
+        Opportunities
+      </p>
+    </div>
+    <div
+      className="group-sec"
+    >
+      <ul
+        className="list-inline"
+      >
+        <li
+          className="list-inline-item"
+        >
+          <span
+            className="cust-info"
+            role="presentation"
+          >
+            0
+             ACTIVE
+          </span>
+           
+        </li>
+        <li
+          className="list-inline-item"
+        >
+          <span
+            className="cust-info"
+            role="presentation"
+          >
+            0
+             CLOSED
+          </span>
+        </li>
+        <li
+          className="list-inline-item"
+        >
+          <span
+            className="cust-info"
+          >
+            0
+             TOTAL
+          </span>
+        </li>
+      </ul>
+    </div>
+  </section>,
+  <section
+    className="d-flex sec-customer-desc"
+  >
+    <div
+      className="cust-group"
+    >
+      <p>
+        Subsidiary - Entity
+      </p>
+    </div>
+  </section>,
+]
+`;

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import _ from 'lodash';
 import { OpportunityListItem, OpportunityFilterItem } from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
 import OpportunityCard from './OpportunityCard';
@@ -68,17 +69,18 @@ const OpportunityListMobile: React.FC<Props> = ({ getDataRows, refresh }) => {
   };
 
   const openOpptyDetails = (obj: OpportunityListItem) => {
-    const opptyId = obj && obj && obj.opportunityId;
+    const opptyId = obj && obj.opportunityId;
     if (opptyId) {
       history.push({ pathname: '/opp-details', state: { oppid: opptyId } });
     }
   };
 
+  const uOppts = _.uniqWith(opportunities, _.isEqual);
   return (
     <>
       <section className="mobile-cardview-list">
-        {opportunities?.map((obj, index) => {
-          if (index + 1 === opportunities.length) {
+        {uOppts?.map((obj, index) => {
+          if (index + 1 === uOppts.length) {
             return (
               <div role="presentation" key={obj.opportunityId} className="card-section" onClick={() => openOpptyDetails(obj)} ref={lastOpptyElement}>
                 <OpportunityCard opportunity={obj} name={getName(obj.handler)} />

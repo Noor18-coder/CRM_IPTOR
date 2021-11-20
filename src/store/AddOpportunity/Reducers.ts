@@ -16,6 +16,7 @@ export const createAddOpportunitInitialState = (): AddOpportunityState => {
     attributes: [],
     items: [],
     contacts: [],
+    products: [],
     success: false,
     error: '',
   };
@@ -60,6 +61,11 @@ const addOpportunityReducer: Reducer<AddOpportunityState, AddOpportunityReduxAct
         ...state,
         contacts: action.contacts,
       };
+    case AddOpportunityTypes.SAVE_ADD_OPPTY_PRODUCTS:
+      return {
+        ...state,
+        products: action.products,
+      };
     case AddOpportunityTypes.SET_ADD_OPPORTUNITY_SUCCESS:
       return {
         ...state,
@@ -79,6 +85,7 @@ const addOpportunityReducer: Reducer<AddOpportunityState, AddOpportunityReduxAct
         attributes: [],
         items: [],
         contacts: [],
+        products: [],
         error: '',
         success: false,
       };

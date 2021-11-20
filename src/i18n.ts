@@ -28,7 +28,7 @@ i18n
     resources,
     lng: 'en',
     fallbackLng: 'en',
-    debug: true,
+    debug: process.env.NODE_ENV === 'development',
 
     keySeparator: false,
 

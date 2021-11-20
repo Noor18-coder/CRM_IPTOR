@@ -1,11 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import i18n from '../../i18n';
 import LineChart from '../Shared/Chart/LineChart';
 import StackBarChart from '../Shared/Chart/StackBarChart';
 import { DashboardInfo } from '../../helpers/Api/DashboardInfo';
-import { StatisticsDetailsParams } from '../../helpers/Api/models';
 import { yearStartDate, yearEndDate, getDashDateFormat, monthStartDate, monthEndDate, weekStartDate, weekEndDate } from '../../helpers/utilities/lib';
 import { Constants } from '../../config/Constants';
+import { StatisticsDetailsParams, TypeFilters, StatisticsDetailsItem, StatisticDetailsResponse } from '../../helpers/Api/models';
 
 const DashboardOpportunityWidgets: React.FC = () => {
   const [pipelineData, setPipelineData] = React.useState<any>();
@@ -20,13 +21,17 @@ const DashboardOpportunityWidgets: React.FC = () => {
   const [pipelineDataLoading, setPipelineDataLoading] = React.useState<boolean>(false);
   const [wonDataLoading, setWonDataLoading] = React.useState<boolean>(false);
   const [regionDataLoading, setRegionDataLoading] = React.useState<boolean>(false);
+  const history = useHistory();
 
-  const wonRevenueFilter = [{ valueField: i18n.t('wonLost') }, { valueField: i18n.t('revenue') }];
-  const regionTypeFilter = [
-    { valueField: i18n.t('allRegions') },
-    { valueField: i18n.t('topIndustry') },
-    { valueField: i18n.t('topType') },
-    { valueField: i18n.t('topSalesPerson') },
+  const wonRevenueFilter: TypeFilters[] = [
+    { valueField: i18n.t('wonLost'), id: 'wonLost' },
+    { valueField: i18n.t('revenue'), id: 'revenue' },
+  ];
+  const regionTypeFilter: TypeFilters[] = [
+    { valueField: i18n.t('allRegions'), id: 'allRegions' },
+    { valueField: i18n.t('topIndustry'), id: 'topIndustry' },
+    { valueField: i18n.t('topType'), id: 'topType' },
+    { valueField: i18n.t('topSalesPerson'), id: 'topSalesPerson' },
   ];
 
   const getStatisticsDetails = (
@@ -37,6 +42,11 @@ const DashboardOpportunityWidgets: React.FC = () => {
     limit?: number,
     orderBy?: string
   ) => {
+    if (groupBy === Constants.CLOSE_DATE_TYPE) {
+      getStatisticsDetailsCloseDateType(Constants.CLOSE_DATE_TYPE, closeDateFrom, closeDateTo, orderBy);
+      return;
+    }
+
     const statisticsParams: StatisticsDetailsParams = {
       groupBy,
       closeDateFrom,
@@ -69,6 +79,46 @@ const DashboardOpportunityWidgets: React.FC = () => {
       }
       return data;
     });
+  };
+
+  const getStatisticsDetailsCloseDateType = async (groupBy: string, closeDateFrom: string, closeDateTo: string, orderBy?: string) => {
+    const statisticsParams: StatisticsDetailsParams = {
+      groupBy,
+      closeDateFrom,
+      closeDateTo,
+    };
+    const limit = Constants.DATA_LIMIT_50;
+
+    let newOffset = 0;
+    const allData: StatisticsDetailsItem[] = [];
+    const data: StatisticDetailsResponse = await DashboardInfo.getOpportunityStatisticsCloseDate(limit, orderBy, statisticsParams, newOffset);
+
+    if (data && data.control && data.control.total && newOffset < data.control.total) {
+      allData.splice(allData.length, 0, ...data.data.items);
+      const Promises = [];
+      newOffset += limit;
+      while (newOffset < data.control.total) {
+        const p1 = DashboardInfo.getOpportunityStatisticsCloseDate(limit, orderBy, statisticsParams, newOffset);
+        Promises.push(p1);
+        newOffset += limit;
+      }
+
+      Promise.all(Promises)
+        .then((response: any) => {
+          response.forEach((res: any) => {
+            allData.splice(allData.length, 0, ...res.data.items);
+          });
+          setCloseDateData(allData);
+          setWonDataLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (data) {
+      allData.splice(allData.length, 0, ...data.data.items);
+      setCloseDateData(allData);
+      setWonDataLoading(false);
+    }
   };
 
   const onWonLostYearChange = (type: string) => {
@@ -350,6 +400,13 @@ const DashboardOpportunityWidgets: React.FC = () => {
     }
   };
 
+  const openOpptyList = () => {
+    history.push({
+      pathname: '/opportunities',
+      state: { flag: 'pipelineData' },
+    });
+  };
+
   React.useEffect(() => {
     setPipelineDataLoading(true);
     setWonDataLoading(true);
@@ -371,7 +428,7 @@ const DashboardOpportunityWidgets: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    if (closeDateData) {
+    if (closeDateData && closeDateData.length > 0) {
       setMinCloseDate(closeDateData[0].closeDate);
       setMaxCloseDate(closeDateData[closeDateData.length - 1].closeDate);
     }
@@ -382,19 +439,23 @@ const DashboardOpportunityWidgets: React.FC = () => {
       <div className="col-12">
         <p className="cardsec-title">{i18n.t('opportunity')}</p>
       </div>
-      <div className="col-lg-4 col-md-6 col-sm-6">
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div className="card mb-2">
           <div className="card-title-row">
             <div className="row">
-              <div className="col-4">
+              <div className="col-xl-6 col-lg-5 col-md-6 col-sm-4 col-5">
                 <select className="form-control dshbrd-cards-dd" onChange={onWonRevenueFilterChange}>
                   {wonRevenueFilter &&
-                    wonRevenueFilter.map((obj: any) => {
-                      return <option value={obj.valueField}>{obj.valueField}</option>;
+                    wonRevenueFilter.map((obj) => {
+                      return (
+                        <option value={obj.valueField} key={obj.id}>
+                          {obj.valueField}
+                        </option>
+                      );
                     })}
                 </select>
               </div>
-              <div className="col-8 text-right">
+              <div className="col-xl-6 col-lg-7 col-md-6 col-sm-8 col-7 text-right">
                 <ul className="nav nav-tabs dsbd-tabs float-right" role="tablist">
                   <li className="nav-item" role="presentation">
                     <button
@@ -441,19 +502,23 @@ const DashboardOpportunityWidgets: React.FC = () => {
         </div>
       </div>
 
-      <div className="col-lg-4 col-md-6 col-sm-6">
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div className="card mb-2">
           <div className="card-title-row">
             <div className="row">
-              <div className="col-4">
+              <div className="col-xl-6 col-lg-5 col-md-6 col-sm-4 col-5">
                 <select className="form-control dshbrd-cards-dd" onChange={onAreaFilterChange}>
                   {regionTypeFilter &&
-                    regionTypeFilter.map((obj: any) => {
-                      return <option value={obj.valueField}>{obj.valueField}</option>;
+                    regionTypeFilter.map((obj) => {
+                      return (
+                        <option value={obj.valueField} key={obj.id}>
+                          {obj.valueField}
+                        </option>
+                      );
                     })}
                 </select>
               </div>
-              <div className="col-8 text-right">
+              <div className="col-xl-6 col-lg-7 col-md-6 col-sm-8 col-7 text-right">
                 <ul className="nav nav-tabs dsbd-tabs float-right" role="tablist">
                   <li className="nav-item" role="presentation">
                     <button
@@ -499,7 +564,7 @@ const DashboardOpportunityWidgets: React.FC = () => {
         </div>
       </div>
 
-      <div className="col-lg-4 col-md-6 col-sm-6">
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div className="card mb-2">
           <div className="card-title-row">
             <div className="row">
@@ -507,10 +572,9 @@ const DashboardOpportunityWidgets: React.FC = () => {
                 <p className="card-title">{i18n.t('pipeline')}</p>
               </div>
               <div className="col-6 text-right singlelink">
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="/opportunities" className="pipeline-title-link">
+                <span className="pipeline-title-link" onClick={openOpptyList} onKeyDown={openOpptyList} role="presentation">
                   {i18n.t('viewAll')}
-                </a>
+                </span>
               </div>
             </div>
           </div>

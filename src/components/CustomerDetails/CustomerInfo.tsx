@@ -24,9 +24,9 @@ export interface Data {
 const CustomerInfo: React.FC<Data> = (props) => {
   const {
     data: { name, isParent, country },
+    data,
   } = props;
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const state: AppState = useSelector((InfoState: AppState) => InfoState);
   const history = useHistory();
   const backToOpportunityList = () => {
@@ -47,21 +47,21 @@ const CustomerInfo: React.FC<Data> = (props) => {
     const customerData = { ...customerFields };
     customerData.active = e.currentTarget.checked;
     setCustomerFields(customerData);
-    const data = await AddCustomerApi.update(customerData);
+    const dataDetails = await AddCustomerApi.update(customerData);
     dispatch(setBusinessPartnerLoader(true));
-    if (data.data && data.data.businessPartner) {
-      setTimeout(function () {
+    if (dataDetails.data && dataDetails.data.businessPartner) {
+      setTimeout(() => {
         // window.location.reload(false);
         dispatch(setBusinessPartnerLoader(false));
       }, 3000);
       return dispatch(setUpdateCustomerSuccess(true));
-    } else if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
+    } else if (dataDetails.messages && isArray(dataDetails.messages) && dataDetails.messages[0] && dataDetails.messages[0].text) {
       customerData.active = true;
       setCustomerFields(customerData);
       dispatch(setBusinessPartnerLoader(false));
-      return dispatch(setUpdateCustomerError(data.messages[0].text));
+      return dispatch(setUpdateCustomerError(dataDetails.messages[0].text));
     }
-    return data;
+    return dataDetails;
   };
 
   const getCountryName = (str: string) => {
@@ -75,10 +75,10 @@ const CustomerInfo: React.FC<Data> = (props) => {
   React.useEffect(() => {
     setCustomerFields(props.data);
     dispatch(resetBusinessPartnerData());
-  }, []);
+  }, [data]);
   return (
     <>
-      {isMobile || isTablet ? (
+      {isMobile ? (
         <section className="customer-mobilecard">
           <div className="d-flex justify-content-between customer-row">
             <div className="lft-custname" onClick={backToOpportunityList} onKeyDown={backToOpportunityList} role="presentation">
@@ -116,6 +116,7 @@ const CustomerInfo: React.FC<Data> = (props) => {
                     <input
                       type="checkbox"
                       id="active"
+                      tabIndex={0}
                       checked={customerFields.active}
                       onChange={!!state.auth.user.role && state.auth.user.role === 'Admin' ? onInputValueChange : undefined}
                     />

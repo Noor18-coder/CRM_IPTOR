@@ -19,14 +19,13 @@ export interface ContainerProps {
 const Container: React.FC<ContainerProps> = ({ containerType, containerData, groupType, contactId }) => {
   const state: AppState = useSelector((containerState: AppState) => containerState);
 
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
 
   return (
     <>
       <CustomerContextProvider value={containerData}>
         {state.addBusinessPartner.loader ? <Loader /> : null}
-        {isMobile || isTablet ? (
+        {isMobile ? (
           state.addBusinessPartner.addBusinessPartnerWindowActive ? (
             containerType === 'add' ? (
               <AddCustomer />

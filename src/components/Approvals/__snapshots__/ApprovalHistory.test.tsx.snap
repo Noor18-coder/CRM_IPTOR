@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Approvals] ApprovalHistory should renders correctly 1`] = `
+<div
+  className="stage-level-container"
+>
+  <div
+    className="stage-level-section"
+  />
+</div>
+`;

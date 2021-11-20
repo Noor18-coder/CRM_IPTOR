@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import { CurrencyItem, CurrencyInfoResponse } from './models';
 import { ApiRequest } from './ApiRequest';
@@ -15,6 +15,6 @@ export class CurrencyInfo {
   static async get(): Promise<CurrencyItem[]> {
     const requestData = new ApiRequest(this.apiMethod);
     const response = await axios.post<CurrencyInfoResponse>('/api/service', requestData);
-    return get(response, 'data.data.items', []);
+    return get<AxiosResponse<CurrencyInfoResponse>, 'data', 'data', 'items', CurrencyItem[]>(response, ['data', 'data', 'items'], []);
   }
 }

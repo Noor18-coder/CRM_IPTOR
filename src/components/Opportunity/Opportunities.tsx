@@ -10,7 +10,7 @@ import OpportunityListMobile from './OpportunityListMobile';
 import { AppState } from '../../store/store';
 import { getUsersInfo } from '../../store/Users/Actions';
 
-import Grid from '../Shared/Grid/Grid';
+import Grid, { SortModel } from '../Shared/Grid/Grid';
 import Header from '../Shared/Header/Header';
 
 import OpportunityList from '../../helpers/Api/OpportunityList';
@@ -18,18 +18,26 @@ import ColumnDefs from '../../config/OpportunityGrid';
 import { OpportunityFilterOpions } from '../../config/OpportunityFilterOptions';
 
 import { OpportunityListItem, OpportunityListParams, StageInfo, OpportunityType } from '../../helpers/Api/models';
-import { saveOpptyList, saveOpportunityFilters } from '../../store/Opportunity/Actions';
+import {
+  saveOpptyList,
+  saveOpportunityFilters,
+  saveOpptySelFilters,
+  saveOpptySelHandler,
+  saveOpptySearchText,
+  saveOpptySortOrder,
+} from '../../store/Opportunity/Actions';
 import { setOpportunityWindowActive } from '../../store/AddOpportunity/Actions';
 import { GridFilter } from '../Shared/Filter/GridFilter';
 import ImageConfig from '../../config/ImageConfig';
 import FooterMobile from '../Shared/Footer/FooterMobile';
 import Loader from '../Shared/Loader/Loader';
 import Container from '../AddOpportunity/Container';
+import { Constants } from '../../config/Constants';
 
 export interface SelectOptionMethod {
   value: string;
   selectParam: string;
-  handler: string;
+  handler?: string;
 }
 
 interface Result {
@@ -37,25 +45,22 @@ interface Result {
   load: boolean;
 }
 
-const Opportunities: React.FC = (props: any) => {
+const Opportunities: React.FC<any> = (props: any) => {
   const {
     location: { state },
   } = props;
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
+  // const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
 
   const oppState: AppState = useSelector((appState: AppState) => appState);
   const customerState = state;
-  const [filter, selectFilter] = React.useState<SelectOptionMethod>();
   const [refresh, setRefresh] = React.useState<boolean>(false);
-  const [searchText, setSearchText] = React.useState<string>('');
-  const [searchFieldValue, setSearchField] = React.useState<string>('');
+  const [searchText, setSearchText] = React.useState<string>(oppState.opportunities.opportunitySearchText ?? '');
   const [loader, setLoader] = React.useState<boolean>(false);
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
-
   const newColumns = ColumnDefs.map((obj: any) => {
-    if (obj.field === 'handler') {
+    if (obj.field === 'userId') {
       obj.cellRenderer = (params: any) => {
         let cellValue = getName(params.value);
         cellValue = cellValue || params.value;
@@ -64,15 +69,11 @@ const Opportunities: React.FC = (props: any) => {
       return obj;
     } else if (obj.field === 'estValueSys') {
       obj.cellRenderer = (params: any) => {
-        const cellValue = `<span class="o-size">${
-          params.value === undefined
-            ? ''
-            : `${
-                oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA &&
-                getCurrencySymbol(oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
-              } ${params.value}`
-        }</span></div>`;
-        return cellValue;
+        const CurrencySymbol =
+          oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA &&
+          getCurrencySymbol(oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA);
+        const renderValue = params.value === undefined ? '' : `${CurrencySymbol} ${Math.round(params.value)}`;
+        return `<span class="o-size">${renderValue}</span></div>`;
       };
       return obj;
     }
@@ -91,18 +92,27 @@ const Opportunities: React.FC = (props: any) => {
     }
   };
 
+  const onSortChanged = (sortModel: SortModel[]) => {
+    dispatch(saveOpptySortOrder(sortModel));
+  };
+
   const fetchOppty = async (start: number, orderBy: string): Promise<Result> => {
     const res: Result = {
       items: [],
       load: true,
     };
     const filters: OpportunityListParams = {
-      handler: '',
-      selectHandler: '',
+      selectUserId: '',
     };
-
+    const filter = { ...oppState.opportunities.opportunitySelectedFilters };
     if (filter?.handler) {
-      filters.selectHandler = filter.handler === 'all' ? '' : oppState.auth.user.user;
+      if (customerState && !oppState.opportunities.opportunityHandlerChange) {
+        filters.selectUserId = '';
+        dispatch(saveOpptySelFilters({ handler: 'all' }));
+        dispatch(saveOpptySelHandler('all'));
+      } else {
+        filters.selectUserId = filter.handler === 'all' ? '' : oppState.auth.user.user;
+      }
     }
 
     if (filter?.selectParam === 'selectStage') {
@@ -122,15 +132,16 @@ const Opportunities: React.FC = (props: any) => {
       filters.selectOppRecordType = filter.value;
     }
 
-    if (searchText.length) {
-      filters.searchField = searchText;
+    if (oppState.opportunities.opportunitySearchText.length) {
+      filters.searchField = oppState.opportunities.opportunitySearchText;
     }
 
     if (customerState) {
       filters.selectCustomer = customerState.selectCustomer;
       filters.activeOp = customerState.activeOp;
     }
-    const data: any = await OpportunityList.get(oppState.auth.user.handler, '', 20, start, orderBy, filters);
+    if (oppState.opportunities.opportunities.length === 0) setLoader(true);
+    const data: any = await OpportunityList.get(Constants.OPPORTUNITY_LIST_LOAD_LIMIT, start, orderBy, filters);
     if (data && data.data && data.control?.more) {
       res.items = data.data.items;
       dispatch(saveOpptyList(res.items));
@@ -164,20 +175,21 @@ const Opportunities: React.FC = (props: any) => {
     const filterOptions = [...OpportunityFilterOpions, ...filterStages, ...filterOpptyTypes];
 
     dispatch(saveOpportunityFilters(filterOptions));
-    if (oppState.opportunities.opportunities.length === 0) setLoader(true);
-    // history.replace({
-    //   ...props.location,
-    //   state: undefined,
-    // });
+    // if (oppState.opportunities.opportunities.length === 0) setLoader(true);
   }, []);
 
+  const onHandlerSelection = (handler: string) => {
+    dispatch(saveOpptySelHandler(handler));
+  };
+
   const onFilter = (obj: SelectOptionMethod) => {
+    const filter = { ...oppState.opportunities.opportunitySelectedFilters };
     if (filter?.handler !== obj.handler) {
-      selectFilter(obj);
+      dispatch(saveOpptySelFilters(obj));
     } else if (filter?.selectParam === obj.selectParam && filter.value === obj.value) {
-      selectFilter({ ...filter, selectParam: '', value: '' });
+      dispatch(saveOpptySelFilters({ ...filter, selectParam: '', value: '' }));
     } else {
-      selectFilter(obj);
+      dispatch(saveOpptySelFilters(obj));
     }
     const re = !refresh;
     setRefresh(re);
@@ -186,18 +198,18 @@ const Opportunities: React.FC = (props: any) => {
 
   const searchStart = (event: React.ChangeEvent<HTMLInputElement>) => {
     const str = event.target.value;
-    setSearchField(str);
-    if (str.length === 0) {
-      setSearchText('');
+    setSearchText(str);
+    if (str.length === 0 && oppState.opportunities.opportunitySearchText.length > 0) {
+      dispatch(saveOpptySearchText(''));
       setRefresh(!refresh);
       setLoader(true);
     }
   };
 
   const searchOpportunity = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && searchFieldValue.length > 0) {
-      selectFilter({ value: '', selectParam: '', handler: '' });
-      setSearchText(searchFieldValue);
+    if (event.key === 'Enter' && searchText.length > 0) {
+      dispatch(saveOpptySearchText(searchText));
+
       setRefresh(!refresh);
       setLoader(true);
     }
@@ -207,6 +219,43 @@ const Opportunities: React.FC = (props: any) => {
     dispatch(setOpportunityWindowActive(true));
   };
 
+  const clearState = () => {
+    history.replace({
+      ...props.location,
+      state: undefined,
+    });
+    window.location.reload();
+  };
+
+  const renderSearchText = () => {
+    if (oppState.opportunities.opportunitySearchText.length) {
+      return `Showing results for "${oppState.opportunities.opportunitySearchText}"`;
+    } else if (customerState && customerState.flag !== 'pipelineData') {
+      return `Showing results for "${customerState.customerName}"`;
+    }
+    return '';
+  };
+
+  const renderGrid = () => {
+    if (isMobile) {
+      if (oppState.addOpportunity.addOpptyWindowActive === false) {
+        return <OpportunityListMobile refresh={refresh} getDataRows={fetchOppty} />;
+      }
+      return null;
+    }
+
+    return (
+      <Grid
+        refresh={refresh}
+        col={newColumns}
+        gridRowClicked={openOpptyDetails}
+        getDataRows={fetchOppty}
+        sortChanged={onSortChanged}
+        sortOrder={oppState.opportunities.opportunitySortOrder}
+      />
+    );
+  };
+
   return (
     <div>
       <Header page={1} />
@@ -214,15 +263,16 @@ const Opportunities: React.FC = (props: any) => {
         <div className="container-fluid">
           <div className="row s-header">
             {isMobile ? null : (
-              <div className="col col-md-4">
-                <div className="page-title">
-                  {searchText.length
-                    ? `Showing results for "${searchText}"`
-                    : customerState
-                    ? `Showing results for "${customerState.customerName}"`
-                    : ''}
+              <>
+                <div className="col col-md-4">
+                  <div className="page-title">{renderSearchText()}</div>
+                  {state && state.flag !== 'pipelineData' && (
+                    <button className="link-anchor-button" onClick={clearState} type="button">
+                      <img src={ImageConfig.CLOSE_BTN_RED} alt="Cross Icon" className="btn-icon clear-icon" />
+                    </button>
+                  )}
                 </div>
-              </div>
+              </>
             )}
 
             <div className="col col-md-4">
@@ -234,7 +284,7 @@ const Opportunities: React.FC = (props: any) => {
                       type="text"
                       className="form-control sitesearch"
                       onChange={searchStart}
-                      value={searchFieldValue}
+                      value={searchText}
                       onKeyPress={searchOpportunity}
                       placeholder="Search"
                     />
@@ -255,19 +305,13 @@ const Opportunities: React.FC = (props: any) => {
           {loader && <Loader />}
           <GridFilter
             filters={Array.from(oppState.opportunities.opportunityFilters)}
-            selected={filter}
+            selected={oppState.opportunities.opportunitySelectedFilters}
+            selectedHandler={customerState ? 'all' : oppState.opportunities.opportunitySelectedHandler}
             selectOption={onFilter}
+            selectHandler={onHandlerSelection}
             component="opportunity"
           />
-          {oppState.users.users && oppState.users.users.length ? (
-            isMobile || isTablet ? (
-              oppState.addOpportunity.addOpptyWindowActive === false ? (
-                <OpportunityListMobile refresh={refresh} getDataRows={fetchOppty} />
-              ) : null
-            ) : (
-              <Grid refresh={refresh} col={newColumns} gridRowClicked={openOpptyDetails} getDataRows={fetchOppty} />
-            )
-          ) : null}
+          {oppState.users.users && oppState.users.users.length ? renderGrid() : null}
         </div>
       </section>
 
@@ -276,7 +320,7 @@ const Opportunities: React.FC = (props: any) => {
           <img src={ImageConfig.IPTOR_LOGO_ORANGE} alt="Iptor" title="Iptor" /> &copy; All Content Copyright 2021{' '}
         </p>
       </footer>
-      {isMobile || isTablet ? <FooterMobile page={1} /> : null}
+      {isMobile ? <FooterMobile page={1} /> : null}
       <Container />
     </div>
   );

@@ -77,6 +77,24 @@ export const saveProductsAttributes: ActionCreator<actionTypes.SaveProductsAttri
 };
 
 /** Action to set auth state logged in status */
+export const saveOpportunityContactAttributes: ActionCreator<actionTypes.SaveOpportunityContactsAttributes> = (
+  attributes: models.AttributeField[]
+) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SAVE_OPPORTUNITY_CONTACTS_ATTRIBUTES,
+    attributes,
+  };
+};
+
+/** Action to set auth state logged in status */
+export const saveCustomerContactAttributes: ActionCreator<actionTypes.SaveCustomerContactsAttributes> = (attributes: models.AttributeField[]) => {
+  return {
+    type: actionTypes.AppLoadingTypes.SAVE_CUSTOMER_CONTACTS_ATTRIBUTES,
+    attributes,
+  };
+};
+
+/** Action to set auth state logged in status */
 export const setLoadingMask: ActionCreator<actionTypes.SetLoadingMaskAction> = () => {
   return {
     type: actionTypes.AppLoadingTypes.SET_LOADING_MASK,
@@ -194,25 +212,19 @@ export const loadInitialConfig: ActionCreator<
     dispatch(setLoadingMask());
 
     try {
-      Promise.all([
+      const response = await Promise.all([
         StagesInfo.get(),
         OpportunityType.get(),
         CurrencyInfo.get(),
         Attributes.getOpportunityAttributes(),
         Attributes.getCustomerAttributes(),
-      ])
-        .then((response: any) => {
-          dispatch(saveOpptyStages(response[0].items));
-          dispatch(saveOpptyTypes(response[1]));
-          dispatch(saveCurrencies(response[2]));
-          dispatch(saveOpportunityAttributes(response[3]));
-          dispatch(saveCustomerAttributes(response[4]));
-          return dispatch(removeLoadingMask());
-        })
-        .catch(() => {
-          dispatch(setErrorMessage());
-          return dispatch(removeLoadingMask());
-        });
+      ]);
+      dispatch(saveOpptyStages(response[0].items));
+      dispatch(saveOpptyTypes(response[1]));
+      dispatch(saveCurrencies(response[2]));
+      dispatch(saveOpportunityAttributes(response[3]));
+      dispatch(saveCustomerAttributes(response[4]));
+      return dispatch(removeLoadingMask());
     } catch (e: any) {
       dispatch(setErrorMessage());
       return dispatch(removeLoadingMask());
@@ -323,5 +335,23 @@ export const getProductAttributes: ActionCreator<
   return async (dispatch: Dispatch) => {
     const attributes: models.AttributeField[] = await Attributes.getProductAttribues();
     return dispatch(saveProductsAttributes(attributes));
+  };
+};
+
+export const getOpportunityContactAttributes: ActionCreator<
+  ThunkAction<Promise<actionTypes.SaveOpportunityContactsAttributes>, AppState, undefined, actionTypes.SaveOpportunityContactsAttributes>
+> = () => {
+  return async (dispatch: Dispatch) => {
+    const attributes: models.AttributeField[] = await Attributes.getOpportunityContactAttributes();
+    return dispatch(saveOpportunityContactAttributes(attributes));
+  };
+};
+
+export const getCustomerContactAttributes: ActionCreator<
+  ThunkAction<Promise<actionTypes.SaveCustomerContactsAttributes>, AppState, undefined, actionTypes.SaveCustomerContactsAttributes>
+> = () => {
+  return async (dispatch: Dispatch) => {
+    const attributes: models.AttributeField[] = await Attributes.getCustomerContactAttributes();
+    return dispatch(saveCustomerContactAttributes(attributes));
   };
 };

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] AssignOpportunity should renders correctly 1`] = `
+Array [
+  <div
+    className="assign-opportunity-form"
+  >
+    <div
+      className="form-group oppty-form-elements"
+    >
+      <label
+        className="opp-label"
+        htmlFor="owner"
+      >
+        Assign Opportunity
+      </label>
+      <input
+        className="form-control"
+        onFocus={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+  </div>,
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn inactive"
+      disabled={true}
+      onClick={[Function]}
+      type="button"
+    >
+      Done
+    </button>
+  </div>,
+]
+`;

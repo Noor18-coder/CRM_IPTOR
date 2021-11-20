@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AddOpportunity] OpportunityTypeList should renders correctly 1`] = `
+<ul
+  className="opptytype-list-item"
+>
+  <li
+    onClick={[Function]}
+    role="presentation"
+  >
+    <div
+      className="company-container"
+    >
+      <div
+        className="center"
+      >
+        <div
+          className="test"
+        >
+          Avon
+        </div>
+        <img
+          alt="company"
+          className="company-selection-img"
+          src="check_circle.svg"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          title="company"
+        />
+      </div>
+    </div>
+  </li>
+</ul>
+`;

@@ -33,8 +33,7 @@ const CustomerCard: React.FC<Data> = (props) => {
     contactsData,
     data,
   } = props;
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const [subsidiaryEntities, setsubsidiaryEntities] = React.useState<any[]>([]);
   const inactiveCount = numberOfInactiveOpportunities || 0;
   const activeCount = numberOfActiveOpportunities || 0;
@@ -159,15 +158,15 @@ const CustomerCard: React.FC<Data> = (props) => {
                   </div>
                 )}
                 <ul className="list-inline bdy-list-item accr-list-columns padd-24">
-                  <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
+                  <li className={isMobile ? '' : 'list-inline-item'}>
                     <span>Contact Address</span>
                     {addressLine1}
                   </li>
-                  <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
+                  <li className={isMobile ? '' : 'list-inline-item'}>
                     <span>Area</span>
                     {getAreaName(area)}
                   </li>
-                  <li className={isMobile || isTablet ? '' : 'list-inline-item'}>
+                  <li className={isMobile ? '' : 'list-inline-item'}>
                     <span>Phone Number</span>
                     {phone || '--'}
                   </li>
@@ -185,7 +184,7 @@ const CustomerCard: React.FC<Data> = (props) => {
       </section>
 
       <section className="sec-info-accordion">
-        {isMobile || isTablet
+        {isMobile
           ? customerMoreInfoGroup && (
               <MoreInfoAccordianMobile title={i18n.t('moreInfo')} data={state.addBusinessPartner.attributes} customerDetails={data} />
             )
@@ -194,7 +193,7 @@ const CustomerCard: React.FC<Data> = (props) => {
             )}
       </section>
 
-      {isMobile || isTablet ? (
+      {isMobile ? (
         <section className="customer-mobilecard">
           <div className="customer-details d-flex justify-content-between">
             <div className="lft-col">
@@ -266,9 +265,8 @@ const CustomerCard: React.FC<Data> = (props) => {
             })
           : null}
       </section>
-
       <section className="sec-info-accordion">
-        <AllContactsAccordian title=" All Contact" contactData={contactsData} activeCustomer={active} />
+        <AllContactsAccordian title=" All Contact" contactData={contactsData} activeCustomer={active} customerOwner={owner} />
       </section>
 
       <section className="d-flex sec-customer-desc">

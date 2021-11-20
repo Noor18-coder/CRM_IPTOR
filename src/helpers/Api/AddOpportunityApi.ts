@@ -38,8 +38,8 @@ export default class AddOpportunityApi {
    */
   static async add(opportunity: AddOpportunityDefaultParams): Promise<AddOpportunityResponse> {
     const requestData = new ApiRequest<AddOpportunityDefaultParams>(this.opportinityAddMethod, opportunity);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post<AddOpportunityResponse>('/api/service', requestData);
+    return get<AxiosResponse<AddOpportunityResponse>, 'data'>(response, 'data');
   }
 
   /**
@@ -51,7 +51,7 @@ export default class AddOpportunityApi {
   static async update(opportunity: AddOpportunityDefaultParams): Promise<UpdateOpportunityResponse> {
     const requestData = new ApiRequest<AddOpportunityDefaultParams>(this.opportunitUpdateMethod, opportunity);
     const response = await axios.post<UpdateOpportunityResponse>('/api/service', requestData);
-    return get(response, 'data');
+    return get<AxiosResponse<UpdateOpportunityResponse>, 'data'>(response, 'data');
   }
 
   /**
@@ -68,8 +68,8 @@ export default class AddOpportunityApi {
       attributeValue,
     };
     const requestData = new ApiRequest<SaveUserDefinedFieldParam>(this.saveAttributeValueMethod, params);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post<AddOpportunityResponse>('/api/service', requestData);
+    return get<AxiosResponse<AddOpportunityResponse>, 'data'>(response, 'data');
   }
 
   /**
@@ -88,7 +88,7 @@ export default class AddOpportunityApi {
     };
     const requestData = new ApiRequest<AddItemToOpportunityParams>(this.saveItemMethod, params);
     const response = await axios.post<AddItemToOpportunityResponse>('/api/service', requestData);
-    return get(response, 'data');
+    return get<AxiosResponse<AddItemToOpportunityResponse>, 'data'>(response, 'data');
   }
 
   /**
@@ -112,9 +112,9 @@ export default class AddOpportunityApi {
     };
 
     const requestData = new ApiRequest<AddCustomerContactRequestParams>(this.saveContactMethod, request);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    const response = await axios.post('/api/service', requestData);
 
-    return get(response, 'data');
+    return get<AxiosResponse, 'data'>(response, 'data');
   }
 
   /**
@@ -131,7 +131,7 @@ export default class AddOpportunityApi {
     };
 
     const requestData = new ApiRequest<DeleteCustomerContactParams>(this.deleteCustomerContact, request);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post('/api/service', requestData);
+    return get<AxiosResponse, 'data'>(response, 'data');
   }
 }

@@ -2,9 +2,11 @@ import React from 'react';
 import { Card, Accordion, Image } from 'react-bootstrap';
 import { Dispatch } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 import { OpportunityMoreInfoSection, OpportunityDetailsBasicInfo, CustomerDetailsDefault } from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
 import { setBusinessPartnerWindowActive, setBusinessPartnerWindowGroup } from '../../store/AddCustomer/Actions';
+import { getDateInFormat } from '../../helpers/utilities/lib';
 import { AppState } from '../../store/store';
 
 interface Props {
@@ -43,9 +45,69 @@ export const DisplayGroup: React.FC<Props> = ({ title, data, customerDetails }) 
   const state: AppState = useSelector((CustomerState: AppState) => CustomerState);
   const dispatch: Dispatch<any> = useDispatch();
 
+  const filteredData = _.uniqBy(data, 'attributeType');
   const getUserName = (str: string) => {
     const userObj = state.users.users.find((obj) => obj.user === str);
     return userObj?.description ? userObj?.description : '--';
+  };
+
+  const getValue = (obj: any) => {
+    const { customerAttributes } = state.enviornmentConfigs;
+
+    const dataObject = data.find((object: any) => {
+      return object.attributeType === obj.attributeType;
+    });
+    const field = customerAttributes.find((object: any) => {
+      return object.attributeType === obj.attributeType;
+    });
+    const value = dataObject && dataObject.attributeValue && dataObject.attributeValue !== '' ? dataObject.attributeValue : '--';
+    if (field?.valueFormatDesc === 'DATE') {
+      if (value === '--') {
+        return '--';
+      } else {
+        const year = value.substring(0, 4);
+        const month = value.substring(4, 6);
+        const day = value.substring(6, 8);
+        const tempDate = `${year}-${month}-${day}`;
+        return getDateInFormat(new Date(tempDate));
+      }
+    } else if (field?.valueFormatDesc === 'BOOLEAN') {
+      return (
+        <span className="checkbox-label">
+          <label className="switch value-checkbox">
+            <input type="checkbox" tabIndex={0} checked={value !== 'N'} />
+            <span className="slider round disabled-checkbox">&nbsp;</span>
+          </label>
+        </span>
+      );
+    } else if (field?.attributeType === 'owner' || field?.attributeType === 'PS_ACCOUNT_OWNER') {
+      return getUserName(obj.attributeValue);
+    }
+    return value;
+  };
+
+  const getMultipleValue = (obj: any) => {
+    const { customerAttributes } = state.enviornmentConfigs;
+    const field = customerAttributes.find((object: any) => {
+      return object.attributeType === obj.attributeType;
+    });
+
+    const value = obj && obj.attributeValue && obj.attributeValue !== '' ? obj.attributeValue : '--';
+
+    if (field?.valueFormatDesc === 'DATE') {
+      if (value === '--') {
+        return '--';
+      } else {
+        const year = value.substring(0, 4);
+        const month = value.substring(4, 6);
+        const day = value.substring(6, 8);
+        const tempDate = `${year}-${month}-${day}`;
+        return getDateInFormat(new Date(tempDate));
+      }
+    } else if (field?.attributeType === 'owner' || field?.attributeType === 'PS_ACCOUNT_OWNER') {
+      return getUserName(obj.attributeValue);
+    }
+    return value;
   };
 
   const toggleDrawer = (open: boolean, groupType: string) => {
@@ -71,28 +133,27 @@ export const DisplayGroup: React.FC<Props> = ({ title, data, customerDetails }) 
       </div>
       <div className="accr-body-container">
         <ul className="list-inline bdy-list-item accr-list-columns">
-          {data.map((obj: any) => {
-            return (
-              <li className="list-inline-item">
-                <span>{obj.description}</span>
-                {obj.attributeValue ? (
-                  obj.attributeValue === 'N' || obj.attributeValue === 'Y' ? (
-                    <span className="checkbox-label">
-                      <label className="switch value-checkbox">
-                        <input type="checkbox" checked={obj.attributeValue !== 'N'} />
-                        <span className="slider round disabled-checkbox">&nbsp;</span>
-                      </label>
-                    </span>
-                  ) : obj.description === 'Account Owner' ? (
-                    getUserName(obj.attributeValue)
-                  ) : (
-                    obj.attributeValue
-                  )
-                ) : (
-                  '--'
-                )}
-              </li>
-            );
+          {filteredData.map((obj: any) => {
+            const dataObj = data.filter((dataObject: any) => {
+              return dataObject.attributeType === obj.attributeType;
+            });
+            if (dataObj.length > 1) {
+              return dataObj.map((elem: any) => {
+                return (
+                  <li className="list-inline-item">
+                    <span>{obj.description}</span>
+                    {getMultipleValue(elem)}
+                  </li>
+                );
+              });
+            } else {
+              return (
+                <li className="list-inline-item">
+                  <span>{obj.description}</span>
+                  {getValue(obj)}
+                </li>
+              );
+            }
           })}
         </ul>
       </div>
@@ -128,12 +189,12 @@ export const MoreInfoAccordianMobile: React.FC<OpportunityMoreInfoSection> = ({ 
                 {!customerDetails.active ? (
                   ((!!state.auth.user.role && state.auth.user.role === 'Admin') || state.auth.user.user === customerDetails.owner) && (
                     <button className="panel-close-icon link-anchor-button" onClick={() => toggleDrawer(true, key)} type="button">
-                      <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon action-icon" alt="Edit" />
+                      <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon-cust action-icon" alt="Edit" />
                     </button>
                   )
                 ) : (
                   <button className="panel-close-icon link-anchor-button" onClick={() => toggleDrawer(true, key)} type="button">
-                    <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon action-icon" alt="Edit" />
+                    <img src={ImageConfig.EDIT_ICON} className="mob-edit-icon-cust action-icon" alt="Edit" />
                   </button>
                 )}
               </Accordion.Toggle>
@@ -149,6 +210,49 @@ export const MoreInfoAccordianMobile: React.FC<OpportunityMoreInfoSection> = ({ 
 };
 
 export const DisplayGroupMobile: React.FC<Props> = ({ data }) => {
+  const state: AppState = useSelector((CustomerState: AppState) => CustomerState);
+
+  const getUserName = (str: string) => {
+    const userObj = state.users.users.find((obj) => obj.user === str);
+    return userObj?.description ? userObj?.description : '--';
+  };
+
+  const getValue = (obj: any) => {
+    const { customerAttributes } = state.enviornmentConfigs;
+
+    const dataObject = data.find((object: any) => {
+      return object.attributeType === obj.attributeType;
+    });
+    const field = customerAttributes.find((object: any) => {
+      return object.attributeType === obj.attributeType;
+    });
+    const value = dataObject && dataObject.attributeValue ? dataObject.attributeValue : '--';
+
+    if (field?.valueFormatDesc === 'DATE') {
+      if (value === '') {
+        return '--';
+      } else {
+        const year = value.substring(0, 4);
+        const month = value.substring(4, 6);
+        const day = value.substring(6, 8);
+        const tempDate = `${year}-${month}-${day}`;
+        return getDateInFormat(new Date(tempDate));
+      }
+    } else if (field?.valueFormatDesc === 'BOOLEAN') {
+      return (
+        <span className="checkbox-label">
+          <label className="switch value-checkbox">
+            <input type="checkbox" tabIndex={0} checked={value !== 'N'} />
+            <span className="slider round disabled-checkbox">&nbsp;</span>
+          </label>
+        </span>
+      );
+    } else if (field?.description === 'Account Owner') {
+      return getUserName(obj.attributeValue);
+    }
+    return value;
+  };
+
   return (
     <div className="more-info-group-container">
       <div className="accr-body-container">
@@ -157,7 +261,7 @@ export const DisplayGroupMobile: React.FC<Props> = ({ data }) => {
             <ul className="list-inline bdy-list-item">
               <li className="list-inline-item">
                 <span>{obj.description}</span>
-                {obj.attributeValue ? obj.attributeValue : '--'}
+                {getValue(obj)}
               </li>
             </ul>
           );

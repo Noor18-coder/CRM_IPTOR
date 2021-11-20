@@ -18,6 +18,14 @@ export interface Product {
   hasContact: boolean;
   hasAttribute: boolean;
   attributes?: AttributeValueObject[];
+  contactPerson: string;
+  contactDC: string;
+  whatsApp?: string;
+  phone: number;
+  mobile?: string;
+  linkedin?: string;
+  fax?: string;
+  email: string;
 }
 
 export interface ProductParams {

@@ -37,8 +37,34 @@ export interface StatisticsDetailsResponse {
   };
 }
 
+export interface StatisticDetailsResponse {
+  control?: {
+    total: number;
+  };
+  data: {
+    items: StatisticsDetailsItem[];
+  };
+}
+
 export interface StatisticsDetailsParams {
   groupBy?: string;
   closeDateFrom?: string;
   closeDateTo?: string;
+}
+
+export interface TypeFilters {
+  valueField: string;
+  id: string;
+}
+
+export interface LogsApiMethodParams {
+  limit?: number;
+  orderBy?: string;
+  otherparams?: LogsListParams;
+}
+
+export interface OpportunityStatisticsParams {
+  limit?: number;
+  orderBy?: string;
+  otherparams?: StatisticsDetailsParams;
 }

@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Notification] NotificationList should renders correctly 1`] = `
+Array [
+  <nav
+    className="site-navbar navbar navbar-default bg-black"
+    role="navigation"
+  >
+    <div
+      className="navbar-container container-fluid"
+    >
+      <div
+        className="navbar-header"
+      >
+        <div
+          className="navbar-brand navbar-brand-center navbar-sec-logo"
+        >
+          <img
+            alt="..."
+            className="navbar-brand-logo"
+            src="iptor_icon.svg"
+            title="iptor"
+          />
+        </div>
+        <div
+          className="navbar-brand navbar-brand-center navbar-sec-flag"
+        >
+          <span
+            className="navbar-brand-text hidden-xs-down"
+          >
+             
+            
+          </span>
+        </div>
+      </div>
+      <ul
+        className="nav navbar-toolbar navbar-right navbar-toolbar-right"
+      >
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/"
+            onClick={[Function]}
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="dashboard_icon.svg"
+              />
+              <i>
+                Dashboard
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/opportunities"
+            onClick={[Function]}
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-oppty-icon.svg"
+              />
+              <i>
+                Opportunities
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/customers"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-customers-icon.svg"
+              />
+              <i>
+                Customers
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/reports"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-report-icon.svg"
+              />
+              <i>
+                Reports
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item active"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar header-notification"
+            data-animation="scale-up"
+            href="/notifications"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-notifications-active-icon.svg"
+              />
+              <i>
+                Notifications
+              </i>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <ul
+        className="nav navbar-toolbar"
+      >
+        <button
+          className="logout"
+          onClick={[Function]}
+          type="button"
+        >
+          
+        </button>
+      </ul>
+    </div>
+  </nav>,
+  <div
+    className="section-notification"
+  >
+    <div
+      className="d-flex justify-content-between action-btns-row"
+    >
+      <div
+        className="lft-col noti-tabs"
+      >
+        <input
+          className="report-btns active"
+          onClick={[Function]}
+          type="button"
+          value="Pending for Approval"
+        />
+        <input
+          className="report-btns"
+          onClick={[Function]}
+          type="button"
+          value="Rejected"
+        />
+      </div>
+    </div>
+    <div
+      className="notification-list-items"
+    />
+    <div
+      className="mob-notification-list-items"
+    />
+  </div>,
+  <footer>
+    <p>
+      <img
+        alt="Iptor"
+        src="iptor-logo-orange.svg"
+        title="Iptor"
+      />
+       © All Content Copyright 2021
+       
+    </p>
+  </footer>,
+]
+`;

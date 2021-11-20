@@ -1,5 +1,14 @@
 import React from 'react';
-import { RowClickedEvent, IGetRowsParams } from 'ag-grid-community';
+import {
+  RowClickedEvent,
+  IGetRowsParams,
+  GridApi,
+  GridReadyEvent,
+  IDatasource,
+  SortChangedEvent,
+  GridOptions,
+  FirstDataRenderedEvent,
+} from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -7,6 +16,12 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { OpportunityListItem } from '../../../helpers/Api/models';
 import { BusinessPartnerListItem } from '../../../helpers/Api/models/Customer';
 import CustomNoRowsOverlay from './customNoRowsOverlay';
+import { Constants } from '../../../config/Constants';
+
+export interface SortModel {
+  colId: string | undefined;
+  sort: string | null | undefined;
+}
 
 interface Result {
   items: OpportunityListItem[] | BusinessPartnerListItem[];
@@ -17,14 +32,26 @@ interface Props {
   col: any;
   gridRowClicked: (data: any) => void;
   getDataRows: (start: number, sortString: string) => Promise<Result>;
+  sortChanged?: (sortModel: SortModel[]) => void;
+  sortOrder?: SortModel[];
   refresh: boolean;
 }
 
-const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) => {
-  const [gridApi, setGridApi] = React.useState<any>();
-
+const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh, sortChanged, sortOrder }) => {
+  const [gridApi, setGridApi] = React.useState<GridApi>();
   const onGridSizeChanged = (params: any) => {
     params.api.sizeColumnsToFit();
+  };
+
+  const onSortChanged = (params: SortChangedEvent) => {
+    const sortModel: SortModel[] = params.api.getSortModel();
+    if (sortChanged) sortChanged(sortModel);
+  };
+
+  const onFirstDataRendered = (params: FirstDataRenderedEvent) => {
+    if (sortOrder) {
+      params.api.setSortModel(sortOrder);
+    }
   };
 
   const onFilter = () => {
@@ -36,21 +63,30 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
     }
   };
 
-  const onGridReady = (params: any) => {
+  const onGridReady = (params: GridReadyEvent) => {
     setGridApi(params.api);
     const dataSource = getDataSource();
     params.api.setDatasource(dataSource);
   };
 
-  const getDataSource = () => {
-    return {
-      rowCount: null,
-      getRows: async (params: IGetRowsParams) => {
-        let orderByString = '';
-        if (params && params.sortModel && params.sortModel[0]) {
-          orderByString = `${params.sortModel[0].colId} ${params.sortModel[0].sort}`;
-        }
+  const getSortOrder = (params?: IGetRowsParams, sortOrderFromState?: SortModel[]): string => {
+    if (params && params.sortModel && params.sortModel[0]) {
+      if (params.sortModel[0].colId === Constants.ORDER_DESC) {
+        return `${params.sortModel[0].colId} ${params.sortModel[0].sort}, ${Constants.COL_OPPORTUNITY_ID} ${params.sortModel[0].sort}`;
+      } else {
+        return `${params.sortModel[0].colId} ${params.sortModel[0].sort}`;
+      }
+    } else if (Array.isArray(sortOrderFromState) && sortOrderFromState.length > 0) {
+      return `${sortOrderFromState[0].colId} ${sortOrderFromState[0].sort}`;
+    }
+    return '';
+  };
 
+  const getDataSource = (): IDatasource => {
+    return {
+      rowCount: undefined,
+      getRows: async (params: IGetRowsParams) => {
+        const orderByString = getSortOrder(params, sortOrder);
         const data: Result = await getDataRows(params.startRow, orderByString);
         if (data.items && data.items.length === 0) {
           if (gridApi) {
@@ -58,12 +94,9 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
           }
         } else if (gridApi) gridApi.hideOverlay();
         if (data && data.load) {
-          const rows = data.items;
-          params.successCallback(rows, undefined);
+          params.successCallback(data.items, undefined);
         } else {
-          const rows = data.items;
-          const count = params.startRow + rows.length;
-          params.successCallback(rows, count);
+          params.successCallback(data.items, params.startRow + data.items.length);
         }
       },
     };
@@ -71,6 +104,9 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
 
   const defaultColDef = {
     width: 100,
+    flex: 1,
+    wrapText: true,
+    autoHeight: true,
     headerComponentParams: {
       template:
         '<div class="ag-cell-label-container" role="presentation">' +
@@ -83,9 +119,9 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
     },
   };
 
-  const defaultGridOptions = {
-    headerHeight: 60,
-    rowHeight: 60,
+  const defaultGridOptions: GridOptions = {
+    headerHeight: 50,
+    rowHeight: 68,
     domLayout: 'normal',
     suppressCellSelection: true,
     onGridSizeChanged,
@@ -95,7 +131,8 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
     infiniteInitialRowCount: 1,
     onGridReady,
     suppressHorizontalScroll: true,
-    gridRowClicked,
+    onSortChanged,
+    onFirstDataRendered,
   };
 
   const onRowClick = (event: RowClickedEvent) => {
@@ -124,11 +161,11 @@ const Grids: React.FC<Props> = ({ col, gridRowClicked, getDataRows, refresh }) =
                 noRowsMessageFunc: () => 'No Records Found',
               }}
               rowClassRules={{
-                'inactive-customer': function (params) {
+                'inactive-customer': (params) => {
                   const activeCustomer = params.data && params.data.active;
                   return activeCustomer === false;
                 },
-                'inactive-oppt': function (params) {
+                'inactive-oppt': (params) => {
                   const activeOppty = params.data && params.data.activ;
                   return activeOppty === false;
                 },

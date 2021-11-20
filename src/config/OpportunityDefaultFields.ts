@@ -19,14 +19,14 @@ export const OpportunityDefaultFields: AddOpportunityField[] = [
   {
     description: 'Customer',
     valueFormatDesc: 'ALPHANUMERIC',
-    attributeType: 'customer',
+    attributeType: 'customerName',
     valueFormat: 'ALPHANUMERIC',
-    asyncSearch: true,
+    disabled: true,
   },
   {
     description: 'Owner',
     valueFormatDesc: 'ALPHANUMERIC',
-    attributeType: 'handler',
+    attributeType: 'userId',
     valueFormat: 'ALPHANUMERIC',
   },
   {
@@ -34,8 +34,7 @@ export const OpportunityDefaultFields: AddOpportunityField[] = [
     attributeType: 'oppRecordType',
     valueFormatDesc: 'ALPHANUMERIC',
     valueFormat: 'ALPHANUMERIC',
-    valuesExist: true,
-    reduxKey: 'crmOpportunityTypes',
+    disabled: true,
   },
   {
     description: 'Close Date',
@@ -56,5 +55,21 @@ export const OpportunityDefaultFields: AddOpportunityField[] = [
     attributeType: 'estimatedValue',
     valueFormatDesc: 'NUMERIC',
     valueFormat: 'NUMERIC',
+  },
+  {
+    description: 'Area',
+    attributeType: 'area',
+    valueFormatDesc: 'ALPHANUMERIC',
+    valueFormat: 'ALPHANUMERIC',
+    valuesExist: true,
+    reduxKey: 'crmAreaInfo',
+  },
+  {
+    description: 'Forecast Category',
+    attributeType: 'forecastCategory',
+    valueFormatDesc: 'ALPHANUMERIC',
+    valueFormat: 'ALPHANUMERIC',
+    valuesExist: true,
+    reduxKey: 'forecastInfo',
   },
 ];

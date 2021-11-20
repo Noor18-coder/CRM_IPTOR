@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
 
-
 // BASE FONT FAMILY, FONT SIZE, LINE HEIGHT & COLOR
-$base-font-family : 'Open Sans',
-sans-serif;
+$base-font-family: 'Open Sans', sans-serif;
 $base-font-size: 14px;
 $font-weight-light: 300;
 $font-weight-regular: 400;
@@ -12,29 +10,29 @@ $font-weight-bold: 700;
 $font-weight-extrabold: 800;
 
 // COLORS
-$black : #000000;
-$o-black : #2F3C46;
-$white : #ffffff;
-$tundora : #404040;
-$persian-green : #00A3A5;
-$blue-bayoux :#506574;
-$bermuda-gray: #6D899D;
-$limed-spruce: #2F3C46;
-$aqua-spring: #E9F9F9;
+$black: #000000;
+$o-black: #2f3c46;
+$white: #ffffff;
+$tundora: #404040;
+$persian-green: #00a3a5;
+$blue-bayoux: #506574;
+$bermuda-gray: #6d899d;
+$limed-spruce: #2f3c46;
+$aqua-spring: #e9f9f9;
 $cod-grey: #121212;
-$mercury: #EEF0F2;
-$geyser: #DAE2E7;
-$gull-gray:#9DB0BE;
-$jagged-ice:#D0EEEE;
-$azalea: #FBDBE1;
-$mandy : #EB617C;
-$tangerine: #E09900;
+$mercury: #eef0f2;
+$geyser: #dae2e7;
+$gull-gray: #9db0be;
+$jagged-ice: #d0eeee;
+$azalea: #fbdbe1;
+$mandy: #eb617c;
+$tangerine: #e09900;
 $iceberg: #d3ebf1; // INFO BG COLOR
 $deep-sea-green: #0c5460; // INFO TXT COLOR
-$we-peep: #F6D6DA; // DANGER BG COLOR
+$we-peep: #f6d6da; // DANGER BG COLOR
 $persiann-plum: #721c24; // DANGER TXT COLOR
 $pipi: #fef5cc; // WARNING
 $yukon-gold: #856404; // WARNING
 
-$border-radius : 4px;
-$animation-speed : 0.3s;
+$border-radius: 4px;
+$animation-speed: 0.3s;

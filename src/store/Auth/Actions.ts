@@ -12,6 +12,7 @@ import { AppState } from '../store';
 import { User, CompanyInfo, Attributes } from '../../helpers/Api';
 import { AttributeValueObject } from '../../helpers/Api/models';
 import { setLoadingMask, removeLoadingMask } from '../InitialConfiguration/Actions';
+// import { keycloak } from '../../../src/index';
 
 /** Action to set auth state logged in status */
 export const authSuccess: ActionCreator<actionTypes.AuthSuccessAction> = () => {
@@ -91,8 +92,8 @@ export const authentication: ActionCreator<
       dispatch(removeLoadingMask());
       return dispatch(authServiceFailure('Something went wrong'));
     } catch (error) {
-      dispatch(removeLoadingMask());
       dispatch(logOutSuccess());
+      dispatch(removeLoadingMask());
       const errorMessage = get(error, 'response.data.error', {});
       if (errorMessage && errorMessage.details) {
         return dispatch(authServiceFailure(errorMessage.details));
@@ -123,7 +124,7 @@ export const authWithCompany: ActionCreator<
       const response = await axios.post('/api/login', authRequest);
       if (response.status === 200) {
         const user = await User.get(response.config.data.user);
-        const userAttributes: any = await Attributes.getAttributes('SROUSP', user.handler);
+        const userAttributes: any = await Attributes.getAttributes('SROUSP', user.user);
 
         if (userAttributes && userAttributes.items) {
           const role = userAttributes.items.find((obj: AttributeValueObject) => {

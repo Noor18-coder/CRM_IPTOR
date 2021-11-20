@@ -1,10 +1,19 @@
 import React from 'react';
+import { includes } from 'lodash';
 import { Accordion, Card } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/store';
 import ImageConfig from '../../config/ImageConfig';
+import { getDateInFormat } from '../../helpers/utilities/lib';
 
-import { OpportunityDetailsBasicInfo, AttributeField, IAttributesList, AttributeValueObject, OpportunityEditOptions } from '../../helpers/Api/models';
+import {
+  OpportunityDetailsBasicInfo,
+  AttributeField,
+  IAttributesList,
+  AttributeValueObject,
+  OpportunityEditOptions,
+  OpportunityType,
+} from '../../helpers/Api/models';
 
 interface Props {
   title: string;
@@ -37,7 +46,7 @@ export const InfoAccordion: React.FC<Props> = ({ title, data, openEditOpportunit
                 return (
                   <li className="list-inline-item">
                     <span>{obj.description}</span>
-                    {obj.attributeValue ? obj.attributeValue : 'NA'}
+                    {obj.attributeValue ? `${obj.attributeValue}` : 'NA'}
                   </li>
                 );
               })}
@@ -51,32 +60,64 @@ export const InfoAccordion: React.FC<Props> = ({ title, data, openEditOpportunit
 
 interface GroupAccordianProps {
   title: string;
-  data: AttributeValueObject[];
   openEditForm: (groupName: string) => void;
+  oppType: string;
 }
 
-export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data, openEditForm }) => {
+export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, openEditForm, oppType }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
-  const [moreInformationGroups, setMoreInformationGroups] = React.useState<IAttributesList[]>();
+  const { attributes, opportunityDefaultParams } = state.opportuntyDetails;
+  const [moreInformationGroups, setMoreInformationGroups] = React.useState<IAttributesList[]>([]);
   const [activeClass, setActiveClass] = React.useState('');
+
   const toggleAccordion = () => {
     setActiveClass(activeClass === '' ? 'active' : '');
   };
 
-  React.useEffect(() => {
+  const setAllFields = (_opptyType: string) => {
     const groups = new Set(
       state.enviornmentConfigs.opportunityAttributes.map((obj: any) => {
         return obj.group;
       })
     );
-    const response: IAttributesList[] = [];
-    groups.forEach((group: string) => {
-      const groupAttributes: IAttributesList = { group, items: [] };
-      groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group === group);
-      response.push(groupAttributes);
+
+    const recordType: OpportunityType | undefined = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => {
+      return obj.oppRecordType === _opptyType;
     });
-    setMoreInformationGroups(response);
-  }, []);
+
+    const optionalFields = recordType && recordType.OPTIONAL_FIELDS ? recordType.OPTIONAL_FIELDS : [];
+    const mandatoryFields = recordType && recordType.MANDATORY_FIELDS ? recordType.MANDATORY_FIELDS : [];
+    const strArray = [...optionalFields, ...mandatoryFields];
+    const tempAttributes: AttributeField[] = state.enviornmentConfigs.opportunityAttributes || [];
+
+    if (strArray.length) {
+      const response: IAttributesList[] = [];
+      const filteredAttributes: AttributeField[] = tempAttributes.filter((obj: AttributeField) => {
+        return includes(strArray, obj.attributeType);
+      });
+
+      groups.forEach((group: string) => {
+        const items: AttributeField[] = filteredAttributes.filter((obj) => obj.group === group);
+        if (items.length) {
+          response.push({ group, items });
+        }
+      });
+
+      setMoreInformationGroups(response);
+    } else {
+      const response: IAttributesList[] = [];
+      groups.forEach((group: string) => {
+        const groupAttributes: IAttributesList = { group, items: [] };
+        groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group === group);
+        response.push(groupAttributes);
+      });
+      setMoreInformationGroups(response);
+    }
+  };
+
+  React.useEffect(() => {
+    setAllFields(oppType);
+  }, [oppType]);
 
   return (
     <Accordion defaultActiveKey="0">
@@ -86,13 +127,13 @@ export const InfoAccordionGroups: React.FC<GroupAccordianProps> = ({ title, data
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           <>
-            {moreInformationGroups?.length
+            {opportunityDefaultParams.oppRecordType && moreInformationGroups && moreInformationGroups?.length
               ? moreInformationGroups.map((key: IAttributesList) => {
                   return (
                     <DisplayGroup
                       title={key.group}
                       fields={key.items}
-                      data={data}
+                      data={attributes}
                       openEditForm={openEditForm}
                       allowEdit={state.opportuntyDetails.editOportunity.allowEdit}
                     />
@@ -123,14 +164,25 @@ export const DisplayGroup: React.FC<GroupData> = ({ title, fields, data, openEdi
       return object.attributeType === obj.attributeType;
     });
     const value = dataObject && dataObject.attributeValue ? dataObject.attributeValue : '';
-
     if (field?.valueFormatDesc === 'DATE') {
-      const year = value.substring(0, 4);
-      const month = value.substring(4, 6);
-      const day = value.substring(6, 8);
-      return `${year}-${month}-${day}`;
+      if (value !== '') {
+        const year = value.substring(0, 4);
+        const month = value.substring(4, 6);
+        const day = value.substring(6, 8);
+        const tempDate = `${year}-${month}-${day}`;
+        return getDateInFormat(new Date(tempDate));
+      } else {
+        return '--';
+      }
     } else if (field?.valueFormatDesc === 'BOOLEAN') {
-      return value ? (value === 'Y' ? 'No' : 'Yes') : '--';
+      return (
+        <span className="checkbox-label">
+          <label className="switch value-checkbox">
+            <input type="checkbox" tabIndex={0} checked={value === 'Y'} />
+            <span className="slider round disabled-checkbox">&nbsp;</span>
+          </label>
+        </span>
+      );
     }
     return value;
   };
@@ -197,13 +249,17 @@ export const DisplayGroupMobile: React.FC<GroupMobileData> = ({ fields, data }) 
 
     const value = dataObject && dataObject.attributeValue ? dataObject.attributeValue : '';
 
-    if (obj?.valueFormatDesc === 'DATE') {
+    if (!value) {
+      return '-';
+    }
+
+    if (value && obj?.valueFormatDesc === 'DATE') {
       const year = value.substring(0, 4);
       const month = value.substring(4, 6);
       const day = value.substring(6, 8);
       return `${year}-${month}-${day}`;
     } else if (obj?.valueFormatDesc === 'BOOLEAN') {
-      return value ? (value === 'Y' ? 'No' : 'Yes') : '--';
+      return value ? (value === 'Y' ? 'No' : 'Yes') : '-';
     }
     return value;
   };
@@ -225,29 +281,75 @@ export const DisplayGroupMobile: React.FC<GroupMobileData> = ({ fields, data }) 
   );
 };
 
-export const AccordianForMobileWithGroups: React.FC<GroupAccordianProps> = ({ title, data, openEditForm }) => {
+export const AccordianForMobileWithGroups: React.FC<GroupAccordianProps> = ({ title, openEditForm, oppType }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
-  const [moreInformationGroups, setMoreInformationGroups] = React.useState<IAttributesList[]>();
+  const { attributes } = state.opportuntyDetails;
+  const [moreInformationGroups, setMoreInformationGroups] = React.useState<IAttributesList[]>([]);
   const [activeClass, setActiveClass] = React.useState('');
   const toggleAccordion = () => {
     setActiveClass(activeClass === '' ? 'active' : '');
   };
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   const groups = new Set(
+  //     state.enviornmentConfigs.opportunityAttributes.map((obj: any) => {
+  //       return obj.group;
+  //     })
+  //   );
+  //   const response: IAttributesList[] = [];
+  //   groups.forEach((group: string) => {
+  //     const groupName = group.toLowerCase();
+  //     const groupAttributes: IAttributesList = { group: groupName, items: [] };
+  //     groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group.toLowerCase() === groupName);
+  //     response.push(groupAttributes);
+  //   });
+  //   setMoreInformationGroups(response);
+  // }, []);
+
+  const setAllFields = (_opptyType: string) => {
     const groups = new Set(
       state.enviornmentConfigs.opportunityAttributes.map((obj: any) => {
         return obj.group;
       })
     );
-    const response: IAttributesList[] = [];
-    groups.forEach((group: string) => {
-      const groupName = group.toLowerCase();
-      const groupAttributes: IAttributesList = { group: groupName, items: [] };
-      groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group.toLowerCase() === groupName);
-      response.push(groupAttributes);
+
+    const recordType: OpportunityType | undefined = state.enviornmentConfigs.crmOpportunityTypes.find((obj: OpportunityType) => {
+      return obj.oppRecordType === _opptyType;
     });
-    setMoreInformationGroups(response);
-  }, []);
+
+    const optionalFields = recordType && recordType.OPTIONAL_FIELDS ? recordType.OPTIONAL_FIELDS : [];
+    const mandatoryFields = recordType && recordType.MANDATORY_FIELDS ? recordType.MANDATORY_FIELDS : [];
+    const strArray = [...optionalFields, ...mandatoryFields];
+    const tempAttributes: AttributeField[] = state.enviornmentConfigs.opportunityAttributes || [];
+
+    if (strArray.length) {
+      const response: IAttributesList[] = [];
+      const filteredAttributes: AttributeField[] = tempAttributes.filter((obj: AttributeField) => {
+        return includes(strArray, obj.attributeType);
+      });
+
+      groups.forEach((group: string) => {
+        const items: AttributeField[] = filteredAttributes.filter((obj) => obj.group === group);
+        if (items.length) {
+          response.push({ group, items });
+        }
+      });
+
+      setMoreInformationGroups(response);
+    } else {
+      const response: IAttributesList[] = [];
+      groups.forEach((group: string) => {
+        const groupAttributes: IAttributesList = { group, items: [] };
+        groupAttributes.items = state.enviornmentConfigs.opportunityAttributes.filter((obj) => obj.group === group);
+        response.push(groupAttributes);
+      });
+      setMoreInformationGroups(response);
+    }
+  };
+
+  React.useEffect(() => {
+    setAllFields(oppType);
+  }, [oppType]);
 
   return (
     <div className="opp-moreinfo-sec">
@@ -267,7 +369,7 @@ export const AccordianForMobileWithGroups: React.FC<GroupAccordianProps> = ({ ti
                       ) : null}
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="1">
-                      <DisplayGroupMobile fields={obj.items} data={data} />
+                      <DisplayGroupMobile fields={obj.items} data={attributes} />
                     </Accordion.Collapse>
                   </Card>
                 </Accordion>

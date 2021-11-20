@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { get } from 'lodash';
 import * as apiModels from './models';
 import { ApiRequest } from './ApiRequest';
@@ -89,7 +89,7 @@ export default class OpportunityDetailsApi {
       parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
       itemId: params.itemId,
     });
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    const response = await axios.post('/api/service', requestData);
     return get(response, 'data');
   }
 

@@ -55,12 +55,19 @@ export interface ApprovalLogsDefault {
   userRole?: string;
 }
 
+export interface ApprovalLogsData {
+  logs: ApprovalLogsDefault[], 
+  error: string,
+}
+
 export interface ApprovalLogsParams {
   opportunityId: string;
 }
 
 export interface ApprovalLogsResponse {
-  data: ApprovalLogsDefault[];
+  data: {
+    items: ApprovalLogsDefault[];
+  };
 }
 
 export interface StageGroupList {
@@ -83,6 +90,11 @@ export interface AllNotesDefault {
 export interface AllNotesParams {
   parentFile: string;
   parentId: string;
+}
+
+export interface DeleteApprovalLogsParams {
+  opportunityId?: string;
+  approvalLogId?: string;
 }
 
 export interface AllNotesResponse {

@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Opportunity] OpportunityCard should renders correctly 1`] = `
+Array [
+  <div
+    className="d-flex justify-content-between title-row"
+  >
+    <div
+      className="lft-col"
+    >
+      <span>
+         | 
+      </span>
+    </div>
+    <div
+      className="rgt-col"
+    >
+      <span
+        className="danger"
+      />
+    </div>
+  </div>,
+  <div
+    className="d-flex justify-content-between owner-row"
+  >
+    <div
+      className="lft-col"
+    >
+      Record Type
+      <span />
+    </div>
+    <div
+      className="rgt-col"
+    >
+      Close Quarter
+      <span>
+        -
+      </span>
+    </div>
+  </div>,
+  <div
+    className="d-flex justify-content-between qtr-details-row"
+  >
+    <div
+      className="lft-col"
+    >
+      Owner
+      <span />
+    </div>
+    <div
+      className="rgt-col"
+    >
+      Forecast
+      <span />
+    </div>
+  </div>,
+  <div
+    className="d-flex justify-content-between location-row"
+  >
+    <div
+      className="lft-col"
+    >
+       undefined
+    </div>
+  </div>,
+]
+`;

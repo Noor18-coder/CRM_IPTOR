@@ -1,5 +1,8 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
+
 import moment from 'moment';
+
+import(`moment/locale/${navigator.language.toLocaleLowerCase()}`);
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -19,13 +22,24 @@ export const weekStartDate = moment().startOf('week').toDate();
 
 export const weekEndDate = moment().endOf('week').toDate();
 
-export const getDashDateFormat = (date: any): string => {
+export const getDashDateFormat = (date: Date): string => {
   const mnth = `0${date.getMonth() + 1}`.slice(-2);
   const day = `0${date.getDate()}`.slice(-2);
   return [date.getFullYear(), mnth, day].join('-');
 };
 
-export const getMonthsList = (from: any, to: any) => {
+export const getMonthsLists = (from: number, to: number): string[] => {
+  const arr: string[] = [];
+  let monthNum = from;
+  while (monthNum <= to) {
+    const month = moment().month(monthNum).format('MMMM');
+    arr.push(month);
+    monthNum += 1;
+  }
+  return arr;
+};
+
+export const getMonthsList = (from: string, to: string): string[] => {
   const datFrom = new Date(`1 ${from}`);
   const datTo = new Date(`1 ${to}`);
   let arr = monthNames.slice(datFrom.getMonth(), datTo.getMonth() + 1);
@@ -44,7 +58,8 @@ export const getQuarterOfYearFromDate = (strDate: string): string => {
   const date = new Date(strDate);
   if (date instanceof Date && !Number.isNaN(date.valueOf())) {
     const month = date.getMonth() + 1;
-    return `Q${Math.ceil(month / 3)}`;
+    const year = moment(date).format('YY');
+    return `Q${Math.ceil(month / 3)}-${year}`;
   }
   return '-';
 };
@@ -74,7 +89,7 @@ export const getEndDateOfQuarter = (quarter_name: number): string => {
   return moment(endDate).format('YYYY-MM-DD');
 };
 
-export const getCurrPrevNextYearQuarters = () => {
+export const getCurrPrevNextYearQuarters = (): string[] => {
   const currentYear = new Date().getFullYear();
   const previousYear = currentYear - 1;
   const nextYear = currentYear + 1;
@@ -101,5 +116,26 @@ export const getEndDateOfQuarterAndYear = (quarter: string, year: string): any =
 };
 
 // regx
-export const emailPattern = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+export const emailPattern =
+  // eslint-disable-next-line no-useless-escape
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const numberPattern = /^-?\d+\.?\d*$/;
+
+export const convertDateFormat = (value: string): string => {
+  const year = value.substring(0, 4);
+  const month = value.substring(4, 6);
+  const day = value.substring(6, 8);
+  return `${year}-${month}-${day}`;
+};
+export const FormatDateToLocale = (date: Date | undefined, locale?: string, format?: moment.LongDateFormatKey): any => {
+  const dateSelected = moment(date);
+  dateSelected.locale(locale ?? navigator.language);
+  dateSelected.format(format ?? 'L');
+  return `${dateSelected}`;
+};
+
+export function getDateInFormat(date: Date | undefined): string {
+  const dateSelected = moment(date);
+  const formatted = dateSelected.format('L');
+  return `${formatted}`;
+}

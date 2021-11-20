@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[OpportunityDetails] OpportunityInfoMobile should renders correctly 1`] = `
+<section
+  className="opp-product-mobilecard"
+>
+  <div
+    className="d-flex justify-content-between product-name-action-row"
+  >
+    <div
+      className="lft-prodname"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <p>
+        
+         
+        <span
+          className="id-num"
+        >
+          
+           
+        </span>
+        <span
+          className="location"
+        >
+          
+        </span>
+      </p>
+    </div>
+    <div
+      className="rgt-actioncol"
+    >
+      <ul
+        className="list-inline "
+      />
+    </div>
+  </div>
+  <div
+    className="status-row"
+  >
+    <ul
+      className="list-inline"
+    >
+      <li
+        className="list-inline-item grade"
+      >
+        
+      </li>
+      <li
+        className="list-inline-item status"
+      />
+    </ul>
+  </div>
+  <div
+    className="qtr-details d-flex justify-content-between"
+  >
+    <div
+      className="curr-qtr"
+    >
+      <p>
+        <span>
+          Close Quarter
+        </span>
+        -
+      </p>
+    </div>
+    <div
+      className="deal-size"
+    >
+      <p>
+        <span>
+          Opportunity Value
+        </span>
+         
+        undefined 
+      </p>
+    </div>
+  </div>
+  <div
+    className="mobsec-staging"
+  >
+    <p
+      className="title"
+    >
+      Stage
+    </p>
+    <div
+      className="stage-lvl"
+    >
+      <div
+        className="hscroll-wrapper"
+      >
+        <ul
+          className="list-inline stage-circles d-flex justify-content-between"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+`;

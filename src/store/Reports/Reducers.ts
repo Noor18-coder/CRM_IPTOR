@@ -40,13 +40,11 @@ const reportsReducer: Reducer<ReportsState, ReportActions> = (state = initialSta
         ...state,
         opportunityReportParams: action.opportunityReportParams,
       };
-      break;
     case ReportTypes.SAVE_CUST_REPORT_PARAMS:
       return {
         ...state,
         customerReportParams: action.customerReportParams,
       };
-      break;
     default:
       return state;
   }

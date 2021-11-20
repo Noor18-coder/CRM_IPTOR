@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Login] CompanySelection should renders correctly 1`] = `
+<div
+  className="main-wrapper companypage"
+>
+  <div
+    className="login-lft-cont-container"
+  >
+    <img
+      alt="Iptor"
+      className="login-cont-logo"
+      src="iptor-logo-white.svg"
+      title="Iptor"
+    />
+    <h1
+      className="para"
+    >
+      A milestone in the Iptor transformation journey
+    </h1>
+    <p
+      className="version-details"
+    >
+      Version 11 is the key platform for distribution and publishing businesses to turn digital disruption into digital opportunity.
+    </p>
+  </div>
+  <p
+    className="mobile-backto-login"
+  >
+    <button
+      className="txt-link footer-anchor-button"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      Back to Login
+    </button>
+  </p>
+  <div
+    className="login-panel-container"
+  >
+    <img
+      alt="Iptor"
+      className="login-form-logo"
+      src="iptor-logo-orange.svg"
+      title="Iptor"
+    />
+    <p
+      className="username-txt"
+    >
+      <span
+        className="user-txt"
+      >
+        Hi 
+        
+        ,
+      </span>
+      <span
+        className="company-txt"
+      >
+        Please Select Company
+      </span>
+    </p>
+    <div
+      className="companylist-container"
+    >
+      <ul
+        className="companys-list-item"
+      />
+    </div>
+    <p
+      className="desk-backto-login"
+    >
+      <button
+        className="txt-link footer-anchor-button"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        Back to Login
+      </button>
+    </p>
+    <p
+      className="login-copyrights"
+    >
+      Copyright © 2021 - Iptor Sweden AB |
+       
+      <button
+        className="text-link footer-anchor-button"
+        type="button"
+      >
+        Privacy Policy
+      </button>
+       
+      |
+       
+      <button
+        className="text-link footer-anchor-button"
+        type="button"
+      >
+        UK Legal?
+      </button>
+       
+      |
+       
+      <button
+        className="text-link footer-anchor-button"
+        type="button"
+      >
+        Code
+      </button>
+       
+    </p>
+  </div>
+</div>
+`;

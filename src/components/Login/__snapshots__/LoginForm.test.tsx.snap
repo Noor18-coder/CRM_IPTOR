@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Login] LoginForm should renders correctly 1`] = `
+<div
+  className="main-wrapper loginpage"
+>
+  <div
+    className="login-lft-cont-container"
+  >
+    <img
+      alt="Iptor"
+      className="login-cont-logo"
+      src="iptor-logo-white.svg"
+      title="Iptor"
+    />
+    <h1
+      className="para"
+    >
+      A milestone in the Iptor transformation journey
+    </h1>
+    <p
+      className="version-details"
+    >
+      Version 11 is the key platform for distribution and publishing businesses to turn digital disruption into digital opportunity.
+    </p>
+  </div>
+  <div
+    className="login-panel-container"
+  >
+    <img
+      alt="Iptor"
+      className="login-form-logo"
+      src="iptor-logo-orange.svg"
+      title="Iptor"
+    />
+    <p
+      className="welcome-txt"
+    >
+      <span
+        className="hi-txt"
+      >
+        Hi there!
+      </span>
+      <span
+        className="welcomeback-txt"
+      >
+        Welcome back...
+      </span>
+    </p>
+    <div
+      className="form-placeholder-container"
+    >
+      <form
+        className=""
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="form-label"
+          >
+            User ID
+          </label>
+          <input
+            className="form-control form-control"
+            id="user"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Enter UserId"
+            type="text"
+          />
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="form-label"
+          >
+            Password
+          </label>
+          <input
+            className="form-control form-control"
+            id="password"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Enter password"
+            type="password"
+          />
+        </div>
+        <button
+          className="iptor-login-btn disable-button"
+          onClick={[Function]}
+          type="submit"
+        >
+          Login
+        </button>
+      </form>
+    </div>
+    <p
+      className="login-copyrights"
+    >
+      Copyright © 2021 - Iptor Sweden AB |
+       
+      <button
+        className="text-link footer-anchor-button"
+        type="button"
+      >
+        Privacy Policy
+      </button>
+       
+      |
+       
+      <button
+        className="text-link footer-anchor-button"
+        type="button"
+      >
+        UK Legal?
+      </button>
+       
+      |
+       
+      <button
+        className="text-link footer-anchor-button"
+        type="button"
+      >
+        Code
+      </button>
+       
+    </p>
+  </div>
+</div>
+`;

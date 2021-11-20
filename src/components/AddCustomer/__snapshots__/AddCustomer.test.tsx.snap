@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AddCustomer] AddCustomer should renders correctly 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Add New Customer
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-edit-forms"
+      >
+        <div
+          className="opportunity-forms edit-form"
+        >
+          <p
+            className="add-subtitle"
+          >
+            Customer Information
+          </p>
+          <div
+            className=""
+          >
+            <div
+              className="steps-one-forms"
+            >
+              <form>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="cust-label"
+                    htmlFor="name"
+                  >
+                    Customer Name
+                  </label>
+                  <input
+                    className="form-control"
+                    id="name"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Give customer a name"
+                    type="text"
+                  />
+                </div>
+                <p
+                  className="add-subtitle"
+                >
+                  Contact Address
+                </p>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="cust-label"
+                    htmlFor="addressLine1"
+                  >
+                    Address
+                  </label>
+                  <input
+                    className="form-control"
+                    id="addressLine1"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Give address"
+                    type="text"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="cust-label"
+                    htmlFor="country"
+                  >
+                    Country
+                  </label>
+                  <select
+                    className="form-control iptor-dd"
+                    id="country"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                  >
+                    <option
+                      disabled={true}
+                      selected={true}
+                    >
+                      Select country
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="cust-label"
+                    htmlFor="area"
+                  >
+                    Area
+                  </label>
+                  <select
+                    className="form-control iptor-dd"
+                    id="area"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                  >
+                    <option
+                      disabled={true}
+                      selected={true}
+                    >
+                      Select area
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="cust-label"
+                    htmlFor="phone"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    className="form-control"
+                    id="phone"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Give phone number"
+                    type="text"
+                  />
+                </div>
+                <p
+                  className="add-subtitle"
+                >
+                  Account Information
+                </p>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="cust-label"
+                    htmlFor="EMAIL"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    className="form-control"
+                    id="EMAIL"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Give email address"
+                    type="text"
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div
+          className="step-nextbtn-with-arrow stepsone-nxtbtn"
+        >
+          <button
+            className="customer-btn disable-link"
+            id="addCustomerBtn"
+            type="button"
+          >
+            Add & Share For Approval
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

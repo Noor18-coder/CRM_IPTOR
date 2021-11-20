@@ -82,7 +82,28 @@ const LoginForm: React.FC = () => {
       const params = { ...authRequest, company };
       dispatch(authWithCompany(params));
     }
+    const user = document.getElementById('user') as HTMLInputElement;
+    const password = document.getElementById('password') as HTMLInputElement;
+
+    setTimeout(() => {
+      if (user && password) {
+        if (user.matches(':-internal-autofill-selected') && password.matches(':-internal-autofill-selected')) {
+          setIsSubmit(true);
+        }
+      }
+    }, 100);
   }, [company]);
+
+  const user = document.getElementById('user') as HTMLInputElement;
+  const password = document.getElementById('password') as HTMLInputElement;
+
+  setTimeout(() => {
+    if (user && password) {
+      if (user.matches(':-internal-autofill-selected') && password.matches(':-internal-autofill-selected')) {
+        setIsSubmit(true);
+      }
+    }
+  }, 10);
 
   return (
     <>

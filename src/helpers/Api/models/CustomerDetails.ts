@@ -1,3 +1,5 @@
+import { AttributeValueObject } from './Attributes';
+
 export interface CustomerDetailsDefault {
   businessPartner: number;
   internalName: string;
@@ -55,8 +57,16 @@ export interface CustomerDetailsParams {
   businessPartner: string;
 }
 
+export interface ViewCustomerDetailsParams {
+  contactDC: string;
+}
+
 export interface CustomerDetailsDefaultResponse {
   data: CustomerDetailsDefault[];
+}
+
+export interface ViewCustomerDetailsContactsItemResponse {
+  data: CustomerDetailsContactsGroupItem[];
 }
 
 export interface CustomerDetailsContactsGroupItem {
@@ -77,10 +87,34 @@ export interface CustomerDetailsContactsGroupItem {
   mobile?: string;
   linkedin?: string;
   ACTIVE: boolean;
+  itemId: string;
+  itemDescription: string;
+  parentFile: string;
+  parentId: string;
+  rootId: string;
+  lineNumber: string;
+  item: string;
+  ourPrice: number;
+  systemPrice: number;
+  existsInItemFile: boolean;
+  price: boolean;
+  unit: string;
+  quantity: number;
+  hasNote: boolean;
+  hasContact: boolean;
+  hasAttribute: boolean;
+  attributes?: AttributeValueObject[];
+  CONTACT_TYPE: string;
+  CONTACT_UNTIL: string;
+  DESCRIPTION: string;
+}
+
+export interface CustomerDetailsContactsGroupItemResponseData {
+  items: CustomerDetailsContactsGroupItem[];
 }
 
 export interface CustomerDetailsContactsGroupItemResponse {
-  data: CustomerDetailsContactsGroupItem[];
+  data: CustomerDetailsContactsGroupItemResponseData;
 }
 
 export interface CustomerDeleteParams {
@@ -100,6 +134,14 @@ export interface CrmCountry {
   validateCounty: number;
 }
 
+export interface CrmCountryResponseData {
+  items: CrmCountry[];
+}
+
+export interface CrmCountryResponse {
+  data: CrmCountryResponseData;
+}
+
 export interface CrmCountryParams {
   country: string;
 }
@@ -107,6 +149,14 @@ export interface CrmCountryParams {
 export interface Area {
   area: string;
   description: string;
+}
+
+export interface AreaResponseData {
+  items: Area[];
+}
+
+export interface AreaResponse {
+  data: AreaResponseData;
 }
 
 export interface AreaParams {
@@ -127,6 +177,10 @@ export interface CrmUserDetails {
   MANAGER: string;
   PHONE: [];
   ROLE: string;
+}
+
+export interface CrmUserDetailsResponse {
+  data: CrmUserDetails;
 }
 
 export interface CrmUserDetailsParams {

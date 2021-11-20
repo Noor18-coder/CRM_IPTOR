@@ -18,6 +18,8 @@ export enum OpportunityDetailsTypes {
   SAVE_OPPORTUNITY_PRODUCTS = 'SAVE_OPPORTUNITY_PRODUCTS',
   SAVE_OPPORTUNITY_CONTACTS = 'SAVE_OPPORTUNITY_CONTACTS',
   SAVE_PRODUCT_INFORMATION = 'SAVE_PRODUCT_INFORMATION',
+  RESET_OPPORTUNITY_DETAILS = 'RESET_OPPORTUNITY_DETAILS',
+  SAVE_APPROVAL_LOGS = 'SAVE_APPROVAL_HISTORY_LOGS',
 }
 
 /** Action to save default parameters of opportunity */
@@ -76,6 +78,14 @@ export interface SetOpportunityDetailsLoaderAction extends Action<OpportunityDet
 /** Remove Loading mask on opportunity details action */
 export interface RemoveOpportunityDetailsLoaderAction extends Action<OpportunityDetailsTypes.REMOVE_OPPTY_DETAILS_LOADING_MASK> {}
 
+/** Set Loading mask on opportunity details action */
+export interface ResetOpportunityDetails extends Action<OpportunityDetailsTypes.RESET_OPPORTUNITY_DETAILS> {}
+
+/** Action to save error while loading opportunity */
+export interface SaveApprovalHistoryLogs extends Action<OpportunityDetailsTypes.SAVE_APPROVAL_LOGS> {
+  data: models.ApprovalLogsData;
+}
+
 export type OpportunityDetailsReduxActions =
   | SaveOpportunityDetailsAction
   | SaveOpportunityAttributesAction
@@ -88,7 +98,9 @@ export type OpportunityDetailsReduxActions =
   | SetOpportunityDetailsError
   | SaveOpportunityContacts
   | SaveOpportunityProducts
-  | SaveProductInformation;
+  | SaveProductInformation
+  | ResetOpportunityDetails
+  | SaveApprovalHistoryLogs;
 
 /** Authentication state definition */
 export interface OpportunityDetailsState {
@@ -97,6 +109,7 @@ export interface OpportunityDetailsState {
   readonly products: models.Product[];
   readonly contacts: models.OpportunityContact[];
   readonly editOportunity: models.OpportunityEditOptions;
+  readonly approvalHistoryLogs: models.ApprovalLogsData;
   readonly loader: boolean;
   readonly error?: string;
 }

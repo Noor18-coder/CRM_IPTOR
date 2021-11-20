@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[OpportunityDetails] ProductAccordian should renders correctly 1`] = `
+<div
+  className="accordion"
+>
+  <div
+    className="add-details card"
+  >
+    <a
+      className="card-link"
+      onClick={[Function]}
+    >
+      Products and Modules
+    </a>
+    <div
+      aria-expanded={null}
+      className="collapse"
+    >
+      <div
+        className="accr-body-container prod-modules-tbl mob-prod-modules-tbl"
+      >
+        <div
+          className="no-prod-data-txt"
+        >
+           No Records Found 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[OpportunityDetails] ProductCards should renders correctly 1`] = `
+<div
+  className="mr-10 mob-prod-modules-card"
+>
+  <div
+    className="d-flex justify-content-between product-row"
+  >
+    <div
+      className="lft-col"
+    >
+      Item ID
+       
+      <span />
+    </div>
+    <div
+      className="rgt-col"
+    >
+      Item Name
+       
+      <span
+        className="danger"
+      />
+    </div>
+  </div>
+  <div
+    className="d-flex justify-content-between product-row prod-mod-collection"
+  />
+  <div
+    className="d-flex justify-content-between product-row action-row"
+  >
+    <button
+      className=" d-flex justify-content-between product-row icon-class mr-6"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="icon"
+      >
+        <img
+          alt="edit"
+          className="del-icon"
+          src="delete-icon.svg"
+          title="edit"
+        />
+        Delete
+      </span>
+    </button>
+    <button
+      className=" d-flex justify-content-between product-row icon-class"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="icon"
+      >
+        <img
+          alt="edit"
+          className="del-icon"
+          src="edit-icon.svg"
+          title="edit"
+        />
+        Edit
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`[OpportunityDetails] ProductCardsTable should renders correctly 1`] = `
+<tr>
+  <td
+    className="prod-class"
+  />
+  <td
+    className="prod-class"
+  />
+  <td
+    className="prod-revenue-class"
+  />
+</tr>
+`;

@@ -25,6 +25,7 @@ import NAV_MORE_DOTS from '../assets/images/nav-more.svg';
 import ADD_ICON from '../assets/images/add-icon.svg';
 import CLOSE_BTN from '../assets/images/close.svg';
 import ADD_BTN from '../assets/images/add_btn.svg';
+import VIEW_BTN from '../assets/images/View.png';
 import PHONE from '../assets/images/phone.svg';
 import MAIL from '../assets/images/mail.svg';
 import CHEVRON_LEFT from '../assets/images/chevron-left-black.svg';
@@ -33,6 +34,11 @@ import CHEVRON_RIGHT_WHITE from '../assets/images/chevron-right-white.svg';
 import STEP_CHECK_ICON from '../assets/images/steps-completed-check.svg';
 import BTN_CLOSE_ICON from '../assets/images/btn_close.svg';
 import BTN_CHECK_ICON from '../assets/images/btn_check.svg';
+import CLOSE_BTN_RED from '../assets/images/close_red.svg';
+import HEADER_USER_ICON from '../assets/images/header-user-icon.svg';
+import MOB_IPTOR_LOGO from '../assets/images/mobile-iptor-logo.svg';
+import MOB_HEADER_SEARCH from '../assets/images/mob-header-search.svg';
+import ASSIGN_TO from '../assets/images/assignto_icon.svg';
 
 const ImageConfig = {
   LogoImage,
@@ -61,6 +67,7 @@ const ImageConfig = {
   NAV_MORE_DOTS,
   ADD_ICON,
   ADD_BTN,
+  VIEW_BTN,
   PHONE,
   MAIL,
   CLOSE_BTN,
@@ -70,6 +77,11 @@ const ImageConfig = {
   STEP_CHECK_ICON,
   BTN_CLOSE_ICON,
   BTN_CHECK_ICON,
+  CLOSE_BTN_RED,
+  HEADER_USER_ICON,
+  MOB_IPTOR_LOGO,
+  MOB_HEADER_SEARCH,
+  ASSIGN_TO,
 };
 
 export default ImageConfig;

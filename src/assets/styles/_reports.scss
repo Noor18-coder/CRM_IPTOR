@@ -1,318 +1,292 @@
 .section-reports {
-    position: relative;
-    padding-bottom: 50px;
+  position: relative;
+  padding-bottom: 50px;
 
-    .action-btns-row {
-        margin-top: 32px;
-        margin-bottom: 40px;
-        margin-left: 24px;
-        margin-right: 24px;
-        .lft-col{
-            padding: 0;
-        }
+  .action-btns-row {
+    margin-top: 32px;
+    margin-bottom: 40px;
+    margin-left: 24px;
+    margin-right: 24px;
+    .lft-col {
+      padding: 0;
     }
+  }
 
-    .actioncards-container {
-        margin-left: 9px;
-        margin-right: 9px;
+  .actioncards-container {
+    margin-left: 9px;
+    margin-right: 9px;
 
-        .card {
-            box-shadow: none;
+    .card {
+      box-shadow: none;
 
-            .card-body {
-                padding: 0;
-                background: $white;
-                @include border-radius($border-radius);
+      .card-body {
+        padding: 0;
+        background: $white;
+        @include border-radius($border-radius);
 
-                .card-title {
-                    font: {
-                        weight: $font-weight-bold;
-                        size: $base-font-size + 4;
-                    }
+        .card-title {
+          font: {
+            weight: $font-weight-bold;
+            size: $base-font-size + 4;
+          }
 
-                    padding: 16px;
-                    border-bottom: solid 1px $geyser;
-                    margin-bottom: 0;
+          padding: 16px;
+          border-bottom: solid 1px $geyser;
+          margin-bottom: 0;
+        }
+
+        .card-list-item-container {
+          margin-top: 16px;
+          margin-bottom: 16px;
+          padding: 0 16px;
+          height: 360px;
+          overflow: auto;
+
+          .report-list-items {
+            li {
+              padding: 15px 60px 15px 16px;
+              border: solid 1px $geyser;
+              @include border-radius($border-radius);
+              @include transition;
+              margin-bottom: 12px;
+              position: relative;
+              cursor: pointer;
+
+              font: {
+                weight: $font-weight-semibold;
+                size: $base-font-size;
+              }
+
+              &::after {
+                position: absolute;
+                content: '';
+                right: 12px;
+                top: 13px;
+                background: url(../images/uncheck_circle.svg) no-repeat;
+                background-size: cover;
+                height: 24px;
+                width: 24px;
+                display: block;
+              }
+
+              &.active {
+                color: $blue-bayoux;
+                border: solid 1px $persian-green;
+                background: $jagged-ice;
+
+                &::after {
+                  position: absolute;
+                  content: '';
+                  right: 12px;
+                  top: 13px;
+                  background: url(../images/check-circle.svg) no-repeat;
+                  background-size: cover;
+                  height: 24px;
+                  width: 24px;
+                  display: block;
                 }
+              }
 
-                .card-list-item-container {
-                    margin-top: 16px;
-                    margin-bottom: 16px;
-                    padding: 0 16px;
-                    height: 360px;
-                    overflow: auto;
-
-                    .report-list-items {
-
-                        li {
-                            padding: 15px 60px 15px 16px;
-                            border: solid 1px $geyser;
-                            @include border-radius($border-radius);
-                            @include transition;
-                            margin-bottom: 12px;
-                            position: relative;
-                            cursor: pointer;
-
-                            font: {
-                                weight: $font-weight-semibold;
-                                size: $base-font-size;
-                            }
-
-                            &::after {
-                                position: absolute;
-                                content: '';
-                                right: 12px;
-                                top: 13px;
-                                background: url(../images/uncheck_circle.svg) no-repeat;
-                                background-size: cover;
-                                height: 24px;
-                                width: 24px;
-                                display: block;
-                            }
-
-                            &.active {
-                                color: $blue-bayoux;
-                                border: solid 1px $persian-green;
-                                background: $jagged-ice;
-
-                                &::after {
-                                    position: absolute;
-                                    content: '';
-                                    right: 12px;
-                                    top: 13px;
-                                    background: url(../images/check-circle.svg) no-repeat;
-                                    background-size: cover;
-                                    height: 24px;
-                                    width: 24px;
-                                    display: block;
-                                }
-                            }
-
-                            &:hover {
-                                padding-left: 20px;
-
-                            }
-                        }
-                    }
-                }
+              &:hover {
+                padding-left: 20px;
+              }
             }
+          }
         }
+      }
     }
+  }
 
-    .mob-download-csv-btn {
-        display: none;
-        position: fixed;
-        right: 17px;
-        bottom: 70px;
-    }
+  .mob-download-csv-btn {
+    display: none;
+    position: fixed;
+    right: 17px;
+    bottom: 70px;
+  }
 }
 
 .report-btns {
-    padding: 12px 24px;
+  padding: 12px 24px;
+  color: $white;
+  background: $geyser;
+  color: $bermuda-gray;
+  margin-right: 16px;
+  border: none;
+
+  font: {
+    family: $base-font-family;
+    weight: $font-weight-semibold;
+    size: $base-font-size + 2;
+  }
+
+  @include border-radius(24px);
+  @include transition;
+  text-decoration: none;
+
+  &:hover {
+    background: darken($geyser, 5%);
+  }
+
+  &.active {
+    background: $limed-spruce;
     color: $white;
-    background: $geyser;
-    color: $bermuda-gray;
-    margin-right: 16px;
-    border: none;
-
-    font: {
-        family: $base-font-family;
-        weight: $font-weight-semibold;
-        size: $base-font-size + 2;
-    }
-
-    @include border-radius(24px);
-    @include transition;
-    text-decoration: none;
-
-    &:hover {
-        background: darken($geyser, 5%);
-    }
-
-    &.active {
-        background: $limed-spruce;
-        color: $white;
-    }
+  }
 }
 
-
 .download-csv-btn {
-    padding: 12px 24px;
+  padding: 12px 24px;
+  color: $white;
+  background: $mandy;
+  color: $white;
+  border: none;
+
+  font: {
+    family: $base-font-family;
+    weight: $font-weight-semibold;
+    size: $base-font-size + 2;
+  }
+
+  @include border-radius(24px);
+  @include transition;
+  text-decoration: none;
+
+  &:hover {
+    background: darken($mandy, 5%);
+  }
+
+  &.active {
+    background: $limed-spruce;
     color: $white;
-    background: $mandy;
-    color: $white;
-    border: none;
-
-    font: {
-        family: $base-font-family;
-        weight: $font-weight-semibold;
-        size: $base-font-size + 2;
-    }
-
-    @include border-radius(24px);
-    @include transition;
-    text-decoration: none;
-
-    &:hover {
-        background: darken($mandy, 5%);
-    }
-
-    &.active {
-        background: $limed-spruce;
-        color: $white;
-    }
+  }
 }
 
 .mob-download-csv-btn {
-    padding: 12px 16px;
-    padding-left: 40px;
-    color: $white;
-    color: $white;
-    z-index: 999;
+  padding: 12px 16px;
+  padding-left: 40px;
+  color: $white;
+  color: $white;
+  z-index: 999;
+  border: none;
 
-    font: {
-        family: $base-font-family;
-        weight: $font-weight-semibold;
-        size: $base-font-size + 2;
-    }
+  font: {
+    family: $base-font-family;
+    weight: $font-weight-semibold;
+    size: $base-font-size + 2;
+  }
 
-    @include border-radius($border-radius);
-    @include transition;
-    text-decoration: none;
-    position: relative;
+  background: $mandy url(../images/download.svg) no-repeat 9px center;
+  @include border-radius($border-radius);
+  @include transition;
+  text-decoration: none;
+  position: relative;
 
-    background: $mandy;
-
+  &:hover {
     &::before {
-        position: absolute;
-        content: '';
-        width: 30px;
-        height: 24px;
-        left: 4px;
-        top: 9px;
-        display: block;
-        background: $mandy url(../images/download.svg) no-repeat 4px center;
-        background-size: 24px;
-        @include transition;
+      top: 6px;
     }
-
-    &:hover {
-        background: darken($mandy, 5%);
-
-        &::before {
-            top: 6px;
-        }
-    }
+  }
 }
 
-
 @media (max-width: 320px) {
-    .section-reports {
-        height: 100vh;
+  .section-reports {
+    height: 100vh;
 
-        .action-btns-row {
-            margin-top: 27px;
-            margin-bottom: 40px;
-            margin-left: 12px;
-            margin-right: 12px;
+    .action-btns-row {
+      margin-top: 27px;
+      margin-bottom: 40px;
+      margin-left: 12px;
+      margin-right: 12px;
 
-            .lft-col {
-                .report-btns {
-                    font: {
-                        size: $base-font-size;
-                    }
+      .lft-col {
+        .report-btns {
+          font: {
+            size: $base-font-size;
+          }
 
-                    padding: 12px 10px;
-                }
-            }
-
-            .rgt-col {
-                .download-csv-btn {
-                    display: none;
-                }
-            }
+          padding: 12px 10px;
         }
+      }
 
-        .actioncards-container {
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom: 60px;
-            padding-bottom: 100px;
-
-            .card {
-                .card-body {
-                    .card-list-item-container {
-                        height: 250px;
-                    }
-                }
-            }
+      .rgt-col {
+        .download-csv-btn {
+          display: none;
         }
-
-        .mob-download-csv-btn {
-            display: block;
-        }
+      }
     }
+
+    .actioncards-container {
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 60px;
+      padding-bottom: 100px;
+
+      .card {
+        .card-body {
+          .card-list-item-container {
+            height: 250px;
+          }
+        }
+      }
+    }
+
+    .mob-download-csv-btn {
+      display: block;
+    }
+  }
 }
 
 @media (min-width: 321px) and (max-width: 767.98px) {
-    .section-reports {
-        height: 100vh;
+  .section-reports {
+    height: 100vh;
 
-        .action-btns-row {
-            margin-top: 27px;
-            margin-bottom: 40px;
-            margin-left: 12px;
-            margin-right: 12px;
+    .action-btns-row {
+      margin-top: 27px;
+      margin-bottom: 40px;
+      margin-left: 12px;
+      margin-right: 12px;
 
-            .lft-col {
-                .report-btns {
-                    font: {
-                        size: $base-font-size;
-                    }
+      .lft-col {
+        .report-btns {
+          font: {
+            size: $base-font-size;
+          }
 
-                    padding: 12px 10px;
-                }
-            }
-
-            .rgt-col {
-                .download-csv-btn {
-                    display: none;
-                }
-            }
+          padding: 12px 10px;
         }
+      }
 
-        .actioncards-container {
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom: 60px;
-
-            .card {
-                .card-body {
-                    .card-list-item-container {
-                        height: 250px;
-                    }
-                }
-            }
+      .rgt-col {
+        .download-csv-btn {
+          display: none;
         }
-
-        .mob-download-csv-btn {
-            display: block;
-        }
+      }
     }
-}
 
-@media (max-width: 767.98px) and (orientation:landscape) {}
+    .actioncards-container {
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 60px;
+      padding-bottom: 120px;
+
+      .card {
+        .card-body {
+          .card-list-item-container {
+            height: 250px;
+          }
+        }
+      }
+    }
+
+    .mob-download-csv-btn {
+      display: block;
+    }
+  }
+}
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .section-reports {
-        .actioncards-container {
-            margin-bottom: 60px;
-        }
+  .section-reports {
+    .actioncards-container {
+      margin-bottom: 60px;
     }
+  }
 }
-
-@media (max-width: 991.98px) and (orientation:landscape) {}
-
-@media (min-width: 992px) and (max-width: 1199.98px) {}
-
-@media (min-width: 1200px) {}

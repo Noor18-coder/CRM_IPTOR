@@ -70,6 +70,7 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
   const dispatch: Dispatch<any> = useDispatch();
   const [contactDetails, setContactDetails] = React.useState<models.OpportunityDetailsGroupItem[]>([]);
   const [opportunityRole, setOpportunityRole] = React.useState<string | undefined>('');
+  const [opptContactAddr, setOpptContactAddr] = React.useState<string | undefined>('');
   React.useEffect(() => {
     loadContactAttributes();
   }, []);
@@ -78,6 +79,7 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
     const response = await OpportunityDetailsApi.getContactDetails(data.contactId);
     setContactDetails(response);
     const addressObj = response.find((obj: any) => obj.attributeType === 'ADDRESS');
+    setOpptContactAddr(addressObj?.attributeValue);
     // eslint-disable-next-line no-param-reassign
     data.visitingAddress = addressObj?.attributeValue;
     const roleObj = response.find((obj) => obj.attributeType === 'ROLE');
@@ -116,6 +118,11 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
     }
   };
 
+  const openViewContactForm = (viewData: OpportunityContact) => {
+    document.body.classList.add('body-scroll-hidden');
+    dispatch(openOpportunityForm({ open: true, groupName: 'view_contact', data: viewData, action: 'edit' }));
+  };
+
   return (
     <div className="col-md-4">
       <div className="card mb-4">
@@ -127,14 +134,27 @@ export const ContactCards: React.FC<React.PropsWithChildren<ContactProps>> = ({ 
             </p>
             <p className="mailid">{data.email ? data.email : '--'}</p>
             <p className="contact-num">{data.phone ? data.phone : '--'}</p>
-            <p className="contact-address">{data.visitingAddress ? data.visitingAddress : '--'}</p>
+            <p className="contact-address">{opptContactAddr || '--'}</p>
           </div>
-          {state.opportuntyDetails.editOportunity.allowEdit ? (
-            <button type="button" className="address-card-close link-anchor-button" onClick={removeContact}>
-              <Image className="card-delete" height="20" src={ImageConfig.CLOSE_BTN} />
-            </button>
-          ) : null}
 
+          <div className="card-action-btns">
+            {state.opportuntyDetails.editOportunity.allowEdit ? (
+              <>
+                <Image
+                  height="21"
+                  width="21"
+                  className="view-contact"
+                  src={ImageConfig.VIEW_BTN}
+                  alt="View"
+                  title="View"
+                  onClick={() => openViewContactForm(data)}
+                />
+                <button type="button" className="address-card-close link-anchor-button" onClick={removeContact}>
+                  <Image className="card-delete" height="20" src={ImageConfig.CLOSE_BTN} />
+                </button>
+              </>
+            ) : null}
+          </div>
           <div className="select-opportunity-sec">
             {state.opportuntyDetails.editOportunity.allowEdit ? (
               <div className="form-group">

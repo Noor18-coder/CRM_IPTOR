@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] Header should renders correctly 1`] = `
+Array [
+  <div
+    className="dshbrd-sticky-header"
+  >
+    <div
+      className="dshbrd-logo-row"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-9 lft-col pr-0"
+        >
+          <ul
+            className="list-inline"
+          >
+            <li
+              className="list-inline-item"
+            >
+              <img
+                className=""
+                src="mobile-iptor-logo.svg"
+              />
+            </li>
+            <li
+              className="list-inline-item"
+            >
+              
+            </li>
+          </ul>
+        </div>
+        <div
+          className="col-3 pl-0 rgt-col text-right"
+        >
+          <ul
+            className="list-inline"
+          >
+            <li
+              className="list-inline-item"
+            >
+              <img
+                className="dshbrd-mob-usericon"
+                onClick={[Function]}
+                src="header-user-icon.svg"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="mobview-user-prof-container"
+    id="mob-logout"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="presentation"
+  >
+    <div
+      className="panel-container"
+    >
+      <ul
+        className="user-settings-list"
+      >
+        <li
+          className="username"
+        >
+          
+        </li>
+        <li
+          className="mob-logout"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+        >
+          Logout
+        </li>
+      </ul>
+    </div>
+  </div>,
+]
+`;

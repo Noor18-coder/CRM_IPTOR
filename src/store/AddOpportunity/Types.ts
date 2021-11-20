@@ -10,6 +10,7 @@ export enum AddOpportunityTypes {
   SAVE_ADD_OPPTY_ATTRIBUTE = 'SAVE_ADD_OPPTY_ATTRIBUTE',
   SAVE_ADD_OPPTY_ITEMS = 'SAVE_ADD_OPPTY_ITEMS',
   SAVE_ADD_OPPTY_CONTACTS = 'SAVE_ADD_OPPTY_CONTACTS',
+  SAVE_ADD_OPPTY_PRODUCTS = 'SAVE_ADD_OPPTY_PRODUCTS',
   SET_ADD_OPPORTUNITY_LOADER = 'SET_ADD_OPPORTUNITY_LOADER',
   RESET_OPPORTUNITY_DATA = 'RESET_OPPORTUNITY_DATA',
   SET_ADD_OPPORTUNITY_WINDOW = 'SET_ADD_OPPORTUNITY_WINDOW',
@@ -63,6 +64,11 @@ export interface SetAddOpportunityContacts extends Action<AddOpportunityTypes.SA
   contacts: CustomerDetailsContactsGroupItem[];
 }
 
+/** Authentication success action */
+export interface SetAddOpportunityProducts extends Action<AddOpportunityTypes.SAVE_ADD_OPPTY_PRODUCTS> {
+  products: Item[];
+}
+
 export type AddOpportunityReduxActions =
   | SaveOpportuntyParamAction
   | SaveOpportuntyAddAttributeAction
@@ -71,6 +77,7 @@ export type AddOpportunityReduxActions =
   | SaveOpportuntyAddItemsAction
   | RemoveOpportunityDataAction
   | SetAddOpportunityContacts
+  | SetAddOpportunityProducts
   | SetAddOpportunityError
   | SetAddOpportunitySuccess;
 
@@ -82,6 +89,7 @@ export interface AddOpportunityState {
   readonly attributes: UserDefinedFieldReduxParams[];
   readonly items: Item[];
   readonly contacts: CustomerDetailsContactsGroupItem[];
+  readonly products: Item[];
   readonly error: string;
   readonly success: boolean;
 }

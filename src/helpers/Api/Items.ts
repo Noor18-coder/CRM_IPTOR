@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import { ItemResponse } from './models/Items';
 import { ApiRequest } from './ApiRequest';
@@ -18,6 +18,6 @@ export default class Items {
   static async get(freeTextSearch: string, offset?: number, limit?: number): Promise<ItemResponse> {
     const requestData = new ApiRequest(this.apiMethod, {}, { freeTextSearch, limit, offset });
     const response = await axios.post<ItemResponse>('/api/service', requestData);
-    return get(response, 'data');
+    return get<AxiosResponse<ItemResponse>, 'data'>(response, 'data');
   }
 }

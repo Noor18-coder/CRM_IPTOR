@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AddOpportunity] AddOpportunitySelectItems should renders correctly 1`] = `
+Array [
+  <div
+    className="opportunity-step-circles"
+  >
+    <ul
+      className="list-inline step-circles"
+    >
+      <li
+        className="list-inline-item circle-stepone steps"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          1
+        </span>
+      </li>
+      <li
+        className="list-inline-item circle-steptwo steps"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          2
+        </span>
+      </li>
+      <li
+        className="list-inline-item circle-stepthree steps active"
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          3
+        </span>
+      </li>
+    </ul>
+  </div>,
+  <div
+    className="opportunity-forms thirdstep form-top"
+  >
+    <div
+      className="selected-products"
+    >
+      <div
+        className="thirdstep-tag-hscroll"
+      />
+    </div>
+    <div
+      className=""
+    >
+      <div
+        className="steps-three-forms"
+      >
+        <div
+          className="form-group oppty-form-elements"
+        >
+          <input
+            className="form-control search-ipbox"
+            onChange={[Function]}
+            onKeyPress={[Function]}
+            placeholder="Search Item"
+            type="text"
+          />
+        </div>
+        <div
+          className="radiobtn-collection oppty-form-elements"
+        >
+          <p
+            className="title"
+          >
+            Select Product and Modules
+          </p>
+          <div
+            className="product-items-container"
+          >
+            <ul
+              className="opptytype-list-item"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn done"
+      onClick={[Function]}
+      type="button"
+    >
+      Done
+    </button>
+  </div>,
+]
+`;

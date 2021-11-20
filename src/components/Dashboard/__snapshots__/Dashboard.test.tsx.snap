@@ -1,0 +1,1243 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Dashboard] Dashboard should renders correctly 1`] = `
+Array [
+  <nav
+    className="site-navbar navbar navbar-default bg-black"
+    role="navigation"
+  >
+    <div
+      className="navbar-container container-fluid"
+    >
+      <div
+        className="navbar-header"
+      >
+        <div
+          className="navbar-brand navbar-brand-center navbar-sec-logo"
+        >
+          <img
+            alt="..."
+            className="navbar-brand-logo"
+            src="iptor_icon.svg"
+            title="iptor"
+          />
+        </div>
+        <div
+          className="navbar-brand navbar-brand-center navbar-sec-flag"
+        >
+          <span
+            className="navbar-brand-text hidden-xs-down"
+          >
+             
+            
+          </span>
+        </div>
+      </div>
+      <ul
+        className="nav navbar-toolbar navbar-right navbar-toolbar-right"
+      >
+        <li
+          className="nav-item active"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/"
+            onClick={[Function]}
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="dashboard-selected-icon.svg"
+              />
+              <i>
+                Dashboard
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/opportunities"
+            onClick={[Function]}
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-oppty-icon.svg"
+              />
+              <i>
+                Opportunities
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/customers"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-customers-icon.svg"
+              />
+              <i>
+                Customers
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/reports"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-report-icon.svg"
+              />
+              <i>
+                Reports
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar header-notification"
+            data-animation="scale-up"
+            href="/notifications"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-notifications-icon.svg"
+              />
+              <i>
+                Notifications
+              </i>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <ul
+        className="nav navbar-toolbar"
+      >
+        <button
+          className="logout"
+          onClick={[Function]}
+          type="button"
+        >
+          
+        </button>
+      </ul>
+    </div>
+  </nav>,
+  <div
+    className="dshbrd-sticky-header"
+  >
+    <div
+      className="dshbrd-logo-row"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-9 lft-col pr-0"
+        >
+          <ul
+            className="list-inline"
+          >
+            <li
+              className="list-inline-item"
+            >
+              <img
+                className=""
+                src="mobile-iptor-logo.svg"
+              />
+            </li>
+            <li
+              className="list-inline-item"
+            >
+              
+            </li>
+          </ul>
+        </div>
+        <div
+          className="col-3 pl-0 rgt-col text-right"
+        >
+          <ul
+            className="list-inline"
+          >
+            <li
+              className="list-inline-item"
+            >
+              <img
+                className="dshbrd-mob-usericon"
+                onClick={[Function]}
+                src="header-user-icon.svg"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="mobview-user-prof-container"
+    id="mob-logout"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="presentation"
+  >
+    <div
+      className="panel-container"
+    >
+      <ul
+        className="user-settings-list"
+      >
+        <li
+          className="username"
+        >
+          
+        </li>
+        <li
+          className="mob-logout"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+        >
+          Logout
+        </li>
+      </ul>
+    </div>
+  </div>,
+  <div
+    className="dashboard-cards-container"
+  >
+    <div
+      className="container-fluid"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-12"
+        >
+          <p
+            className="cardsec-title"
+          >
+            Opportunity
+          </p>
+        </div>
+        <div
+          className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+        >
+          <div
+            className="card mb-2"
+          >
+            <div
+              className="card-title-row"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-xl-6 col-lg-5 col-md-6 col-sm-4 col-5"
+                >
+                  <select
+                    className="form-control dshbrd-cards-dd"
+                    onChange={[Function]}
+                  >
+                    <option
+                      value="Won vs Lost"
+                    >
+                      Won vs Lost
+                    </option>
+                    <option
+                      value="Revenue"
+                    >
+                      Revenue
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="col-xl-6 col-lg-7 col-md-6 col-sm-8 col-7 text-right"
+                >
+                  <ul
+                    className="nav nav-tabs dsbd-tabs float-right"
+                    role="tablist"
+                  >
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        data-toggle="tab"
+                        id="day-tab"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Week
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="month-tab"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Month
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="year-tab"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Year
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              className="card-body card-body-height"
+            >
+              <div
+                className="tab-content"
+              >
+                <canvas
+                  data-testid="canvas"
+                  height={150}
+                  onClick={[Function]}
+                  role="img"
+                  width={300}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+        >
+          <div
+            className="card mb-2"
+          >
+            <div
+              className="card-title-row"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-xl-6 col-lg-5 col-md-6 col-sm-4 col-5"
+                >
+                  <select
+                    className="form-control dshbrd-cards-dd"
+                    onChange={[Function]}
+                  >
+                    <option
+                      value="All Regions"
+                    >
+                      All Regions
+                    </option>
+                    <option
+                      value="Top 10 Industries"
+                    >
+                      Top 10 Industries
+                    </option>
+                    <option
+                      value="Top 10 Types"
+                    >
+                      Top 10 Types
+                    </option>
+                    <option
+                      value="Top Sales Person"
+                    >
+                      Top Sales Person
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="col-xl-6 col-lg-7 col-md-6 col-sm-8 col-7 text-right"
+                >
+                  <ul
+                    className="nav nav-tabs dsbd-tabs float-right"
+                    role="tablist"
+                  >
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="day-tab"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Week
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="month-tab"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Month
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="year-tab"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Year
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              className="card-body card-body-height"
+            >
+              <div
+                className="tab-content"
+              >
+                <canvas
+                  data-testid="canvas"
+                  height={150}
+                  onClick={[Function]}
+                  role="img"
+                  width={300}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+        >
+          <div
+            className="card mb-2"
+          >
+            <div
+              className="card-title-row"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-6"
+                >
+                  <p
+                    className="card-title"
+                  >
+                    Pipeline
+                  </p>
+                </div>
+                <div
+                  className="col-6 text-right singlelink"
+                >
+                  <span
+                    className="pipeline-title-link"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="presentation"
+                  >
+                    View All
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="card-body pipeline card-body-height"
+            >
+              <div
+                className="row"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-12"
+        >
+          <p
+            className="cardsec-title"
+          >
+            Customer
+          </p>
+        </div>
+        <div
+          className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+        >
+          <div
+            className="card mb-2"
+          >
+            <div
+              className="card-title-row"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <ul
+                    className="nav nav-tabs dsbd-tabs lftside-tabs"
+                    role="tablist"
+                  >
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link active"
+                        id="cust-newlyadded"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Newly Added
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="custinactive"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Inactive
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              className="card-body card-body-height"
+            >
+              <div
+                className="tab-content"
+              >
+                <div
+                  aria-labelledby="cust-newlyadded"
+                  className="tab-pane fade show active"
+                  id="cust-newly-added"
+                  role="tabpanel"
+                >
+                  <ul
+                    className="recent-customer-list"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+        >
+          <div
+            className="card mb-2"
+          >
+            <div
+              className="card-title-row"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-xl-7 col-lg-6 col-md-6 col-sm-7 col-6"
+                >
+                  <select
+                    className="form-control dshbrd-cards-dd"
+                  >
+                    <option>
+                      Top 3 by Opportunities
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="col-xl-5 col-lg-6 col-md-6 col-sm-5 col-6 text-right"
+                >
+                  <ul
+                    className="nav nav-tabs dsbd-tabs float-right"
+                    role="tablist"
+                  >
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="qone"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Q1
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="qtwo"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Q2
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="qthree"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Q3
+                      </button>
+                    </li>
+                    <li
+                      className="nav-item"
+                      role="presentation"
+                    >
+                      <button
+                        className="nav-link"
+                        id="qfour"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        Q4
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              className="card-body card-body-height"
+            >
+              <div
+                className="tab-content"
+              >
+                <div
+                  aria-labelledby="qone"
+                  className="tab-pane fade show active"
+                  id="opp-qone"
+                  role="tabpanel"
+                >
+                  <canvas
+                    data-testid="canvas"
+                    height={150}
+                    onClick={[Function]}
+                    role="img"
+                    width={300}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+        >
+          <div
+            className="card mb-2"
+          >
+            <div
+              className="card-title-row"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-xl-7 col-lg-6 col-md-7 col-sm-8 col-6"
+                >
+                  <p
+                    className="card-title"
+                  >
+                    Targeted Customers
+                  </p>
+                </div>
+                <div
+                  className="col-xl-5 col-lg-6 col-md-5 col-sm-4 col-6 text-right"
+                >
+                  <select
+                    className="form-control dshbrd-cards-dd float-right"
+                    onChange={[Function]}
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              className="card-body card-body-height"
+            >
+              <ul
+                className="target-customer-list"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row newsandupdates"
+      >
+        <div
+          className="col-md-6 lft-col"
+        >
+          <div
+            className="col-12 section-title"
+          >
+            <p>
+              News & Updates
+            </p>
+          </div>
+          <div
+            className="news-container"
+          >
+            <ul
+              className="news-collections-list"
+            >
+              <li>
+                <div
+                  className="month-val"
+                >
+                  August 2021
+                </div>
+                <ul
+                  className="news-feeds-items"
+                >
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <div
+                  className="month-val"
+                >
+                  September 2021
+                </div>
+                <ul
+                  className="news-feeds-items"
+                >
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                  <li
+                    className="news-feed"
+                  >
+                    <p
+                      className="title"
+                    >
+                      Product launch
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati animi labore ea, mollitia nemo, recusandae voluptatibus vero dolores assumenda nihil dolorem esse adipisci nobis natus tempore consequatur quas. Quia, doloribus.
+                    </p>
+                    <div
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        className="btn btn-link viewmore"
+                        type="button"
+                      >
+                        View more
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="col-md-6 rgt-col"
+        >
+          <div
+            className="col-12 section-title"
+          >
+            <p>
+              Calendar Events
+            </p>
+          </div>
+          <div
+            className="calendar-container"
+          >
+            <ul
+              className="calendar-events-list"
+            >
+              <li>
+                <div
+                  className="date-val"
+                >
+                  6 August 2021
+                </div>
+                <ul
+                  className="cal-events-items"
+                >
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      04:00 pm - 05:00 pm
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Architecto pariatur eaque sed deserunt, ducimus doloremque.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      05:00 pm - 05:30 pm
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Expedita veritatis debitis eveniet a ratione facilis doloribus asperiores sit nemo.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <div
+                  className="date-val"
+                >
+                  5 August 2021
+                </div>
+                <ul
+                  className="cal-events-items"
+                >
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      09:00 am - 11:00 am
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      CRM Project Essential Planning
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      11:00 am - 11:30 am
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Lorem ipsum dolor sit amet.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      04:00 pm - 05:00 pm
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Architecto pariatur eaque sed deserunt, ducimus doloremque.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      05:00 pm - 05:30 pm
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Expedita veritatis debitis eveniet a ratione facilis doloribus asperiores sit nemo.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <div
+                  className="date-val"
+                >
+                  28 July 2021
+                </div>
+                <ul
+                  className="cal-events-items"
+                >
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      05:00 pm - 05:30 pm
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Expedita veritatis debitis eveniet a ratione facilis doloribus asperiores sit nemo.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                  <li
+                    className="events-list"
+                  >
+                    <p
+                      className="date-time"
+                    >
+                      04:00 pm - 05:00 pm
+                    </p>
+                    <p
+                      className="title"
+                    >
+                      Architecto pariatur eaque sed deserunt, ducimus doloremque.
+                    </p>
+                    <p
+                      className="desc"
+                    >
+                      Online Webex Meeting
+                    </p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;

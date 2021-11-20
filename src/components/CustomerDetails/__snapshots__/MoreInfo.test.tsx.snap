@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[CustomerDetails] DisplayGroup should renders correctly 1`] = `
+<div
+  className="more-info-group-container"
+>
+  <div
+    className="more-info-group-name"
+  >
+    <span>
+      title
+    </span>
+  </div>
+  <div
+    className="accr-body-container"
+  >
+    <ul
+      className="list-inline bdy-list-item accr-list-columns"
+    />
+  </div>
+</div>
+`;
+
+exports[`[CustomerDetails] DisplayGroupMobile should renders correctly 1`] = `
+<div
+  className="more-info-group-container"
+>
+  <div
+    className="accr-body-container"
+  />
+</div>
+`;
+
+exports[`[CustomerDetails] MoreInfoAccordian should renders correctly 1`] = `
+<div
+  className="accordion"
+>
+  <div
+    className="card"
+  >
+    <a
+      className="card-link"
+      onClick={[Function]}
+    >
+      title
+    </a>
+    <div
+      aria-expanded={null}
+      className="collapse"
+    />
+  </div>
+</div>
+`;
+
+exports[`[CustomerDetails] MoreInfoAccordianMobile should renders correctly 1`] = `
+<div
+  className="opp-moreinfo-sec"
+>
+  title
+</div>
+`;

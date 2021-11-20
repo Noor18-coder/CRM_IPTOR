@@ -12,14 +12,14 @@ import { getCurrencySymbol } from '../../helpers/utilities/lib';
 import OpportunityList from '../../helpers/Api/OpportunityList';
 import { setBusinessPartnerLoader } from '../../store/AddCustomer/Actions';
 import Loader from '../Shared/Loader/Loader';
-import { APPROVAL_STATUS } from '../../config/Constants';
+import { Constants, APPROVAL_STATUS } from '../../config/Constants';
 
 const NotificationList: React.FC = () => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-  const isDesktop = useMediaQuery({ minWidth: 992 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const state: AppState = useSelector((loggedState: AppState) => loggedState);
   const [params, setParams] = React.useState<any>({});
+  const [rparams, setRParams] = React.useState<any>({});
+  const [isActive, setActive] = React.useState(false);
   const dispatch: Dispatch<any> = useDispatch();
   const [opptyNotificationList, setOpptyNotificationList] = React.useState<models.OpportunityListItem[]>([]);
   const history = useHistory();
@@ -30,15 +30,40 @@ const NotificationList: React.FC = () => {
 
   const fetchOpptyNotificationList = async () => {
     dispatch(setBusinessPartnerLoader(true));
-    params.selectApprover = state.auth.user.handler;
+    params.selectApprover = state.auth.user.user;
+    params.selectApprovalStatus = APPROVAL_STATUS.SUBMITTED;
     setParams(params);
-    const data: any = await OpportunityList.get('', '', 30, 0, '', params);
+    const data: any = await OpportunityList.get(Constants.OPPORTUNITY_LIST_LOAD_LIMIT, 0, '', params);
     if (data && data.data && data.data.items) {
       setOpptyNotificationList(data.data.items);
     } else {
       setOpptyNotificationList([]);
     }
     dispatch(setBusinessPartnerLoader(false));
+  };
+
+  const fetchOpptyRejectedList = async () => {
+    dispatch(setBusinessPartnerLoader(true));
+    rparams.selectUserId = state.auth.user.user;
+    rparams.selectApprovalStatus = APPROVAL_STATUS.REJECTED;
+    setRParams(rparams);
+    const data: any = await OpportunityList.get(Constants.OPPORTUNITY_LIST_LOAD_LIMIT, 0, '', rparams);
+    if (data && data.data && data.data.items) {
+      setOpptyNotificationList(data.data.items);
+    } else {
+      setOpptyNotificationList([]);
+    }
+    dispatch(setBusinessPartnerLoader(false));
+  };
+
+  const showApproverList = () => {
+    setActive(!isActive);
+    fetchOpptyNotificationList();
+  };
+
+  const showRejectedList = () => {
+    setActive(!isActive);
+    fetchOpptyRejectedList();
   };
 
   const openOpptyDetails = (opportunityId: any) => {
@@ -52,13 +77,15 @@ const NotificationList: React.FC = () => {
       <Header page={4} />
       {state.addBusinessPartner.loader && <Loader component="opportunity" />}
       <div className="section-notification">
-        <div className="row s-header filterrow">
-          <div className="col-2">
-            <div className="filter-btn-group">
-              <button className="active" type="button">
-                All
-              </button>
-            </div>
+        <div className="d-flex justify-content-between action-btns-row">
+          <div className="lft-col noti-tabs">
+            <input
+              type="button"
+              className={isActive ? 'report-btns' : 'report-btns active'}
+              value="Pending for Approval"
+              onClick={() => showApproverList()}
+            />
+            <input type="button" className={isActive ? 'report-btns active' : 'report-btns'} value="Rejected" onClick={() => showRejectedList()} />
           </div>
         </div>
         <div className="notification-list-items">
@@ -140,8 +167,7 @@ const NotificationList: React.FC = () => {
             : null}
         </div>
       </div>
-      {isDesktop ? <Footer /> : null}
-      {isMobile || isTablet ? <FooterMobile page={4} /> : null}
+      {isMobile ? <FooterMobile page={4} /> : <Footer />}
     </>
   );
 };

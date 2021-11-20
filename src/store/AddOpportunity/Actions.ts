@@ -14,6 +14,7 @@ import {
   SetAddOpportunityContacts,
   SetAddOpportunityError,
   SetAddOpportunitySuccess,
+  SetAddOpportunityProducts,
 } from './Types';
 
 /** Action to set auth state logged in status */
@@ -62,6 +63,13 @@ export const setOpportunityContacts: ActionCreator<SetAddOpportunityContacts> = 
   return {
     type: AddOpportunityTypes.SAVE_ADD_OPPTY_CONTACTS,
     contacts,
+  };
+};
+
+export const setOpportunityProducts: ActionCreator<SetAddOpportunityProducts> = (products: Item[]) => {
+  return {
+    type: AddOpportunityTypes.SAVE_ADD_OPPTY_PRODUCTS,
+    products,
   };
 };
 

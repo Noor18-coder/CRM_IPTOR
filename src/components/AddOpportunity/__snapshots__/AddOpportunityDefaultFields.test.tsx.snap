@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AddOpportunity] AddOpportunityDefaultFields should renders correctly 1`] = `
+Array [
+  <div
+    className="opportunity-step-circles"
+  >
+    <ul
+      className="list-inline step-circles"
+    >
+      <li
+        className="list-inline-item circle-stepone steps active"
+      >
+        <span
+          className="num"
+        >
+          1
+        </span>
+      </li>
+      <li
+        className="list-inline-item circle-steptwo steps"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          2
+        </span>
+      </li>
+      <li
+        className="list-inline-item circle-stepthree steps"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          3
+        </span>
+      </li>
+    </ul>
+  </div>,
+  <div
+    className="opportunity-forms form-top"
+  >
+    <p
+      className="stepone-title"
+    >
+      Opportunity Name & Type
+    </p>
+    <p>
+      Sorry, we are not able to load form at the moment. Please try later.
+    </p>
+  </div>,
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn inactive"
+      disabled={true}
+      onClick={[Function]}
+      type="button"
+    >
+      NEXT
+      <span
+        className="right-whit-arrow"
+      >
+        <img
+          alt="Next Arrow"
+          src="chevron-right-white.svg"
+        />
+      </span>
+    </button>
+  </div>,
+]
+`;

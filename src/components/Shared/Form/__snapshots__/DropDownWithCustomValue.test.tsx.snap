@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] DropDownWithCustomValue should renders correctly 1`] = `
+<div
+  className="adding-txt-field-container"
+>
+  <div
+    className="form-group oppty-form-elements"
+  >
+    <label
+      className="opp-label"
+      htmlFor="jshjd"
+    >
+      ndndss
+    </label>
+    <div>
+      <input
+        className="form-control"
+        list="OPTIONS_undefined"
+        onChange={[MockFunction]}
+        placeholder="ndndss"
+        type="text"
+      />
+      <datalist
+        id="OPTIONS_undefined"
+      />
+    </div>
+  </div>
+  <div
+    className="form-element-with-delete-button"
+  >
+    <div
+      className="form-group oppty-form-elements add-new-ipfield"
+    >
+      <input
+        className="form-control"
+        list="OPTIONS_undefined"
+        onChange={[MockFunction]}
+        placeholder="ndndss"
+        type="text"
+      />
+      <datalist
+        id="OPTIONS_undefined"
+      />
+    </div>
+  </div>
+</div>
+`;

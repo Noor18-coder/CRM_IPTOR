@@ -15,7 +15,7 @@ const ApprovalHistory: React.FC = () => {
   const [stageData, setStageData] = React.useState<any>();
   const [stageGroups, setStageGroups] = React.useState<any>();
   const [comments, setComments] = React.useState<any>();
-  const approvalLogsData = state.opportuntyDetails.editOportunity.approvalHistory;
+  const { logs } = state.opportuntyDetails.approvalHistoryLogs;
 
   const getCommentsDetails = (approvalData: ApprovalLogsDefault[]) => {
     dispatch(setOpportunityLoader(true));
@@ -31,11 +31,11 @@ const ApprovalHistory: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (approvalLogsData) {
-      getCommentsDetails(approvalLogsData);
-      setApprovalDetails(approvalLogsData);
+    if (logs) {
+      getCommentsDetails(logs);
+      setApprovalDetails(logs);
     }
-  }, [approvalLogsData]);
+  }, [logs]);
 
   React.useEffect(() => {
     dispatch(setOpportunityLoader(false));

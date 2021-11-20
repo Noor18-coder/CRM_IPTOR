@@ -1,13 +1,14 @@
+import { ICellRendererParams, ColDef } from 'ag-grid-community';
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../helpers/utilities/lib';
-// import Dots from '../assets/images/nav-more.svg';
 import { APPROVAL_STATUS } from './Constants';
 
-const OpportunityGridOptions = [
+const OpportunityGridOptions: ColDef[] = [
   {
     field: 'oppRecordType',
     sortable: true,
     headerName: 'Types',
-    cellRenderer: (params: any) => {
+    width: 160,
+    cellRenderer: (params: ICellRendererParams): string => {
       return params.value ? params.value : '';
     },
   },
@@ -15,7 +16,8 @@ const OpportunityGridOptions = [
     field: 'desc',
     sortable: true,
     headerName: 'Name & Number',
-    cellRenderer: (params: any) => {
+    width: 160,
+    cellRenderer: (params: ICellRendererParams): string => {
       return (
         ` <span class="o-name">${params.value ? params.value : ''}</span>` +
         `<span class="o-number">${params.data && params.data.opportunityId ? params.data.opportunityId : ''}</span>`
@@ -26,15 +28,17 @@ const OpportunityGridOptions = [
     field: 'name',
     sortable: true,
     headerName: 'Customer',
-    cellRenderer: (params: any) => {
+    width: 120,
+    cellRenderer: (params: ICellRendererParams): string => {
       return `<span class="o-customer">${params.value ? params.value : ''}</span>`;
     },
   },
   {
-    field: 'handler',
-    sortable: true,
+    field: 'userId',
+    sortable: false,
     headerName: 'Owner',
-    cellRenderer: (params: any) => {
+    width: 120,
+    cellRenderer: (params: ICellRendererParams): string => {
       return `<span class="o-owner">${params.value ? params.value : ''}</span>`;
     },
   },
@@ -42,10 +46,11 @@ const OpportunityGridOptions = [
     field: 'stage',
     sortable: true,
     headerName: 'Stage',
-    cellRenderer: (params: any) => {
-      let approvalClass = 'o-stage grade';
-
+    wrapText: false,
+    width: 90,
+    cellRenderer: (params: ICellRendererParams): string => {
       if (params.data && params.data.approvalStatus) {
+        let approvalClass = 'o-stage grade';
         if (params.data.approvalStatus === APPROVAL_STATUS.SUBMITTED) {
           approvalClass = 'o-stage submit';
         } else if (params.data.approvalStatus === APPROVAL_STATUS.REJECTED) {
@@ -68,8 +73,9 @@ const OpportunityGridOptions = [
     field: 'forecastCategory',
     sortable: true,
     headerName: 'Forecast',
-    cellRenderer: (params: any) => {
-      return params.value;
+    width: 115,
+    cellRenderer: (params: ICellRendererParams): string => {
+      return `<span class="o-forecast">${params.value ? params.value : ''}</span>`;
     },
   },
 
@@ -77,7 +83,8 @@ const OpportunityGridOptions = [
     field: 'endDate',
     sortable: true,
     headerName: 'Close Quarter',
-    cellRenderer: (params: any) => {
+    width: 150,
+    cellRenderer: (params: ICellRendererParams): string => {
       return `<span class="o-quarter">${params.value ? getQuarterOfYearFromDate(params.value) : ''}</span></div>`;
     },
   },
@@ -85,7 +92,8 @@ const OpportunityGridOptions = [
     field: 'estValueSys',
     sortable: true,
     headerName: 'Size',
-    cellRenderer: (params: any) => {
+    width: 120,
+    cellRenderer: (params: ICellRendererParams): string => {
       return `<span class="o-size">${params.data && params.data.currency ? getCurrencySymbol(params.data.currency) : ''} ${
         params.value === undefined ? '' : params.value
       }</span></div>`;

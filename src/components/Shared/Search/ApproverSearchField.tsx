@@ -1,83 +1,90 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/no-unresolved */
 /* eslint-disable no-shadow */
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { AppState } from '../../../store/store';
 import { UserItem } from '../../../helpers/Api/models';
+import ImageConfig from '../../../config/ImageConfig';
 
 const ApproverRoles = ['Admin', 'Manager'];
 
 interface Props {
-  onChange: (data: UserItem) => void;
+  onChange: (data: string) => void;
   description: string;
   currentSelectedUser?: string;
+  disabled: boolean;
+  value?: string;
 }
 
-const UserSearchField: React.FC<Props> = ({ onChange, description, currentSelectedUser }) => {
+const ApproverSearchField: React.FC<Props> = (props) => {
+  const { onChange, description, disabled, value } = props;
   const state: AppState = useSelector((appState: AppState) => appState);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [options, setOptions] = React.useState<UserItem[]>([]);
-
-  const [username, setUserName] = React.useState<string>('');
-  // const [userFullName, setFullNameUser] = React.useState<string>('');
-  const [defaultSelected, setDefaultSelected] = React.useState<UserItem[]>();
-
   const onUserChange = (user: UserItem[]) => {
     if (user && user.length) {
       setEdit(false);
-      setUserName(user[0].user);
-      setDefaultSelected(user);
-      onChange(user[0]);
+      onChange(user[0].user);
     }
   };
 
-  const onInputValueChange = () => {
-    setEdit(true);
-  };
+  const onInputValueChange = (flag: boolean) => {
+    setEdit(flag);
 
-  const getSelectedUser = () => {
-    const user = options.find((obj) => obj.user.toLowerCase() === username?.toLowerCase());
-    if (user) {
-      return user.description;
+    if (flag === true) {
+      onChange('');
     }
-    return '';
   };
 
   React.useEffect(() => {
-    setUserName(currentSelectedUser || '');
     const users: UserItem[] = state.users.users.filter((obj: UserItem) => {
       const role = obj.ROLE ? obj.ROLE : '';
       return ApproverRoles.indexOf(role) > -1;
     });
     setOptions(users);
-    const user = state.users.users.find((obj) => obj.user.toLowerCase() === currentSelectedUser?.toLowerCase());
-
-    if (user) {
-      setDefaultSelected([user]);
-    }
   }, []);
 
   return (
     <>
       {edit ? (
-        <Typeahead
-          id="handler"
-          onChange={onUserChange}
-          multiple={false}
-          maxResults={options.length}
-          options={options}
-          defaultSelected={defaultSelected}
-          paginate={false}
-          placeholder={description}
-          labelKey={(option) => `${option.description}`}
-        />
+        <>
+          <div>
+            <Typeahead
+              id="userId"
+              onChange={onUserChange}
+              multiple={false}
+              maxResults={options.length}
+              options={options}
+              paginate={false}
+              placeholder={description}
+              autoFocus
+              labelKey={(option) => `${option.description}`}
+            />
+            <button
+              type="button"
+              className="edit-approver-name"
+              onClick={() => {
+                onInputValueChange(false);
+              }}>
+              <img src={ImageConfig.CLOSE_BTN} alt="edit" />
+            </button>
+          </div>
+        </>
       ) : (
-        <input type="text" value={getSelectedUser()} className="form-control" onFocus={onInputValueChange} />
+        <>
+          <input type="text" value={`${value}`} disabled={disabled} className="form-control" />
+          <button
+            type="button"
+            className="edit-approver-name"
+            onClick={() => {
+              onInputValueChange(true);
+            }}>
+            <img src={ImageConfig.EDIT_ICON} alt="edit" />
+          </button>
+        </>
       )}
     </>
   );
 };
 
-export default UserSearchField;
+export default ApproverSearchField;

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
+import { ChartData, ChartOptions, ScatterDataPoint, BubbleDataPoint } from 'chart.js';
 import 'chartjs-plugin-datalabels';
+import { AppState } from '../../../store/store';
 
 interface Props {
   data: any;
@@ -9,6 +12,7 @@ interface Props {
 const HorizontalBarChart: React.FC<Props> = ({ data }) => {
   const [customerData, setCustomerData] = React.useState<any[]>();
   const [inProgressData, setInProgressData] = React.useState<any[]>();
+  const state: AppState = useSelector((appState: AppState) => appState);
 
   const getAreaData = () => {
     if (data) {
@@ -27,11 +31,11 @@ const HorizontalBarChart: React.FC<Props> = ({ data }) => {
     getAreaData();
   }, [data]);
 
-  const chartData = {
+  const chartData: ChartData = {
     labels: customerData,
     datasets: [
       {
-        data: inProgressData,
+        data: inProgressData as (number | ScatterDataPoint | BubbleDataPoint | null)[],
         backgroundColor: '#91D3D3',
         borderColor: '#91D3D3',
         borderWidth: 1,
@@ -40,12 +44,22 @@ const HorizontalBarChart: React.FC<Props> = ({ data }) => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions = {
     indexAxis: 'y',
+    scales: {
+      x: {
+        ticks: {
+          callback: (value: any) => {
+            return `${
+              state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA ? state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA : ''
+            } ${value}`;
+          },
+        },
+      },
+    },
     elements: {
       bar: {
         borderWidth: 1,
-        width: 1,
       },
     },
     responsive: true,

@@ -2,14 +2,12 @@ export interface OpportunityType {
   oppRecordType: string;
   description: string;
   MANDATORY_FIELDS: string[];
-  OPTIONAL_FILEDS: string[];
+  OPTIONAL_FIELDS: string[];
 }
 
 export interface OpportunityTypeResponse {
   data: {
-    data: {
-      items: OpportunityType[];
-    };
+    items: OpportunityType[];
   };
 }
 

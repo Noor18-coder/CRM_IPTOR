@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[OpportunityDetails] ProductAccordian should renders correctly 1`] = `
+<div
+  className="staging-highlight d-flex justify-content-between title-row"
+>
+  <div
+    className="lft-col stages"
+  >
+    <ul
+      className="hbreadcrumb stage-lists"
+    />
+  </div>
+</div>
+`;

@@ -6,10 +6,11 @@ import i18n from '../../i18n';
 import { AppState } from '../../store/store';
 import { ApprovalLog } from '../../helpers/Api/ApprovalLog';
 import * as models from '../../helpers/Api/models';
-import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
+import { openOpportunityForm, saveOpportunityDetails, saveOpportunityLogs } from '../../store/OpportunityDetails/Actions';
 import { setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
-import { ParentFiles } from '../../config/Constants';
+import { ParentFiles, APPROVAL_STATUS } from '../../config/Constants';
 import { Notes } from '../../helpers/Api/Notes';
+import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
 interface Props {
   reloadOpportunity: () => void;
@@ -35,6 +36,17 @@ const ApproverSubmit: React.FC<Props> = ({ reloadOpportunity }) => {
     setComment(e.currentTarget.value);
   };
 
+  const isManager = (userId: string) => {
+    const tempUser: models.UserItem | undefined = state.users.users.find((obj: models.UserItem) => {
+      return obj.user === userId;
+    });
+
+    if (tempUser && tempUser.MANAGER && tempUser.MANAGER === state.auth.user.user) {
+      return true;
+    }
+    return false;
+  };
+
   const submitApproval = async () => {
     if (opportunityData && key) {
       const submitApprovalDetails = {
@@ -58,6 +70,22 @@ const ApproverSubmit: React.FC<Props> = ({ reloadOpportunity }) => {
           await Notes.addNote(params);
           dispatch(removeLoadingMask());
           closePopupAndReloadOpportunity();
+          const details: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opportunityData.opportunityId);
+          dispatch(saveOpportunityDetails(details));
+          dispatch(saveOpportunityLogs(opportunityData.opportunityId));
+          if (
+            details &&
+            (state.auth.user.role === 'Admin' ||
+              (details.approvalStatus &&
+                details.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+                details.activ === true &&
+                state.auth.user.user === details.userId) ||
+              (data.activ === true && data.userId && isManager(data.userId)))
+          ) {
+            dispatch(openOpportunityForm({ allowEdit: true }));
+          } else {
+            dispatch(openOpportunityForm({ allowEdit: false }));
+          }
         } else if (data && data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
           setApprovalError(data.messages[0].text);
           dispatch(removeLoadingMask());
@@ -83,11 +111,9 @@ const ApproverSubmit: React.FC<Props> = ({ reloadOpportunity }) => {
               </label>
               <textarea className="form-control" placeholder={i18n.t('addComment')} id="comment" onChange={onInputValueChange} />
             </div>
-            <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-              <button className="approval-btn" type="button" onClick={submitApproval}>
-                {key === 'rejected' ? i18n.t('reject') : i18n.t('approve')}
-              </button>
-            </div>
+            <button className="approval-btn" type="button" onClick={submitApproval}>
+              {key === 'rejected' ? i18n.t('reject') : i18n.t('approve')}
+            </button>
             {approvalError ? <p className="error">{approvalError}</p> : null}
           </div>
         </div>

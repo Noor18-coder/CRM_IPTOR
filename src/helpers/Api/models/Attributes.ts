@@ -43,6 +43,7 @@ export interface AttributeFormField {
   id?: string;
   valueId?: string;
   error?: string;
+  mandatoryField?: boolean;
 }
 
 export interface AttributeParams {
@@ -50,8 +51,12 @@ export interface AttributeParams {
   attributeType?: string;
 }
 
+export interface AttributeResponseData {
+  items: AttributeField[];
+}
+
 export interface AttributeResponse {
-  data: AttributeField[];
+  data: AttributeResponseData;
 }
 
 export interface IAttributesList {
@@ -83,7 +88,7 @@ export interface SaveAttributeFieldParam {
   parentFile?: string;
   parentId?: string;
   attributeType: string;
-  attributeValue?: string | number | boolean;
+  attributeValue?: string | number;
   valueId?: string;
   attributeValueD?: string | number | boolean;
   attributeValueB?: string | boolean;
@@ -110,4 +115,25 @@ export interface AttributesValuesRequestParam {
 
 export interface AttributeValuesRequestParam {
   attributeId: string;
+}
+
+export interface DeleteAttributeMethodParams {
+  valueId: string;
+}
+
+export interface UpdateAttributeParamsMethodParams {
+  businessPartnerId: string;
+  attributeType: string;
+  attributeValue: string | number;
+  valueId: string;
+  type?: string;
+}
+
+export interface AddAttributesMethodParams {
+  fileName: string;
+  parentId: string;
+  attributeType: string;
+  attributeValue: string | number;
+  attributeValueB?: boolean;
+  attributeValueD?: string;
 }

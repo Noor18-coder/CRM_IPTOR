@@ -11,7 +11,7 @@ import Container from '../AddOpportunity/Container';
 import { AppState } from '../../store/store';
 import { saveBusinessPartnerContacts, saveCustomerDefaultFields } from '../../store/AddCustomer/Actions';
 
-const CustomerDetails: React.FC = (props: any) => {
+const CustomerDetails: React.FC<any> = (props: any) => {
   const customerState: AppState = useSelector((EditState: AppState) => EditState);
   const dispatch: Dispatch<any> = useDispatch();
   const {

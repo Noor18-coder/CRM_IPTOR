@@ -62,3 +62,9 @@ export interface AddItemToOpportunityParams {
 export interface AddItemToOpportunityResponse {
   itemId: string;
 }
+
+export interface ItemsApiMethodParams {
+  freeTextSearch: string;
+  offset?: number;
+  limit?: number;
+}

@@ -3,11 +3,11 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { get, pick } from 'lodash';
-import { Image } from 'react-bootstrap';
+// import { Image } from 'react-bootstrap';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
-import errorIcon from '../../assets/images/error.png';
-import { UserSearchField } from '../Shared/Search/UserSearchField';
+// import errorIcon from '../../assets/images/error.png';
+import UserSearchField from '../Shared/Search/UserSearchField';
 import { editOpportunity } from '../../store/OpportunityDetails/Actions';
 import { OpportunityDefaultFields } from '../../config/OpportunityDefaultFields';
 import AsyncSearchInput from '../Shared/Search/AsyncSearchInput';
@@ -28,7 +28,8 @@ const EditBasicInfo: React.FC = () => {
   const opportunityDetails: models.AddOpportunityDefaultParams = pick(state.opportuntyDetails.opportunityDefaultParams, [
     'opportunityId',
     'area',
-    'handler',
+    'forecastCategory',
+    'userId',
     'reason',
     'endDate',
     'probability',
@@ -37,7 +38,7 @@ const EditBasicInfo: React.FC = () => {
     'stage',
     'currency',
     'desc',
-    'customer',
+    'customerName',
   ]);
 
   const [opportunity, setOpportunity] = React.useState<models.AddOpportunityDefaultParams>(opportunityDetails);
@@ -74,6 +75,19 @@ const EditBasicInfo: React.FC = () => {
           fieldDescription: obj.description,
         };
       });
+    } else if (key === 'forecastInfo') {
+      mapped = results.map((obj: models.ForeCastInfo) => {
+        return {
+          valueField: obj.forecastCategory,
+        };
+      });
+    } else if (key === 'crmAreaInfo') {
+      mapped = results.map((obj: models.AreaInfo) => {
+        return {
+          valueField: obj.area,
+          fieldDescription: obj.description,
+        };
+      });
     } else {
       mapped = results.map((obj: models.StageInfo) => {
         return {
@@ -97,6 +111,7 @@ const EditBasicInfo: React.FC = () => {
           [id]: i18n.t('numericFieldError'),
         });
         element.style.border = '1px solid #ED2024';
+        return;
       } else {
         setErrorMessages({
           ...errors,
@@ -115,20 +130,23 @@ const EditBasicInfo: React.FC = () => {
     const { id, value } = e.currentTarget;
 
     const field = fields.find((obj: models.AddOpportunityField) => obj.attributeType === id);
-    if (field && field.valueFormat === 'N' && !value.match(regex)) {
+    const element = document.getElementById(id) as HTMLInputElement;
+    if (field && field.valueFormat === 'NUMERIC' && !value.match(regex)) {
       setErrorMessages({
         ...errors,
         [id]: i18n.t('numericFieldError'),
       });
-    } else if (field && field.valueFormat === 'N') {
+      element.style.border = '1px solid #ED2024';
+    } else if (field && field.valueFormat === 'NUMERIC') {
       setErrorMessages({
         ...errors,
         [id]: '',
       });
+      element.style.border = '1px solid #DAE2E7';
     }
   };
 
-  const onDateChange = (id: any, key: string) => {
+  const onDateChange = (id: any, key: any) => {
     setOpportunity({
       ...opportunity,
       [id]: key,
@@ -156,90 +174,99 @@ const EditBasicInfo: React.FC = () => {
     if (user) {
       setOpportunity({
         ...opportunity,
-        handler: user.user,
+        userId: user.user,
       });
     }
   };
 
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+  };
   return (
     <>
       <div className="opportunity-edit-form">
-        {state.opportuntyDetails.editOportunity.error ? (
-          <p className="error">
-            <Image className="alert-icon" src={errorIcon} width={15} height={12} />
-            &nbsp; {state.opportuntyDetails.editOportunity.error}
-          </p>
-        ) : null}
-        <form>
-          {fields?.length
-            ? fields.map((obj: models.AddOpportunityField) => {
-                if (obj.attributeType === 'handler') {
-                  return (
-                    <div className="form-group oppty-form-elements">
-                      <label htmlFor="owner" className="opp-label">
-                        {obj.description}
-                      </label>
-                      <UserSearchField onChange={onHandlerChange} description="Owner" currentSelectedUser={getValue(obj.attributeType)} />
-                    </div>
-                  );
-                }
-                if (obj.asyncSearch) {
-                  return (
-                    <div className="form-group oppty-form-elements">
-                      <label htmlFor="customer" className="opp-label">
-                        {obj.description}
-                      </label>
-                      <AsyncSearchInput id="customer" onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
-                    </div>
-                  );
-                }
-                if (obj.valueFormatDesc === 'DATE') {
-                  return (
-                    <div className="form-group oppty-form-elements">
-                      <label htmlFor="endDate" className="opp-label">
-                        {obj.description}
-                      </label>
-                      <DateInput onDateSelect={(value: string) => onDateChange(obj.attributeType, value)} currentDate={getValue(obj.attributeType)} />
-                    </div>
-                  );
-                }
-                if (obj.valuesExist) {
-                  return (
-                    <SelectItem
-                      description={obj.description}
-                      selected={getValue(obj.attributeType)}
-                      attributeType={obj.attributeType}
-                      options={getValues(obj.reduxKey)}
-                      onSelect={onInputValueChange}
-                      error={errors[obj.attributeType]}
-                    />
-                  );
-                }
-                return (
-                  <div className="form-group oppty-form-elements">
-                    <label htmlFor={obj.attributeType} className="opp-label">
-                      {obj.description}
-                    </label>
-                    <input
-                      type="text"
-                      value={getValue(obj.attributeType)}
-                      className="form-control"
-                      placeholder={`${obj.description}`}
-                      id={obj.attributeType}
-                      onChange={onInputValueChange}
-                      onBlur={onBlur}
-                    />
-                    <span className="form-hints">{errors[obj.attributeType]}</span>
-                  </div>
-                );
-              })
-            : null}
+        <form onSubmit={(e) => onSubmit(e)}>
+          <div className="opportunity-forms edit-form">
+            {/* <p className="stepone-title">Opportunity Name</p> */}
+            <p className="title">Basic Details</p>
+            <div className="">
+              <div className="steps-one-forms">
+                {fields?.length
+                  ? fields.map((obj: models.AddOpportunityField) => {
+                      if (obj.attributeType === 'userId') {
+                        return (
+                          <div className="form-group oppty-form-elements">
+                            <label htmlFor="owner" className="opp-label">
+                              {obj.description}
+                            </label>
+                            <UserSearchField onChange={onHandlerChange} description="Owner" currentSelectedUser={getValue(obj.attributeType)} />
+                          </div>
+                        );
+                      }
+                      if (obj.asyncSearch) {
+                        return (
+                          <div className="form-group oppty-form-elements">
+                            <label htmlFor="customer" className="opp-label">
+                              {obj.description}
+                            </label>
+                            <AsyncSearchInput id="customer" onSearch={searchCustomers} onSearchItemSelect={onSearchItemSelect} />
+                          </div>
+                        );
+                      }
+                      if (obj.valueFormatDesc === 'DATE') {
+                        return (
+                          <div className="form-group oppty-form-elements">
+                            <label htmlFor="endDate" className="opp-label">
+                              {obj.description}
+                            </label>
+                            <DateInput
+                              onDateSelect={(value: Date) => onDateChange(obj.attributeType, value)}
+                              currentDate={getValue(obj.attributeType)}
+                            />
+                          </div>
+                        );
+                      }
+                      if (obj.valuesExist) {
+                        return (
+                          <SelectItem
+                            description={obj.description}
+                            selected={getValue(obj.attributeType)}
+                            attributeType={obj.attributeType}
+                            options={getValues(obj.reduxKey)}
+                            onSelect={onInputValueChange}
+                            error={errors[obj.attributeType]}
+                          />
+                        );
+                      }
+                      return (
+                        <div className="form-group oppty-form-elements">
+                          <label htmlFor={obj.attributeType} className="opp-label">
+                            {obj.description}
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue(obj.attributeType)}
+                            className="form-control"
+                            placeholder={`${obj.description}`}
+                            id={obj.attributeType}
+                            onChange={onInputValueChange}
+                            onBlur={onBlur}
+                            disabled={obj.disabled}
+                          />
+                          <span className="form-hints">{errors[obj.attributeType]}</span>
+                        </div>
+                      );
+                    })
+                  : null}
+              </div>
+            </div>
+          </div>
+          <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
+            <button type="submit" className="stepone-next-btn done" onClick={onNextButtonClick}>
+              Save
+            </button>
+          </div>
         </form>
-      </div>
-      <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-        <button type="submit" className="stepone-next-btn done" onClick={onNextButtonClick}>
-          Save
-        </button>
       </div>
     </>
   );
@@ -261,9 +288,6 @@ const SelectItem: React.FC<SelectProps> = ({ description, attributeType, options
         {description}
       </label>
       <select className="form-control iptor-dd" id={attributeType} value={selected} onChange={onSelect}>
-        <option disabled selected>
-          Select {description}
-        </option>
         {options.map((obj: models.DropDownValue) => {
           return obj.fieldDescription ? (
             <option value={obj.valueField}>

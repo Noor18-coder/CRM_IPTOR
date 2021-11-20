@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import { BusinessPartnerListParams, BusinessPartnerListResponse, AreaListParams, AreaListResponse } from './models/Customer';
 import { ApiRequest } from './ApiRequest';
@@ -38,12 +38,12 @@ export default class BusinessPartnerList {
     };
     const requestData = new ApiRequest<BusinessPartnerListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });
     const response = await axios.post<BusinessPartnerListResponse>('/api/service', requestData);
-    return get(response, 'data');
+    return get<AxiosResponse<BusinessPartnerListResponse>, 'data'>(response, 'data');
   }
 
   static async getAreas(): Promise<AreaListResponse> {
     const requestData = new ApiRequest<AreaListParams>(this.areaApiMethod);
     const response = await axios.post<AreaListResponse>('/api/service', requestData);
-    return get(response, 'data');
+    return get<AxiosResponse<AreaListResponse>, 'data'>(response, 'data');
   }
 }

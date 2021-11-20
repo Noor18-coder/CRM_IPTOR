@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] EditBasicInfo should renders correctly 1`] = `
+<div
+  className="opportunity-edit-form"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="opportunity-forms edit-form"
+    >
+      <p
+        className="title"
+      >
+        Basic Details
+      </p>
+      <div
+        className=""
+      >
+        <div
+          className="steps-one-forms"
+        />
+      </div>
+    </div>
+    <div
+      className="step-nextbtn-with-arrow stepsone-nxtbtn"
+    >
+      <button
+        className="stepone-next-btn done"
+        onClick={[Function]}
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+`;

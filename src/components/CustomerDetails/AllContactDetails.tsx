@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Image, Accordion } from 'react-bootstrap';
 import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import * as models from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
@@ -13,18 +13,23 @@ import {
   deleteCustomerContact,
 } from '../../store/AddCustomer/Actions';
 import CustomerDetailsApi from '../../helpers/Api/CustomerDetailsApi';
+import { AppState } from '../../store/store';
 
 interface Props {
   title: string;
   contactData: models.CustomerDetailsContactsGroupItem[];
   activeCustomer: boolean;
+  customerOwner: '';
 }
 
-export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, activeCustomer }) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, activeCustomer, customerOwner }) => {
+  const state: AppState = useSelector((addCustomerState: AppState) => addCustomerState);
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const [activeClass, setActiveClass] = React.useState('');
   const dispatch: Dispatch<any> = useDispatch();
+  const inactiveCustomer =
+    activeCustomer || (!activeCustomer && ((!!state.auth.user.role && state.auth.user.role === 'Admin') || state.auth.user.user === customerOwner));
 
   const toggleAccordion = () => {
     setActiveClass(activeClass === '' ? 'active' : '');
@@ -42,7 +47,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
     selectedContact[0].ACTIVE = e.currentTarget.checked;
     dispatch(setBusinessPartnerLoader(true));
     CustomerDetailsApi.updateContactDetails(selectedContact[0]);
-    setTimeout(function () {
+    setTimeout(() => {
       dispatch(setBusinessPartnerLoader(false));
     }, 3000);
   };
@@ -60,7 +65,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
           <span className="cust-info">
             <span>{contactData.length} CONTACTS</span>
           </span>
-          {activeCustomer && (
+          {activeCustomer || inactiveCustomer ? (
             <Image
               src={ImageConfig.ADD_BTN}
               className="add-img action-icon"
@@ -68,7 +73,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
               title="Add"
               onClick={() => toggleDrawer('add contact fields', '')}
             />
-          )}
+          ) : null}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="1">
           <div className="accr-body-container customers-comp">
@@ -77,13 +82,13 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
                 {contactData.length ? (
                   contactData.map((obj: models.CustomerDetailsContactsGroupItem) => {
                     return (
-                      <div className="col-md-4">
+                      <div className="col-md-4" key={obj.contactId}>
                         <Card className="accordian-card mb-4">
                           <Card.Body className={!obj.ACTIVE ? 'disabled-card' : ''}>
                             <div className="name-add-sec">
                               <p className="person-name-desig">
                                 <span className="name">{obj.contactPerson}</span>
-                                <span className="designation">{obj.role}</span>
+                                {/* <span className="designation">{obj.role}</span> */}
                               </p>
                               <p className="mailid">{obj.email ? obj.email : '--'}</p>
                               <p className="contact-num">{obj.phone ? obj.phone : '--'}</p> <br />
@@ -92,7 +97,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
                               </p>
                             </div>
                             <div className="card-action-icons">
-                              {obj.ACTIVE && (
+                              {(activeCustomer && obj.ACTIVE) || (inactiveCustomer && obj.ACTIVE) ? (
                                 <>
                                   <Image
                                     className="card-delete action-icon"
@@ -115,7 +120,7 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
                                     onClick={() => toggleDrawer('contact fields', obj.contactDC ? obj.contactDC.toString() : '')}
                                   />
                                 </>
-                              )}
+                              ) : null}
                             </div>
                             <div className="active-switch">
                               <span className="active-text">
@@ -124,10 +129,12 @@ export const AllContactsAccordian: React.FC<Props> = ({ title, contactData, acti
                                   <input
                                     type="checkbox"
                                     id="ACTIVE"
+                                    tabIndex={0}
                                     checked={obj.ACTIVE}
                                     onChange={(e) => onInputValueChange(e, obj.contactDC ? obj.contactDC.toString() : '')}
+                                    disabled={!inactiveCustomer}
                                   />
-                                  <span className="slider round">&nbsp;</span>
+                                  <span className={!inactiveCustomer ? 'slider round disabled-checkbox' : 'slider round'}>&nbsp;</span>
                                 </label>
                               </span>
                             </div>

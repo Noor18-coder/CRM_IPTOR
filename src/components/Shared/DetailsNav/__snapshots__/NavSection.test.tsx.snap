@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] NavSection should renders correctly 1`] = `
+<section
+  className="d-flex justify-content-between pagelvl-actionrow"
+>
+  <div
+    className="lft-actionitem"
+  >
+    <img
+      alt="Back"
+      className="action-icon"
+      onClick={[MockFunction]}
+      onKeyDown={[MockFunction]}
+      role="presentation"
+      src="left-arrow.svg"
+      title="Back"
+    />
+  </div>
+  <div
+    className="rgt-actionitem"
+  >
+    <ul
+      className="list-inline "
+    />
+  </div>
+</section>
+`;

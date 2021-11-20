@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Image } from 'react-bootstrap';
 import { setOpportunityWindowActive } from '../../../store/AddOpportunity/Actions';
 import { setBusinessPartnerWindowActive } from '../../../store/AddCustomer/Actions';
+import { saveOpptyHandlerChange } from '../../../store/Opportunity/Actions';
 import ImageConfig from '../../../config/ImageConfig';
 
 export interface Option {
@@ -28,7 +29,9 @@ export interface SelectOptionMethod {
 interface Props {
   filters: Option[];
   selectOption: (key: SelectOptionMethod) => void;
+  selectHandler?: (handler: string) => void;
   selected?: Option;
+  selectedHandler?: string;
   component?: string;
 }
 
@@ -49,10 +52,7 @@ const MenuItem: React.FC<MenuItemPRops> = ({ obj, selected, onSelect }) => {
 
 function Menu(list: Option[], selectOption: any, selected?: Option): JSX.Element[] {
   const updatedList = [...new Map(list.map((item) => [JSON.stringify(item), item])).values()];
-  const menus: JSX.Element[] = updatedList.map((el) => {
-    return <MenuItem obj={el} key={el.value} selected={selected} onSelect={selectOption} />;
-  });
-  return menus;
+  return updatedList.map((el) => <MenuItem obj={el} key={el.value} selected={selected} onSelect={selectOption} />);
 }
 
 interface ArrowProps {
@@ -67,34 +67,41 @@ const Arrow: React.FC<ArrowProps> = ({ text, className }) => {
 const ArrowLeft = Arrow({ text: '', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '', className: 'arrow-next' });
 
-export const GridFilter: React.FC<Props> = ({ filters, selectOption, selected = initialFilter, component }) => {
-  const isDesktop = useMediaQuery({ minWidth: 992 });
+export const GridFilter: React.FC<Props> = ({
+  filters,
+  selectOption,
+  selectHandler,
+  selected = initialFilter,
+  selectedHandler = 'my',
+  component,
+}) => {
+  const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const dispatch: Dispatch<any> = useDispatch();
-  const [handler, setHandler] = React.useState<string>('all');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filter, setFilter] = React.useState<Option>();
+  const [handler, setHandler] = React.useState<string>(selectedHandler);
+
   const selectFilter = (obj: Option) => {
-    setFilter(obj);
     const params = { ...obj, handler };
     selectOption(params);
   };
 
   const handlerChange = (user: string) => {
     setHandler(user);
+    if (selectHandler) selectHandler(user);
     const params = { ...selected, handler: user };
     selectOption(params);
+    dispatch(saveOpptyHandlerChange(true));
   };
 
   const openForm = () => {
     if (component === 'opportunity') dispatch(setOpportunityWindowActive(true));
     if (component === 'customer') dispatch(setBusinessPartnerWindowActive(true));
   };
-
   const menuItems = Menu(filters, selectFilter, selected);
   const classButton = 'app-btn switch-txt-btn';
   const classButtonAll = classButton + (handler === 'all' ? ' active' : '');
   const classButtonMy = classButton + (handler === 'my' ? ' active' : '');
+  const classScrollMenu = component === 'opportunity' ? 'col-10' : 'col-11 customer-filter-container';
 
   return (
     <>
@@ -103,17 +110,17 @@ export const GridFilter: React.FC<Props> = ({ filters, selectOption, selected = 
           {component === 'opportunity' && (
             <div className="col-2">
               <div className="toggle-btn-group">
-                <button className={classButtonAll} type="button" onClick={() => handlerChange('all')}>
-                  ALL
-                </button>
                 <button className={classButtonMy} type="button" onClick={() => handlerChange('my')}>
                   MY
+                </button>
+                <button className={classButtonAll} type="button" onClick={() => handlerChange('all')}>
+                  ALL
                 </button>
               </div>
             </div>
           )}
 
-          <div className={component === 'opportunity' ? 'col-10' : 'col-11 customer-filter-container'}>
+          <div className={classScrollMenu}>
             <ScrollMenu
               data={menuItems}
               arrowLeft={ArrowLeft}
@@ -133,11 +140,11 @@ export const GridFilter: React.FC<Props> = ({ filters, selectOption, selected = 
               <div className="tabs-btn-row">
                 {component === 'opportunity' && (
                   <div className=" toggle-btn-group">
-                    <button className={classButtonAll} type="button" onClick={() => handlerChange('all')}>
-                      ALL
-                    </button>
                     <button className={`my-btn ${classButtonMy}`} type="button" onClick={() => handlerChange('my')}>
                       MY
+                    </button>
+                    <button className={classButtonAll} type="button" onClick={() => handlerChange('all')}>
+                      ALL
                     </button>
                   </div>
                 )}

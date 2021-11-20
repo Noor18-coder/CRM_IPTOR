@@ -1,441 +1,583 @@
 @import 'reset';
 @import 'mixins';
 @import './_global-variables';
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
 
 /* width */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: rgba($blue-bayoux, 0.2);
+  background: rgba($blue-bayoux, 0.2);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgba($persian-green, 1);
+  background: rgba($persian-green, 1);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba($persian-green, 0.8);
+  background: rgba($persian-green, 0.8);
 }
 
-.form-control::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #B6C4CE;
+// ROOT STYLES START
+html,
+body {
+  height: 100%;
 }
-.form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #B6C4CE;
+
+#root {
+  height: 100%;
 }
-.form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #B6C4CE;
+
+// ROOT STYLES END
+
+.form-control::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #b6c4ce;
 }
-.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #B6C4CE;
+
+.form-control:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #b6c4ce;
 }
-.form-control::-ms-input-placeholder { /* Microsoft Edge */
-   color:    #B6C4CE;
+
+.form-control::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #b6c4ce;
 }
-.form-control::placeholder { /* Most modern browsers support this now. */
-   color:    #B6C4CE;
+
+.form-control:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #b6c4ce;
+}
+
+.form-control::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #b6c4ce;
+}
+
+.form-control::placeholder {
+  /* Most modern browsers support this now. */
+  color: #b6c4ce;
 }
 
 body {
-    background: $mercury;
-    text-rendering: optimizeLegibility;
+  background: $mercury;
+  text-rendering: optimizeLegibility;
 
-    &.login,
-    &.company {
-        background: url("../images/bg_login.jpg") no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
+  &.login,
+  &.company {
+    background: url('../images/bg_login.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
 
-    color: $tundora;
+  color: $tundora;
 
-    font: {
-        size: 16px;
-        family: $base-font-family;
-    }
+  font: {
+    size: 16px;
+    family: $base-font-family;
+  }
 
-    .main-wrapper {
-        &.loginpage {
-            height: 100vh;
-            position: relative;
-            background: url("../images/bg_login.jpg") no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
+  .main-wrapper {
+    &.loginpage {
+      height: 100vh;
+      position: relative;
+      background: url('../images/bg_login.jpg') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
 
-            .login-lft-cont-container {
-                position: fixed;
-                left: 100px;
-                bottom: 60px;
-                width: 50%;
-                padding-top: 56px;
-                border-top: solid 1px $white;
-
-                .para {
-                    color: $white;
-                    margin-top: 16px;
-                    width: 70%;
-
-                    font: {
-                        size: 36px;
-                        weight: $font-weight-bold;
-                    }
-                }
-
-                .version-details {
-                    font: {
-                        size: $base-font-size;
-                        weight: $font-weight-regular;
-                    }
-
-                    color: $white;
-                    margin-top: 16px;
-                    line-height: 19px;
-                    width: 60%;
-                }
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 24px;
-                width: 448px;
-                top: 24px;
-                bottom: 24px;
-                background: $white;
-                padding: 24px;
-                @include border-radius($border-radius);
-
-                .welcome-txt {
-                    color: $blue-bayoux;
-                    margin-left: 24px;
-                    margin-right: 24px;
-                    margin-top: 32px;
-                    line-height: 49px;
-
-                    font: {
-                        weight: $font-weight-regular;
-                        size: 36px;
-                    }
-                    color: $blue-bayoux;
-
-                    span {
-                        display: block;
-                    }
-                }
-
-                .login-copyrights {
-                    position: absolute;
-                    bottom: 24px;
-                    left: 0;
-                    padding-left: 48px;
-                    padding-right: 48px;
-                    color: $bermuda-gray;
-                    line-height: 16px;
-
-                    font: {
-                        size: $base-font-size - 2;
-                        weight: $font-weight-regular;
-                    }
-                }
-
-                .form-placeholder-container {
-                    margin-top: 48px;
-                    margin-left: 24px;
-                    margin-right: 24px;
-                }
-            }
-        }
-
-        &.companypage {
-            height: 950px;
-            position: relative;
-            background: url("../images/bg_login.jpg") no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-
-            .mobile-backto-login {
-                display: none;
-            }
-
-            .login-lft-cont-container {
-                position: fixed;
-                left: 100px;
-                bottom: 60px;
-                width: 50%;
-                padding-top: 56px;
-                border-top: solid 1px $white;
-
-                .para {
-                    color: $white;
-                    margin-top: 16px;
-                    width: 70%;
-
-                    font: {
-                        size: 36px;
-                        weight: $font-weight-bold;
-                    }
-                }
-
-                .version-details {
-                    font: {
-                        size: $base-font-size;
-                        weight: $font-weight-regular;
-                    }
-
-                    color: $white;
-                    margin-top: 16px;
-                    line-height: 19px;
-                    width: 60%;
-                }
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 24px;
-                width: 448px;
-                top: 24px;
-                bottom: 24px;
-                background: $white;
-                padding: 24px;
-                @include border-radius($border-radius);
-
-                .username-txt {
-                    color: $blue-bayoux;
-                    margin-left: 24px;
-                    margin-right: 24px;
-                    margin-top: 32px;
-                    line-height: 32px;
-
-                    font: {
-                        weight: $font-weight-regular;
-                        size: $base-font-size + 10;
-                        color: $blue-bayoux;
-                    }
-
-                    span {
-                        display: block;
-                    }
-                }
-
-                .companylist-container {
-                    overflow-y: auto;
-                    max-height: 469px;
-                    margin-top: 48px;
-                    padding-right: 24px;
-                    padding-left: 24px;
-
-                    .companys-list-item {
-                        padding-bottom: 16px;
-
-                        li {
-                            border: solid 1px $blue-bayoux;
-                            @include border-radius($border-radius);
-                            @include transition;
-                            padding: 31px 15px;
-                            margin-bottom: 16px;
-                            color: $cod-grey;
-
-                            font: {
-                                size: $base-font-size;
-                                weight: $font-weight-regular;
-                            }
-
-                            &:hover {
-                                background: $aqua-spring;
-                            }
-                        }
-                    }
-                }
-
-                .desk-backto-login {
-                    margin-top: 48px;
-                    padding-left: 24px;
-                }
-
-                .login-copyrights {
-                    position: absolute;
-                    bottom: 24px;
-                    left: 0;
-                    padding-left: 48px;
-                    padding-right: 48px;
-                    color: $bermuda-gray;
-                    line-height: 16px;
-
-                    font: {
-                        size: $base-font-size - 2;
-                        weight: $font-weight-regular;
-                    }
-                }
-            }
-        }
-    }
-
-    footer {
+      .login-lft-cont-container {
         position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: $geyser;
-        text-align: right;
-        height: 38px;
+        left: 100px;
+        bottom: 60px;
+        width: 50%;
+        padding-top: 56px;
+        border-top: solid 1px $white;
 
+        .para {
+          color: $white;
+          margin-top: 16px;
+          width: 70%;
 
-        p {
-            padding: 8px 16px 0px 16px;
-            color: $bermuda-gray;
-            display: inline-block;
-
-            font: {
-                size: $base-font-size;
-                family: $base-font-family;
-                weight: $font-weight-regular;
-            }
-
-            img {
-                width: 44px;
-                height: auto;
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            position: relative;
-
-            &::after {
-                content: '';
-                position: absolute;
-                left: 70px;
-                top: 12px;
-                bottom: 0px;
-                width: 1px;
-                background: $bermuda-gray;
-            }
+          font: {
+            size: 36px;
+            weight: $font-weight-bold;
+          }
         }
+
+        .version-details {
+          font: {
+            size: $base-font-size;
+            weight: $font-weight-regular;
+          }
+
+          color: $white;
+          margin-top: 16px;
+          line-height: 19px;
+          width: 60%;
+        }
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 24px;
+        width: 448px;
+        top: 24px;
+        bottom: 24px;
+        background: $white;
+        padding: 24px;
+        @include border-radius($border-radius);
+
+        .welcome-txt {
+          color: $blue-bayoux;
+          margin-left: 24px;
+          margin-right: 24px;
+          margin-top: 32px;
+          line-height: 35px;
+
+          font: {
+            weight: $font-weight-regular;
+            size: 24px;
+          }
+
+          span {
+            display: block;
+          }
+        }
+
+        .login-copyrights {
+          position: absolute;
+          bottom: 24px;
+          left: 0;
+          padding-left: 48px;
+          padding-right: 48px;
+          color: $bermuda-gray;
+          line-height: 16px;
+
+          font: {
+            size: $base-font-size - 2;
+            weight: $font-weight-regular;
+          }
+        }
+
+        .form-placeholder-container {
+          margin-top: 48px;
+          margin-left: 24px;
+          margin-right: 24px;
+        }
+      }
     }
 
-    @import 'header';
-    @import 'accordion';
-    @import 'opportunity-details';
-    @import 'customer-details';
-    @import 'common-styles';
-    @import 'staging-arrow';
-    @import 'contact-address-customers';
-    @import './mediaqueries';
-    @import 'reports';
-    @import 'notification';
+    &.companypage {
+      height: 950px;
+      position: relative;
+      background: url('../images/bg_login.jpg') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+
+      .mobile-backto-login {
+        display: none;
+      }
+
+      .login-lft-cont-container {
+        position: fixed;
+        left: 100px;
+        bottom: 60px;
+        width: 50%;
+        padding-top: 56px;
+        border-top: solid 1px $white;
+
+        .para {
+          color: $white;
+          margin-top: 16px;
+          width: 70%;
+
+          font: {
+            size: 36px;
+            weight: $font-weight-bold;
+          }
+        }
+
+        .version-details {
+          font: {
+            size: $base-font-size;
+            weight: $font-weight-regular;
+          }
+
+          color: $white;
+          margin-top: 16px;
+          line-height: 19px;
+          width: 60%;
+        }
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 24px;
+        width: 448px;
+        top: 24px;
+        bottom: 24px;
+        background: $white;
+        padding: 24px;
+        @include border-radius($border-radius);
+
+        .username-txt {
+          color: $blue-bayoux;
+          margin-left: 24px;
+          margin-right: 24px;
+          margin-top: 32px;
+          line-height: 30px;
+
+          font: {
+            weight: $font-weight-regular;
+            size: $base-font-size + 4;
+            color: $blue-bayoux;
+          }
+
+          span {
+            display: block;
+          }
+        }
+
+        .companylist-container {
+          overflow-y: auto;
+          max-height: 469px;
+          margin-top: 48px;
+          padding-right: 24px;
+          padding-left: 24px;
+
+          .companys-list-item {
+            padding-bottom: 16px;
+
+            li {
+              border: solid 1px $blue-bayoux;
+              @include border-radius($border-radius);
+              @include transition;
+              padding: 31px 15px;
+              margin-bottom: 16px;
+              color: $cod-grey;
+
+              font: {
+                size: $base-font-size;
+                weight: $font-weight-regular;
+              }
+
+              &:hover {
+                background: $aqua-spring;
+              }
+            }
+          }
+        }
+
+        .desk-backto-login {
+          margin-top: 48px;
+          padding-left: 24px;
+        }
+
+        .login-copyrights {
+          position: absolute;
+          bottom: 24px;
+          left: 0;
+          padding-left: 48px;
+          padding-right: 48px;
+          color: $bermuda-gray;
+          line-height: 16px;
+
+          font: {
+            size: $base-font-size - 2;
+            weight: $font-weight-regular;
+          }
+        }
+      }
+    }
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: $geyser;
+    text-align: right;
+    height: 38px;
+
+    p {
+      padding: 8px 16px 0px 16px;
+      color: $bermuda-gray;
+      display: inline-block;
+
+      font: {
+        size: $base-font-size;
+        family: $base-font-family;
+        weight: $font-weight-regular;
+      }
+
+      img {
+        width: 44px;
+        height: auto;
+        margin-right: 20px;
+        vertical-align: middle;
+      }
+
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 70px;
+        top: 12px;
+        bottom: 0px;
+        width: 1px;
+        background: $bermuda-gray;
+      }
+    }
+  }
+
+  @import 'header';
+  @import 'accordion';
+  @import 'opportunity-details';
+  @import 'customer-details';
+  @import 'common-styles';
+  @import 'staging-arrow';
+  @import 'contact-address-customers';
+  @import './mediaqueries';
+  @import 'reports';
+  @import 'notification';
 }
 
 .company-container {
-    position: relative;
-    cursor: pointer;
-  }
-  .company-container .center .company-selection-img {
-    width:20px;
-    height: 20px;
-    right:10px;
-    top: 0px;
-    position:absolute;
-    display:none;
-  }
+  position: relative;
+  cursor: pointer;
+}
+
+.company-container .center .company-selection-img {
+  width: 20px;
+  height: 20px;
+  right: 10px;
+  top: 0px;
+  position: absolute;
+  display: none;
+}
 
 .error {
-    line-height:22px;
-    color: #FF0201;
-    margin-left: 24px;
-    display: block;
-    font-weight: normal;
-    font-size: $base-font-size + 2;
-    margin-bottom: 0;
-    margin-right: 24px;
-    margin-top: 24px;
-  }
-  
-  .alert-icon {
-    width: 16px;
-    height: auto;
+  line-height: 22px;
+  color: #ff0201;
+  margin-left: 24px;
+  display: block;
+  font-weight: normal;
+  font-size: $base-font-size + 2;
+  margin-bottom: 0;
+  margin-right: 24px;
+  margin-top: 24px;
+}
+
+.alert-icon {
+  width: 16px;
+  height: auto;
 }
 
 .logout {
-    margin-top: 22px;
-    border-radius: 56%;
-    height: 36px;
-    width: 36px;
-    border: none;
-    color: #00A3A5;
-    background-color: #FFf;
+  margin-top: 22px;
+  border-radius: 56%;
+  height: 36px;
+  width: 36px;
+  border: none;
+  color: #00a3a5;
+  background-color: #fff;
 }
 
 .list-inline {
-    display: inline-block;
+  display: inline-block;
 }
 
 .cust-list {
-    padding:0;
+  padding: 0;
 }
 
 .link-anchor-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    display: inline;
-    margin: 0;
-    padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
 }
+
+
 
 .button-image {
-    display: block;
-    padding: 10px;
-    background-color: white;
-    border-radius: 5px;
-    position: relative;
-    width: auto;
-    margin: 10px 5px;
-    text-align: center;
+  display: block;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  position: relative;
+  width: auto;
+  margin: 10px 5px;
+  text-align: center;
 }
 
-.header-search{
-    background: transparent;
-    border: none;
-    top: 15px;
+.header-search {
+  background: transparent;
+  border: none;
+  top: 15px;
 }
 
-.header-notification{
-    background: transparent;
-    border: none;
-    top: 7px
+.header-notification {
+  background: transparent;
+  border: none;
+  top: 7px;
 }
 
-.header-logout{
-    text-decoration: none;
-    color: #212529;
-    font-weight: 600;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    display: inline;
-    margin: 0;
-    padding: 0;
+.header-logout {
+  text-decoration: none;
+  color: #212529;
+  font-weight: 600;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline;
+  margin: 0;
+  padding: 0;
 }
 
 .footer-anchor-button {
-    background:none;
+  background: none;
 }
 
-.no-mb{
-    margin-bottom: 0px;
+.no-mb {
+  margin-bottom: 0px;
 }
-.text-center{
-    text-align: center;
+
+.text-center {
+  text-align: center;
+}
+
+.placeholder {
+  color: #b6c4ce;
+}
+
+.pl-12 {
+  padding-left: 12px;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  #root {
+    width: 1000px;
+  }
+}
+
+@media (min-width: 2500px) {
+  body {
+    background: $white;
+  }
+
+  #root {
+    margin: 0 auto;
+    width: 100%;
+    background: $mercury;
+    border: solid 1px $geyser;
+
+    .dashboard-cards-container {
+      .card-body {
+        height: 340px;
+        @include transition;
+
+        .tab-content {
+          canvas {
+            height: 300px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 2000px) and (max-width: 2499.98px) {
+  body {
+    background: $white;
+  }
+
+  #root {
+    margin: 0 auto;
+    width: 100%;
+    background: $mercury;
+    border: solid 1px $geyser;
+
+    .dashboard-cards-container {
+      .card-body {
+        height: 340px;
+        @include transition;
+
+        .tab-content {
+          canvas {
+            height: 300px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1700px) and (max-width: 1999.98px) {
+  #root {
+    .dashboard-cards-container {
+      .card-body {
+        height: 320px;
+        @include transition;
+
+        .tab-content {
+          canvas {
+            height: 280px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1699.98px) {
+  #root {
+    .dashboard-cards-container {
+      .card-body {
+        height: 300px;
+        @include transition;
+
+        .tab-content {
+          canvas {
+            height: 221px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  #root {
+    .dashboard-cards-container {
+      .card-body {
+        height: 300px;
+        @include transition;
+
+        .tab-content {
+          canvas {
+            height: 260px !important;
+          }
+        }
+      }
+    }
+  }
 }

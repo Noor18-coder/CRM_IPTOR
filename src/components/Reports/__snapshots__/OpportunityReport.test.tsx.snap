@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Reports] CardList should renders correctly 1`] = `
+<div
+  className="col-lg-3 col-sm-6"
+>
+  <div
+    className="card mb-4"
+  >
+    <div
+      className="card-body"
+    >
+      <div
+        className="card-title"
+      >
+        title
+      </div>
+      <div
+        className="card-list-item-container"
+      >
+        <ul
+          className="report-list-items"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[Reports] OpportunityReport should renders correctly 1`] = `
+<div
+  className="container-fluid"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Stages
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Type
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Forecast
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Quarter
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2021 - Q1
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2021 - Q2
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2021 - Q3
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2021 - Q4
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2020 - Q1
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2020 - Q2
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2020 - Q3
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2020 - Q4
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2022 - Q1
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2022 - Q2
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2022 - Q3
+              </li>
+              <li
+                className="quater active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                2022 - Q4
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,2314 +1,2399 @@
-@import "global-variables.scss";
-@import "mixins.scss";
+@import 'global-variables.scss';
+@import 'mixins.scss';
 
 // Small devices (landscape phones, 576px and up)
 @media (max-width: 767.98px) {
-    .main-wrapper {
-        .sec-customer-desc {
-            display: inherit !important;
+  .main-wrapper {
+    .sec-customer-desc {
+      display: inherit !important;
 
-            .cust-name,
-            .group-sec {
-                width: 100% !important;
+      .cust-name,
+      .group-sec {
+        width: 100% !important;
+      }
+
+      .group-sec {
+        border-top: solid 1px $mercury;
+        padding: 16px 0 4px 0;
+
+        ul {
+          margin-bottom: 0;
+
+          li {
+            margin-bottom: 24px;
+            display: inline-block;
+
+            span {
+              padding-right: 16px;
+              padding-left: 16px;
+              margin-right: 0;
             }
-
-            .group-sec {
-                border-top: solid 1px $mercury;
-                padding: 16px 0 4px 0;
-
-                ul {
-                    margin-bottom: 0;
-
-                    li {
-                        margin-bottom: 24px;
-                        display: inline-block;
-
-                        span {
-                            padding-right: 16px;
-                            padding-left: 16px;
-                            margin-right: 0;
-
-                        }
-                    }
-                }
-            }
-
-
-
+          }
         }
-
-        .sec-info-accordion {
-            &.mob-moreinfo-accordion {
-                .accordion {
-                    .cust-details {
-                        .collapse {
-                            background: $white;
-
-                            .accr-body-container {
-                                background: $white;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .accordion {
-                .contact-class {
-                    .card-link {
-                        .cust-info {
-                            display: block;
-                            margin-top: 16px;
-                            left: 0;
-                            background: transparent;
-                            padding-left: 0;
-                            border-top: solid 1px $mercury;
-                            padding-top: 24px;
-
-                            span {
-                                background: #EEF0F2;
-                                padding: 8px 16px;
-                                border-radius: 24px;
-
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            .opp-moreinfo-sec {
-                background: $white;
-                margin-bottom: 24px;
-                font-size: 18px;
-                font-weight: $font-weight-bold;
-                text-transform: capitalize;
-                color: $limed-spruce;
-                padding: 20px 12px 12px 12px;
-
-                .accordion {
-                    margin-bottom: 12px;
-
-                    &:first-child {
-                        margin-top: 16px;
-                    }
-
-                    a {
-                        background: $mercury;
-                        position: relative;
-
-                        .mob-edit-icon {
-                            position: absolute;
-                            right: 60px;
-                            top: 24px;
-                            display: block;
-                            background-color:transparent;
-                            border-radius: 5px;
-                            width: auto;
-                            text-align: center;
-                            border: none;
-                        }
-                    }
-
-                    .more-info-group-container {
-                        background: $mercury;
-
-                        .accr-body-container {
-                            margin-bottom: 0;
-                            background: $mercury;
-                        }
-                    }
-                }
-            }
-        }
-
-        &.loginpage {
-            height: 100vh;
-
-            .login-lft-cont-container {
-                position: inherit;
-                border-top: none;
-                bottom: inherit;
-                left: inherit;
-                right: inherit;
-                text-align: center;
-                width: inherit;
-                padding: 40px 16px 16px 16px;
-
-                .login-cont-logo {
-                    width: 111px;
-                    height: auto;
-                }
-
-                .para {
-                    font-size: 24px;
-                    width: 100%;
-                }
-
-                .version-details {
-                    display: none;
-                }
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 24px;
-                left: 24px;
-                top: inherit;
-                bottom: 24px;
-                margin: 0;
-                width: inherit;
-                padding: 0;
-                padding-bottom: 24px;
-
-                .error {
-                    margin-left: 12px;
-                    margin-top: 0px;
-                    margin-right: 12px;
-                }
-
-
-                img.login-form-logo {
-                    display: none;
-                }
-
-                .welcome-txt {
-                    padding-top: 24px;
-                    padding-bottom: 12px;
-                    margin-top: 0px;
-                    margin-bottom: 0;
-                    margin-left: 12px;
-                    margin-right: 12px;
-
-                    font: {
-                        size: $base-font-size;
-                    }
-
-                    .hi-txt,
-                    .welcomeback-txt {
-                        padding: 0;
-                        margin: 0;
-                        line-height: 32px;
-                        font-size: 24px;
-                        text-transform: capitalize;
-                        font-weight: $font-weight-semibold;
-                    }
-                }
-
-                .form-placeholder-container {
-                    margin-top: 16px;
-                    margin-left: 12px;
-                    margin-right: 12px;
-                }
-
-                .login-copyrights {
-                    display: none;
-                }
-            }
-
-            .iptor-login-btn {
-                background-color: $limed-spruce;
-                padding: 18px 32px;
-
-                &.disable-button {
-                    pointer-events: none;
-                    cursor: default;
-                    background: #DAE2E7;
-                    color: #9DB0BE;
-                }
-
-                &:hover {
-                    background: rgba($limed-spruce, 0.9);
-                }
-            }
-        }
-
-        &.companypage {
-            height: 100vh;
-
-            .mobile-backto-login {
-                display: block;
-            }
-
-            .login-lft-cont-container {
-                display: none;
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 12px;
-                left: 12px;
-                top: 120px;
-                bottom: 12px;
-                margin: 0;
-                width: inherit;
-                padding: 12px;
-                overflow-y: auto;
-
-                img.login-form-logo {
-                    display: none;
-                }
-
-                .username-txt {
-                    margin-top: 12px;
-                    margin-left: 12px;
-                    margin-right: 12px;
-
-                    font: {
-                        size: $base-font-size;
-                    }
-
-                    .user-txt {
-                        font: {
-                            size: 24px;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-
-                    .company-txt {
-                        font: {
-                            size: 18px;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-
-                }
-
-                .companylist-container {
-                    overflow-y: visible;
-                }
-
-                .desk-backto-login {
-                    display: none;
-                }
-
-                .companys-list-item {
-                    margin-top: 20px;
-                }
-
-                .login-copyrights {
-                    display: none;
-                }
-            }
-        }
-
-        &.opportunity {
-
-            .pagelvl-actionrow,
-            .sec-product-desc,
-            .sec-staging,
-            .sec-customer-addr,
-            .sec-staging {
-                display: none !important;
-            }
-
-            .opp-product-mobilecard {
-                display: block;
-                background: $white;
-                margin-bottom: 24px;
-                padding: 0;
-
-                .product-name-action-row {
-                    border-bottom: solid 1px $mercury;
-
-                    .lft-prodname {
-                        p {
-                            padding: 24px 16px 0px 40px;
-                            position: relative;
-
-                            &::before {
-                                content: '';
-                                position: absolute;
-                                left: 12px;
-                                top: 23px;
-                                width: 24px;
-                                height: 24px;
-                                display: block;
-                                background: url("../images/chevron-left-black.svg") no-repeat top left;
-                            }
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-
-                            span.id-num {
-                                display: block;
-                                padding-top: 4px;
-
-                                font: {
-                                    size: $base-font-size - 2;
-                                    weight: $font-weight-regular;
-                                }
-                            }
-
-                            span.location {
-                                display: block;
-                                padding-top: 4px;
-
-                                font: {
-                                    size: $base-font-size - 2;
-                                    weight: $font-weight-regular;
-                                }
-                            }
-                        }
-                    }
-
-                    .rgt-actioncol {
-                        padding: 24px 24px 24px 8px;
-
-                        ul {
-                            min-width: 120px;
-                            text-align: right;
-
-                            li {
-                                img {
-                                    width: 19px;
-                                    height: auto;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .status-row {
-                    padding: 16px 12px 16px 12px;
-                    border-bottom: solid 1px $mercury;
-
-                    ul {
-                        padding-left: 0;
-
-                        li {
-                            margin-right: 16px;
-
-                            &.grade {
-                                background: #d0eeee;
-                                color: #00A3A5;
-                                padding: 8px 16px;
-                                @include border-radius(20px);
-
-                                font: {
-                                    size: $base-font-size - 2;
-                                    weight: $font-weight-bold;
-                                }
-                            }
-
-                            &.open {
-                                color: $limed-spruce;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-semibold;
-                                }
-                            }
-
-                            &.status {
-                                color: $persian-green;
-                                text-transform: capitalize;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-semibold;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .qtr-details {
-                    border-bottom: solid 1px $mercury;
-
-                    .curr-qtr,
-                    .deal-size {
-                        p {
-                            padding: 16px 12px;
-                            line-height: 18px;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-semibold;
-                            }
-
-                            span {
-                                display: block;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-regular;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .mobsec-staging {
-
-                    .title {
-                        padding: 16px 16px 24px 12px;
-
-                        font: {
-                            size: $base-font-size;
-                            weight: $font-weight-regular;
-                        }
-                    }
-
-                    .stage-lvl {
-                        overflow-y: auto;
-                        position: relative;
-
-                        .stage-circles {
-                            padding-left: 0;
-                            margin: 0px 12px 12px 12px;
-
-                            li {
-                                background: #fff;
-                                color: #00A3A5;
-                                padding: 12px 15px;
-                                @include border-radius(50%);
-                                margin-right: 16px;
-                                border: 1px solid #00A3A5;
-
-                                font: {
-                                    size: $base-font-size + 4;
-                                    weight: $font-weight-regular;
-                                }
-
-                                &.active {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: $jagged-ice;
-                                    color: $persian-green;
-                                    border: solid 1px $persian-green;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid #D0EEEE;
-                                    }
-                                }
-
-                                &.reject {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #FBDBE1;
-                                    color: #EB617C;
-                                    border: solid 1px #EB617C;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid #FBDBE1;
-                                    }
-                                }
-
-                                &.submit {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #FFDF99;
-                                    color: #E09900;
-                                    border: solid 1px #FFDF99;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid #FFDF99;
-                                    }
-                                }
-
-                                &.lost {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #EEF0F2;
-                                    color: #2F3C46;
-                                    border: solid 1px #EEF0F2;
-                                    position: relative;
-                                }
-
-                                &.disabled {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #EEF0F2;
-                                    color: #9DB0BE;
-                                    border: solid 1px #EEF0F2;
-                                    position: relative;
-                                }
-
-                                &.ready {
-                                    background: $white;
-                                    color: $persian-green;
-                                    border: solid 1px $persian-green;
-
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-regular;
-                                    }
-                                }
-                            }
-                        }
-
-                        .sec-change-approver {
-                            position: sticky;
-                            left: 0;
-                            bottom: 0;
-                            background: $jagged-ice;
-                            padding: 16px 12px;
-                            display: flex;
-                            align-items: center;
-
-                            .cont {
-                                color: $blue-bayoux;
-                                width: 45%;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-semibold;
-                                }
-                            }
-
-                            .action-btn {
-                                width: 60%;
-                                white-space: nowrap;
-                                text-align: right;
-
-                                .txt-link {
-                                    @include text-link($white, $white, 0.5);
-                                    @include border-radius($border-radius);
-                                    background: $limed-spruce;
-                                    text-align: center;
-                                    padding: 10px 10px;
-                                    color: $white;
-                                    font-size: 12px;
-                                    font-weight: 600;
-                                    margin-right: 10px;
-                                }
-
-                                .reject-text{
-                                    background: #EB617C;
-                                }
-
-                                .submit-text{
-                                    background: $white;
-                                    color: #E09900;
-                                    border: 1px solid #E09900;
-                                }
-                            }
-                        }
-                        .sec-change-reject{
-                            background: #FBDBE1;
-                        }
-                        .sec-change-submit{
-                            background: #FFDF99;
-                        }
-                        .sec-change-lost{
-                            background: #EEF0F2;
-                        }
-                        .sec-change-new{
-                            background: #D0EEEE;
-                        }
-                    }
-                }
-            }
-
-            .sec-info-accordion {
-                .accordion {
-                    li {
-                        display: block;
-                        margin-bottom: 12px;
-
-                        .accr-body-container {
-                            li {
-                                margin-bottom: 24px;
-                            }
-                        }
-                    }
-                }
-            }
-
-
-        }
+      }
     }
 
-    nav.site-navbar {
+    .sec-info-accordion {
+      &.mob-moreinfo-accordion {
+        .accordion {
+          .cust-details {
+            .collapse {
+              background: $white;
+
+              .accr-body-container {
+                background: $white;
+              }
+            }
+          }
+        }
+      }
+
+      .accordion {
+        .contact-class {
+          .card-link {
+            .cust-info {
+              display: block;
+              margin-top: 16px;
+              left: 0;
+              background: transparent;
+              padding-left: 0;
+              border-top: solid 1px $mercury;
+              padding-top: 24px;
+
+              span {
+                background: #eef0f2;
+                padding: 8px 16px;
+                border-radius: 24px;
+              }
+            }
+          }
+        }
+      }
+
+      .opp-moreinfo-sec {
+        background: $white;
+        margin-bottom: 24px;
+        font-size: 18px;
+        font-weight: $font-weight-bold;
+        text-transform: capitalize;
+        color: $limed-spruce;
+        padding: 20px 12px 12px 12px;
+
+        .accordion {
+          margin-bottom: 12px;
+
+          &:first-child {
+            margin-top: 16px;
+          }
+
+          a {
+            background: $mercury;
+            position: relative;
+
+            .mob-edit-icon {
+              position: absolute;
+              right: 32px;
+              top: 24px;
+              display: block;
+              background-color: transparent;
+              border-radius: 5px;
+              width: auto;
+              text-align: center;
+              border: none;
+            }
+
+            .mob-edit-icon-cust {
+              position: absolute;
+              right: 64px;
+              top: 24px;
+              display: block;
+              background-color: transparent;
+              border-radius: 5px;
+              width: auto;
+              text-align: center;
+              border: none;
+            }
+          }
+
+          .more-info-group-container {
+            background: $mercury;
+
+            .accr-body-container {
+              margin-bottom: 0;
+              background: $mercury;
+            }
+          }
+        }
+      }
+    }
+
+    &.loginpage {
+      height: 100vh;
+
+      .login-lft-cont-container {
+        position: inherit;
+        border-top: none;
+        bottom: inherit;
+        left: inherit;
+        right: inherit;
+        text-align: center;
+        width: inherit;
+        padding: 40px 16px 16px 16px;
+
+        .login-cont-logo {
+          width: 111px;
+          height: auto;
+        }
+
+        .para {
+          font-size: 24px;
+          width: 100%;
+        }
+
+        .version-details {
+          display: none;
+        }
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 24px;
+        left: 24px;
+        top: inherit;
+        bottom: 24px;
+        margin: 0;
+        width: inherit;
+        padding: 0;
+        padding-bottom: 24px;
+
+        .error {
+          margin-left: 12px;
+          margin-top: 0px;
+          margin-right: 12px;
+        }
+
+        img.login-form-logo {
+          display: none;
+        }
+
+        .welcome-txt {
+          padding-top: 24px;
+          padding-bottom: 12px;
+          margin-top: 0px;
+          margin-bottom: 0;
+          margin-left: 12px;
+          margin-right: 12px;
+
+          font: {
+            size: $base-font-size;
+          }
+
+          .hi-txt,
+          .welcomeback-txt {
+            padding: 0;
+            margin: 0;
+            line-height: 32px;
+            font-size: 24px;
+            text-transform: capitalize;
+            font-weight: $font-weight-semibold;
+          }
+        }
+
+        .form-placeholder-container {
+          margin-top: 16px;
+          margin-left: 12px;
+          margin-right: 12px;
+        }
+
+        .login-copyrights {
+          display: none;
+        }
+      }
+
+      .iptor-login-btn {
+        background-color: $limed-spruce;
+        padding: 18px 32px;
+
+        &.disable-button {
+          pointer-events: none;
+          cursor: default;
+          background: #dae2e7;
+          color: #9db0be;
+        }
+
+        &:hover {
+          background: rgba($limed-spruce, 0.9);
+        }
+      }
+    }
+
+    &.companypage {
+      height: 100vh;
+
+      .mobile-backto-login {
+        display: block;
+      }
+
+      .login-lft-cont-container {
+        display: none;
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 12px;
+        left: 12px;
+        top: 120px;
+        bottom: 12px;
+        margin: 0;
+        width: inherit;
+        padding: 12px;
+        overflow-y: auto;
+
+        img.login-form-logo {
+          display: none;
+        }
+
+        .username-txt {
+          margin-top: 12px;
+          margin-left: 12px;
+          margin-right: 12px;
+
+          font: {
+            size: $base-font-size;
+          }
+
+          .user-txt {
+            font: {
+              size: 18px;
+              weight: $font-weight-semibold;
+            }
+          }
+
+          .company-txt {
+            font: {
+              size: 18px;
+              weight: $font-weight-semibold;
+            }
+          }
+        }
+
+        .companylist-container {
+          overflow-y: visible;
+        }
+
+        .desk-backto-login {
+          display: none;
+        }
+
+        .companys-list-item {
+          margin-top: 20px;
+        }
+
+        .login-copyrights {
+          display: none;
+        }
+      }
+    }
+
+    &.opportunity {
+      .pagelvl-actionrow,
+      .sec-product-desc,
+      .sec-customer-addr,
+      .sec-staging {
         display: none !important;
-    }
+      }
 
-    .opportunities {
-        .s-header {
-            .navbar-filter {
+      .opp-product-mobilecard {
+        display: block;
+        background: $white;
+        margin-bottom: 24px;
+        padding: 0;
+
+        .product-name-action-row {
+          border-bottom: solid 1px $mercury;
+
+          .lft-prodname {
+            p {
+              padding: 24px 16px 0px 40px;
+              position: relative;
+
+              &::before {
+                content: '';
+                position: absolute;
+                left: 12px;
+                top: 26px;
+                width: 24px;
+                height: 24px;
+                display: block;
+                background: url('../images/chevron-left-black.svg') no-repeat top left;
+              }
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+
+              span.id-num {
+                display: block;
+                padding-top: 4px;
+
+                font: {
+                  size: $base-font-size - 2;
+                  weight: $font-weight-regular;
+                }
+              }
+
+              span.location {
+                display: block;
+                padding-top: 4px;
+
+                font: {
+                  size: $base-font-size - 2;
+                  weight: $font-weight-regular;
+                }
+              }
+            }
+          }
+
+          .rgt-actioncol {
+            padding: 24px 24px 24px 8px;
+
+            ul {
+              min-width: 120px;
+              text-align: right;
+
+              li {
+                img {
+                  width: 19px;
+                  height: auto;
+                }
+              }
+            }
+          }
+        }
+
+        .status-row {
+          padding: 16px 12px 16px 12px;
+          border-bottom: solid 1px $mercury;
+
+          ul {
+            padding-left: 0;
+
+            li {
+              margin-right: 16px;
+
+              &.grade {
+                background: #d0eeee;
+                color: #00a3a5;
+                padding: 8px 16px;
+                @include border-radius(20px);
+
+                font: {
+                  size: $base-font-size - 2;
+                  weight: $font-weight-bold;
+                }
+              }
+
+              &.open {
+                color: $limed-spruce;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-semibold;
+                }
+              }
+
+              &.status {
+                color: $persian-green;
+                text-transform: capitalize;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-semibold;
+                }
+              }
+            }
+          }
+        }
+
+        .qtr-details {
+          border-bottom: solid 1px $mercury;
+
+          .curr-qtr,
+          .deal-size {
+            p {
+              padding: 16px 12px;
+              line-height: 18px;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-semibold;
+              }
+
+              span {
+                display: block;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-regular;
+                }
+              }
+            }
+          }
+        }
+
+        .mobsec-staging {
+          .title {
+            padding: 16px 16px 24px 12px;
+
+            font: {
+              size: $base-font-size;
+              weight: $font-weight-regular;
+            }
+          }
+
+          .stage-lvl {
+            overflow-y: auto;
+            position: relative;
+
+            .stage-circles {
+              padding-left: 0;
+              margin: 0px 12px 12px 12px;
+              padding-top: 2px;
+
+              li {
+                background: #fff;
+                color: #00a3a5;
+                padding: 12px 15px;
+                @include border-radius(50%);
+                margin-right: 16px;
+                border: 1px solid #00a3a5;
+
+                font: {
+                  size: $base-font-size + 4;
+                  weight: $font-weight-regular;
+                }
+
+                &.active {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: $jagged-ice;
+                  color: $persian-green;
+                  border: solid 1px $persian-green;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #d0eeee;
+                  }
+                }
+
+                &.reject {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #fbdbe1;
+                  color: #eb617c;
+                  border: solid 1px #eb617c;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #fbdbe1;
+                  }
+                }
+
+                &.submit {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #ffdf99;
+                  color: #e09900;
+                  border: solid 1px #ffdf99;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #ffdf99;
+                  }
+                }
+
+                &.lost {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #eef0f2;
+                  color: #2f3c46;
+                  border: solid 1px #eef0f2;
+                  position: relative;
+                }
+
+                &.disabled {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #eef0f2;
+                  color: #9db0be;
+                  border: solid 1px #eef0f2;
+                  position: relative;
+                }
+
+                &.ready {
+                  background: $white;
+                  color: $persian-green;
+                  border: solid 1px $persian-green;
+
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-regular;
+                  }
+                }
+              }
+            }
+
+            .sec-change-approver {
+              position: sticky;
+              left: 0;
+              bottom: 0;
+              background: $jagged-ice;
+              padding: 16px 12px;
+              display: flex;
+              align-items: center;
+
+              &.d-flex {
+                display: inherit !important;
+              }
+
+              .cont {
+                color: $blue-bayoux;
                 width: 100%;
-                overflow: hidden;
-                display: table;
-                table-layout: fixed;
-                border: solid 1px red;
+                display: block;
+                margin-bottom: 24px;
 
-                li {
-                    display: table-cell;
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-semibold;
                 }
-            }
+              }
 
-            .stage-lvl-hscroll {
-                padding: 0 60px;
+              .action-btn {
+                width: 100%;
+                display: block;
+                white-space: inherit !important;
+                text-align: center;
 
-                .owl-carousel {
-
-                    .owl-stage-outer {
-                        .owl-stage {
-                            .owl-item {
-                                text-align: center;
-                            }
-                        }
-                    }
-
-                    .owl-dots {
-                        display: none;
-                    }
-
-                    .owl-nav {
-                        position: absolute;
-                        top: -15px;
-                        bottom: -5px;
-                        left: 0;
-                        right: 0;
-
-                        .owl-prev {
-                            position: absolute;
-                            left: -40px;
-                            top: 10px;
-                            font-size: 16px;
-                        }
-
-                        .owl-next {
-                            position: absolute;
-                            right: -40px;
-                            top: 10px;
-                        }
-
-                        .owl-prev,
-                        .owl-next {
-                            &:hover {
-                                background: none;
-                            }
-                        }
-
-                    }
+                button {
+                  &:first-child {
+                    margin-left: 0 !important;
+                  }
                 }
+
+                .txt-link {
+                  @include text-link($white, $white, 0.5);
+                  @include border-radius($border-radius);
+                  background: $limed-spruce;
+                  text-align: center;
+                  padding: 10px 10px;
+                  color: $white;
+                  font-size: 12px;
+                  font-weight: 600;
+                  margin-right: 10px;
+                }
+
+                .reject-text {
+                  background: #eb617c !important;
+                  color: $white !important;
+                  border: solid 1px #eb617c !important;
+
+                  &:hover,
+                  &:focus {
+                    background: $white !important;
+                    color: #eb617c !important;
+                    border: solid 1px #eb617c !important;
+                  }
+                }
+
+                .submit-text {
+                  background: $white;
+                  color: #e09900;
+                  border: 1px solid #e09900;
+
+                  &:hover,
+                  &:focus {
+                    background: $tangerine;
+                    color: $white;
+                  }
+                }
+
+                .approval-btns {
+                  width:100%;
+                  display: blcok;
+                  margin-bottom: 16px !important;
+                  margin-left:0px !important;
+                }
+              }
             }
+            .sec-change-reject {
+              background: #fbdbe1;
+            }
+            .sec-change-submit {
+              background: #ffdf99;
+            }
+            .sec-change-lost {
+              background: #eef0f2;
+            }
+            .sec-change-new {
+              background: #d0eeee;
+            }
+          }
         }
+      }
 
-        .opportunity-list {
-            display: block;
-        }
-
-
-        .mobile-cardview-list {
+      .sec-info-accordion {
+        .accordion {
+          li {
             display: block;
             margin-bottom: 12px;
-            margin-top: 16px;
-            margin-bottom: 80px;
 
-            .card-section {
-                background: $white;
-                margin-bottom: 16px;
-                @include border-radius($border-radius);
-                box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
-
-                .title-row {
-                    padding: 16px 16px 0 16px;
-
-                    p {
-                        margin-bottom: 0;
-                    }
-
-                    .lft-col {
-                        padding: 0 !important;
-
-                        font: {
-                            size: $base-font-size + 4;
-                            weight: $font-weight-bold;
-                        }
-
-                        span {
-                            display: block;
-                            margin-top: 8px;
-
-                            font: {
-                                size: $base-font-size - 2;
-                                weight: $font-weight-semibold;
-                            }
-                        }
-                    }
-
-                    .rgt-col {
-                        span {
-
-                            padding: 8px 16px;
-                            @include border-radius(20px);
-
-                            font: {
-                                size: $base-font-size - 2;
-                                weight: $font-weight-bold;
-                            }
-
-                            &.danger {
-                                background: $azalea;
-                                color: $mandy;
-                            }
-
-                            &.success {
-                                background: $jagged-ice;
-                                color: $persian-green;
-                            }
-
-                            &.secondary {
-                                background: $mercury;
-                                color: $limed-spruce;
-                            }
-                        }
-                    }
-                }
-
-                .owner-row,
-                .qtr-details-row {
-                    padding: 16px 16px 0 16px;
-
-                    .lft-col {
-                        color: $blue-bayoux;
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size - 2;
-                        }
-
-                        span {
-                            padding-top: 4px;
-                            display: block;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-                        }
-                    }
-
-                    .rgt-col {
-                        color: $blue-bayoux;
-
-                        font: {
-                            size: $base-font-size - 2;
-                        }
-
-                        text-align: right;
-
-                        span {
-                            padding-top: 4px;
-                            display: block;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-                        }
-                    }
-                }
-
-                .owner-row {
-                    margin-bottom: 16px;
-                }
-
-                .qtr-details-row {
-                    padding-bottom: 16px;
-                }
-
-                .location-row {
-                    border-top: solid 1px $mercury;
-                    padding: 16px;
-
-                    .lft-col {
-                        color: #6D899D;
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-                }
+            .accr-body-container {
+              li {
+                margin-bottom: 24px;
+              }
             }
+          }
         }
-
+      }
     }
 
-    .iptor-sticky-footer {
+    &.customer {
+      padding: 0 !important;
+      padding-bottom: 24px !important;
+
+      .container-fluid {
+        width: 100%;
+      }
+    }
+  }
+
+  nav.site-navbar {
+    display: none !important;
+  }
+
+  .opportunities {
+    .s-header {
+      .navbar-filter {
+        width: 100%;
+        overflow: hidden;
+        display: table;
+        table-layout: fixed;
+        border: solid 1px red;
+
+        li {
+          display: table-cell;
+        }
+      }
+
+      .stage-lvl-hscroll {
+        padding: 0 60px;
+
+        .owl-carousel {
+          .owl-stage-outer {
+            .owl-stage {
+              .owl-item {
+                text-align: center;
+              }
+            }
+          }
+
+          .owl-dots {
+            display: none;
+          }
+
+          .owl-nav {
+            position: absolute;
+            top: -15px;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+
+            .owl-prev {
+              position: absolute;
+              left: -40px;
+              top: 10px;
+              font-size: 16px;
+            }
+
+            .owl-next {
+              position: absolute;
+              right: -40px;
+              top: 10px;
+            }
+
+            .owl-prev,
+            .owl-next {
+              &:hover {
+                background: none;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .opportunity-list {
+      display: block;
+    }
+
+    .mobile-cardview-list {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 80px;
+
+      .card-section {
+        background: $white;
+        margin-bottom: 16px;
+        @include border-radius($border-radius);
+        box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+
+        .title-row {
+          padding: 16px 16px 0 16px;
+
+          p {
+            margin-bottom: 0;
+          }
+
+          .lft-col {
+            padding: 0 !important;
+
+            font: {
+              size: $base-font-size + 4;
+              weight: $font-weight-bold;
+            }
+
+            span {
+              display: block;
+              margin-top: 8px;
+
+              font: {
+                size: $base-font-size - 2;
+                weight: $font-weight-semibold;
+              }
+            }
+          }
+
+          .rgt-col {
+            span {
+              padding: 8px 16px;
+              @include border-radius(20px);
+
+              font: {
+                size: $base-font-size - 2;
+                weight: $font-weight-bold;
+              }
+
+              &.danger {
+                background: $azalea;
+                color: $mandy;
+              }
+
+              &.success {
+                background: $jagged-ice;
+                color: $persian-green;
+              }
+
+              &.secondary {
+                background: $mercury;
+                color: $limed-spruce;
+              }
+            }
+          }
+        }
+
+        .owner-row,
+        .qtr-details-row {
+          padding: 16px 16px 0 16px;
+
+          .lft-col {
+            color: $blue-bayoux;
+            padding: 0;
+
+            font: {
+              size: $base-font-size - 2;
+            }
+
+            span {
+              padding-top: 4px;
+              display: block;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+            }
+          }
+
+          .rgt-col {
+            color: $blue-bayoux;
+
+            font: {
+              size: $base-font-size - 2;
+            }
+
+            text-align: right;
+
+            span {
+              padding-top: 4px;
+              display: block;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+            }
+          }
+        }
+
+        .owner-row {
+          margin-bottom: 16px;
+        }
+
+        .qtr-details-row {
+          padding-bottom: 16px;
+        }
+
+        .location-row {
+          border-top: solid 1px $mercury;
+          padding: 16px;
+
+          .lft-col {
+            color: #6d899d;
+            padding: 0;
+
+            font: {
+              size: $base-font-size + 2;
+              weight: $font-weight-semibold;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .iptor-sticky-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: $limed-spruce;
+    color: $white;
+    z-index: 9;
+
+    .col {
+      text-align: center;
+      padding: 16px;
+
+      &.active-menu {
+        border-bottom: solid 4px $white;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .notification {
+        position: relative;
+        width: 24px;
+        height: 24px;
         display: block;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background: $limed-spruce;
-        color: $white;
+        margin: 0 auto;
 
-        .col {
-            text-align: center;
+        .red-dot {
+          position: absolute;
+          right: 3px;
+          top: 1px;
+          width: 8px;
+          height: 8px;
+          background: $mandy;
+          display: block;
+          @include border-radius(50%);
+        }
+      }
+    }
+  }
+
+  .accordian-card {
+    width: 85%;
+  }
+
+  .left-card {
+    width: 85%;
+  }
+
+  .right-card {
+    width: 15%;
+  }
+
+  .accr-body-container {
+    > ul {
+      &.accr-list-columns {
+        display: inherit;
+
+        li {
+          margin: 0;
+          margin-bottom: 24px;
+
+          &:first-child {
+            width: inherit;
+          }
+        }
+      }
+    }
+
+    &.customers-comp {
+      .container-fluid {
+        .card {
+          .card-body {
+            .card-action-icons {
+              right: inherit;
+              top: inherit;
+              bottom: 14px;
+              left: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .prod-modules-tbl {
+    &.mob-prod-modules-tbl {
+      padding: 12px;
+
+      .mob-prod-modules-card {
+        margin-bottom: 12px;
+
+        .product-row {
+          padding: 0;
+          border: none;
+          flex-wrap: wrap;
+
+          .lft-col,
+          .rgt-col {
             padding: 16px;
+            padding-bottom: 0;
+            width: 50%;
+            text-align: unset;
 
-            &.active-menu {
-                border-bottom: solid 4px $white;
+            .values {
+              max-width: 120px;
+              overflow: hidden;
+              white-space: nowrap;
+
+              font: {
+                size: $base-font-size;
+                weight: $font-weight-bold;
+              }
             }
 
-            img {
-                width: 24px;
-                height: 24px;
+            span {
+              max-width: 120px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
+          }
 
-            .notification {
-                position: relative;
-                width: 24px;
-                height: 24px;
-                display: block;
-                margin: 0 auto;
-
-                .red-dot {
-                    position: absolute;
-                    right: 3px;
-                    top: 1px;
-                    width: 8px;
-                    height: 8px;
-                    background: $mandy;
-                    display: block;
-                    @include border-radius(50%);
-                }
-            }
-
-
-
+          &.action-row {
+            padding-top: 16px;
+            flex-wrap: nowrap;
+          }
         }
+      }
     }
 
-    .accordian-card {
-        width: 85%
+    .mob-prod-modules-card {
+      margin: 0;
     }
+  }
 
-    .left-card {
-        width: 85%;
-    }
-
-    .right-card {
-        width: 15%;
-    }
-
-
-
-    .accr-body-container {
-        >ul {
-            &.accr-list-columns {
-                display: inherit;
-
-                li {
-                    margin: 0;
-                    margin-bottom: 24px;
-
-                    &:first-child {
-                        width: inherit;
-                    }
-                }
-            }
-        }
-
-        &.customers-comp {
-            .container-fluid {
-                .card {
-                    .card-body {
-                        .card-action-icons {
-                            right: inherit;
-                            top: inherit;
-                            bottom: 14px;
-                            left: 24px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .prod-modules-tbl {
-        &.mob-prod-modules-tbl {
-            padding: 12px;
-
-            .mob-prod-modules-card {
-                margin-bottom: 12px;
-
-                .product-row {
-                    padding: 0;
-                    border:none;
-                    flex-wrap: wrap;
-
-                    .lft-col,
-                    .rgt-col {
-                        padding: 16px;
-                        padding-bottom: 0;
-                        width: 50%;
-                        text-align: unset;
-                        
-                        .values {
-                            max-width: 120px;
-                            overflow: hidden;
-                            white-space: nowrap;
-                        }
-
-                        span {
-                            max-width: 120px;
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                        }
-                    }
-
-                    &.action-row {
-                        padding-top: 16px;
-                        flex-wrap: nowrap;
-                    }
-                }
-            }
-        }
-
-        .mob-prod-modules-card {
-            margin: 0;
-        }
-
-    }
-
-    .opportunity-edit-form, .edit-customer-info {
-        padding-bottom: 60px;
-    }
-
-
-
+  .opportunity-edit-form,
+  .edit-customer-info {
+    padding-bottom: 60px;
+  }
 }
 
-@media (max-width: 767.98px) and (orientation:landscape) {
-    .main-wrapper {
+@media (max-width: 767.98px) and (orientation: landscape) {
+  .main-wrapper {
+    &.loginpage,
+    &.companypage {
+      height: 600px;
 
-        &.loginpage,
-        &.companypage {
-            height: 600px;
+      .iptor-login-btn {
+        background-color: $limed-spruce;
+        padding: 18px 32px;
 
-            .iptor-login-btn {
-                background-color: $limed-spruce;
-                padding: 18px 32px;
-
-                &.disable-button {
-                    pointer-events: none;
-                    cursor: default;
-                    background: #DAE2E7;
-                    color: #9DB0BE;
-                }
-
-                &:hover {
-                    background: rgba($limed-spruce, 0.9);
-                }
-            }
+        &.disable-button {
+          pointer-events: none;
+          cursor: default;
+          background: #dae2e7;
+          color: #9db0be;
         }
 
-        &.opportunity {
+        &:hover {
+          background: rgba($limed-spruce, 0.9);
+        }
+      }
+    }
 
-            .pagelvl-actionrow,
-            .sec-product-desc,
-            .sec-staging,
-            .sec-customer-addr {
-                display: none !important;
-            }
+    &.opportunity {
+      .pagelvl-actionrow,
+      .sec-product-desc,
+      .sec-staging,
+      .sec-customer-addr {
+        display: none !important;
+      }
 
-            .opp-product-mobilecard {
+      .opp-product-mobilecard {
+        display: block;
+        background: $white;
+        margin-bottom: 24px;
+        padding: 0;
+
+        .product-name-action-row {
+          border-bottom: solid 1px $mercury;
+
+          .lft-prodname {
+            p {
+              padding: 24px 16px 0px 40px;
+              position: relative;
+
+              &::before {
+                content: '';
+                position: absolute;
+                left: 12px;
+                top: 23px;
+                width: 24px;
+                height: 24px;
                 display: block;
-                background: $white;
-                margin-bottom: 24px;
-                padding: 0;
+                background: url('../images/chevron-left-black.svg') no-repeat top left;
+              }
 
-                .product-name-action-row {
-                    border-bottom: solid 1px $mercury;
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
 
-                    .lft-prodname {
-                        p {
-                            padding: 24px 16px 0px 40px;
-                            position: relative;
+              span.id-num {
+                display: block;
+                padding-top: 4px;
 
-                            &::before {
-                                content: '';
-                                position: absolute;
-                                left: 12px;
-                                top: 23px;
-                                width: 24px;
-                                height: 24px;
-                                display: block;
-                                background: url("../images/chevron-left-black.svg") no-repeat top left;
-                            }
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-
-                            span.id-num {
-                                display: block;
-                                padding-top: 4px;
-
-                                font: {
-                                    size: $base-font-size - 2;
-                                    weight: $font-weight-regular;
-                                }
-                            }
-
-                            span.location {
-                                display: block;
-                                padding-top: 4px;
-
-                                font: {
-                                    size: $base-font-size - 2;
-                                    weight: $font-weight-regular;
-                                }
-                            }
-                        }
-                    }
-
-                    .rgt-actioncol {
-                        padding: 24px 24px 24px 8px;
-
-                        ul {
-                            min-width: 120px;
-                            text-align: right;
-
-                            li {
-                                img {
-                                    width: 19px;
-                                    height: auto;
-                                }
-                            }
-                        }
-                    }
+                font: {
+                  size: $base-font-size - 2;
+                  weight: $font-weight-regular;
                 }
+              }
 
-                .status-row {
-                    padding: 16px 12px 16px 12px;
-                    border-bottom: solid 1px $mercury;
+              span.location {
+                display: block;
+                padding-top: 4px;
 
-                    ul {
-                        padding-left: 0;
-
-                        li {
-                            margin-right: 16px;
-
-                            &.grade {
-                                background: #d0eeee;
-                                color: #00A3A5;
-                                padding: 8px 16px;
-                                @include border-radius(20px);
-
-                                font: {
-                                    size: $base-font-size - 2;
-                                    weight: $font-weight-bold;
-                                }
-                            }
-
-                            &.open {
-                                color: $limed-spruce;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-semibold;
-                                }
-                            }
-
-                            &.status {
-                                color: $persian-green;
-                                text-transform: capitalize;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-semibold;
-                                }
-                            }
-                        }
-                    }
+                font: {
+                  size: $base-font-size - 2;
+                  weight: $font-weight-regular;
                 }
-
-                .qtr-details {
-                    border-bottom: solid 1px $mercury;
-
-                    .curr-qtr,
-                    .deal-size {
-                        p {
-                            padding: 16px 12px;
-                            line-height: 18px;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-semibold;
-                            }
-
-                            span {
-                                display: block;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-regular;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .mobsec-staging {
-
-                    .title {
-                        padding: 16px 16px 24px 12px;
-
-                        font: {
-                            size: $base-font-size;
-                            weight: $font-weight-regular;
-                        }
-                    }
-
-                    .stage-lvl {
-                        overflow-y: auto;
-                        position: relative;
-
-                        .stage-circles {
-                            padding-left: 0;
-                            margin: 0px 12px 12px 12px;
-
-                            li {
-                                background: #fff;
-                                color: #00A3A5;
-                                padding: 12px 15px;
-                                @include border-radius(50%);
-                                margin-right: 16px;
-                                border: 1px solid #00A3A5;
-
-                                font: {
-                                    size: $base-font-size + 4;
-                                    weight: $font-weight-regular;
-                                }
-
-                                &.active {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: $jagged-ice;
-                                    color: $persian-green;
-                                    border: solid 1px $persian-green;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid $jagged-ice;
-                                    }
-                                }
-
-                                &.reject {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #FBDBE1;
-                                    color: #EB617C;
-                                    border: solid 1px #EB617C;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid #FBDBE1;
-                                    }
-                                }
-
-                                &.submit {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #FFDF99;
-                                    color: #E09900;
-                                    border: solid 1px #FFDF99;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid #FFDF99;
-                                    }
-                                }
-
-                                &.lost {
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-bold;
-                                    }
-
-                                    background: #EEF0F2;
-                                    color: #2F3C46;
-                                    border: solid 1px #EEF0F2;
-                                    position: relative;
-
-                                    &::after {
-                                        position: absolute;
-                                        content: '';
-                                        bottom: -14px;
-                                        left: 17px;
-                                        width: 0;
-                                        height: 0;
-                                        border-left: 10px solid transparent;
-                                        border-right: 10px solid transparent;
-                                        border-bottom: 10px solid #EEF0F2;
-                                    }
-                                }
-
-                                &.ready {
-                                    background: $white;
-                                    color: $persian-green;
-                                    border: solid 1px $persian-green;
-
-                                    font: {
-                                        size: $base-font-size + 4;
-                                        weight: $font-weight-regular;
-                                    }
-                                }
-                            }
-                        }
-
-                        .sec-change-approver {
-                            position: sticky;
-                            left: 0;
-                            bottom: 0;
-                            background: $jagged-ice;
-                            padding: 16px 12px;
-
-                            .cont {
-                                color: $blue-bayoux;
-                                width: 45%;
-
-                                font: {
-                                    size: $base-font-size;
-                                    weight: $font-weight-semibold;
-                                }
-                            }
-
-                            .action-btn {
-
-                                width: 75%;
-
-                                .txt-link {
-                                    white-space: nowrap;
-                                    @include text-link($white, $white, 0.5);
-                                    @include border-radius($border-radius);
-                                    background: $limed-spruce;
-                                    text-align: center;
-                                    padding: 12px 18px;
-                                    color: $white;
-                                }
-                            }
-                        }
-                        .sec-change-reject{
-                            background: #FBDBE1;
-                        }
-                        .sec-change-submit{
-                            background: #FFDF99;
-                        }
-                        .sec-change-lost{
-                            background: #EEF0F2;
-                        }
-                        .sec-change-new{
-                            background: #D0EEEE;
-                        }
-                    }
-                }
+              }
             }
+          }
 
-            .sec-info-accordion {
-                .accordion {
-                    li {
-                        display: block;
-                        margin-bottom: 12px;
+          .rgt-actioncol {
+            padding: 24px 24px 24px 8px;
 
-                        .accr-body-container {
-                            li {
-                                margin-bottom: 24px;
-                            }
-                        }
-                    }
+            ul {
+              min-width: 120px;
+              text-align: right;
+
+              li {
+                img {
+                  width: 19px;
+                  height: auto;
                 }
+              }
             }
-
-
+          }
         }
 
-    }
+        .status-row {
+          padding: 16px 12px 16px 12px;
+          border-bottom: solid 1px $mercury;
 
-    footer {
-        display: none;
-    }
+          ul {
+            padding-left: 0;
 
-    .opportunities {
-        .s-header {
-            .navbar-filter {
+            li {
+              margin-right: 16px;
+
+              &.grade {
+                background: #d0eeee;
+                color: #00a3a5;
+                padding: 8px 16px;
+                @include border-radius(20px);
+
+                font: {
+                  size: $base-font-size - 2;
+                  weight: $font-weight-bold;
+                }
+              }
+
+              &.open {
+                color: $limed-spruce;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-semibold;
+                }
+              }
+
+              &.status {
+                color: $persian-green;
+                text-transform: capitalize;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-semibold;
+                }
+              }
+            }
+          }
+        }
+
+        .qtr-details {
+          border-bottom: solid 1px $mercury;
+
+          .curr-qtr,
+          .deal-size {
+            p {
+              padding: 16px 12px;
+              line-height: 18px;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-semibold;
+              }
+
+              span {
+                display: block;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-regular;
+                }
+              }
+            }
+          }
+        }
+
+        .mobsec-staging {
+          .title {
+            padding: 16px 16px 24px 12px;
+
+            font: {
+              size: $base-font-size;
+              weight: $font-weight-regular;
+            }
+          }
+
+          .stage-lvl {
+            overflow-y: auto;
+            position: relative;
+
+            .stage-circles {
+              padding-left: 0;
+              margin: 0px 12px 12px 12px;
+              padding-top: 2px;
+
+              li {
+                background: #fff;
+                color: #00a3a5;
+                padding: 12px 15px;
+                @include border-radius(50%);
+                margin-right: 16px;
+                border: 1px solid #00a3a5;
+
+                font: {
+                  size: $base-font-size + 4;
+                  weight: $font-weight-regular;
+                }
+
+                &.active {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: $jagged-ice;
+                  color: $persian-green;
+                  border: solid 1px $persian-green;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid $jagged-ice;
+                  }
+                }
+
+                &.reject {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #fbdbe1;
+                  color: #eb617c;
+                  border: solid 1px #eb617c;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #fbdbe1;
+                  }
+                }
+
+                &.submit {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #ffdf99;
+                  color: #e09900;
+                  border: solid 1px #ffdf99;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #ffdf99;
+                  }
+                }
+
+                &.lost {
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-bold;
+                  }
+
+                  background: #eef0f2;
+                  color: #2f3c46;
+                  border: solid 1px #eef0f2;
+                  position: relative;
+
+                  &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -14px;
+                    left: 17px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #eef0f2;
+                  }
+                }
+
+                &.ready {
+                  background: $white;
+                  color: $persian-green;
+                  border: solid 1px $persian-green;
+
+                  font: {
+                    size: $base-font-size + 4;
+                    weight: $font-weight-regular;
+                  }
+                }
+              }
+            }
+
+            .sec-change-approver {
+              position: sticky;
+              left: 0;
+              bottom: 0;
+              background: $jagged-ice;
+              padding: 16px 12px;
+
+              &.d-flex {
+                display: flex !important;
+              }
+
+              .cont {
+                color: $blue-bayoux;
+                width: 50%;
+                margin-bottom: 0;
+
+                font: {
+                  size: $base-font-size;
+                  weight: $font-weight-semibold;
+                }
+              }
+
+              .action-btn {
                 width: 100%;
-                overflow: hidden;
-                display: table;
-                table-layout: fixed;
-                border: solid 1px red;
+                text-align: center;
 
-                li {
-                    display: table-cell;
+                .txt-link {
+                  white-space: nowrap;
+                  @include text-link($white, $white, 0.5);
+                  @include border-radius($border-radius);
+                  background: $white;
+                  text-align: center;
+                  padding: 12px 18px;
+                  color: $tangerine;
+                  border: solid 1px $tangerine;
+
+                  &:hover,
+                  &:focus {
+                    background: $tangerine;
+                    color: $white;
+                  }
                 }
+              }
             }
-
-            .stage-lvl-hscroll {
-                padding: 0 60px;
-
-                .owl-carousel {
-
-                    .owl-stage-outer {
-                        .owl-stage {
-                            .owl-item {
-                                text-align: center;
-                            }
-                        }
-                    }
-
-                    .owl-dots {
-                        display: none;
-                    }
-
-                    .owl-nav {
-                        position: absolute;
-                        top: -15px;
-                        bottom: -5px;
-                        left: 0;
-                        right: 0;
-
-                        .owl-prev {
-                            position: absolute;
-                            left: -40px;
-                            top: 10px;
-                            font-size: 16px;
-                        }
-
-                        .owl-next {
-                            position: absolute;
-                            right: -40px;
-                            top: 10px;
-                        }
-
-                        .owl-prev,
-                        .owl-next {
-                            &:hover {
-                                background: none;
-                            }
-                        }
-
-                    }
-                }
+            .sec-change-reject {
+              background: #fbdbe1;
             }
+            .sec-change-submit {
+              background: #ffdf99;
+            }
+            .sec-change-lost {
+              background: #eef0f2;
+            }
+            .sec-change-new {
+              background: #d0eeee;
+            }
+          }
         }
+      }
 
-        .opportunity-list {
-            display: none;
-        }
-
-        .mobile-cardview-list {
+      .sec-info-accordion {
+        .accordion {
+          li {
             display: block;
             margin-bottom: 12px;
-            margin-top: 16px;
-            margin-bottom: 80px;
 
-            .card-section {
-                background: $white;
-                margin-bottom: 16px;
-                @include border-radius($border-radius);
-                cursor: pointer;
-
-                box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
-
-                .title-row {
-                    padding: 16px 16px 0 16px;
-
-
-                    .lft-col {
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size + 4;
-                            weight: $font-weight-bold;
-                        }
-
-                        span {
-                            display: block;
-                            margin-top: 8px;
-
-                            font: {
-                                size: $base-font-size - 2;
-                                weight: $font-weight-semibold;
-                            }
-                        }
-                    }
-
-                    .rgt-col {
-                        span {
-
-                            padding: 8px 16px;
-                            @include border-radius(20px);
-
-                            font: {
-                                size: $base-font-size - 2;
-                                weight: $font-weight-bold;
-                            }
-
-                            &.danger {
-                                background: $azalea;
-                                color: $mandy;
-                            }
-
-                            &.success {
-                                background: $jagged-ice;
-                                color: $persian-green;
-                            }
-
-                            &.secondary {
-                                background: $mercury;
-                                color: $limed-spruce;
-                            }
-                        }
-                    }
-                }
-
-                .owner-row,
-                .qtr-details-row {
-                    padding: 24px 16px 0 16px;
-
-                    .lft-col {
-                        color: $blue-bayoux;
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size - 2;
-                        }
-
-                        span {
-                            padding-top: 4px;
-                            display: block;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-                        }
-                    }
-
-                    .rgt-col {
-                        color: $blue-bayoux;
-
-                        font: {
-                            size: $base-font-size - 2;
-                        }
-
-                        text-align: right;
-
-                        span {
-                            padding-top: 4px;
-                            display: block;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-                        }
-                    }
-                }
-
-                .qtr-details-row {
-                    padding-bottom: 16px;
-                }
-
-                .location-row {
-                    border-top: solid 1px $mercury;
-                    padding: 16px;
-
-                    .lft-col {
-                        color: #6D899D;
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-                }
+            .accr-body-container {
+              li {
+                margin-bottom: 24px;
+              }
             }
+          }
         }
+      }
+    }
+  }
+
+  footer {
+    display: none;
+  }
+
+  .opportunities {
+    .s-header {
+      .navbar-filter {
+        width: 100%;
+        overflow: hidden;
+        display: table;
+        table-layout: fixed;
+        border: solid 1px red;
+
+        li {
+          display: table-cell;
+        }
+      }
+
+      .stage-lvl-hscroll {
+        padding: 0 60px;
+
+        .owl-carousel {
+          .owl-stage-outer {
+            .owl-stage {
+              .owl-item {
+                text-align: center;
+              }
+            }
+          }
+
+          .owl-dots {
+            display: none;
+          }
+
+          .owl-nav {
+            position: absolute;
+            top: -15px;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+
+            .owl-prev {
+              position: absolute;
+              left: -40px;
+              top: 10px;
+              font-size: 16px;
+            }
+
+            .owl-next {
+              position: absolute;
+              right: -40px;
+              top: 10px;
+            }
+
+            .owl-prev,
+            .owl-next {
+              &:hover {
+                background: none;
+              }
+            }
+          }
+        }
+      }
     }
 
-    .iptor-sticky-footer {
+    .opportunity-list {
+      display: none;
+    }
+
+    .mobile-cardview-list {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 80px;
+
+      .card-section {
+        background: $white;
+        margin-bottom: 16px;
+        @include border-radius($border-radius);
+        cursor: pointer;
+
+        box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+
+        .title-row {
+          padding: 16px 16px 0 16px;
+
+          .lft-col {
+            padding: 0;
+
+            font: {
+              size: $base-font-size + 4;
+              weight: $font-weight-bold;
+            }
+
+            span {
+              display: block;
+              margin-top: 8px;
+
+              font: {
+                size: $base-font-size - 2;
+                weight: $font-weight-semibold;
+              }
+            }
+          }
+
+          .rgt-col {
+            span {
+              padding: 8px 16px;
+              @include border-radius(20px);
+
+              font: {
+                size: $base-font-size - 2;
+                weight: $font-weight-bold;
+              }
+
+              &.danger {
+                background: $azalea;
+                color: $mandy;
+              }
+
+              &.success {
+                background: $jagged-ice;
+                color: $persian-green;
+              }
+
+              &.secondary {
+                background: $mercury;
+                color: $limed-spruce;
+              }
+            }
+          }
+        }
+
+        .owner-row,
+        .qtr-details-row {
+          padding: 24px 16px 0 16px;
+
+          .lft-col {
+            color: $blue-bayoux;
+            padding: 0;
+
+            font: {
+              size: $base-font-size - 2;
+            }
+
+            span {
+              padding-top: 4px;
+              display: block;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+            }
+          }
+
+          .rgt-col {
+            color: $blue-bayoux;
+
+            font: {
+              size: $base-font-size - 2;
+            }
+
+            text-align: right;
+
+            span {
+              padding-top: 4px;
+              display: block;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+            }
+          }
+        }
+
+        .qtr-details-row {
+          padding-bottom: 16px;
+        }
+
+        .location-row {
+          border-top: solid 1px $mercury;
+          padding: 16px;
+
+          .lft-col {
+            color: #6d899d;
+            padding: 0;
+
+            font: {
+              size: $base-font-size + 2;
+              weight: $font-weight-semibold;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .iptor-sticky-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: $limed-spruce;
+    color: $white;
+    z-index: 1;
+
+    .col {
+      text-align: center;
+      padding: 16px;
+
+      &.active-menu {
+        border-bottom: solid 4px $white;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .notification {
+        position: relative;
+        width: 24px;
+        height: 24px;
         display: block;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background: $limed-spruce;
-        color: $white;
+        margin: 0 auto;
 
-        .col {
-            text-align: center;
-            padding: 16px;
-
-            &.active-menu {
-                border-bottom: solid 4px $white;
-            }
-
-            img {
-                width: 24px;
-                height: 24px;
-            }
-
-            .notification {
-                position: relative;
-                width: 24px;
-                height: 24px;
-                display: block;
-                margin: 0 auto;
-
-                .red-dot {
-                    position: absolute;
-                    right: 3px;
-                    top: 1px;
-                    width: 8px;
-                    height: 8px;
-                    background: $mandy;
-                    display: block;
-                    @include border-radius(50%);
-                }
-            }
-
-
-
+        .red-dot {
+          position: absolute;
+          right: 3px;
+          top: 1px;
+          width: 8px;
+          height: 8px;
+          background: $mandy;
+          display: block;
+          @include border-radius(50%);
         }
+      }
     }
-
-
+  }
 }
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) {
-    nav.site-navbar {
-        display: none !important;
+  nav.site-navbar {
+    display: flex !important;
+  }
+
+  .prod-modules-tbl {
+    &.mob-prod-modules-tbl {
+      .mob-prod-modules-card {
+        .prod-mod-collection {
+          &.d-flex {
+            display: inherit !important;
+            .lft-col,
+            .rgt-col {
+              width: 50%;
+              margin-bottom: 16px;
+              display: inline-block;
+              .values {
+                line-height: 18px;
+                font: {
+                  weight: $font-weight-semibold;
+                  size: $base-font-size + 2;
+                }
+              }
+            }
+          }
+        }
+        .action-row {
+          padding-left: 0;
+          padding-right: 0;
+          .icon-class {
+            border: none;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .main-wrapper {
+    &.loginpage {
+      height: 100vh;
+
+      .login-lft-cont-container {
+        position: inherit;
+        border-top: none;
+        bottom: inherit;
+        left: inherit;
+        right: inherit;
+        text-align: center;
+        width: inherit;
+        padding: 40px 16px 16px 16px;
+
+        .login-cont-logo {
+          width: 111px;
+          height: auto;
+        }
+
+        .para {
+          font-size: 24px;
+          width: 100%;
+        }
+
+        .version-details {
+          display: none;
+        }
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 24px;
+        left: 24px;
+        top: inherit;
+        bottom: 24px;
+        margin: 0;
+        width: inherit;
+        padding: 0;
+        padding-bottom: 24px;
+
+        img.login-form-logo {
+          display: none;
+        }
+
+        .welcome-txt {
+          padding-top: 24px;
+          padding-bottom: 12px;
+          margin-top: 0px;
+          margin-bottom: 0;
+          margin-left: 12px;
+          margin-right: 12px;
+
+          font: {
+            size: $base-font-size;
+          }
+
+          .hi-txt,
+          .welcomeback-txt {
+            padding: 0;
+            margin: 0;
+            line-height: 32px;
+            font-size: 24px;
+            text-transform: capitalize;
+            font-weight: $font-weight-semibold;
+          }
+        }
+
+        .form-placeholder-container {
+          margin-top: 16px;
+          margin-left: 12px;
+          margin-right: 12px;
+        }
+
+        .login-copyrights {
+          display: none;
+        }
+      }
+
+      .iptor-login-btn {
+        background-color: $limed-spruce;
+        padding: 18px 32px;
+
+        &.disable-button {
+          pointer-events: none;
+          cursor: default;
+          background: #dae2e7;
+          color: #9db0be;
+        }
+
+        &:hover {
+          background: rgba($limed-spruce, 0.9);
+        }
+      }
     }
 
-    .main-wrapper {
+    &.companypage {
+      height: 100vh;
 
-        &.loginpage {
-            height: 100vh;
-
-            .login-lft-cont-container {
-                position: inherit;
-                border-top: none;
-                bottom: inherit;
-                left: inherit;
-                right: inherit;
-                text-align: center;
-                width: inherit;
-                padding: 40px 16px 16px 16px;
-
-                .login-cont-logo {
-                    width: 111px;
-                    height: auto;
-                }
-
-                .para {
-                    font-size: 24px;
-                    width: 100%;
-                }
-
-                .version-details {
-                    display: none;
-                }
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 24px;
-                left: 24px;
-                top: inherit;
-                bottom: 24px;
-                margin: 0;
-                width: inherit;
-                padding: 0;
-                padding-bottom: 24px;
-
-                img.login-form-logo {
-                    display: none;
-                }
-
-                .welcome-txt {
-                    padding-top: 24px;
-                    padding-bottom: 12px;
-                    margin-top: 0px;
-                    margin-bottom: 0;
-                    margin-left: 12px;
-                    margin-right: 12px;
-
-                    font: {
-                        size: $base-font-size;
-                    }
-
-                    .hi-txt,
-                    .welcomeback-txt {
-                        padding: 0;
-                        margin: 0;
-                        line-height: 32px;
-                        font-size: 24px;
-                        text-transform: capitalize;
-                        font-weight: $font-weight-semibold;
-                    }
-                }
-
-                .form-placeholder-container {
-                    margin-top: 16px;
-                    margin-left: 12px;
-                    margin-right: 12px;
-                }
-
-                .login-copyrights {
-                    display: none;
-                }
-            }
-
-            .iptor-login-btn {
-                background-color: $limed-spruce;
-
-                &.disable-button {
-                    pointer-events: none;
-                    cursor: default;
-                    background: #DAE2E7;
-                    color: #9DB0BE;
-                }
-
-                &:hover {
-                    background: rgba($limed-spruce, 0.9);
-                }
-            }
-
-            .iptor-login-btn {
-                background-color: $limed-spruce;
-                padding: 18px 32px;
-
-                &.disable-button {
-                    pointer-events: none;
-                    cursor: default;
-                    background: #DAE2E7;
-                    color: #9DB0BE;
-                }
-
-                &:hover {
-                    background: rgba($limed-spruce, 0.9);
-                }
-            }
-        }
-
-        &.companypage {
-            height: 100vh;
-
-            .mobile-backto-login {
-                display: block;
-            }
-
-            .login-lft-cont-container {
-                display: none;
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 12px;
-                left: 12px;
-                top: 120px;
-                bottom: 12px;
-                margin: 0;
-                width: inherit;
-                padding: 12px;
-                overflow-y: auto;
-
-                img.login-form-logo {
-                    display: none;
-                }
-
-                .username-txt {
-                    margin-top: 12px;
-                    margin-left: 12px;
-                    margin-right: 12px;
-
-                    font: {
-                        size: $base-font-size;
-                    }
-
-                    .user-txt {
-                        font: {
-                            size: 24px;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-
-                    .company-txt {
-                        font: {
-                            size: 18px;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-
-                }
-
-                .companylist-container {
-                    max-height: inherit;
-                    overflow-y: visible;
-                }
-
-                .desk-backto-login {
-                    display: none;
-                }
-
-                .companys-list-item {
-                    margin-top: 20px;
-                }
-
-                .login-copyrights {
-                    display: none;
-                }
-            }
-        }
-
-        &.opportunity {
-            .sec-info-accordion {
-                .accordion {
-                    .accr-body-container {
-                        ul {
-                            li {
-                                // width: 40%;
-                                margin-bottom: 24px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .opportunities {
-        .s-header {
-            .navbar-filter {
-                width: 100%;
-                overflow: hidden;
-                display: table;
-                table-layout: fixed;
-                border: solid 1px red;
-
-                li {
-                    display: table-cell;
-                }
-            }
-
-            .stage-lvl-hscroll {
-                padding: 0 60px;
-
-                .owl-carousel {
-
-                    .owl-stage-outer {
-                        .owl-stage {
-                            .owl-item {
-                                text-align: center;
-                            }
-                        }
-                    }
-
-                    .owl-dots {
-                        display: none;
-                    }
-
-                    .owl-nav {
-                        position: absolute;
-                        top: -15px;
-                        bottom: -5px;
-                        left: 0;
-                        right: 0;
-
-                        .owl-prev {
-                            position: absolute;
-                            left: -40px;
-                            top: 10px;
-                            font-size: 16px;
-                        }
-
-                        .owl-next {
-                            position: absolute;
-                            right: -40px;
-                            top: 10px;
-                        }
-
-                        .owl-prev,
-                        .owl-next {
-                            &:hover {
-                                background: none;
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-
-        .opportunity-list {
-            display: none;
-        }
-
-        .mobile-cardview-list {
-            display: block;
-            margin-bottom: 12px;
-            margin-top: 16px;
-            margin-bottom: 80px;
-
-            .card-section {
-                background: $white;
-                margin-bottom: 16px;
-                @include border-radius($border-radius);
-                box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
-
-                .title-row {
-                    padding: 16px 16px 0 16px;
-
-                    .lft-col {
-                        padding: 0 !important;
-
-                        font: {
-                            size: $base-font-size + 4;
-                            weight: $font-weight-bold;
-
-                        }
-
-                        span {
-                            display: block;
-                            margin-top: 8px;
-
-                            font: {
-                                size: $base-font-size - 2;
-                                weight: $font-weight-semibold;
-                            }
-                        }
-                    }
-
-                    .rgt-col {
-                        span {
-
-                            padding: 8px 16px;
-                            @include border-radius(20px);
-
-                            font: {
-                                size: $base-font-size - 2;
-                                weight: $font-weight-bold;
-                            }
-
-                            &.danger {
-                                background: $azalea;
-                                color: $mandy;
-                            }
-
-                            &.success {
-                                background: $jagged-ice;
-                                color: $persian-green;
-                            }
-
-                            &.secondary {
-                                background: $mercury;
-                                color: $limed-spruce;
-                            }
-                        }
-                    }
-                }
-
-                .owner-row,
-                .qtr-details-row {
-                    padding: 24px 16px 0 16px;
-
-                    .lft-col {
-                        color: $blue-bayoux;
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size - 2;
-                        }
-
-                        span {
-                            padding-top: 4px;
-                            display: block;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-                        }
-                    }
-
-                    .rgt-col {
-                        color: $blue-bayoux;
-
-                        font: {
-                            size: $base-font-size - 2;
-                        }
-
-                        text-align: right;
-
-                        span {
-                            padding-top: 4px;
-                            display: block;
-
-                            font: {
-                                size: $base-font-size + 4;
-                                weight: $font-weight-bold;
-                            }
-                        }
-                    }
-                }
-
-                .qtr-details-row {
-                    padding-bottom: 16px;
-                }
-
-                .location-row {
-                    border-top: solid 1px $mercury;
-                    padding: 16px;
-
-                    .lft-col {
-                        color: #6D899D;
-                        padding: 0;
-
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .iptor-sticky-footer {
+      .mobile-backto-login {
         display: block;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background: $limed-spruce;
-        color: $white;
+      }
 
-        .col {
-            text-align: center;
-            padding: 16px;
-
-            &.active-menu {
-                border-bottom: solid 4px $white;
-            }
-
-            img {
-                width: 24px;
-                height: 24px;
-            }
-
-            .notification {
-                position: relative;
-                width: 24px;
-                height: 24px;
-                display: block;
-                margin: 0 auto;
-
-                .red-dot {
-                    position: absolute;
-                    right: 3px;
-                    top: 1px;
-                    width: 8px;
-                    height: 8px;
-                    background: $mandy;
-                    display: block;
-                    @include border-radius(50%);
-                }
-            }
-
-
-
-        }
-    }
-
-    footer {
+      .login-lft-cont-container {
         display: none;
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 12px;
+        left: 12px;
+        top: 120px;
+        bottom: 12px;
+        margin: 0;
+        width: inherit;
+        padding: 12px;
+        overflow-y: auto;
+
+        img.login-form-logo {
+          display: none;
+        }
+
+        .username-txt {
+          margin-top: 12px;
+          margin-left: 12px;
+          margin-right: 12px;
+
+          font: {
+            size: $base-font-size;
+          }
+
+          .user-txt {
+            font: {
+              size: 18px;
+              weight: $font-weight-semibold;
+            }
+          }
+
+          .company-txt {
+            font: {
+              size: 18px;
+              weight: $font-weight-semibold;
+            }
+          }
+        }
+
+        .companylist-container {
+          max-height: inherit;
+          overflow-y: visible;
+        }
+
+        .desk-backto-login {
+          display: none;
+        }
+
+        .companys-list-item {
+          margin-top: 20px;
+        }
+
+        .login-copyrights {
+          display: none;
+        }
+      }
     }
 
-    .accordian-card {
-        width: 45%
+    &.opportunity {
+      .sec-info-accordion {
+        .accordion {
+          .accr-body-container {
+            ul {
+              li {
+                // width: 40%;
+                margin-bottom: 24px;
+                min-width: 200px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .opportunities {
+    .s-header {
+      .navbar-filter {
+        width: 100%;
+        overflow: hidden;
+        display: table;
+        table-layout: fixed;
+        border: solid 1px red;
+
+        li {
+          display: table-cell;
+        }
+      }
+
+      .stage-lvl-hscroll {
+        padding: 0 60px;
+
+        .owl-carousel {
+          .owl-stage-outer {
+            .owl-stage {
+              .owl-item {
+                text-align: center;
+              }
+            }
+          }
+
+          .owl-dots {
+            display: none;
+          }
+
+          .owl-nav {
+            position: absolute;
+            top: -15px;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+
+            .owl-prev {
+              position: absolute;
+              left: -40px;
+              top: 10px;
+              font-size: 16px;
+            }
+
+            .owl-next {
+              position: absolute;
+              right: -40px;
+              top: 10px;
+            }
+
+            .owl-prev,
+            .owl-next {
+              &:hover {
+                background: none;
+              }
+            }
+          }
+        }
+      }
     }
 
-    .left-card {
-        width: 85%;
+    .opportunity-list {
+      display: block;
     }
 
-    .right-card {
-        width: 15%;
+    .mobile-cardview-list {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 80px;
+
+      .card-section {
+        background: $white;
+        margin-bottom: 16px;
+        @include border-radius($border-radius);
+        box-shadow: 0px 0px 4px rgba(109, 137, 157, 0.24);
+
+        .title-row {
+          padding: 16px 16px 0 16px;
+
+          .lft-col {
+            padding: 0 !important;
+
+            font: {
+              size: $base-font-size + 4;
+              weight: $font-weight-bold;
+            }
+
+            span {
+              display: block;
+              margin-top: 8px;
+
+              font: {
+                size: $base-font-size - 2;
+                weight: $font-weight-semibold;
+              }
+            }
+          }
+
+          .rgt-col {
+            span {
+              padding: 8px 16px;
+              @include border-radius(20px);
+
+              font: {
+                size: $base-font-size - 2;
+                weight: $font-weight-bold;
+              }
+
+              &.danger {
+                background: $azalea;
+                color: $mandy;
+              }
+
+              &.success {
+                background: $jagged-ice;
+                color: $persian-green;
+              }
+
+              &.secondary {
+                background: $mercury;
+                color: $limed-spruce;
+              }
+            }
+          }
+        }
+
+        .owner-row,
+        .qtr-details-row {
+          padding: 24px 16px 0 16px;
+
+          .lft-col {
+            color: $blue-bayoux;
+            padding: 0;
+
+            font: {
+              size: $base-font-size - 2;
+            }
+
+            span {
+              padding-top: 4px;
+              display: block;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+            }
+          }
+
+          .rgt-col {
+            color: $blue-bayoux;
+
+            font: {
+              size: $base-font-size - 2;
+            }
+
+            text-align: right;
+
+            span {
+              padding-top: 4px;
+              display: block;
+
+              font: {
+                size: $base-font-size + 4;
+                weight: $font-weight-bold;
+              }
+            }
+          }
+        }
+
+        .qtr-details-row {
+          padding-bottom: 16px;
+        }
+
+        .location-row {
+          border-top: solid 1px $mercury;
+          padding: 16px;
+
+          .lft-col {
+            color: #6d899d;
+            padding: 0;
+
+            font: {
+              size: $base-font-size + 2;
+              weight: $font-weight-semibold;
+            }
+          }
+        }
+      }
     }
+  }
+
+  .iptor-sticky-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: $limed-spruce;
+    color: $white;
+    z-index: 1;
+
+    .col {
+      text-align: center;
+      padding: 16px;
+
+      &.active-menu {
+        border-bottom: solid 4px $white;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .notification {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        display: block;
+        margin: 0 auto;
+
+        .red-dot {
+          position: absolute;
+          right: 3px;
+          top: 1px;
+          width: 8px;
+          height: 8px;
+          background: $mandy;
+          display: block;
+          @include border-radius(50%);
+        }
+      }
+    }
+  }
+
+  footer {
+    display: none;
+  }
+
+  .accordian-card {
+    width: 45%;
+  }
+
+  .left-card {
+    width: 85%;
+  }
+
+  .right-card {
+    width: 15%;
+  }
 }
 
-@media (max-width: 991.98px) and (orientation:landscape) {
-    .main-wrapper {
+@media (max-width: 991.98px) and (orientation: landscape) {
+  .main-wrapper {
+    &.loginpage {
+      height: 600px;
 
-        &.loginpage {
-            height: 600px;
+      .iptor-login-btn {
+        background-color: $limed-spruce;
+        padding: 18px 32px;
 
-            .iptor-login-btn {
-                background-color: $limed-spruce;
-                padding: 18px 32px;
-
-                &.disable-button {
-                    pointer-events: none;
-                    cursor: default;
-                    background: #DAE2E7;
-                    color: #9DB0BE;
-                }
-
-                &:hover {
-                    background: rgba($limed-spruce, 0.9);
-                }
-            }
+        &.disable-button {
+          pointer-events: none;
+          cursor: default;
+          background: #dae2e7;
+          color: #9db0be;
         }
+
+        &:hover {
+          background: rgba($limed-spruce, 0.9);
+        }
+      }
     }
+  }
 }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    nav.site-navbar {
-        display: none !important;
+  nav.site-navbar {
+    display: flex !important;
+  }
+
+  .main-wrapper {
+    &.loginpage {
+      height: 100vh;
+      position: relative;
+
+      .login-lft-cont-container {
+        position: absolute;
+        left: 60px;
+        bottom: 100px;
+        width: 40%;
+        padding-top: 56px;
+        border-top: solid 1px $white;
+
+        .para {
+          color: $white;
+          margin-top: 16px;
+          width: 70%;
+
+          font: {
+            size: 24px;
+            weight: $font-weight-bold;
+          }
+        }
+
+        .version-details {
+          font: {
+            size: $base-font-size;
+            weight: $font-weight-regular;
+          }
+
+          color: $white;
+          margin-top: 16px;
+          line-height: 19px;
+          width: 100%;
+        }
+      }
+
+      .login-panel-container {
+        position: absolute;
+        right: 24px;
+        width: 420px;
+        top: 24px;
+        bottom: 24px;
+        background: $white;
+        padding: 24px;
+        @include border-radius($border-radius);
+
+        .login-form-logo {
+          display: none;
+        }
+
+        .welcome-txt {
+          color: $blue-bayoux;
+          margin-left: 24px;
+          margin-right: 24px;
+          margin-top: 32px;
+          line-height: 35px;
+
+          font: {
+            weight: $font-weight-regular;
+            size: 24px;
+            color: $blue-bayoux;
+          }
+
+          span {
+            display: block;
+          }
+        }
+
+        .login-copyrights {
+          position: absolute;
+          bottom: 24px;
+          left: 0;
+          padding-left: 48px;
+          padding-right: 48px;
+          color: $bermuda-gray;
+          line-height: 16px;
+
+          font: {
+            size: $base-font-size - 2;
+            weight: $font-weight-regular;
+          }
+        }
+
+        .form-placeholder-container {
+          margin-top: 56px;
+          margin-left: 24px;
+          margin-right: 24px;
+        }
+      }
     }
 
-    .main-wrapper {
+    &.companypage {
+      height: 100vh;
+      position: relative;
 
-        &.loginpage {
-            height: 100vh;
-            position: relative;
+      .login-lft-cont-container {
+        position: absolute;
+        left: 60px;
+        bottom: 100px;
+        width: 40%;
+        padding-top: 56px;
+        border-top: solid 1px $white;
 
-            .login-lft-cont-container {
-                position: absolute;
-                left: 60px;
-                bottom: 100px;
-                width: 40%;
-                padding-top: 56px;
-                border-top: solid 1px $white;
+        .para {
+          color: $white;
+          margin-top: 16px;
+          width: 70%;
 
-                .para {
-                    color: $white;
-                    margin-top: 16px;
-                    width: 70%;
-
-                    font: {
-                        size: 24px;
-                        weight: $font-weight-bold;
-                    }
-                }
-
-                .version-details {
-                    font: {
-                        size: $base-font-size;
-                        weight: $font-weight-regular;
-                    }
-
-                    color: $white;
-                    margin-top: 16px;
-                    line-height: 19px;
-                    width: 100%;
-                }
-            }
-
-            .login-panel-container {
-                position: absolute;
-                right: 24px;
-                width: 420px;
-                top: 24px;
-                bottom: 24px;
-                background: $white;
-                padding: 24px;
-                @include border-radius($border-radius);
-
-                .login-form-logo {
-                    display: none;
-                }
-
-                .welcome-txt {
-                    color: $blue-bayoux;
-                    margin-left: 24px;
-                    margin-right: 24px;
-                    margin-top: 32px;
-                    line-height: 49px;
-
-                    font: {
-                        weight: $font-weight-regular;
-                        size: 36px;
-                        color: $blue-bayoux;
-                    }
-
-                    span {
-                        display: block;
-                    }
-                }
-
-                .login-copyrights {
-                    position: absolute;
-                    bottom: 24px;
-                    left: 0;
-                    padding-left: 48px;
-                    padding-right: 48px;
-                    color: $bermuda-gray;
-                    line-height: 16px;
-
-                    font: {
-                        size: $base-font-size - 2;
-                        weight: $font-weight-regular;
-                    }
-
-                }
-
-                .form-placeholder-container {
-                    margin-top: 56px;
-                    margin-left: 24px;
-                    margin-right: 24px;
-                }
-            }
+          font: {
+            size: 24px;
+            weight: $font-weight-bold;
+          }
         }
 
-        &.companypage {
-            height: 100vh;
-            position: relative;
+        .version-details {
+          font: {
+            size: $base-font-size;
+            weight: $font-weight-regular;
+          }
 
-            .login-lft-cont-container {
-                position: absolute;
-                left: 60px;
-                bottom: 100px;
-                width: 40%;
-                padding-top: 56px;
-                border-top: solid 1px $white;
+          color: $white;
+          margin-top: 16px;
+          line-height: 19px;
+          width: 100%;
+        }
+      }
 
-                .para {
-                    color: $white;
-                    margin-top: 16px;
-                    width: 70%;
-
-                    font: {
-                        size: 24px;
-                        weight: $font-weight-bold;
-                    }
-                }
-
-                .version-details {
-                    font: {
-                        size: $base-font-size;
-                        weight: $font-weight-regular;
-                    }
-
-                    color: $white;
-                    margin-top: 16px;
-                    line-height: 19px;
-                    width: 100%;
-                }
-            }
-
-            .login-panel-container {
-                .desk-backto-login {
-                    display: none;
-                }
-
-                .companylist-container {
-                    max-height: inherit;
-                    overflow-y: visible;
-                }
-
-                .login-copyrights {
-                    display: none;
-                }
-            }
-
+      .login-panel-container {
+        .desk-backto-login {
+          display: none;
         }
 
-        &.opportunity {
-            .sec-info-accordion {
-                .accordion {
-                    .accr-body-container {
-                        li {
-                            margin-bottom: 24px;
-                            // width: 150px;
-                        }
-                    }
-                }
-            }
+        .companylist-container {
+          max-height: inherit;
+          overflow-y: visible;
         }
+
+        .login-copyrights {
+          display: none;
+        }
+      }
     }
+
+    &.opportunity {
+      .sec-info-accordion {
+        .accordion {
+          .accr-body-container {
+            li {
+              margin-bottom: 24px;
+              // width: 150px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+button.mob-edit-icon {
+  float: right;
+  margin-right: 32px;
+  border: none;
+  outline: none;
+  background: transparent;
+  &:hover {
+    border: none;
+    outline: none;
+    background: transparent;
+  }
 }
 
 // Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .staging-highlight {
+    display: inherit !important;
+    .rgt-col {
+      .oppt-lost {
+        padding-left: 0;
+        padding-top: 16px;
+        margin-bottom: 0;
+      }
+      .switch {
+        margin-top: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mobile-opp-lost {
+    border-bottom: solid 1px $mercury;
+    padding-bottom: 0px;
+
+    .oppt-lost {
+      font: {
+        weight: $font-weight-semibold;
+      }
+    }
+
+    .switch {
+      margin-right: 24px;
+      margin-top: 16px;
+    }
+  }
+}

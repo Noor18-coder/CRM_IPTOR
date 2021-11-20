@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Reports] CardList should renders correctly 1`] = `
+<div
+  className="col-lg-3 col-sm-6"
+>
+  <div
+    className="card mb-4"
+  >
+    <div
+      className="card-body"
+    >
+      <div
+        className="card-title"
+      >
+        title
+      </div>
+      <div
+        className="card-list-item-container"
+      >
+        <ul
+          className="report-list-items"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[Reports] CustomerReport should renders correctly 1`] = `
+<div
+  className="container-fluid"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Region
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Product Family
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-3 col-sm-6"
+    >
+      <div
+        className="card mb-4"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="card-title"
+          >
+            Industry
+          </div>
+          <div
+            className="card-list-item-container"
+          >
+            <ul
+              className="report-list-items"
+            >
+              <li
+                className="active"
+                onClick={[Function]}
+                role="presentation"
+              >
+                All
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

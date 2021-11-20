@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[OpportunityDetails] OpportunityInfo should renders correctly 1`] = `
+Array [
+  <section
+    className="d-flex justify-content-between sec-product-desc"
+  >
+    <div
+      className="prod-name"
+    >
+      <p>
+        
+         
+        <span>
+          
+           | 
+          
+        </span>
+      </p>
+    </div>
+    <div
+      className="mid-sec"
+    >
+      <ul
+        className="list-inline"
+      >
+        <li
+          className="list-inline-item"
+        >
+          close quarter
+          <span>
+            -
+          </span>
+        </li>
+        <li
+          className="list-inline-item"
+        >
+          Opportunity Value
+          <span>
+            undefined 
+          </span>
+        </li>
+        <li
+          className="list-inline-item"
+        >
+          Opportunity Type
+          <span>
+            
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div
+      className="sec-status"
+    >
+      <ul
+        className="list-inline"
+      >
+        <li
+          className="list-inline-item grade"
+        >
+          
+        </li>
+        <li
+          className="list-inline-item status submitStatus"
+        />
+      </ul>
+    </div>
+  </section>,
+  <section
+    className="sec-staging"
+  >
+    <div
+      className="d-flex justify-content-between title-row"
+    >
+      <div
+        className="lft-col"
+      >
+        <p
+          className="stage-bold"
+        >
+          Stage
+        </p>
+      </div>
+      <div
+        className="rgt-col"
+      />
+    </div>
+    <div
+      className="staging-highlight d-flex justify-content-between title-row"
+    >
+      <div
+        className="lft-col stages"
+      >
+        <ul
+          className="hbreadcrumb stage-lists"
+        />
+      </div>
+    </div>
+  </section>,
+]
+`;

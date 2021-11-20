@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] FooterMobile should renders correctly 1`] = `
+<section
+  className="iptor-sticky-footer"
+>
+  <div
+    className="container-fluid"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col"
+      >
+        <a
+          href="/"
+        >
+          <img
+            alt="Dashboard"
+            src="dashboard_icon.svg"
+            title="Dashboard"
+          />
+        </a>
+      </div>
+      <div
+        className="col active-menu"
+      >
+        <a
+          href="/opportunities"
+        >
+          <img
+            alt="Opportunity"
+            src="nav-oppty-active-icon.svg"
+            title="Opportunity"
+          />
+        </a>
+      </div>
+      <div
+        className="col"
+      >
+        <a
+          href="/customers"
+        >
+          <img
+            alt="Customers"
+            src="nav-customers-icon.svg"
+            title="Customers"
+          />
+        </a>
+      </div>
+      <div
+        className="col"
+      >
+        <a
+          href="/reports"
+        >
+          <img
+            alt="Reports"
+            src="nav-report-icon.svg"
+            title="Reports"
+          />
+        </a>
+      </div>
+      <div
+        className="col"
+      >
+        <a
+          href="/notifications"
+        >
+          <img
+            alt="Notifications"
+            src="nav-notifications-icon.svg"
+            title="Notifications"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+`;

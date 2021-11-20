@@ -10,10 +10,14 @@ import { AppState } from '../store';
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import { ApprovalLog } from '../../helpers/Api/ApprovalLog';
+import { ApprovalInfo } from '../../helpers/Api/Approvals';
 import { APPROVAL_STATUS, Constants } from '../../config/Constants';
 import { Attributes } from '../../helpers/Api/Attributes';
+import i18n from '../../i18n';
 
-/** Action to set auth state logged in status */
+const commonErrorMessage = i18n.t('commonErrorMessage');
+
+/** Action to save opportunity details */
 export const saveOpportunityDetails: ActionCreator<types.SaveOpportunityDetailsAction> = (opportunity: models.OpportunityDetailsDefault) => {
   return {
     type: types.OpportunityDetailsTypes.SAVE_OPPORTUNITY_DETAILS,
@@ -77,17 +81,24 @@ export const setOpportunityDetailsError: ActionCreator<types.SetOpportunityDetai
   };
 };
 
-/** Action to set auth state logged in status */
+/** Action to set loading mask */
 export const setOpportunityDetailsLoader: ActionCreator<types.SetOpportunityDetailsLoaderAction> = () => {
   return {
     type: types.OpportunityDetailsTypes.SET_OPPTY_DETAILS_LOADING_MASK,
   };
 };
 
-/** Action to set auth state logged in status */
+/** Action to remove loading mask */
 export const removeOpportunityDetailsLoader: ActionCreator<types.RemoveOpportunityDetailsLoaderAction> = () => {
   return {
     type: types.OpportunityDetailsTypes.REMOVE_OPPTY_DETAILS_LOADING_MASK,
+  };
+};
+
+/** Action to reset opportunity details */
+export const resetOpportunityDetails: ActionCreator<types.ResetOpportunityDetails> = () => {
+  return {
+    type: types.OpportunityDetailsTypes.RESET_OPPORTUNITY_DETAILS,
   };
 };
 
@@ -96,6 +107,14 @@ export const setApprovalSubmitStatus: ActionCreator<types.SetOpportunityApproval
   return {
     type: types.OpportunityDetailsTypes.SET_OPPORTUNITY_APPROVAL_STATUS,
     message: _message,
+  };
+};
+
+/** Action to set auth state logged in status */
+export const saveApprovalHistoryLogs: ActionCreator<types.SaveApprovalHistoryLogs> = (_data: models.ApprovalLogsData) => {
+  return {
+    type: types.OpportunityDetailsTypes.SAVE_APPROVAL_LOGS,
+    data: _data,
   };
 };
 
@@ -108,30 +127,60 @@ export const editOpportunity: ActionCreator<
   >
 > = (opportunity: models.OpportunityDetailsDefault) => {
   return async (dispatch: Dispatch, getState) => {
+    const { opportuntyDetails, auth, users } = getState();
+
+    const isManager = (userId: string) => {
+      const tempUser: models.UserItem | undefined = users.users.find((obj: models.UserItem) => {
+        return obj.user === userId;
+      });
+
+      if (tempUser && tempUser.MANAGER && tempUser.MANAGER === auth.user.user) {
+        return true;
+      }
+      return false;
+    };
+
+    const getErrorString = (data: models.UpdateOpportunityResponse) => {
+      if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
+        return data.messages[0].text;
+      } else {
+        return commonErrorMessage;
+      }
+    };
+
     dispatch(setOpportunityDetailsLoader());
     try {
       const data: models.UpdateOpportunityResponse = await AddOpportunityApi.update(opportunity);
       if (data && data.error) {
         dispatch(removeOpportunityDetailsLoader());
-        if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
-          const error: string = data.messages[0].text;
-          return dispatch(setEditOpportunityErrorMessage(error));
-        } else {
-          // eslint-disable-next-line no-alert
-          return dispatch(setEditOpportunityErrorMessage('Something went wrong.'));
-        }
+        const error: string = getErrorString(data);
+        return dispatch(setOpportunityEditSuccess({ success: true, error, open: false }));
       } else {
+        if (
+          opportuntyDetails.opportunityDefaultParams.estimatedValue !== opportunity.estimatedValue &&
+          opportuntyDetails.opportunityDefaultParams.minimumStage
+        ) {
+          if (data.data.minimumStage && opportunity.stage > data.data.minimumStage) {
+            opportunity.stage = data.data.minimumStage;
+            const updateData: models.UpdateOpportunityResponse = await AddOpportunityApi.update(opportunity);
+            if (updateData.error) {
+              dispatch(removeOpportunityDetailsLoader());
+              const error: string = getErrorString(updateData);
+              return dispatch(setOpportunityEditSuccess({ success: true, error, open: false }));
+            }
+          }
+          await ApprovalLog.deleteOpportunityApprovalLogs({ opportunityId: opportunity.opportunityId });
+        }
         const details: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opportunity.opportunityId);
-        dispatch(saveOpportunityDetails(details));
-        const { auth } = getState();
+
         if (
           details &&
-          details.activ &&
-          details.approvalStatus &&
-          details.activ === true &&
-          details.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
-          details.approvalStatus !== APPROVAL_STATUS.REJECTED &&
-          (auth.user.role?.toLowerCase() === 'admin' || auth.user.user === details.handler)
+          (auth.user.role === 'Admin' ||
+            (details.approvalStatus &&
+              details.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+              details.activ === true &&
+              auth.user.user === details.userId) ||
+            (details.activ === true && details.userId && isManager(details.userId)))
         ) {
           dispatch(openOpportunityForm({ allowEdit: true }));
         } else {
@@ -141,25 +190,34 @@ export const editOpportunity: ActionCreator<
         if (
           details &&
           details.defaultApprover &&
-          details.handler &&
+          details.userId &&
           details.approvalRequired &&
           details.approvalRequired === true &&
-          details.defaultApprover === details.handler
+          details.defaultApprover === details.userId
         ) {
-          submitAutoApprovals(details, dispatch);
+          await submitAutoApprovals(details, dispatch);
+          dispatch(removeOpportunityDetailsLoader());
+          saveOpportunityLogs(details.opportunityId);
+          return dispatch(setOpportunityEditSuccess({ success: true, error: '', open: false }));
+          // const opptyDetailsResponse: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opportunity.opportunityId);
+        } else {
+          dispatch(saveOpportunityDetails(details));
+          dispatch(removeOpportunityDetailsLoader());
+          saveOpportunityLogs(details.opportunityId);
+          return dispatch(setOpportunityEditSuccess({ success: true, error: '', open: false }));
         }
-        dispatch(removeOpportunityDetailsLoader());
-
-        return dispatch(setOpportunityEditSuccess({ success: true, error: '', open: false }));
       }
     } catch {
       dispatch(removeOpportunityDetailsLoader());
-      return dispatch(setEditOpportunityErrorMessage('Something went wrong.'));
+      return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
     }
   };
 };
 
-export const submitAutoApprovals = async (opportunity: models.OpportunityDetailsDefault, dispatch: Dispatch) => {
+export const submitAutoApprovals = async (
+  opportunity: models.OpportunityDetailsDefault,
+  dispatch: Dispatch
+): Promise<types.SetOpportunityApprovalError> => {
   try {
     let message = '';
     const submitApprovalDetails = {
@@ -167,7 +225,7 @@ export const submitAutoApprovals = async (opportunity: models.OpportunityDetails
       opportunityId: opportunity.opportunityId,
       salesStage: opportunity.stage ? opportunity.stage : '',
       levelId: opportunity.level ? opportunity.level : 0,
-      user: opportunity.handler ? opportunity.handler : '',
+      user: opportunity.userId ? opportunity.userId : '',
       approvalLogStatus: 'submitted',
     };
     const approvalSubmitted: any = await ApprovalLog.addApprovalLog(submitApprovalDetails);
@@ -202,22 +260,30 @@ export const getOpportunityDetails: ActionCreator<
 > = (opportunityId: string) => {
   return async (dispatch: Dispatch, getState) => {
     dispatch(setOpportunityDetailsLoader());
-    const { auth } = getState();
+    const { auth, users } = getState();
+
+    const isManager = (userId: string) => {
+      const tempUser: models.UserItem | undefined = users.users.find((obj: models.UserItem) => {
+        return obj.user === userId;
+      });
+
+      if (tempUser && tempUser.MANAGER && tempUser.MANAGER === auth.user.user) {
+        return true;
+      }
+      return false;
+    };
     try {
       const data: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(opportunityId);
       dispatch(removeOpportunityDetailsLoader());
       if (data && data.error) {
         // eslint-disable-next-line no-alert
-        return dispatch(setOpportunityDetailsError('Something went wrong.'));
+        return dispatch(setOpportunityDetailsError(commonErrorMessage));
       } else {
         if (
-          data &&
-          data.activ &&
-          data.approvalStatus &&
-          data.activ === true &&
-          data.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
-          data.approvalStatus !== APPROVAL_STATUS.REJECTED &&
-          (auth.user.role?.toLowerCase() === 'admin' || auth.user.user === data.handler)
+          (data &&
+            (auth.user.role === 'Admin' ||
+              (data.approvalStatus && data.approvalStatus !== APPROVAL_STATUS.SUBMITTED && data.activ === true && auth.user.user === data.userId))) ||
+          (data.activ === true && data.userId && isManager(data.userId))
         ) {
           dispatch(openOpportunityForm({ allowEdit: true }));
         } else {
@@ -227,7 +293,7 @@ export const getOpportunityDetails: ActionCreator<
       }
     } catch {
       dispatch(removeOpportunityDetailsLoader());
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     }
   };
 };
@@ -245,7 +311,7 @@ export const getOpportunityAttributes: ActionCreator<
       const attributeValues: models.AttributeValueObject[] = await OpportunityDetailsApi.getGroupInfo(opportunityId);
       return dispatch(saveOpportunityAttributes(attributeValues));
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     }
   };
 };
@@ -273,7 +339,7 @@ export const updateAllAtrributeValues: ActionCreator<
               valueId: obj.valueId,
             };
             if (obj.attributeValueB) {
-              params.attributeValueB = obj.attributeValueB === 'Y';
+              params.attributeValueB = obj.attributeValueB;
             } else if (obj.attributeValueD) {
               params.attributeValueD = obj.attributeValueD;
             } else {
@@ -287,7 +353,7 @@ export const updateAllAtrributeValues: ActionCreator<
               attributeType: obj.attributeType,
             };
             if (obj.attributeValueB) {
-              params.attributeValueB = obj.attributeValueB === 'Y';
+              params.attributeValueB = obj.attributeValueB;
             } else if (obj.attributeValueD) {
               params.attributeValueD = obj.attributeValueD;
             } else {
@@ -307,11 +373,11 @@ export const updateAllAtrributeValues: ActionCreator<
         return dispatch(saveOpportunityAttributes(attributeValues));
       } else {
         dispatch(removeOpportunityDetailsLoader());
-        return dispatch(setEditOpportunityErrorMessage('Something went wrong.'));
+        return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
       }
     } catch (error) {
       dispatch(removeOpportunityDetailsLoader());
-      return dispatch(setEditOpportunityErrorMessage('Something went wrong.'));
+      return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
     }
   };
 };
@@ -327,9 +393,25 @@ export const getOpportunityProducts: ActionCreator<
   return async (dispatch: Dispatch) => {
     try {
       const products: models.Product[] = await OpportunityDetailsApi.getOpportunityItems(opportunityId);
-      return dispatch(saveOpportunityProducts(products));
+
+      const data = await Promise.all(
+        products.map((obj: models.Product) => {
+          return OpportunityDetailsApi.getProductDetails(obj.itemId);
+        })
+      ).then((res: any) => {
+        return res;
+      });
+      dispatch(removeOpportunityDetailsLoader());
+      if (data) {
+        products.forEach((obj: models.Product, index: number) => {
+          products[index].attributes = data[index];
+        });
+        return dispatch(saveOpportunityProducts(products));
+      }
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     }
   };
 };
@@ -347,7 +429,7 @@ export const getOpportunityContacts: ActionCreator<
       const contacts: models.OpportunityContact[] = await OpportunityDetailsApi.getOpportunityContact(opportunityId);
       return dispatch(saveOpportunityContacts(contacts));
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     }
   };
 };
@@ -371,12 +453,20 @@ export const addItemsToOpportunity: ActionCreator<
       });
       if (data) {
         const products: models.Product[] = await OpportunityDetailsApi.getOpportunityItems(opportunityId);
+        dispatch(saveOpportunityProducts(products));
+
+        products.forEach(async (obj: models.Product, index: number) => {
+          const productDetails: models.AttributeValueObject[] = await OpportunityDetailsApi.getProductDetails(obj.itemId);
+          if (index > -1) {
+            products[index].attributes = productDetails;
+          }
+        });
         return dispatch(saveOpportunityProducts(products));
       } else {
-        return dispatch(setOpportunityDetailsError('Something went wrong.'));
+        return dispatch(setOpportunityDetailsError(commonErrorMessage));
       }
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     } finally {
       document.body.classList.remove('body-scroll-hidden');
       dispatch(openOpportunityForm({ open: false }));
@@ -403,9 +493,9 @@ export const getProductInformation: ActionCreator<
         products[index].attributes = productDetails;
         return dispatch(saveOpportunityProducts(products));
       }
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     } finally {
       document.body.classList.remove('body-scroll-hidden');
       dispatch(openOpportunityForm({ open: false }));
@@ -426,6 +516,7 @@ export const addContactToOpportunity: ActionCreator<
       const params: models.AddCustomerContactRequestParams = {
         contactParentId: opportunityId,
         contactPerson: contact.contactPerson,
+        contactDC: contact.contactDC,
         phone: contact.phone,
         mobile: contact.mobile,
         whatsApp: contact.whatsApp,
@@ -439,7 +530,7 @@ export const addContactToOpportunity: ActionCreator<
       dispatch(removeOpportunityDetailsLoader());
       return dispatch(saveOpportunityContacts(contacts));
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     } finally {
       document.body.classList.remove('body-scroll-hidden');
       dispatch(openOpportunityForm({ open: false }));
@@ -463,10 +554,193 @@ export const deleteContactFromOpportunity: ActionCreator<
       dispatch(removeOpportunityDetailsLoader());
       return dispatch(saveOpportunityContacts(contacts));
     } catch {
-      return dispatch(setOpportunityDetailsError('Something went wrong.'));
+      return dispatch(setOpportunityDetailsError(commonErrorMessage));
     } finally {
       document.body.classList.remove('body-scroll-hidden');
       dispatch(openOpportunityForm({ open: false }));
+    }
+  };
+};
+
+export const deleteAttribute: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityAttributesAction | types.SetOpportunityEditErrorMessage>,
+    AppState,
+    undefined,
+    types.SaveOpportunityAttributesAction | types.SetOpportunityEditErrorMessage
+  >
+> = (attributesSet: models.AttributeFormField[]) => {
+  // eslint-disable-next-line consistent-return
+  return async (dispatch: Dispatch, getState) => {
+    const { opportuntyDetails } = getState();
+    const { opportunityId } = opportuntyDetails.opportunityDefaultParams;
+    dispatch(setOpportunityDetailsLoader());
+    try {
+      const data = await Promise.all(
+        attributesSet.map((obj: any) => {
+          return Attributes.deleteAttribute(obj.valueId);
+        })
+      ).then((res: any) => {
+        return res;
+      });
+      if (data) {
+        const attributeValues: models.AttributeValueObject[] = await OpportunityDetailsApi.getGroupInfo(opportunityId);
+        return dispatch(saveOpportunityAttributes(attributeValues));
+      } else {
+        dispatch(removeOpportunityDetailsLoader());
+        return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+      }
+    } catch (error) {
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+    }
+  };
+};
+
+export const updateItemAttributes: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityProducts | types.SetOpportunityEditErrorMessage>,
+    AppState,
+    undefined,
+    types.SaveOpportunityProducts | types.SetOpportunityEditErrorMessage
+  >
+> = (item: models.Product, attributesSet: models.AttributeFormField[]) => {
+  // eslint-disable-next-line consistent-return
+  return async (dispatch: Dispatch, getState) => {
+    dispatch(setOpportunityDetailsLoader());
+    try {
+      const data = await Promise.all(
+        attributesSet.map((obj: any) => {
+          if (obj && obj.valueId) {
+            const params: models.SaveAttributeFieldParam = {
+              parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
+              attributeType: obj.attributeType,
+              valueId: obj.valueId,
+            };
+            if (obj.attributeValueB) {
+              params.attributeValueB = obj.attributeValueB;
+            } else if (obj.attributeValueD) {
+              params.attributeValueD = obj.attributeValueD;
+            } else {
+              params.attributeValue = obj.attributeValue;
+            }
+            return Attributes.updateAttribute(params);
+          } else {
+            const params: models.SaveAttributeFieldParam = {
+              parentFile: Constants.OPPORTUNITY_PRODUCTS_FILE,
+              parentId: item.itemId,
+              attributeType: obj.attributeType,
+            };
+            if (obj.attributeValueB) {
+              params.attributeValueB = obj.attributeValueB;
+            } else if (obj.attributeValueD) {
+              params.attributeValueD = obj.attributeValueD;
+            } else {
+              params.attributeValue = obj.attributeValue;
+            }
+            return Attributes.addAttribute(params);
+          }
+        })
+      ).then((res: any) => {
+        return res;
+      });
+
+      if (data) {
+        let error = '';
+        data.forEach((response: any) => {
+          if (response && response.error) {
+            if (response.messages && isArray(response.messages) && response.messages[0] && response.messages[0].text) {
+              error += ` ${response.messages[0].text}`;
+            }
+          }
+        });
+        if (!error) {
+          document.body.classList.remove('body-scroll-hidden');
+          const { opportuntyDetails } = getState();
+          const products = [...opportuntyDetails.products];
+          const index: number = products.findIndex((obj: models.Product) => obj.itemId === item.itemId);
+          const productDetails: models.AttributeValueObject[] = await OpportunityDetailsApi.getProductDetails(item.itemId);
+          dispatch(openOpportunityForm({ open: false }));
+          dispatch(removeOpportunityDetailsLoader());
+          if (index > -1) {
+            products[index].attributes = productDetails;
+            return dispatch(saveOpportunityProducts(products));
+          }
+          return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+        } else {
+          dispatch(removeOpportunityDetailsLoader());
+          return dispatch(setEditOpportunityErrorMessage(error));
+        }
+      } else {
+        dispatch(removeOpportunityDetailsLoader());
+        return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+      }
+    } catch (error) {
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+    }
+  };
+};
+
+export const deleteOpportunityProducts: ActionCreator<
+  ThunkAction<
+    Promise<types.SaveOpportunityProducts | types.SetOpportunityEditErrorMessage>,
+    AppState,
+    undefined,
+    types.SaveOpportunityProducts | types.SetOpportunityEditErrorMessage
+  >
+> = (opportunityId: string, item: models.Product) => {
+  // eslint-disable-next-line consistent-return
+  return async (dispatch: Dispatch) => {
+    dispatch(setOpportunityDetailsLoader());
+    try {
+      const params: models.DeleteOpportunityItemParams = {
+        parentId: opportunityId,
+        itemId: item && item.itemId ? item.itemId : '',
+      };
+      await OpportunityDetailsApi.deleteItem(params);
+      const products: models.Product[] = await OpportunityDetailsApi.getOpportunityItems(opportunityId);
+
+      const data = await Promise.all(
+        products.map((obj: models.Product) => {
+          return OpportunityDetailsApi.getProductDetails(obj.itemId);
+        })
+      ).then((res: any) => {
+        return res;
+      });
+      dispatch(removeOpportunityDetailsLoader());
+      if (data) {
+        products.forEach((obj: models.Product, index: number) => {
+          products[index].attributes = data[index];
+        });
+        return dispatch(saveOpportunityProducts(products));
+      }
+      return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+    } catch (error) {
+      dispatch(removeOpportunityDetailsLoader());
+      return dispatch(setEditOpportunityErrorMessage(commonErrorMessage));
+    }
+  };
+};
+
+export const saveOpportunityLogs: ActionCreator<
+  ThunkAction<Promise<types.SaveApprovalHistoryLogs>, AppState, undefined, types.SaveApprovalHistoryLogs>
+> = (opportunityId: string) => {
+  // eslint-disable-next-line consistent-return
+  return async (dispatch: Dispatch) => {
+    try {
+      const tempApprovalLogs: models.ApprovalLogsDefault[] = await ApprovalInfo.getApprovalLogs(opportunityId);
+      const tempData: models.ApprovalLogsData = {
+        logs: tempApprovalLogs,
+        error: '',
+      };
+      return dispatch(saveApprovalHistoryLogs(tempData));
+    } catch (error) {
+      const tempData: models.ApprovalLogsData = {
+        logs: [],
+        error: commonErrorMessage,
+      };
+      return dispatch(saveApprovalHistoryLogs(tempData));
     }
   };
 };

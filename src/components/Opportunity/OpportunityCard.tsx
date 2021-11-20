@@ -11,23 +11,23 @@ interface OppProps {
 }
 
 const OpportunityCard: React.FC<React.PropsWithChildren<OppProps>> = (props) => {
+  const oppState: AppState = useSelector((appState: AppState) => appState);
   const usersData: UsersData = useSelector((state: AppState) => state.users);
   const {
-    opportunity: { desc, opportunityId, name, stage, oppRecordType, endDate, handler, forecastCategory, currency, estValue },
+    opportunity: { desc, opportunityId, name, stage, oppRecordType, endDate, forecastCategory, estValueSys, userId },
   } = props;
 
   const getName = (str: string) => {
-    const userObj = usersData.users.find((obj) => obj.handler === str);
+    const userObj = usersData.users.find((obj) => obj.user === str);
     return userObj?.description;
   };
 
   const formatDealSizeValue = () => {
-    let returnString = '';
-    if (currency) {
-      returnString = getCurrencySymbol(currency) || '';
-    }
-    returnString += estValue;
-    return returnString;
+    const CurrencySymbol = oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA
+      ? getCurrencySymbol(oppState.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
+      : '';
+    const renderValue = `${CurrencySymbol} ${estValueSys}`;
+    return renderValue;
   };
 
   return (
@@ -57,7 +57,7 @@ const OpportunityCard: React.FC<React.PropsWithChildren<OppProps>> = (props) => 
       <div className="d-flex justify-content-between qtr-details-row">
         <div className="lft-col">
           Owner
-          <span>{getName(handler)}</span>
+          <span>{getName(userId)}</span>
         </div>
         <div className="rgt-col">
           Forecast

@@ -6,7 +6,7 @@ const CustomerGridOptions = [
     sortable: true,
     headerName: 'Customers',
     cellRenderer: (params: Record<string, any>): string => {
-      return `<span class="c-region">${params.value ? params.value : ''}</span>`;
+      return `<span class="c-customer">${params.value ? params.value : ''}</span>`;
     },
   },
   {
@@ -22,7 +22,7 @@ const CustomerGridOptions = [
     sortable: true,
     headerName: 'Account Owner',
     cellRenderer: (params: Record<string, any>): string => {
-      return `<span class="c-region">${params.value ? params.value : ''}</span>`;
+      return `<span class="c-owner">${params.value ? params.value : ''}</span>`;
     },
   },
   {
@@ -30,7 +30,7 @@ const CustomerGridOptions = [
     sortable: true,
     headerName: 'Industry',
     cellRenderer: (params: Record<string, any>): string => {
-      return `<span class="c-region">${params.value ? params.value : ''}</span>`;
+      return `<span class="c-industry">${params.value ? params.value : ''}</span>`;
     },
   },
   {

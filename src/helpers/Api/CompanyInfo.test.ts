@@ -9,10 +9,12 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 const companyInfoMock = CompanyInfoMock.getCompanyInfoItem();
 
 describe('CompanyInfo', () => {
-  let data: CompanyInfoItemResponse;
+  let data: { data: CompanyInfoItemResponse };
 
   beforeAll(() => {
-    data = companyInfoMock;
+    data = {
+      data: companyInfoMock,
+    };
   });
 
   afterEach(() => {

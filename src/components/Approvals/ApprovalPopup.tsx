@@ -40,7 +40,7 @@ const ApprovalPopup: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
     if (groupName === 'history') {
       setHeaderName('Approvals History');
     } else if (groupName === 'submit_approval') {
-      setHeaderName('Submit For Approval');
+      setHeaderName('You Need Approval');
     } else if (groupName === 'approverSubmit') {
       setHeaderName('Approval');
     }
@@ -61,7 +61,7 @@ const ApprovalPopup: React.FC<Props> = ({ reloadOpportunityDetailsPage }) => {
           </div>
 
           <div className="all-opportunity-steps-container">
-            <div className="opportunity-forms">
+            <div className="approval-forms">
               {/* <p className="stepone-title">Opportunity Name</p> */}
               <div className="">
                 <div className="steps-one-forms">{loadComponent()}</div>

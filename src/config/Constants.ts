@@ -1,10 +1,12 @@
 export const Constants = {
+  OPPORTUNITY_LIST_LOAD_LIMIT: 20,
   ADD_OPPTY_PRODUCTS_LOAD_LIMIT: 50,
   DATA_LIMIT_3: 3,
   DATA_LIMIT_4: 4,
   DATA_LIMIT_5: 5,
   DATA_LIMIT_9: 9,
   DATA_LIMIT_10: 10,
+  DATA_LIMIT_50: 50,
   FIRST_QUATER: '1',
   SECOND_QUATER: '2',
   THIRD_QUATER: '3',
@@ -14,6 +16,8 @@ export const Constants = {
   CUSTOMER_PARENT_FILE: 'SRONAM',
   OPPORTUNITY_ATTRIBUTES_PARENT_FILE: 'SROMOPH',
   OPPORTUNITY_PRODUCTS_FILE: 'SROMOPI',
+  OPPORTUNITY_CONTACTS_FILE: 'SROMOPCH',
+  CUSTOMER_CONTACTS_FILE: 'SROCTP',
   ADD_ACTION: 'ADD',
   NEW_TYPE: 'new',
   INDUSTRY_TYPE: 'industry',
@@ -30,6 +34,9 @@ export const Constants = {
   TOTAL_DESC: 'total DESC',
   TOTAL_VALUE_DESC: 'totalValue DESC',
   OPPORTUNITY_REPORT_COUNT: 100,
+  CUSTOMER_RECORD_COUNT: 19,
+  ORDER_DESC: 'desc',
+  COL_OPPORTUNITY_ID: 'opportunityId',
 };
 
 export const APPROVAL_STATUS = {
@@ -38,6 +45,7 @@ export const APPROVAL_STATUS = {
   REJECTED: 'rejected',
   SUBMITTED: 'submitted',
   LOST: 'lost',
+  WON: 'won',
 };
 
 export const ParentFiles = {

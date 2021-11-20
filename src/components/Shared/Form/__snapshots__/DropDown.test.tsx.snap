@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] DropDown should renders correctly 1`] = `
+<div
+  className="adding-txt-field-container"
+>
+  <div
+    className="form-group oppty-form-elements"
+  >
+    <label
+      className="opp-label"
+      htmlFor="jshjd"
+    >
+      ndndss
+    </label>
+    <select
+      className="form-control iptor-dd"
+      onChange={[MockFunction]}
+    >
+      <option
+        value=""
+      >
+        Select 
+        ndndss
+      </option>
+    </select>
+    <span
+      className="form-hints"
+    />
+  </div>
+  <div
+    className="form-element-with-delete-button"
+  >
+    <div
+      className="form-group oppty-form-elements add-new-ipfield"
+    >
+      <select
+        className="form-control iptor-dd"
+        onChange={[MockFunction]}
+      >
+        <option
+          value=""
+        >
+          Select 
+          ndndss
+        </option>
+      </select>
+    </div>
+    <button
+      className="btn btn-link ip-delete-field"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+</div>
+`;

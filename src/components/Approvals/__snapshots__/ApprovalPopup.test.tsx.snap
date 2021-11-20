@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Approvals] ApprovalPopup should render component to show approval popup history values 1`] = `
+<div
+  className="sliding-panel-container"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-forms"
+      >
+        <div
+          className=""
+        >
+          <div
+            className="steps-one-forms"
+          >
+            <div
+              className="stage-level-container"
+            >
+              <div
+                className="stage-level-section"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[Approvals] ApprovalPopup should render component to show approval popup submit approval values 1`] = `
+<div
+  className="sliding-panel-container"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      You Need Approval
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-forms"
+      >
+        <div
+          className=""
+        >
+          <div
+            className="steps-one-forms"
+          >
+            <div
+              className="approval-container"
+            >
+              <p
+                className="lbl-apporver-name"
+              >
+                Approver’s Name
+              </p>
+              <p
+                className="apporver-name"
+              >
+                <div
+                  className="approver-search-container"
+                >
+                  <input
+                    className="form-control"
+                    disabled={true}
+                    type="text"
+                    value=""
+                  />
+                  <button
+                    className="edit-approver-name"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <img
+                      alt="edit"
+                      src="edit-icon.svg"
+                    />
+                  </button>
+                </div>
+              </p>
+              <div
+                className="form-group oppty-form-elements"
+                id="comment"
+              >
+                <label
+                  className="opp-label"
+                  htmlFor="comments"
+                >
+                  Comment
+                </label>
+                <textarea
+                  className="form-control"
+                  onChange={[Function]}
+                  rows={3}
+                />
+              </div>
+              <button
+                className="stepone-next-btn inactive"
+                disabled={true}
+                onClick={[Function]}
+                type="button"
+              >
+                Send for Approval
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[Approvals] ApprovalPopup should render component to show approver submit values 1`] = `
+<div
+  className="sliding-panel-container"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-forms"
+      >
+        <div
+          className=""
+        >
+          <div
+            className="steps-one-forms"
+          >
+            <div
+              className="stage-level-container"
+            >
+              <div
+                className="stage-level-section"
+              >
+                <div
+                  className="stage-row approval-data-rows"
+                >
+                  <div
+                    className="form-group oppty-form-elements"
+                  >
+                    <label
+                      className="cust-label"
+                      htmlFor="comment"
+                    >
+                      Comment
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="comment"
+                      onChange={[Function]}
+                      placeholder="Add comment here"
+                    />
+                  </div>
+                  <div
+                    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+                  >
+                    <button
+                      className="approval-btn"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[Approvals] ApprovalPopup should renders correctly 1`] = `
+<div
+  className="sliding-panel-container"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-forms"
+      >
+        <div
+          className=""
+        >
+          <div
+            className="steps-one-forms"
+          >
+            <div
+              className="stage-level-container"
+            >
+              <div
+                className="stage-level-section"
+              >
+                <div
+                  className="stage-row approval-data-rows"
+                >
+                  <div
+                    className="form-group oppty-form-elements"
+                  >
+                    <label
+                      className="cust-label"
+                      htmlFor="comment"
+                    >
+                      Comment
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="comment"
+                      onChange={[Function]}
+                      placeholder="Add comment here"
+                    />
+                  </div>
+                  <div
+                    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+                  >
+                    <button
+                      className="approval-btn"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

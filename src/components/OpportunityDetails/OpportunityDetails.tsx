@@ -21,11 +21,19 @@ import Loader from '../Shared/Loader/Loader';
 import Container from '../EditOpportunity/Container';
 import ImageConfig from '../../config/ImageConfig';
 
-import { getOpportunityDetails, openOpportunityForm, getOpportunityAttributes } from '../../store/OpportunityDetails/Actions';
-import { getCurrencySymbol } from '../../helpers/utilities/lib';
+import {
+  getOpportunityDetails,
+  openOpportunityForm,
+  getOpportunityAttributes,
+  setEditOpportunityErrorMessage,
+  resetOpportunityDetails,
+  setOpportunityEditSuccess,
+} from '../../store/OpportunityDetails/Actions';
+import { getCurrencySymbol, getDateInFormat } from '../../helpers/utilities/lib';
+import { AreaInfo } from '../../helpers/Api/models';
 
-export const OpportunityDetails: React.FC = (props: any) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+export const OpportunityDetails: React.FC<any> = (props: any) => {
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isDesktop = useMediaQuery({ minWidth: 992 });
 
@@ -39,18 +47,27 @@ export const OpportunityDetails: React.FC = (props: any) => {
     return userObj?.description ? userObj?.description : '';
   };
 
+  const getArea = (str: string) => {
+    const areaObj: AreaInfo | undefined = state.enviornmentConfigs.crmAreaInfo.find((obj: AreaInfo) => {
+      return obj.area === str;
+    });
+    return areaObj && areaObj?.description ? areaObj?.description : '';
+  };
+
   const popover = () => {
     return (
       <Popover id="popover-basic" className="tool-tip">
         <Popover.Content>
-          <button type="button" className="link-anchor-button" onClick={assignOpportunity}>
-            Assign To <Image className="logout-image" height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor" />
+          <button type="button" className="link-assign-to" onClick={assignOpportunity}>
+            <Image className="assign-to-image" src={ImageConfig.ASSIGN_TO} alt="Iptor" title="Iptor" />
+            <span className="assign-to-text">Assign To</span>
           </button>
         </Popover.Content>
         {state.auth.user.role?.toLowerCase() === 'admin' ? (
           <Popover.Content>
-            <button type="button" className="link-anchor-button" onClick={deleteOpportunity}>
-              Delete <Image className="logout-image" height="15" src={ImageConfig.LOGOUT_ICON} alt="Iptor" title="Iptor" />
+            <button type="button" className="link-assign-to" onClick={deleteOpportunity}>
+              <Image className="popover-icon" src={ImageConfig.DELETE_ICON} alt="Iptor" title="Iptor" />
+              <span className="text-link">Delete</span>
             </button>
           </Popover.Content>
         ) : null}
@@ -59,6 +76,7 @@ export const OpportunityDetails: React.FC = (props: any) => {
   };
 
   React.useEffect(() => {
+    dispatch(resetOpportunityDetails());
     dispatch(getOpportunityDetails(opportunityId));
     dispatch(getOpportunityAttributes(opportunityId));
     dispatch(openOpportunityForm({ open: false }));
@@ -76,7 +94,7 @@ export const OpportunityDetails: React.FC = (props: any) => {
         case 'desc':
           data.push({ description: 'Opp Name', attributeValue: value });
           break;
-        case 'handler':
+        case 'userId':
           data.push({ description: 'Owner', attributeValue: value ? getName(value) : '' });
           break;
         case 'stage':
@@ -86,13 +104,18 @@ export const OpportunityDetails: React.FC = (props: any) => {
           data.push({ description: 'Currency', attributeValue: value });
           break;
         case 'endDate':
-          data.push({ description: 'Close Date', attributeValue: value });
+          // eslint-disable-next-line no-case-declarations
+          const datestr = getDateInFormat(new Date(value));
+          data.push({ description: 'Close Date', attributeValue: datestr });
           break;
         case 'oppRecordType':
           data.push({ description: 'Opportunity Type', attributeValue: value });
           break;
         case 'estimatedValue':
           data.push({ description: 'Opp Value', attributeValue: `${getEstimatedValue(basicInfo)}` });
+          break;
+        case 'area':
+          data.push({ description: 'Area', attributeValue: `${getArea(value)}` });
           break;
         case 'forecastCategory':
           data.push({ description: 'Forecast Category', attributeValue: value });
@@ -108,12 +131,13 @@ export const OpportunityDetails: React.FC = (props: any) => {
     // eslint-disable-next-line max-len
     return `${
       state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA && getCurrencySymbol(state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
-    } ${basicInfo?.estimatedValueSys}
-    (${basicInfo.currency ? getCurrencySymbol(basicInfo.currency) : ''} ${basicInfo.estimatedValue ? basicInfo.estimatedValue : ''} )`;
+    } ${basicInfo.estimatedValueSys ? Math.round(basicInfo.estimatedValueSys) : ''}
+    (${basicInfo.currency ? getCurrencySymbol(basicInfo.currency) : ''} ${basicInfo.estimatedValue ? Math.round(basicInfo.estimatedValue) : ''} )`;
   };
 
   const history = useHistory();
   const backToOpportunityList = () => {
+    dispatch(resetOpportunityDetails());
     history.goBack();
   };
 
@@ -131,13 +155,15 @@ export const OpportunityDetails: React.FC = (props: any) => {
     try {
       const response: models.OpportunityDeleteResponse = await OpportunityDetailsApi.opportunityDelete(opportunityId);
       if (response && response.messages && isArray(response.messages) && response.messages[0] && response.messages[0].text) {
-        alert(response.messages[0].text);
+        dispatch(setEditOpportunityErrorMessage(response.messages[0].text));
       } else {
-        backToOpportunityList();
-        alert(i18n.t('opportunityDeletedSuccess'));
+        dispatch(setOpportunityEditSuccess({ success: true, error: i18n.t('opportunityDeletedSuccess') }));
+        setTimeout(() => {
+          backToOpportunityList();
+        }, 2000);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -146,32 +172,60 @@ export const OpportunityDetails: React.FC = (props: any) => {
     dispatch(openOpportunityForm({ open: true, groupName: 'assign_opportunity', action: 'edit' }));
   };
 
+  const hideErrorMessage = () => {
+    dispatch(setEditOpportunityErrorMessage(''));
+  };
+
   return (
     <>
       <Header page={1} />
       {state.opportuntyDetails.loader ? <Loader component="opportunity" /> : null}
       <section className="main-wrapper opportunity">
+        {(state.opportuntyDetails.editOportunity.open === false && state.opportuntyDetails.editOportunity.error) ||
+        (state.opportuntyDetails.editOportunity.success && state.opportuntyDetails.editOportunity.error !== '') ? (
+          <div className="iptor-alert">
+            <div className="alert-wrapper">
+              <div role="alert" className="alert alert-danger">
+                <button className="btn alert-close" type="button" onClick={hideErrorMessage}>
+                  <img src={ImageConfig.CLOSE_BTN} alt="close" />
+                </button>
+                {`${state.opportuntyDetails.editOportunity.error}`}
+              </div>
+            </div>
+          </div>
+        ) : null}
         <div className="container-fluid">
           <NavSection backToOpportunityList={backToOpportunityList} popover={popover} />
-          {state.opportuntyDetails.opportunityDefaultParams ? <OpportunityInfo /> : null}
-          {state.opportuntyDetails.opportunityDefaultParams ? <OpportunityInfoMobile /> : null}
-          <section className="sec-info-accordion">
-            {state.opportuntyDetails.opportunityDefaultParams ? (
-              <InfoAccordion
-                title="Basics"
-                data={getBasicInfo(state.opportuntyDetails.opportunityDefaultParams)}
-                openEditOpportunity={openOpportunityBasicEdit}
-              />
-            ) : null}
-            {isDesktop && state.opportuntyDetails.attributes ? (
-              <InfoAccordionGroups title="More Information" data={state.opportuntyDetails.attributes} openEditForm={openEditForm} />
-            ) : null}
-            {(isTablet || isMobile) && state.opportuntyDetails.attributes ? (
-              <AccordianForMobileWithGroups title="More Information" data={state.opportuntyDetails.attributes} openEditForm={openEditForm} />
-            ) : null}
-            <ProductAccordian opportunityId={opportunityId} />
-            <ContactAccordian opportunityId={opportunityId} />
-          </section>
+          {state.opportuntyDetails.opportunityDefaultParams.opportunityId ? (
+            <>
+              <OpportunityInfo />
+              <OpportunityInfoMobile popover={popover} />
+              <section className="sec-info-accordion">
+                <InfoAccordion
+                  title="Basics"
+                  data={getBasicInfo(state.opportuntyDetails.opportunityDefaultParams)}
+                  openEditOpportunity={openOpportunityBasicEdit}
+                />
+
+                {isDesktop ? (
+                  <InfoAccordionGroups
+                    title="More Information"
+                    openEditForm={openEditForm}
+                    oppType={state.opportuntyDetails.opportunityDefaultParams.oppRecordType}
+                  />
+                ) : null}
+                {isTablet || isMobile ? (
+                  <AccordianForMobileWithGroups
+                    title="More Information"
+                    openEditForm={openEditForm}
+                    oppType={state.opportuntyDetails.opportunityDefaultParams.oppRecordType}
+                  />
+                ) : null}
+                <ProductAccordian opportunityId={opportunityId} />
+                <ContactAccordian opportunityId={opportunityId} />
+              </section>
+            </>
+          ) : null}
         </div>
       </section>
       <Footer />

@@ -3,12 +3,23 @@
  */
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { BusinessPartnerListItem, BusinessPartnerFilterItem } from '../../helpers/Api/models/Customer';
+import {
+  BusinessPartnerAreaInfoFilterItem,
+  BusinessPartnerIndustriesFilterItem,
+  BusinessPartnerListItem,
+  SelectOptionMethod,
+} from '../../helpers/Api/models/Customer';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
-import { BusinessPartnerTypes, SaveBusinessPartnerAction, SaveBusinessPartnerFilterAction } from './Types';
+import {
+  BusinessPartnerTypes,
+  SaveBusinessPartnerAction,
+  SaveBusinessPartnerFilterAction,
+  SaveBusinessPartnerSearchTextAction,
+  SaveBusinessPartnerSelectedFilterAction,
+} from './Types';
 
 /** Action to set auth state logged in status */
-export const saveBusinessPartnerList: ActionCreator<SaveBusinessPartnerAction> = (businesspartnerList) => {
+export const saveBusinessPartnerList: ActionCreator<SaveBusinessPartnerAction> = (businesspartnerList: BusinessPartnerListItem[]) => {
   return {
     type: BusinessPartnerTypes.SAVE_LIST_BUSINESSPARTNER,
     businesspartners: businesspartnerList,
@@ -16,10 +27,26 @@ export const saveBusinessPartnerList: ActionCreator<SaveBusinessPartnerAction> =
 };
 
 /** Action to set auth state logged in status */
-export const saveBusinessPartnerFilters: ActionCreator<SaveBusinessPartnerFilterAction> = (filter: BusinessPartnerFilterItem[]) => {
+export const saveBusinessPartnerFilters: ActionCreator<SaveBusinessPartnerFilterAction> = (
+  filter: Array<BusinessPartnerAreaInfoFilterItem | BusinessPartnerIndustriesFilterItem>
+) => {
   return {
     type: BusinessPartnerTypes.SAVE_BUSINESSPARTNER_FILTERS,
     filter,
+  };
+};
+
+export const saveBusinessPartnerSelectedFilter: ActionCreator<SaveBusinessPartnerSelectedFilterAction> = (selected: SelectOptionMethod) => {
+  return {
+    type: BusinessPartnerTypes.SAVE_BUSINESSPARTNER_SELECTED_FILTER,
+    selected,
+  };
+};
+
+export const saveBusinessPartnerSearchText: ActionCreator<SaveBusinessPartnerSearchTextAction> = (searchText: string) => {
+  return {
+    type: BusinessPartnerTypes.SAVE_BUSINESSPARTNER_SEARCH_TEXT,
+    searchText,
   };
 };
 
@@ -38,11 +65,5 @@ export const getBusinesspartners: ActionCreator<
   return async (dispatch: Dispatch) => {
     const businesspartnerList = await BusinessPartnerList.get(freeTextSearch, limit, offset);
     return dispatch(saveBusinessPartnerList(businesspartnerList));
-  };
-};
-
-export const saveBusinessPartnersFilters = (filters: BusinessPartnerFilterItem[]) => {
-  return async (dispatch: Dispatch) => {
-    dispatch(saveBusinessPartnerFilters(filters));
   };
 };

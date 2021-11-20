@@ -1,4 +1,8 @@
+import { AreaInfo } from './Countries';
+import { DropDownValue } from './OpportunityAttributes';
+
 export interface AddressesList {
+  businessPartner: string;
   address: number;
   name: string;
   addressLine1: string;
@@ -20,6 +24,7 @@ export interface AddressesList {
 }
 
 export interface CustomerContactsList {
+  businessPartner: string;
   contactDC: string;
   contactPerson: string;
   isPublicContact: true;
@@ -88,18 +93,29 @@ export interface BusinessPartnerListParams {
   active?: boolean;
 }
 
-export interface BusinessPartnerFilterItem {
+export interface BusinessPartnerIndustriesFilterItem extends DropDownValue {
   value: string;
   selectParam: string;
+}
+export interface BusinessPartnerAreaInfoFilterItem extends AreaInfo {
+  value: string;
+  selectParam: string;
+}
+
+export interface SelectOptionMethod extends Partial<DropDownValue>, Partial<AreaInfo> {
+  value: string;
+  selectParam: string;
+}
+
+export interface BusinessPartnerListData {
+  items: BusinessPartnerListItem[];
 }
 
 export interface BusinessPartnerListResponse {
   control?: {
     total: number;
   };
-  data: {
-    items: BusinessPartnerListItem[];
-  };
+  data: BusinessPartnerListData;
 }
 
 export interface AreaListItem {
@@ -116,4 +132,12 @@ export interface AreaListResponse {
   data: {
     items: AreaListItem[];
   };
+}
+
+export interface BusinessPartnerListApiMethodParams {
+  freeTextSearch: string;
+  limit?: number;
+  offset?: number;
+  orderBy?: string;
+  otherparams?: BusinessPartnerListParams;
 }

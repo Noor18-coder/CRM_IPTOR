@@ -1,746 +1,781 @@
-body{
-    background-color: #eef0f2; //#E5E5E5;
+body {
+  background-color: #eef0f2; //#E5E5E5;
 }
-#loader-overlay {
-    position: fixed;
-    z-index: 9998;
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    background: transparent;
-    cursor: progress;
-}
-#loader_container {
-    z-index: 9999;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    text-align: center;
-}
-#loader_container_opp {
-    z-index: 9999;
-    position: absolute;
-    top: 52%;
-    left: 50%;
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    text-align: center;
-}
-#loader-bg {
-    height: 64px;
-    width: 64px;
-    border-radius: 4px;
-    background-color: #d3d3d3;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-}
-#loader_part_1_cover {
-    position: absolute;
-    width: 31px;
-    height: 7.5px;
-    left: 6px;
-    top: 18px;
-    background: #00a3a5;
-    border-radius: 15.5px;
-}
-#loader_part_2_cover {
-    position: absolute;
-    width: 26px;
-    height: 7.5px;
-    left: 27px;
-    top: 28px;
-    background: #00a3a5;
-    border-radius: 15.5px;
-}
-#loader_part_3_cover {
-    position: absolute;
-    width: 20px;
-    height: 7.5px;
-    left: 22px;
-    top: 38px;
-    background: #00a3a5;
-    border-radius: 15.5px;
-}
-#loader-cover {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: #d3d3d3;
-    -webkit-transform-origin: right center;
-    transform-origin: right center;
-    -webkit-animation: loader_animation 2s linear infinite;
-    animation: loader_animation 2s linear infinite;
-}
-@keyframes loader_animation {
-    0% {
-        transform: scaleX(100%);
-    }
 
-    100% {
-        transform: scaleX(0);
-    }
+#loader-overlay {
+  position: fixed;
+  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: transparent;
+  cursor: progress;
 }
+
+#loader_container {
+  z-index: 9999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#loader_container_opp {
+  z-index: 9999;
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#loader-bg {
+  height: 64px;
+  width: 64px;
+  border-radius: 4px;
+  background-color: #d3d3d3;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+#loader_part_1_cover {
+  position: absolute;
+  width: 31px;
+  height: 7.5px;
+  left: 6px;
+  top: 18px;
+  background: #00a3a5;
+  border-radius: 15.5px;
+}
+
+#loader_part_2_cover {
+  position: absolute;
+  width: 26px;
+  height: 7.5px;
+  left: 27px;
+  top: 28px;
+  background: #00a3a5;
+  border-radius: 15.5px;
+}
+
+#loader_part_3_cover {
+  position: absolute;
+  width: 20px;
+  height: 7.5px;
+  left: 22px;
+  top: 38px;
+  background: #00a3a5;
+  border-radius: 15.5px;
+}
+
+#loader-cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: #d3d3d3;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  -webkit-animation: loader_animation 2s linear infinite;
+  animation: loader_animation 2s linear infinite;
+}
+
+@keyframes loader_animation {
+  0% {
+    transform: scaleX(100%);
+  }
+
+  100% {
+    transform: scaleX(0);
+  }
+}
+
 #loader-text {
-    color: #ffffffbf;
-    font-size: 24px;
-    line-height: 32.68px;
-    font-weight: 600;
-    text-align: center;
+  color: #ffffffbf;
+  font-size: 24px;
+  line-height: 32.68px;
+  font-weight: 600;
+  text-align: center;
 }
+
 #loader-text_opp {
-    color: #506574d1;
-    font-size: 24px;
-    line-height: 32.68px;
-    font-weight: 600;
-    text-align: center;
+  color: #506574d1;
+  font-size: 24px;
+  line-height: 32.68px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .dashboard-cards-container {
-    width: 100%;
-    display: block;
+  width: 100%;
+  display: block;
+  padding-bottom: 24px;
 
-    .cardsec-title {
+  .cardsec-title {
+    font: {
+      weight: $font-weight-bold;
+      size: $base-font-size + 2;
+    }
+
+    margin-top: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    @include border-radius($border-radius);
+
+    .card-title-row {
+      border-bottom: solid 1px $geyser;
+      padding: 0px 16px 0 16px;
+      min-height: 58px;
+
+      .card-title {
+        padding: 18px 0px 18px 0px;
+        margin-bottom: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
         font: {
+          weight: $font-weight-bold;
+          size: $base-font-size;
+        }
+      }
+
+      .singlelink {
+        margin-top: 24px;
+      }
+
+      .pipeline-title-link {
+        font: {
+          size: $base-font-size;
+          weight: $font-weight-semibold;
+        }
+
+        color: $limed-spruce;
+
+        &:hover {
+          text-decoration: none;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .card-body {
+      padding: 16px;
+
+      &.pipeline {
+        .pipeline-items {
+          margin-top: 12px;
+          margin-bottom: 20px;
+
+          font: {
             weight: $font-weight-bold;
-            size: $base-font-size + 2;
-        }
+            size: $base-font-size - 2;
+          }
 
-        margin-top: 24px;
-        margin-bottom: 16px;
-    }
-
-    .card {
-        @include border-radius($border-radius);
-
-        .card-title-row {
-            border-bottom: solid 1px $geyser;
-            padding: 0px 16px 0 16px;
-            min-height: 58px;
-
-            .card-title {
-                padding: 18px 0px 18px 0px;
-                margin-bottom: 0;
-
-                font: {
-                    weight: $font-weight-bold;
-                    size: $base-font-size;
-                }
-            }
-
-            .singlelink {
-                margin-top: 24px;
-            }
-
-            .pipeline-title-link {
-                font: {
-                    size: $base-font-size;
-                    weight: $font-weight-semibold;
-                }
-
-                color: $limed-spruce;
-
-                &:hover {
-                    text-decoration: none;
-                }
-            }
-        }
-
-        .card-body {
-            padding: 16px;
-            min-height: 258px;
-
-            &.pipeline {
-                .pipeline-items {
-                    margin-top: 12px;
-                    margin-bottom: 20px;
-
-                    font: {
-                        weight: $font-weight-bold;
-                        size: $base-font-size - 2;
-                    }
-
-                    span {
-                        display: block;
-                        padding-top: 4px;
-
-                        font: {
-                            weight: $font-weight-regular;
-                            size: $base-font-size - 2;
-                        }
-                    }
-                }
-            }
-
-            .cust-newly-added {
-                li {
-                    margin-bottom: 30px;
-                    margin-top: 10px;
-
-                    font: {
-                        size: $base-font-size - 2;
-                        weight: $font-weight-bold;
-                    }
-
-                    span {
-                        display: block;
-
-                        font: {
-                            weight: $font-weight-regular;
-                            size: $base-font-size - 4;
-                        }
-                    }
-                }
-            }
-
-            .target-customer-list {
-                li {
-                    padding-bottom: 18px;
-
-                    font: {
-                        weight: $font-weight-semibold;
-                        size: $base-font-size;
-                    }
-                }
-            }
-
-            .recent-customer-list {
-                margin-bottom: 0;
-                li {
-                    padding-bottom: 15px;
-
-                    font: {
-                        weight: $font-weight-semibold;
-                        size: $base-font-size;
-                    }
-
-                    span {
-                        font-size: 12px;
-                        font-weight: 400;
-                    }
-                }
-            }
-        }
-
-        .img-holder {
-            width: 100%;
-            height: 160px;
+          span {
             display: block;
-            position: relative;
-
-            &.news-img1 {
-                background: url(../images/news/news1.jpg) no-repeat center center;
-                background-size: cover;
-            }
-
-            &.news-img2 {
-                background: url(../images/news/news2.jpg) no-repeat center center;
-                background-size: cover;
-            }
-
-            .newsimg-desc {
-                text-align: center;
-                color: $white;
-                position: absolute;
-                left: 0;
-                right: 0;
-                bottom: 16px;
-
-                font: {
-                    size: $base-font-size;
-                    weight: $font-weight-semibold;
-                }
-            }
-
-        }
-
-        .news-desc-content {
-            padding: 24px 16px 16px 16px;
-
-            .title {
-                color: $limed-spruce;
-                padding-right: 16px;
-
-                font: {
-                    size: $base-font-size;
-                    weight: $font-weight-semibold;
-                }
-
-                span.news-dt {
-                    color: $bermuda-gray;
-
-                    font: {
-                        size: $base-font-size - 2;
-                        weight: $font-weight-light;
-                    }
-                }
-            }
-
-            .news-cont {
-                margin-top: 8px;
-                color: $blue-bayoux;
-                line-height: 17.7px;
-                padding-right: 16px;
-
-                font: {
-                    size: $base-font-size - 1;
-                    weight: $font-weight-regular;
-                }
-            }
-        }
-    }
-
-    .newsandupdates {
-        margin-top: 24px;
-        margin-bottom: 24px;
-
-        .section-title {
-            margin-bottom: 16px;
-            color: $limed-spruce;
-            padding-left: 2px;
+            padding-top: 4px;
 
             font: {
-                weight: $font-weight-bold;
-                size: $base-font-size + 2;
+              weight: $font-weight-regular;
+              size: $base-font-size - 2;
             }
+          }
         }
+      }
 
-        .news-container,
-        .calendar-container {
-            background: $white;
-        }
+      .cust-newly-added {
+        li {
+          margin-bottom: 30px;
+          margin-top: 10px;
 
-        .news-container {
-            min-height: 400px;
-            max-height: 400px;
-            overflow-y: auto;
-            border-top: solid 1px $geyser;
+          font: {
+            size: $base-font-size - 2;
+            weight: $font-weight-bold;
+          }
 
-            .news-collections-list{
-                
-                li{
-                    
-                    .month-val{
-                        padding: 16px;
-                        border-bottom: solid 1px $geyser;
-                        background: rgba($geyser, 0.2);
-                        font: {
-                            weight: $font-weight-bold;
-                            size: $base-font-size + 2;
-                        }
-                    }
+          span {
+            display: block;
 
-                    .news-feeds-items{
-                        >.news-feed{
-                            padding: 16px;
-                            border-bottom: solid 1px $geyser;
-                            margin-bottom: inherit;
-                            .title{
-                                margin-bottom: 8px;
-                                font: {
-                                    weight: $font-weight-bold;
-                                    size: $base-font-size;
-                                }
-                            }
-
-                            .desc{
-                                color: rgba($tundora, 0.7);
-                                font: {
-                                    weight: $font-weight-regular;
-                                    size: $base-font-size;
-                                }
-                            }
-
-                            .viewmore{
-                                margin-top: 16px;
-                                border: solid 1px $geyser;
-                                color: $tundora;
-                                text-decoration: none;
-                                background: $white;
-                                font: {
-                                    weight: $font-weight-regular;
-                                    size: $base-font-size;
-                                }
-                                &:hover{
-                                    background: $persian-green;
-                                    border: solid 1px $persian-green;
-                                    color: $white;
-                                    box-shadow: none;
-                                }
-                            }
-
-                            &:last-child{
-                                border-bottom: none;
-                            }
-                            @include transition;
-
-                            &:hover{
-                                background: rgba($geyser, 0.1);
-                            }
-                        }
-                    }
-                }
+            font: {
+              weight: $font-weight-regular;
+              size: $base-font-size - 4;
             }
+          }
         }
+      }
 
-        .calendar-container {
-            min-height: 400px;
-            max-height: 400px;
-            overflow-y: auto;
-            border-top: solid 1px $geyser;
+      .target-customer-list {
+        li {
+          padding-bottom: 18px;
 
-            .calendar-events-list{
-                
-                li{
-                    
-                    .date-val{
-                        padding: 16px;
-                        border-bottom: solid 1px $geyser;
-                        background: rgba($geyser, 0.2);
-                        font: {
-                            weight: $font-weight-bold;
-                            size: $base-font-size + 2;
-                        }
-                    }
-
-                    .cal-events-items{
-                        >.events-list{
-                            padding: 16px;
-                            border-bottom: solid 1px $geyser;
-                            margin-bottom: inherit;
-                            .date-time{
-                                color: $persian-green;
-                                margin-bottom: 8px;
-                                font: {
-                                    weight: $font-weight-semibold;
-                                    size: $base-font-size;
-                                }
-                            }
-                            .title{
-                                margin-bottom: 8px;
-                                font: {
-                                    weight: $font-weight-bold;
-                                    size: $base-font-size;
-                                }
-                            }
-
-                            .desc{
-                                color: rgba($tundora, 0.7);
-                                font: {
-                                    weight: $font-weight-regular;
-                                    size: $base-font-size;
-                                }
-                            }
-
-                            &:last-child{
-                                border-bottom: none;
-                            }
-                            @include transition;
-
-                            &:hover{
-                                background: rgba($geyser, 0.1);
-                            }
-                        }
-                    }
-                }
-            }
+          font: {
+            weight: $font-weight-semibold;
+            size: $base-font-size;
+          }
         }
+      }
+
+      .recent-customer-list {
+        margin-bottom: 0;
+
+        li {
+          padding-bottom: 15px;
+
+          font: {
+            weight: $font-weight-semibold;
+            size: $base-font-size;
+          }
+
+          span {
+            font-size: 12px;
+            font-weight: 400;
+          }
+        }
+      }
     }
+
+    .img-holder {
+      width: 100%;
+      height: 160px;
+      display: block;
+      position: relative;
+
+      &.news-img1 {
+        background: url(../images/news/news1.jpg) no-repeat center center;
+        background-size: cover;
+      }
+
+      &.news-img2 {
+        background: url(../images/news/news2.jpg) no-repeat center center;
+        background-size: cover;
+      }
+
+      .newsimg-desc {
+        text-align: center;
+        color: $white;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 16px;
+
+        font: {
+          size: $base-font-size;
+          weight: $font-weight-semibold;
+        }
+      }
+    }
+
+    .news-desc-content {
+      padding: 24px 16px 16px 16px;
+
+      .title {
+        color: $limed-spruce;
+        padding-right: 16px;
+
+        font: {
+          size: $base-font-size;
+          weight: $font-weight-semibold;
+        }
+
+        span.news-dt {
+          color: $bermuda-gray;
+
+          font: {
+            size: $base-font-size - 2;
+            weight: $font-weight-light;
+          }
+        }
+      }
+
+      .news-cont {
+        margin-top: 8px;
+        color: $blue-bayoux;
+        line-height: 17.7px;
+        padding-right: 16px;
+
+        font: {
+          size: $base-font-size - 1;
+          weight: $font-weight-regular;
+        }
+      }
+    }
+  }
+
+  .newsandupdates {
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    .section-title {
+      margin-bottom: 16px;
+      color: $limed-spruce;
+      padding-left: 2px;
+
+      font: {
+        weight: $font-weight-bold;
+        size: $base-font-size + 2;
+      }
+    }
+
+    .news-container,
+    .calendar-container {
+      background: $white;
+    }
+
+    .news-container {
+      min-height: 400px;
+      max-height: 400px;
+      overflow-y: auto;
+      border-top: solid 1px $geyser;
+
+      .news-collections-list {
+        li {
+          .month-val {
+            padding: 16px;
+            border-bottom: solid 1px $geyser;
+            background: rgba($geyser, 0.2);
+
+            font: {
+              weight: $font-weight-bold;
+              size: $base-font-size + 2;
+            }
+          }
+
+          .news-feeds-items {
+            > .news-feed {
+              padding: 16px;
+              border-bottom: solid 1px $geyser;
+              margin-bottom: inherit;
+
+              .title {
+                margin-bottom: 8px;
+
+                font: {
+                  weight: $font-weight-bold;
+                  size: $base-font-size;
+                }
+              }
+
+              .desc {
+                color: rgba($tundora, 0.7);
+
+                font: {
+                  weight: $font-weight-regular;
+                  size: $base-font-size;
+                }
+              }
+
+              .viewmore {
+                margin-top: 16px;
+                border: solid 1px $geyser;
+                color: $tundora;
+                text-decoration: none;
+                background: $white;
+
+                font: {
+                  weight: $font-weight-regular;
+                  size: $base-font-size;
+                }
+
+                &:hover {
+                  background: $persian-green;
+                  border: solid 1px $persian-green;
+                  color: $white;
+                  box-shadow: none;
+                }
+              }
+
+              &:last-child {
+                border-bottom: none;
+              }
+
+              @include transition;
+
+              &:hover {
+                background: rgba($geyser, 0.1);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .calendar-container {
+      min-height: 400px;
+      max-height: 400px;
+      overflow-y: auto;
+      border-top: solid 1px $geyser;
+
+      .calendar-events-list {
+        li {
+          .date-val {
+            padding: 16px;
+            border-bottom: solid 1px $geyser;
+            background: rgba($geyser, 0.2);
+
+            font: {
+              weight: $font-weight-bold;
+              size: $base-font-size + 2;
+            }
+          }
+
+          .cal-events-items {
+            > .events-list {
+              padding: 16px;
+              border-bottom: solid 1px $geyser;
+              margin-bottom: inherit;
+
+              .date-time {
+                color: $persian-green;
+                margin-bottom: 8px;
+
+                font: {
+                  weight: $font-weight-semibold;
+                  size: $base-font-size;
+                }
+              }
+
+              .title {
+                margin-bottom: 8px;
+
+                font: {
+                  weight: $font-weight-bold;
+                  size: $base-font-size;
+                }
+              }
+
+              .desc {
+                color: rgba($tundora, 0.7);
+
+                font: {
+                  weight: $font-weight-regular;
+                  size: $base-font-size;
+                }
+              }
+
+              &:last-child {
+                border-bottom: none;
+              }
+
+              @include transition;
+
+              &:hover {
+                background: rgba($geyser, 0.1);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .dshbrd-sticky-header {
-    display: none;
-    background-color: #fff;
+  display: none;
+  background-color: #fff;
 
-    .dshbrd-logo-row {
-        background: $white;
-        padding: 17px 16px;
+  .dshbrd-logo-row {
+    background: $white;
+    padding: 17px 16px 0 16px;
 
-        .lft-col {
-            li {
-                position: relative;
-                padding-right: 16px;
-                padding-left: 16px;
-                color: $limed-spruce;
+    .lft-col {
+      li {
+        position: relative;
+        padding-right: 16px;
+        padding-left: 16px;
+        color: $limed-spruce;
 
-                font: {
-                    size: $base-font-size - 2;
-                    weight: $font-weight-semibold;
-                }
-
-                img {
-                    vertical-align: middle;
-                    padding-right: 5px;
-                }
-
-                &:first-child{
-                    padding-left: 0;
-                }
-
-                &:first-child::after {
-                    position: absolute;
-                    content: '';
-                    right: 0;
-                    top: 0;
-                    bottom: 0;
-                    width: 1px;
-                    background: $blue-bayoux;
-                }
-            }
+        font: {
+          size: $base-font-size - 2;
+          weight: $font-weight-semibold;
         }
 
-        .rgt-col {
-            li {
-                padding-left: 16px;
-            }
+        img {
+          vertical-align: middle;
+          padding-right: 5px;
         }
+
+        &:first-child {
+          padding-left: 0;
+        }
+
+        &:first-child::after {
+          position: absolute;
+          content: '';
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          background: $blue-bayoux;
+        }
+      }
     }
+
+    .rgt-col {
+      li {
+        padding-left: 16px;
+      }
+    }
+  }
 }
 
-.mobview-user-prof-container{
-    display: none;
+.mobview-user-prof-container {
+  display: none;
 }
-
-
-
-
-
 
 @media (max-width: 767.98px) {
-    .dshbrd-sticky-header {
-        display: block;
-    }
+  .dshbrd-sticky-header {
+    display: block !important;
+  }
 
-    .mobview-user-prof-container {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1040;
-        background-color: #fff;
-        background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
-        backdrop-filter: blur(12px); // This be the blur
+  .mobview-user-prof-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1040;
+    background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
+    backdrop-filter: blur(12px); // This be the blur
 
-        .panel-container {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 0 16px;
-            background: $white;
+    .panel-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 16px;
+      background: $white;
 
-            .user-settings-list {
-                li {
-                    padding: 32px 0;
+      .user-settings-list {
+        margin-bottom: 0;
 
-                    a {
-                        padding-left: 48px;
-                        vertical-align: middle;
-                        color: $limed-spruce;
-                        text-decoration: none;
+        li {
+          padding: 32px 0 24px 32px;
 
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
+          // padding-left: 48px;
+          vertical-align: middle;
+          color: $limed-spruce;
+          text-decoration: none;
 
-                    &.username {
-                        background: url(../images/mob-customer-icon.svg) no-repeat left center;
-                    }
+          font: {
+            size: $base-font-size + 2;
+            weight: $font-weight-semibold;
+          }
 
-                    &.logout {
-                        background: url(../images/mob-logout-icon.svg) no-repeat left center;
-                    }
-                }
-            }
+          &.username {
+            background: url(../images/mob-customer-icon.svg) no-repeat left 22px;
+            padding-left: 48px;
+          }
+
+          &.mob-logout {
+            background: url(../images/mob-logout-icon.svg) no-repeat left 26px;
+            padding-left: 48px;
+            cursor: pointer;
+          }
         }
+      }
     }
+  }
 
-    .newsandupdates{
-        padding-bottom: 40px;
-        .lft-col, .rgt-col{
-            margin-bottom: 24px;
-        }
+  .newsandupdates {
+    padding-bottom: 40px;
+
+    .lft-col,
+    .rgt-col {
+      margin-bottom: 24px;
     }
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .dshbrd-sticky-header {
-        display: block;
-    }
+  .dshbrd-sticky-header {
+    display: none;
+  }
 
-    .mobview-user-prof-container {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1040;
-        background-color: #fff;
-        background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
-        backdrop-filter: blur(12px); // This be the blur
+  .mobview-user-prof-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1040;
+    background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
+    backdrop-filter: blur(12px); // This be the blur
 
-        .panel-container {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 0 16px;
-            background: $white;
+    .panel-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 16px;
+      background: $white;
 
-            .user-settings-list {
-                li {
-                    padding: 32px 0;
+      .user-settings-list {
+        margin-bottom: 0;
 
-                    a {
-                        padding-left: 48px;
-                        vertical-align: middle;
-                        color: $limed-spruce;
-                        text-decoration: none;
+        li {
+          padding: 32px 0 24px 32px;
 
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
+          padding-left: 48px;
+          vertical-align: middle;
+          color: $limed-spruce;
+          text-decoration: none;
 
-                    &.username {
-                        background: url(../images/mob-customer-icon.svg) no-repeat left center;
-                    }
+          font: {
+            size: $base-font-size + 2;
+            weight: $font-weight-semibold;
+          }
 
-                    &.logout {
-                        background: url(../images/mob-logout-icon.svg) no-repeat left center;
-                    }
-                }
-            }
+          &.username {
+            background: url(../images/mob-customer-icon.svg) no-repeat left 22px;
+            padding-left: 48px;
+          }
+
+          &.mob-logout {
+            background: url(../images/mob-logout-icon.svg) no-repeat left 26px;
+            padding-left: 48px;
+            cursor: pointer;
+          }
         }
+      }
     }
-    .newsandupdates{
-        padding-bottom: 40px;
-        .lft-col, .rgt-col{
-            margin-bottom: 24px;
-        }
+  }
+
+  .newsandupdates {
+    padding-bottom: 40px;
+
+    .lft-col,
+    .rgt-col {
+      margin-bottom: 24px;
     }
+  }
 }
-
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .dshbrd-sticky-header {
-        display: block;
-    }
+  .dshbrd-sticky-header {
+    display: none;
+  }
 
-    .mobview-user-prof-container {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1040;
-        background-color: #fff;
-        background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
-        backdrop-filter: blur(12px); // This be the blur
+  .mobview-user-prof-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1040;
+    background: rgba(80, 101, 116, 0.2); // Make sure this color has an opacity of less than 1
+    backdrop-filter: blur(12px); // This be the blur
 
-        .panel-container {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 0 16px;
-            background: $white;
+    .panel-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 16px;
+      background: $white;
 
-            .user-settings-list {
-                li {
-                    padding: 32px 0;
+      .user-settings-list {
+        margin-bottom: 0;
 
-                    a {
-                        padding-left: 48px;
-                        vertical-align: middle;
-                        color: $limed-spruce;
-                        text-decoration: none;
+        li {
+          padding: 32px 0 24px 32px;
 
-                        font: {
-                            size: $base-font-size + 2;
-                            weight: $font-weight-semibold;
-                        }
-                    }
+          padding-left: 48px;
+          vertical-align: middle;
+          color: $limed-spruce;
+          text-decoration: none;
 
-                    &.username {
-                        background: url(../images/mob-customer-icon.svg) no-repeat left center;
-                    }
+          font: {
+            size: $base-font-size + 2;
+            weight: $font-weight-semibold;
+          }
 
-                    &.logout {
-                        background: url(../images/mob-logout-icon.svg) no-repeat left center;
-                    }
-                }
-            }
+          &.username {
+            background: url(../images/mob-customer-icon.svg) no-repeat left 22px;
+            padding-left: 48px;
+          }
+
+          &.mob-logout {
+            background: url(../images/mob-logout-icon.svg) no-repeat left 26px;
+            padding-left: 48px;
+            cursor: pointer;
+          }
         }
+      }
     }
-    .newsandupdates{
-        padding-bottom: 40px;
-        .lft-col, .rgt-col{
-            margin-bottom: 24px;
-        }
+  }
+
+  .newsandupdates {
+    padding-bottom: 40px;
+
+    .lft-col,
+    .rgt-col {
+      margin-bottom: 24px;
     }
-
-
+  }
 }
 
+@media (max-width: 1024px) and (orientation: landscape) {
+  .iptor-sticky-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: $limed-spruce;
+    color: $white;
+    z-index: 9;
 
-@media (max-width: 1024px) and (orientation:landscape) {
-    .iptor-sticky-footer {
+    .col {
+      text-align: center;
+      padding: 16px;
+
+      &.active-menu {
+        border-bottom: solid 4px $white;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .notification {
+        position: relative;
+        width: 24px;
+        height: 24px;
         display: block;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background: $limed-spruce;
-        color: $white;
-        z-index: 9;
 
-        .col {
-            text-align: center;
-            padding: 16px;
-
-            &.active-menu {
-                border-bottom: solid 4px $white;
-            }
-
-            img {
-                width: 24px;
-                height: 24px;
-            }
-
-            .notification {
-                position: relative;
-                width: 24px;
-                height: 24px;
-                display: block;
-
-                .red-dot {
-                    position: absolute;
-                    right: -5px;
-                    top: 1px;
-                    width: 8px;
-                    height: 8px;
-                    background: $mandy;
-                    display: block;
-                    @include border-radius(50%);
-                }
-            }
+        .red-dot {
+          position: absolute;
+          right: -5px;
+          top: 1px;
+          width: 8px;
+          height: 8px;
+          background: $mandy;
+          display: block;
+          @include border-radius(50%);
         }
+      }
     }
+  }
 }
 
-.card-body-height {
-    min-height: 281px!important;
+// .card-body-height {
+//   min-height: 281px !important;
+//   @include transition;
+
+// }
+
+.dshbrd-mob-usericon {
+  cursor: pointer;
 }

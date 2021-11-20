@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Login Shared] Company should renders correctly 1`] = `
+<ul
+  className="companys-list-item"
+>
+  <li
+    className="action-icon"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="presentation"
+  >
+    <div
+      className="company-container"
+    >
+      <div
+        className="center"
+      >
+        <div
+          className="test"
+        >
+          Steuber - Abernathy
+        </div>
+        <img
+          alt="company"
+          className="company-selection-img"
+          src="check_circle.svg"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          title="company"
+        />
+      </div>
+    </div>
+  </li>
+  <li
+    className="action-icon"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="presentation"
+  >
+    <div
+      className="company-container"
+    >
+      <div
+        className="center"
+      >
+        <div
+          className="test"
+        >
+          Steuber - Abernathy
+        </div>
+        <img
+          alt="company"
+          className="company-selection-img"
+          src="check_circle.svg"
+          style={
+            Object {
+              "display": "block",
+            }
+          }
+          title="company"
+        />
+      </div>
+    </div>
+  </li>
+</ul>
+`;

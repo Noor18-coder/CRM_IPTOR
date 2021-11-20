@@ -1,593 +1,868 @@
 .new-opportunity-btn {
-    padding-left: 15px;
-    padding-right: 15px;
-    height: 48px;
-    background: #EB617C;
-    border-radius: 4px;
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    justify-content: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 48px;
+  background: #eb617c;
+  border-radius: 4px;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  justify-content: center;
+  box-shadow: none;
+
+  &:hover {
+    color: #fff;
+  }
+
+  &:focus {
     box-shadow: none;
-
-    &:hover {
-        color: #fff;
-    }
-
-    &:focus {
-        box-shadow: none;
-        outline: none;
-    }
+    outline: none;
+  }
 }
 
-
-
-
 .sliding-panel-container {
+  position: relative;
+  .sliding-panel {
+    top: 0;
+    background: #fff;
+    width: 550px;
+    z-index: 20;
 
+    .title-row {
+      padding: 24px;
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+      z-index: 9;
+      position: relative;
 
+      .panel-close-icon {
+        position: absolute;
+        right: 24px;
+        top: 24px;
 
-
-    .sliding-panel {
-        top: 0;
-        background: #fff;
-        width: 550px;
-        z-index: 20;
-
-        .title-row {
-            padding: 24px;
-            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
-            position: relative;
-
-            .panel-close-icon {
-                position: absolute;
-                right: 24px;
-                top: 24px;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-
-            .mob-steps-back {
-                display: none;
-            }
+        &:hover {
+          cursor: pointer;
         }
+      }
 
-        .all-opportunity-steps-container {
-            overflow-y: auto;
-            padding-right: 24px;
-            // border: solid 1px red;
-            height: calc(100vh - 65px);
-            background: $white;
-
-            .opportunity-step-circles {
-                padding: 32px 24px 24px 24px;
-
-                .step-circles {
-
-                    .steps {
-                        @include border-radius(50%);
-                        width: 51px;
-                        height: 51px;
-                        background: $mercury;
-                        color: $gull-gray;
-                        margin-right: 26px;
-                        position: relative;
-
-                        font: {
-                            size: $base-font-size + 8;
-                        }
-
-                        text-align: center;
-                        padding-top: 8px;
-
-                        &.active {
-                            background: $aqua-spring;
-                            border: solid 1px $persian-green;
-                            color: $persian-green;
-
-                            font: {
-                                size: $base-font-size + 8;
-                                weight: $font-weight-semibold;
-                            }
-                        }
-
-                        &::after {
-                            position: absolute;
-                            content: '';
-                            height: 1px;
-                            width: 31px;
-                            background: $geyser;
-                            left: 50px;
-                            top: 26px;
-                        }
-
-                        &:last-child {
-                            &::after {
-                                display: none;
-                            }
-                        }
-
-                        &.circle-stepone,
-                        &.circle-steptwo,
-                        &.circle-stepthree {
-                            .checked {
-                                display: none;
-
-                                img {
-                                    width: 20px;
-                                    height: auto;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            .opportunity-forms {
-                padding-left: 24px;
-
-                .stepone-title,
-                .steptwo-title,
-                .stepthree-title {
-                    color: $bermuda-gray;
-
-                    font: {
-                        size: $base-font-size + 6;
-                        weight: $font-weight-semibold;
-                    }
-                }
-
-                .steptwo-title,
-                .stepthree-title {
-                    display: none;
-                }
-
-                .react-datepicker-wrapper,
-                .react-datepicker__input-container,
-                .react-datepicker__input-container input {
-                    display: block;
-                    width: 100%;
-                }
-
-                .steps-two-forms {
-                    display: block;
-                    padding-bottom: 16px;
-                }
-
-                .steps-three-forms {
-                    display: block;
-
-                    .radiogrp-btns {
-                        label {
-                            font: {
-                                weight: $font-weight-semibold;
-                            }
-
-                            padding: 24px;
-                            background: url(../images/uncheck_circle.svg) no-repeat 94% 25px;
-                        }
-
-                        input[type="radio"]:checked + label {
-                            background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
-                            border: solid 1px $persian-green;
-                            color: $limed-spruce;
-
-                            font: {
-                                weight: $font-weight-semibold;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .opportunity-type-container {
-                .opptytype-list-item {
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-
-                    li {
-                        background: $white;
-                        border: solid 1px $geyser;
-                        @include border-radius($border-radius);
-                        @include transition;
-                        padding: 31px 15px;
-                        margin-bottom: 16px;
-                        color: $cod-grey;
-
-                        font: {
-                            size: $base-font-size;
-                            weight: $font-weight-regular;
-                        }
-
-                        &:hover {
-                            background: $aqua-spring;
-                        }
-
-                        &:last-child{
-                            margin-bottom: 0;
-                        }
-                    }
-                }
-            }
-
-            .product-items-container {
-                height: calc(100vh - 380px);
-                overflow-y: auto;
-
-                .opptytype-list-item {
-                    padding-bottom: 16px;
-
-                    li {
-                        background: $white;
-                        border: solid 1px $geyser;
-                        @include border-radius($border-radius);
-                        @include transition;
-                        padding: 31px 15px;
-                        margin-bottom: 16px;
-                        color: $cod-grey;
-
-                        font: {
-                            size: $base-font-size;
-                            weight: $font-weight-regular;
-                        }
-
-                        &:hover {
-                            background: $aqua-spring;
-                        }
-                    }
-                }
-            }
-
-            .step-nextbtn-with-arrow {
-                margin-top: 0px;
-                margin-bottom: 20px;
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-            }
-        }
+      .mob-steps-back {
+        display: none;
+      }
     }
+
+    .alert {
+      position: absolute;
+      top: 75px;
+      left: 0;
+      right: 0;
+      z-index: 9;
+    }
+
+    .all-opportunity-steps-container {
+      overflow-y: hidden;
+      padding-right: 24px;
+      position: relative;
+      height: calc(100vh - 30px);
+      background: $white;
+
+      .opportunity-step-circles {
+        padding: 32px 24px 24px 24px;
+
+        .step-circles {
+          margin-bottom: 0;
+          z-index: 99;
+
+          .steps {
+            @include border-radius(50%);
+            width: 51px;
+            height: 51px;
+            background: $mercury;
+            color: $gull-gray;
+            margin-right: 26px;
+            position: relative;
+            cursor: pointer;
+
+            font: {
+              size: $base-font-size + 8;
+            }
+
+            text-align: center;
+            padding-top: 8px;
+
+            &.active {
+              background: $aqua-spring;
+              border: solid 1px $persian-green;
+              color: $persian-green;
+
+              font: {
+                size: $base-font-size + 8;
+                weight: $font-weight-semibold;
+              }
+            }
+
+            &::after {
+              position: absolute;
+              content: '';
+              height: 1px;
+              width: 31px;
+              background: $geyser;
+              left: 50px;
+              top: 26px;
+            }
+
+            &:last-child {
+              &::after {
+                display: none;
+              }
+            }
+
+            &.circle-stepone,
+            &.circle-steptwo,
+            &.circle-stepthree {
+              .checked {
+                display: none;
+
+                img {
+                  width: 20px;
+                  height: auto;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .alert-danger {
+        z-index: 99 !important;
+      }
+
+      .customer-forms {
+        padding-left: 24px;
+        height: calc(100vh - 190px);
+        overflow-y: auto;
+        padding-right: 16px;
+      }
+
+      .assign-opportunity-form {
+        padding-top: 20px;
+        padding-left: 24px;
+      }
+
+      .opportunity-forms {
+        padding-left: 24px;
+        height: calc(100vh - 275px);
+        overflow-y: auto;
+        padding-right: 16px;
+
+        &.thirdstep {
+          overflow-y: hidden;
+        }
+
+        .stepone-title,
+        .steptwo-title,
+        .stepthree-title {
+          color: $bermuda-gray;
+
+          font: {
+            size: $base-font-size + 6;
+            weight: $font-weight-semibold;
+          }
+        }
+
+        .steptwo-title,
+        .stepthree-title {
+          display: none;
+        }
+
+        .react-datepicker-wrapper,
+        .react-datepicker__input-container,
+        .react-datepicker__input-container input {
+          display: block;
+          width: 100%;
+        }
+
+        .steps-two-forms {
+          display: block;
+          padding-bottom: 16px;
+        }
+
+        .steps-three-forms {
+          display: block;
+
+          .radiogrp-btns {
+            label {
+              font: {
+                weight: $font-weight-semibold;
+              }
+
+              padding: 24px;
+              background: url(../images/uncheck_circle.svg) no-repeat 94% 25px;
+            }
+
+            input[type='radio']:checked + label {
+              background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
+              border: solid 1px $persian-green;
+              color: $limed-spruce;
+
+              font: {
+                weight: $font-weight-semibold;
+              }
+            }
+          }
+        }
+      }
+
+      .opportunity-edit-form {
+        .opportunity-edit-forms {
+          height: calc(100vh - 175px);
+        }
+
+        .title {
+          color: $bermuda-gray;
+
+          font: {
+            size: $base-font-size + 6;
+            weight: $font-weight-semibold;
+          }
+        }
+      }
+
+      .customer-forms {
+        padding-top: 24px;
+        padding-left: 24px;
+        padding-right: 16px;
+        margin-bottom: 20px;
+        height: calc(100vh - 164px);
+        overflow-y: auto;
+
+        .react-datepicker-wrapper,
+        .react-datepicker__input-container,
+        .react-datepicker__input-container input {
+          display: block;
+          width: 100%;
+        }
+      }
+
+      .opportunity-type-container {
+        .opptytype-list-item {
+          padding-bottom: 0;
+          margin-bottom: 0;
+
+          li {
+            background: $white;
+            border: solid 1px $geyser;
+            @include border-radius($border-radius);
+            @include transition;
+            padding: 31px 15px;
+            margin-bottom: 16px;
+            color: $cod-grey;
+
+            font: {
+              size: $base-font-size;
+              weight: $font-weight-regular;
+            }
+
+            &:hover {
+              background: $aqua-spring;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+
+      .product-items-container {
+        height: calc(100vh - 380px);
+        overflow-y: auto;
+
+        .opptytype-list-item {
+          padding-bottom: 16px;
+
+          li {
+            background: $white;
+            border: solid 1px $geyser;
+            @include border-radius($border-radius);
+            @include transition;
+            padding: 31px 15px;
+            margin-bottom: 16px;
+            color: $cod-grey;
+
+            font: {
+              size: $base-font-size;
+              weight: $font-weight-regular;
+            }
+
+            &:hover {
+              background: $aqua-spring;
+            }
+          }
+        }
+      }
+
+      .approval-forms {
+        padding-left: 24px;
+        height: calc(100vh - 140px);
+        overflow-y: auto;
+        margin-top: 20px;
+        padding-right: 16px;
+      }
+
+      .step-nextbtn-with-arrow {
+        margin-top: 0px;
+        margin-bottom: 20px;
+        margin-left: 24px;
+        position: absolute;
+        left: 0;
+        right: 24px;
+        bottom: 50px;
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &.editopp-error-msg {
+    .alert {
+      top: 0;
+    }
+  }
+
+  .approval-container {
+    padding: 16px 0px 0px 0px;
+    overflow-x: hidden;
+
+    .desc {
+      line-height: 21px;
+      margin-bottom: 24px;
+
+      font: {
+        weight: $font-weight-regular;
+        size: $base-font-size + 2;
+      }
+    }
+
+    .lbl-apporver-name {
+      color: $black;
+      margin-bottom: 4px;
+
+      font: {
+        size: $base-font-size;
+        weight: $font-weight-regular;
+      }
+    }
+
+    .apporver-name {
+      color: $black;
+
+      font: {
+        size: $base-font-size + 4;
+        weight: $font-weight-semibold;
+      }
+
+      position: relative;
+
+      .edit-approver-name {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: none;
+        border: none;
+      }
+
+      input.form-control {
+        display: inline-block;
+        box-sizing: inherit;
+        margin: 0;
+        padding: 0;
+        width: 25em;
+        font: inherit;
+        line-height: inherit;
+        vertical-align: inherit;
+        color: inherit;
+        background: none;
+      }
+
+      input.form-control[disabled] {
+        border: 0;
+        background-color: #ffffff;
+      }
+    }
+
+    .add-cc {
+      background: $persian-green;
+      color: $white;
+      text-align: center;
+      @include border-radius($border-radius);
+      @include transition;
+      padding: 8px 12px;
+      border: none;
+      margin-top: 24px;
+
+      font: {
+        size: $base-font-size;
+        weight: $font-weight-semibold;
+      }
+
+      &:hover {
+        background: darken($persian-green, 5%);
+      }
+    }
+
+    .send-approval-btn {
+      margin-top: 32px;
+      background: $limed-spruce;
+      text-align: center;
+      display: block;
+      width: 100%;
+      @include border-radius($border-radius);
+      @include transition;
+      padding: 13px 24px;
+      color: $white;
+      border: none;
+
+      &:hover {
+        background: darken($limed-spruce, 10%);
+      }
+    }
+  }
+
+  &.fixed-header-footer {
+    .sliding-panel {
+      .opportunity-forms {
+        position: absolute;
+        top: 107px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        .opptny-forms {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          right: 24px;
+          bottom: 60px;
+          overflow-y: auto;
+        }
+
+        .actionbtns {
+          position: absolute;
+          bottom: 10px;
+          left: 24px;
+          right: 24px;
+          padding-right: 0;
+        }
+
+        &.edit-form {
+          top: 20px;
+          height: calc(100vh - 180px);
+        }
+      }
+
+      .all-opportunity-steps-container {
+        .step-nextbtn-with-arrow {
+          bottom: 24px;
+        }
+      }
+    }
+  }
 }
 
 .radiobtn-collection {
+  .title {
+    color: $blue-bayoux;
+    margin-bottom: 16px;
 
-    .title {
-        color: $blue-bayoux;
-        margin-bottom: 16px;
+    font: {
+      size: $base-font-size + 2;
+      weight: $font-weight-semibold;
+    }
+  }
+
+  .opportunity-type-container {
+    height: calc(100vh - 230px);
+    padding-right: 8px;
+    overflow-y: auto;
+  }
+
+  .radiogrp-btns {
+    input[type='radio'] {
+      display: none;
+
+      &:not(:disabled) ~ label {
+        cursor: pointer;
+      }
+    }
+
+    label {
+      height: 100%;
+      display: block;
+      background: white;
+      border: 1px solid $blue-bayoux;
+      @include border-radius($border-radius);
+      padding: 28px 24px;
+      margin-bottom: 1rem;
+      //margin: 1rem;
+      text-align: left;
+      position: relative;
+      color: $blue-bayoux;
+
+      span {
+        display: block;
+        color: $limed-spruce;
 
         font: {
-            size: $base-font-size + 2;
-            weight: $font-weight-semibold;
+          size: $base-font-size - 5;
         }
+      }
     }
 
-    .radiogrp-btns {
-        input[type="radio"] {
-            display: none;
+    input[type='radio']:checked + label {
+      background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
+      border: solid 1px $persian-green;
+      color: $limed-spruce;
 
-            &:not(:disabled)~label {
-                cursor: pointer;
-            }
-        }
-
-        label {
-            height: 100%;
-            display: block;
-            background: white;
-            border: 1px solid $blue-bayoux;
-            @include border-radius($border-radius);
-            padding: 28px 24px;
-            margin-bottom: 1rem;
-            //margin: 1rem;
-            text-align: left;
-            position: relative;
-            color: $blue-bayoux;
-
-            span {
-                display: block;
-                color: $limed-spruce;
-
-                font: {
-                    size: $base-font-size - 5;
-                }
-            }
-        }
-
-        input[type="radio"]:checked+label {
-            background: $jagged-ice url(../images/radio-selected.svg) no-repeat 94% 25px;
-            border: solid 1px $persian-green;
-            color: $limed-spruce;
-
-            font: {
-                weight: $font-weight-semibold;
-            }
-        }
-
-        // input[type="radio"]#control_05:checked+label {
-        //     background: red;
-        //     border-color: red;
-        // }
+      font: {
+        weight: $font-weight-semibold;
+      }
     }
+
+    // input[type="radio"]#control_05:checked+label {
+    //     background: red;
+    //     border-color: red;
+    // }
+  }
 }
 
-
 .radiogrp-btns {
-    .btn-group-toggle {
-        width: 100%;
+  .btn-group-toggle {
+    width: 100%;
 
-        label {
-            margin-bottom: 0;
+    label {
+      margin-bottom: 0;
 
-            &.btn-primary {
-                background: $white;
-                border-color: $blue-bayoux;
+      &.btn-primary {
+        background: $white;
+        border-color: $blue-bayoux;
 
-                &.active {
-                    background: $blue-bayoux;
-                }
-            }
-
-            &.btn-primary:not(:disabled):not(.disabled).active {
-                border-color: transparent;
-                box-shadow: none;
-                outline: none;
-            }
-
-            &.btn-primary:not(:disabled):not(.disabled):active {
-                background: $white;
-                border-color: transparent;
-            }
+        &.active {
+          background: $blue-bayoux;
         }
+      }
+
+      &.btn-primary:not(:disabled):not(.disabled).active {
+        border-color: transparent;
+        box-shadow: none;
+        outline: none;
+      }
+
+      &.btn-primary:not(:disabled):not(.disabled):active {
+        background: $white;
+        border-color: transparent;
+      }
     }
+  }
 }
 
 .oppty-form-elements label.opp-label {
-    font-size: $base-font-size + 4;
-    color: #506574;
-    font-weight: $font-weight-semibold;
-    margin-bottom: 8px;
+  font-size: $base-font-size + 4;
+  color: #506574;
+  font-weight: $font-weight-semibold;
+  margin-bottom: 8px;
 }
 
 .opt-field {
-    font-size: $base-font-size + 2;
-    font-weight: 400;
-    font-style: italic;
+  font-size: $base-font-size + 2;
+  font-weight: 400;
+  font-style: italic;
 }
 
 .opp-header-text {
-    font-size: $base-font-size + 4;
-    font-weight: $font-weight-bold !important;
-
+  font-size: $base-font-size + 4;
+  font-weight: $font-weight-bold !important;
 }
 
 .add-subtitle {
-    font-size: $base-font-size + 6;
-    font-weight: $font-weight-semibold;
+  font-size: $base-font-size + 6;
+  font-weight: $font-weight-semibold;
 }
 
 .oppty-form-elements label.cust-label {
-    font-size: $base-font-size + 4;
-    font-weight: $font-weight-semibold;
-    margin-bottom: 8px;
-    color: #2F3C46;
+  font-size: $base-font-size + 4;
+  font-weight: $font-weight-semibold;
+  margin-bottom: 8px;
+  color: #2f3c46;
 }
 
 .customer-btn {
-    background: #EB617C;
-    color: $white;
-    padding: 12px 24px;
-    display: block;
-    text-align: center;
-    @include border-radius($border-radius);
-    position: relative;
-    width: 100%;
+  background: #eb617c;
+  color: $white;
+  padding: 12px 24px;
+  display: block;
+  text-align: center;
+  @include border-radius($border-radius);
+  position: relative;
+  width: 100%;
+  border: none;
+
+  font: {
+    family: $base-font-family;
+    size: $base-font-size;
+    weight: $font-weight-semibold;
+  }
+
+  &:hover {
+    text-decoration: none;
+    outline: none;
     border: none;
-
-    font: {
-        family: $base-font-family;
-        size: $base-font-size;
-        weight: $font-weight-semibold;
-    }
-
-    &:hover {
-        text-decoration: none;
-        outline: none;
-        border: none;
-        color: #fff;
-    }
+    color: #fff;
+  }
 }
 
 .input-icon-container {
-    position: relative;
+  position: relative;
 
-    .input-icon {
-        padding: 12px 50px;
-    }
+  .input-icon {
+    padding: 12px 50px;
+  }
 
-    .currency-sign {
-        position: absolute;
-        left: 15px;
-        top: 42px;
-    }
+  .currency-sign {
+    position: absolute;
+    left: 15px;
+    top: 42px;
+  }
 }
 
-.selected-products { 
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+.selected-products {
+  margin-bottom: 10px;
 
-    .item-description { 
-        padding: 8px 4px; 
-        background-color:#DDD;
-        color: #000;
-        border:1px solid #EB617C;
-        border-radius: 10px;
-        margin: 4px 5px;
-        padding: 10px 10px;
-        
-        font: {
-            family: $base-font-family;
-            size: $base-font-size;
-            weight: $font-weight-semibold;
-        }
+  .thirdstep-tag-hscroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+  }
+
+  .item-description {
+    border: solid 1px $persian-green;
+    border-radius: $border-radius;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 5px 30px 5px 8px;
+    text-align: left;
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+
+    font: {
+      family: $base-font-family;
+      size: $base-font-size;
+      weight: $font-weight-semibold;
     }
+
+    background: rgba($aqua-spring, 0.3) url('../images/close.svg') no-repeat 94% 9px;
+    background-size: 14px;
+    @include transition;
+
+    &:hover {
+      background-color: rgba($aqua-spring, 1);
+    }
+  }
+}
+
+.selected-products::-webkit-scrollbar {
+  display: none;
+  /* for Chrome, Safari, and Opera */
 }
 
 // TOASTER STYLE START
 .iptor-alert {
-    width: 100%;
-    position: absolute;
-    top: 80px;
-    
-    .alert-wrapper {
+  width: 100%;
+  position: absolute;
+  top: 80px;
+  z-index: 9;
+
+  .alert-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     .alert {
-    padding: 16px 60px;
-    min-width: 320px;
-    max-width: 600px;
-    @include border-radius($border-radius);
-    box-shadow: 0px 0px 16px rgba(80, 101, 116, 0.4);
-    line-height: 25px;
-    
-    font: {
-    size: $base-font-size + 4;
-    weight: $font-weight-semibold;
+      z-index: 99;
+      padding: 16px 60px;
+      min-width: 320px;
+      max-width: 600px;
+      @include border-radius($border-radius);
+      box-shadow: 0px 0px 16px rgba(80, 101, 116, 0.4);
+      line-height: 25px;
+
+      font: {
+        size: $base-font-size + 4;
+        weight: $font-weight-semibold;
+      }
+
+      .alert-close {
+        position: absolute;
+        right: 8px;
+        top: 9px;
+
+        img {
+          width: 16px;
+          height: auto;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      &.alert-success {
+        background: $jagged-ice url(../images/check-circle.svg) no-repeat;
+        background-position: 16px;
+        color: $persian-green;
+      }
+
+      &.alert-info {
+        background: $iceberg url(../images/alert-info.svg) no-repeat;
+        background-position: 16px;
+        color: $deep-sea-green;
+      }
+
+      &.alert-danger {
+        background: $we-peep url(../images/alert-danger.svg) no-repeat;
+        background-position: 16px;
+        color: $persiann-plum;
+      }
+
+      &.alert-warning {
+        background: $pipi url(../images/alert-warning.svg) no-repeat;
+        background-position: 16px;
+        color: $yukon-gold;
+      }
     }
-    
-    .alert-close {
-    position: absolute;
-    right: 8px;
-    top: 9px;
-    
-    img{
-    width: 16px;
-    height: auto;
-    }
-    
-    &:focus {
-    outline: none;
-    box-shadow: none;
-    }
-    }
-    
-    &.alert-success {
-    background: $jagged-ice url(../images/check-circle.svg) no-repeat;
-    background-position: 16px;
-    color: $persian-green;
-    }
-    
-    &.alert-info {
-    background: $iceberg url(../images/alert-info.svg) no-repeat;
-    background-position: 16px;
-    color: $deep-sea-green;
-    }
-    
-    &.alert-danger {
-    background: $we-peep url(../images/alert-danger.svg) no-repeat;
-    background-position: 16px;
-    color: $persiann-plum;
-    }
-    
-    &.alert-warning {
-    background: $pipi url(../images/alert-warning.svg) no-repeat;
-    background-position: 16px;
-    color: $yukon-gold;
-    }
-    
-    }
-    }
-   }
+  }
+}
 
 // TOASTER STYLE END
 
 // ADDING INPUT TEXT FIELD STYLES START
 
 .adding-txt-field-container {
+  position: relative;
+
+  .add-txt-field {
+    position: absolute;
+    right: 0;
+    text-decoration: none;
+    color: $persian-green;
+    border: none;
+    box-shadow: none;
+
+    font: {
+      family: $base-font-family;
+      size: $base-font-size;
+      weight: $font-weight-semibold;
+    }
+
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+
+    &:hover {
+      border: none;
+      box-shadow: none;
+      color: $limed-spruce;
+    }
+  }
+
+  .form-element-with-delete-button {
     position: relative;
 
-    .add-txt-field {
-        position: absolute;
-        right: 0;
-        top: -10px;
-        text-decoration: none;
-        color: $persian-green;
+    .oppty-form-elements {
+      margin-right: 40px !important;
+    }
+
+    .ip-delete-field {
+      position: absolute;
+      right: 8px;
+      top: 6px;
+      width: 26px;
+      height: 26px;
+      background: url(../images/remove-field.svg) no-repeat;
+      background-size: 24px;
+      z-index: 9;
+      outline: none;
+      border: none;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:focus {
+        outline: none;
         border: none;
         box-shadow: none;
+      }
+    }
+  }
 
-        font: {
-            family: $base-font-family;
-            size: $base-font-size;
-            weight: $font-weight-semibold;
-        }
+  .oppty-form-elements {
+    margin-bottom: 12px !important;
+    margin-right: 40px;
+  }
 
-        &:focus {
-            border: none;
-            box-shadow: none;
-        }
+  .add-new-ipfield {
+    position: relative;
 
-        &:hover {
-            border: none;
-            box-shadow: none;
-            color: $limed-spruce;
-        }
+    .oppty-form-elements label.opp-label {
+      font-size: $base-font-size + 4;
+      color: #506574;
+      font-weight: $font-weight-semibold;
+      margin-bottom: 8px;
     }
 
-    .oppty-form-elements {
-        margin-bottom: 12px !important;
+    input[type='text'] {
+      padding-right: 40px;
     }
 
-    .add-new-ipfield {
-        position: relative;
+    .ip-delete-field {
+      position: absolute;
+      right: 8px;
+      top: 6px;
+      width: 26px;
+      height: 26px;
+      background: url(../images/remove-field.svg) no-repeat;
+      background-size: 24px;
+      z-index: 9;
+      outline: none;
+      border: none;
 
-        .oppty-form-elements label.opp-label {
-            font-size: $base-font-size + 4;
-            color: #506574;
-            font-weight: $font-weight-semibold;
-            margin-bottom: 8px;
-        }
+      &:hover {
+        cursor: pointer;
+      }
 
-        input[type=text] {
-            padding-right: 40px;
-        }
-
-        .ip-delete-field {
-            position: absolute;
-            right: 8px;
-            top: 6px;
-            width: 26px;
-            height: 26px;
-            background: url(../images/remove-field.svg) no-repeat;
-            background-size: 24px;
-            z-index: 9;
-            outline: none;
-            border: none;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            &:focus {
-                outline: none;
-                border: none;
-                box-shadow: none;
-            }
-        }
+      &:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+      }
     }
-
+  }
 }
 
 // ADDING INPUT TEXT FIELD STYLES END
+
+.MuiDrawer-paper {
+  overflow-y: hidden !important;
+}

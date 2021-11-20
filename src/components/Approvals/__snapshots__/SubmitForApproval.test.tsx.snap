@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Approvals] SubmitForApproval should renders correctly 1`] = `
+<div
+  className="approval-container"
+>
+  <p
+    className="lbl-apporver-name"
+  >
+    Approver’s Name
+  </p>
+  <p
+    className="apporver-name"
+  >
+    <div
+      className="approver-search-container"
+    >
+      <input
+        className="form-control"
+        disabled={true}
+        type="text"
+        value=""
+      />
+      <button
+        className="edit-approver-name"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="edit"
+          src="edit-icon.svg"
+        />
+      </button>
+    </div>
+  </p>
+  <div
+    className="form-group oppty-form-elements"
+    id="comment"
+  >
+    <label
+      className="opp-label"
+      htmlFor="comments"
+    >
+      Comment
+    </label>
+    <textarea
+      className="form-control"
+      onChange={[Function]}
+      rows={3}
+    />
+  </div>
+  <button
+    className="stepone-next-btn inactive"
+    disabled={true}
+    onClick={[Function]}
+    type="button"
+  >
+    Send for Approval
+  </button>
+</div>
+`;

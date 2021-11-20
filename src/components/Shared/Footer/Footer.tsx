@@ -1,7 +1,7 @@
 import React from 'react';
 import ImageConfig from '../../../config/ImageConfig';
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
   return (
     <footer>
       <p>

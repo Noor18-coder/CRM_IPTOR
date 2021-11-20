@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import { OpportunityListResponse, OpportunityListParams } from './models';
 import { ApiRequest } from './ApiRequest';
@@ -15,16 +15,9 @@ export default class OpportunityList {
    * @param offset pagination offset
    * @returns Array of business patners and control object
    */
-  static async get(
-    handler: string,
-    freeTextSearch: string,
-    limit?: number,
-    offset?: number,
-    orderBy?: string,
-    otherparams?: OpportunityListParams
-  ): Promise<OpportunityListResponse> {
+  static async get(limit?: number, offset?: number, orderBy?: string, otherparams?: OpportunityListParams): Promise<OpportunityListResponse> {
     const params: OpportunityListParams = {
-      handler,
+      selectUserId: otherparams?.selectUserId,
       selectHandler: otherparams?.selectHandler,
       selectStageFrom: otherparams?.selectStageFrom,
       selectStageTo: otherparams?.selectStageTo,
@@ -37,8 +30,8 @@ export default class OpportunityList {
       selectApprovalStatus: otherparams?.selectApprovalStatus,
       activeOp: otherparams?.activeOp,
     };
-    const requestData = new ApiRequest<OpportunityListParams>(this.apiMethod, params, { freeTextSearch, limit, offset, orderBy });
+    const requestData = new ApiRequest<OpportunityListParams>(this.apiMethod, params, { limit, offset, orderBy });
     const response = await axios.post<OpportunityListResponse>('/api/service', requestData);
-    return get(response, 'data');
+    return get<AxiosResponse<OpportunityListResponse>, 'data'>(response, 'data');
   }
 }

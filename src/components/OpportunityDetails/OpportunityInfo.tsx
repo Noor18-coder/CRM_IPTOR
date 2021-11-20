@@ -1,13 +1,12 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import i18n from '../../i18n';
-import { ApprovalLogsDefault, OpportunityDetailsDefault, InitiateSubmitApprovalPopupData, Reason } from '../../helpers/Api/models';
+import { ApprovalLogsDefault, OpportunityDetailsDefault, InitiateSubmitApprovalPopupData, Reason, ApprovalLogsData} from '../../helpers/Api/models';
 import { getCurrencySymbol, getQuarterOfYearFromDate } from '../../helpers/utilities/lib';
 import Staging from './Staging';
-import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
-import { setOpportunityLoader } from '../../store/AddOpportunity/Actions';
-import { ApprovalInfo } from '../../helpers/Api/Approvals';
+import { openOpportunityForm, saveOpportunityLogs } from '../../store/OpportunityDetails/Actions';
 import { APPROVAL_STATUS } from '../../config/Constants';
 import ImageConfig from '../../config/ImageConfig';
 import { AppState } from '../../store/store';
@@ -15,22 +14,19 @@ import { AppState } from '../../store/store';
 const OpportunityInfo: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const data: OpportunityDetailsDefault = state.opportuntyDetails.opportunityDefaultParams;
+  const logsData: ApprovalLogsData = state.opportuntyDetails.approvalHistoryLogs;
   const { user } = state.auth.user;
-  const [logsData, setLogsData] = React.useState<ApprovalLogsDefault[]>([]);
   const dispatch: Dispatch<any> = useDispatch();
 
   React.useEffect(() => {
-    dispatch(setOpportunityLoader(true));
-    ApprovalInfo.getApprovalLogs(data.opportunityId).then((logResponse) => {
-      setLogsData(logResponse);
-    });
-    dispatch(setOpportunityLoader(false));
+    const { opportunityId } = state.opportuntyDetails.opportunityDefaultParams;
+    dispatch(saveOpportunityLogs(opportunityId));
   }, []);
 
   const getUserName = (str: string) => {
     if (str) {
       const userObj = state.users.users.find((obj) => obj.user === str);
-      return userObj?.description;
+      return userObj && userObj.description ? userObj?.description : str;
     }
     return '';
   };
@@ -44,7 +40,7 @@ const OpportunityInfo: React.FC = () => {
     // eslint-disable-next-line max-len
     return `${
       state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA && getCurrencySymbol(state.enviornmentConfigs.defaultOpprtunityInfo.currencyLDA)
-    } ${basicInfo?.estimatedValueSys}`;
+    } ${basicInfo.estimatedValueSys ? Math.round(basicInfo.estimatedValueSys) : ''}`;
   };
 
   const submitApproval = (subGroupName: string) => {
@@ -60,12 +56,48 @@ const OpportunityInfo: React.FC = () => {
     document.body.classList.add('body-scroll-hidden');
   };
 
+  const getLastApprover = () => {
+    const { logs } = state.opportuntyDetails.approvalHistoryLogs;
+    const approvalLogsData = logs.find((obj: ApprovalLogsDefault) => {
+      return obj.approvalLogStatus === data.approvalStatus;
+    });
+
+    if (approvalLogsData) {
+      const approverName = approvalLogsData && approvalLogsData.approver ? getUserName(approvalLogsData.approver) : '';
+      if (approverName && approvalLogsData.approvalLogStatus === APPROVAL_STATUS.APPROVED) {
+        return `Approved by ${approverName}`;
+      } else if (approverName && approvalLogsData.approvalLogStatus === APPROVAL_STATUS.REJECTED) {
+        return `Rejected by ${approverName}`;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
+
   const getReasonText = (text?: string) => {
     if (!text) return '';
     const errorObject: Reason | undefined = state.enviornmentConfigs.reasons.find((obj: Reason) => {
       return obj.reasonCode === text;
     });
     return errorObject && errorObject.description;
+  };
+
+  const getMessage = () => {
+    if (data.approvalStatus === APPROVAL_STATUS.SUBMITTED) {
+      return `Shared for approval with ${getUserName(data.approver ? data.approver : '')}`;
+    } else if (data.approvalStatus === APPROVAL_STATUS.APPROVED) {
+      return `${data && logsData.logs.length ? getLastApprover() : null}`;
+    } else if (data.approvalRequired === true && data.approvalStatus === APPROVAL_STATUS.REJECTED) {
+      return `${data && logsData.logs.length ? getLastApprover() : null}`;
+    } else if (data.approvalStatus === APPROVAL_STATUS.LOST) {
+      return `Opportunity lost due to ${getReasonText(data.reason)}`;
+    } else if (data.approver === user && data.approvalStatus === APPROVAL_STATUS.SUBMITTED) {
+      return getLastApprover();
+    } else {
+      return '';
+    }
   };
 
   return (
@@ -104,6 +136,8 @@ const OpportunityInfo: React.FC = () => {
                   ? 'list-inline-item submit'
                   : data.approvalStatus === APPROVAL_STATUS.APPROVED
                   ? 'list-inline-item grade'
+                  : data.approvalStatus === APPROVAL_STATUS.WON
+                  ? 'list-inline-item grade'
                   : data.approvalStatus === APPROVAL_STATUS.LOST
                   ? 'list-inline-item lost'
                   : 'list-inline-item grade'
@@ -128,57 +162,67 @@ const OpportunityInfo: React.FC = () => {
           <div className="lft-col">
             <p className="stage-bold">Stage</p>
           </div>
-          {data.approvalStatus === APPROVAL_STATUS.SUBMITTED && data.approver !== user && (
-            <div className="rgt-col">
-              Shared for approval with {getUserName(data.approver ? data.approver : '')}
-              <button type="button" className="ghost-btn" onClick={() => submitApproval('changeApprover')}>
-                {i18n.t('changeApprover')}
-              </button>
-            </div>
-          )}
-          {data.approvalStatus === APPROVAL_STATUS.APPROVED && data.approver !== user && (
-            <div className="rgt-col">
-              <button type="button" className="ghost-btn" onClick={() => toggleDrawer(true, logsData, 'approval', 'history', '')}>
-                {i18n.t('approvalHistory')}
-              </button>
-            </div>
-          )}
-          {data.approvalStatus === APPROVAL_STATUS.REJECTED && data.approver !== user && (
-            <div className="rgt-col">
-              <button type="button" className="reject-btn" onClick={() => toggleDrawer(true, logsData, 'approval', 'history', '')}>
-                {i18n.t('approvalHistory')}
-              </button>
-              <button type="button" className="reject-btn" onClick={() => submitApproval('resubmitApproval')}>
-                {i18n.t('resubmitApproval')}
-              </button>
-            </div>
-          )}
-          {data.approvalStatus === APPROVAL_STATUS.NEW && data.approvalRequired === true && data.approver !== user && (
-            <div className="rgt-col">
+          <div className="rgt-col">
+           { getMessage()}
+          {/* {data.approvalStatus === APPROVAL_STATUS.LOST && <>Opportunity lost due to {getReasonText(data.reason)}</>} */}
+          {(data.approvalStatus === APPROVAL_STATUS.LOST ||
+              data.approvalStatus === APPROVAL_STATUS.WON ||
+              data.approvalStatus === APPROVAL_STATUS.APPROVED || 
+              data.approvalStatus === APPROVAL_STATUS.REJECTED || 
+              data.approvalStatus === APPROVAL_STATUS.SUBMITTED) && logsData.logs.length ? (
+              <>
+                {logsData.logs.length && (
+                  <button type="button" className="ghost-btn" onClick={() => toggleDrawer(true, logsData, 'approval', 'history', '')}>
+                    {i18n.t('approvalHistory')}
+                  </button>
+                )}
+              </>
+              ) : ''
+                }
+              { data.activ && data.approvalStatus === APPROVAL_STATUS.SUBMITTED && (
+              <>
+                {/* // Shared for approval with {getUserName(data.approver ? data.approver : '')} */}
+                <button type="button" className="ghost-btn" onClick={() => submitApproval('changeApprover')}>
+                  {i18n.t('changeApprover')}
+                </button>
+              </>
+            )}
+            
+            {data.activ && data.approvalRequired === true && 
+            data.approvalStatus === APPROVAL_STATUS.REJECTED &&
+              (user === data.userId || state.auth.user.role === 'Admin') && (
+              <>
+                <button type="button" className="reject-btn" onClick={() => submitApproval('resubmitApproval')}>
+                  {i18n.t('resubmitApproval')}
+                </button>
+              </>
+            )}
+            {
+            // eslint-disable-next-line max-len
+            data.activ && data.approvalStatus !== APPROVAL_STATUS.SUBMITTED && data.approvalStatus !== APPROVAL_STATUS.REJECTED && data.approvalRequired === true && (
               <button type="button" className="submit-btn" onClick={() => submitApproval('')}>
                 {i18n.t('submitApproval')}
               </button>
-            </div>
-          )}
-          {data.approvalStatus === APPROVAL_STATUS.LOST && data.approver !== user && (
-            <div className="rgt-col">Opportunity lost due to {getReasonText(data.reason)}</div>
-          )}
-          {data.approver === user && data.approvalStatus === APPROVAL_STATUS.SUBMITTED && (
-            <div className="rgt-col">
-              <button
-                type="button"
-                className="approver-reject-btn"
-                onClick={() => toggleDrawer(true, data, 'approval', 'approverSubmit', 'rejected')}>
-                <img src={ImageConfig.BTN_CLOSE_ICON} alt="Cross Icon" className="btn-icon" /> {i18n.t('reject')}
-              </button>
-              <button
-                type="button"
-                className="approver-approve-btn"
-                onClick={() => toggleDrawer(true, data, 'approval', 'approverSubmit', 'approved')}>
-                <img src={ImageConfig.BTN_CHECK_ICON} alt="Right Icon" className="btn-icon" /> {i18n.t('approve')}
-              </button>
-            </div>
-          )}
+            )}
+            
+            {data.activ && data.approver === user && data.approvalStatus === APPROVAL_STATUS.SUBMITTED && (
+              <>
+                {/* {logsData.logs.length ? getLastApprover() : null} */}
+                <button
+                  type="button"
+                  className="approver-reject-btn"
+                  onClick={() => toggleDrawer(true, data, 'approval', 'approverSubmit', 'rejected')}>
+                  <img src={ImageConfig.BTN_CLOSE_ICON} alt="Cross Icon" className="btn-icon" /> {i18n.t('reject')}
+                </button>
+                <button
+                  type="button"
+                  className="approver-approve-btn"
+                  onClick={() => toggleDrawer(true, data, 'approval', 'approverSubmit', 'approved')}>
+                  <img src={ImageConfig.BTN_CHECK_ICON} alt="Right Icon" className="btn-icon" /> {i18n.t('approve')}
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <Staging />
       </section>

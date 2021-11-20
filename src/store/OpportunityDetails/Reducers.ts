@@ -23,6 +23,10 @@ export const createOpportunityDetailsInitialState = (): OpportunityDetailsState 
       oppRecordType: '',
     },
     attributes: [],
+    approvalHistoryLogs: {
+      logs: [],
+      error: '',
+    },
     products: [],
     contacts: [],
     editOportunity: {
@@ -54,7 +58,7 @@ const opportuntyDetailsReducer: Reducer<OpportunityDetailsState, OpportunityDeta
     case OpportunityDetailsTypes.OPEN_FOR_EDIT:
       return {
         ...state,
-        editOportunity: { ...state.editOportunity, ...action.options },
+        editOportunity: { ...state.editOportunity, ...action.options, error: '' },
       };
 
     case OpportunityDetailsTypes.EDIT_OPPORTUNITY_STATUS:
@@ -97,6 +101,37 @@ const opportuntyDetailsReducer: Reducer<OpportunityDetailsState, OpportunityDeta
       return {
         ...state,
         contacts: action.contacts,
+      };
+    case OpportunityDetailsTypes.SAVE_APPROVAL_LOGS:
+      return {
+        ...state,
+        approvalHistoryLogs: action.data,
+      };
+    case OpportunityDetailsTypes.RESET_OPPORTUNITY_DETAILS:
+      return {
+        opportunityDefaultParams: {
+          opportunityId: '',
+          desc: '',
+          customer: '',
+          customerName: '',
+          handler: '',
+          area: '',
+          stage: '',
+          currency: '',
+          endDate: '',
+          oppRecordType: '',
+        },
+        attributes: [],
+        products: [],
+        contacts: [],
+        approvalHistoryLogs: {
+          logs: [],
+          error: '',
+        },
+        editOportunity: {
+          open: false,
+        },
+        loader: false,
       };
     default:
       return state;

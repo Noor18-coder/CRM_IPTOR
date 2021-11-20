@@ -17,21 +17,44 @@ import Loader from '../Shared/Loader/Loader';
 import { getEndDateOfQuarterAndYear, getStartDateOfQuarterAndYear } from '../../helpers/utilities/lib';
 import BusinessPartnerList from '../../helpers/Api/CustomerList';
 import { Constants } from '../../config/Constants';
+import ImageConfig from '../../config/ImageConfig';
+import {
+  opptHeaders,
+  opptProdHeaders,
+  opptContHeaders,
+  oppProductKeys,
+  oppContactKeys,
+  customerContactHeaderKeys,
+  customerContactHeaders,
+} from '../../config/ReportHeaders';
+import i18n from '../../i18n';
+
+interface ReportHeader {
+  label: string;
+  key: string;
+}
+
+interface ReportObj {
+  [index: string]: string;
+}
 
 const Reports: React.FC = () => {
   const state: AppState = useSelector((reportState: AppState) => reportState);
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-  const isDesktop = useMediaQuery({ minWidth: 992 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const dispatch: Dispatch<any> = useDispatch();
   const [showOpportunityResults, setShowOpportunityResults] = React.useState(false);
   const [selectedReport, setSelectedReport] = React.useState<string>('Opportunity');
   const [opportunityList, setReportsOpptyBasicList] = React.useState<apiModels.ReportOpptyList[]>([]);
-  const [opptyProdList, setReportsopptyProdList] = React.useState<apiModels.ProductList[]>([]);
-  const [opptyContList, setReportsopptyContList] = React.useState<apiModels.ContactsList[]>([]);
+  const [opptyProdList, setReportsopptyProdList] = React.useState<ReportObj[]>([]);
+  const [opptyContList, setReportsopptyContList] = React.useState<ReportObj[]>([]);
   const [customerList, setcustomerList] = React.useState<apiModels.BusinessPartnerListItem[]>([]);
   const [custAddrList, setcustAddrList] = React.useState<apiModels.AddressesList[]>([]);
   const [custContList, setcustcontList] = React.useState<apiModels.CustomerContactsList[]>([]);
+  const [csvOpportunityProductHeaders, setCsvOpportunityProductHeaders] = React.useState<ReportHeader[]>([]);
+  const [csvOpportunityContactsHeaders, setCsvOpportunityContactsHeaders] = React.useState<ReportHeader[]>([]);
+  const [csvCustomerContactHeaders, setCsvCustomerContactHeaders] = React.useState<ReportHeader[]>([]);
+  // const [, setNoRecordsMsg] = React.useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = React.useState<string>('');
 
   const csvLinkRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const csvProdRef = React.useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
@@ -55,7 +78,35 @@ const Reports: React.FC = () => {
 
   React.useEffect(() => {
     setShowOpportunityResults(true);
+    const { productAttributes, customerContactAttributes, opportunityContactAttributes } = state.enviornmentConfigs;
+
+    if (productAttributes.length) {
+      const opptyProductsAttributeHeaders: ReportHeader[] = productAttributes.map((obj: apiModels.AttributeField) => {
+        return {
+          label: obj.description,
+          key: obj.attributeType,
+        };
+      });
+      setCsvOpportunityProductHeaders([...opptProdHeaders, ...opptyProductsAttributeHeaders]);
+    }
+
+    const tempCustContactAttributesLabels: ReportHeader[] = customerContactAttributes.map((obj: apiModels.AttributeField) => {
+      return {
+        label: obj.description,
+        key: obj.attributeType,
+      };
+    });
+
+    const tempOpptyContactAttributesLabels: ReportHeader[] = opportunityContactAttributes.map((obj: apiModels.AttributeField) => {
+      return {
+        label: obj.description,
+        key: obj.attributeType,
+      };
+    });
+    setCsvOpportunityContactsHeaders([...opptContHeaders, ...tempOpptyContactAttributesLabels, ...tempCustContactAttributesLabels]);
+    setCsvCustomerContactHeaders([...customerContactHeaders, ...tempCustContactAttributesLabels]);
   }, []);
+
   const OpportunityButton = selectedReport === 'Opportunity' ? ' active' : '';
   const CustomerButton = selectedReport === 'Customer' ? ' active' : '';
 
@@ -84,6 +135,7 @@ const Reports: React.FC = () => {
     const data: any = await ReportsOpptyList.get(opptyReportRequestParams, newOffset, Constants.OPPORTUNITY_REPORT_COUNT);
 
     if (data && data.control && data.control.total && newOffset < data.control.total) {
+      allData.splice(allData.length, 0, ...data.data.items);
       const Promises = [];
       newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
       while (newOffset < data.control.total) {
@@ -92,46 +144,56 @@ const Reports: React.FC = () => {
         newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
       }
 
-      Promise.all(Promises).then((response: any) => {
-        dispatch(setBusinessPartnerLoader(false));
-        response.forEach((res: any) => {
-          allData.splice(allData.length, 0, ...res.data.items);
-        });
-        response.forEach((res: any) => {
-          res.data.items.forEach((rptData: apiModels.ReportOpptyList) => {
+      Promise.all(Promises)
+        .then((response: any) => {
+          dispatch(setBusinessPartnerLoader(false));
+          response.forEach((res: any) => {
+            allData.splice(allData.length, 0, ...res.data.items);
+          });
+          allData.forEach((rptData: apiModels.ReportOpptyList) => {
+            const opptyId = rptData.opportunityId;
             if (rptData.products) {
               rptData.products.forEach((pData: apiModels.ProductList) => {
-                prodData.splice(prodData.length, 0, pData);
+                prodData.splice(prodData.length, 0, { ...pData, opportunityId: opptyId });
               });
             }
             if (rptData.contacts) {
               rptData.contacts.forEach((cData: apiModels.ContactsList) => {
-                contData.splice(contData.length, 0, cData);
+                contData.splice(contData.length, 0, { ...cData, opportunityId: opptyId });
               });
             }
           });
+          createOpportunityReports(allData);
+          createProdReports(prodData);
+          createContReports(contData);
+        })
+        .catch(() => {
+          dispatch(setBusinessPartnerLoader(false));
+          setErrorMessage(i18n.t('errorReportDownloading'));
         });
-        createOpportunityReports(allData);
-        createProdReports(prodData);
-        createContReports(contData);
-      });
-    } else {
-      allData.push(data.data.items);
+    } else if (data && data.data && data.data.items && data.data.items.length) {
+      // allData.push(data.data.items);
+      allData.splice(allData.length, 0, ...data.data.items);
       data.data.items.forEach((rptData: apiModels.ReportOpptyList) => {
+        const opptyId = rptData.opportunityId;
         if (rptData.products) {
           rptData.products.forEach((pData: apiModels.ProductList) => {
-            prodData.push(pData);
+            prodData.push({ ...pData, opportunityId: opptyId });
           });
         }
         if (rptData.contacts) {
           rptData.contacts.forEach((cData: apiModels.ContactsList) => {
-            contData.push(cData);
+            contData.push({ ...cData, opportunityId: opptyId });
           });
         }
       });
-      createOpportunityReports(allData);
+      dispatch(setBusinessPartnerLoader(false));
+      createOpportunityReports(data.data.items);
       createProdReports(prodData);
       createContReports(contData);
+    } else {
+      dispatch(setBusinessPartnerLoader(false));
+      setErrorMessage(i18n.t('NoRecordsMsg'));
     }
   };
 
@@ -175,6 +237,10 @@ const Reports: React.FC = () => {
         taskExist: rptobj.taskExist,
         itemExist: rptobj.itemExist,
         attributeExist: rptobj.attributeExist,
+        ATRTST1: rptobj.ATRTST1,
+        ATRTST2: rptobj.ATRTST2,
+        MULTIPLE_TEXT: rptobj.MULTIPLE_TEXT,
+        TEST_MULTY: rptobj.TEST_MULTY,
         ACTION_PENDING: rptobj.ACTION_PENDING,
         CLOUD_OPP_SIZING: getCsvValues(rptobj.CLOUD_OPP_SIZING),
         CLOUD_Y1: getCsvValues(rptobj.CLOUD_Y1),
@@ -219,18 +285,7 @@ const Reports: React.FC = () => {
 
   const createProdReports = (data: apiModels.ProductList[]) => {
     const opptReportsProdData = data.map((pobj: apiModels.ProductList) => {
-      return {
-        opportunityId: pobj.opportunityId,
-        itemId: pobj.itemId,
-        itemDescription: pobj.itemDescription,
-        lineNumber: pobj.lineNumber,
-        item: pobj.item,
-        ourPrice: pobj.ourPrice,
-        systemPrice: pobj.systemPrice,
-        quantity: pobj.quantity,
-        unit: pobj.unit,
-        isFreeOfCharge: pobj.isFreeOfCharge,
-      };
+      return getOpportunityProductTuple(pobj);
     });
     const prodObj = opptReportsProdData.flat().filter(function prod(element: any) {
       return element !== undefined;
@@ -239,23 +294,63 @@ const Reports: React.FC = () => {
     csvProdRef?.current?.link.click();
   };
 
+  const getValues = (objValue: any) => {
+    if (isArray(objValue)) {
+      return Array.prototype.map
+        .call(objValue, function csvFormat(csvobj) {
+          return csvobj;
+        })
+        .join(',');
+    } else {
+      return objValue;
+    }
+  };
+
+  const getOpportunityProductTuple = (pobj: any) => {
+    const { productAttributes } = state.enviornmentConfigs;
+    const tempAttributes: ReportObj = {};
+
+    const attributeColumns = productAttributes.map((obj: apiModels.AttributeField) => {
+      return obj.attributeType;
+    });
+
+    const columns: string[] = [...oppProductKeys, ...attributeColumns];
+
+    columns.forEach((key: string) => {
+      tempAttributes[key] = getValues(pobj[key]);
+    });
+    return tempAttributes;
+  };
+
   const createContReports = (data: apiModels.ContactsList[]) => {
     const opptReportsContData = data.map((cObj: apiModels.ContactsList) => {
-      return {
-        contactId: cObj.contactId,
-        contactPerson: cObj.contactPerson,
-        contactDC: cObj.contactDC,
-        email: cObj.email,
-        phone: cObj.phone,
-        mobile: cObj.mobile,
-        fax: cObj.fax,
-      };
+      return getOppprtunityContactTuple(cObj);
     });
     const contactObj = opptReportsContData.flat().filter(function contact(element: any) {
       return element !== undefined;
     });
     setReportsopptyContList(contactObj);
     csvContRef?.current?.link.click();
+  };
+
+  const getOppprtunityContactTuple = (pobj: any) => {
+    const { opportunityContactAttributes, customerContactAttributes } = state.enviornmentConfigs;
+    const tempAttributes: ReportObj = {};
+
+    const attributeOpptyColumns = opportunityContactAttributes.map((obj: apiModels.AttributeField) => {
+      return obj.attributeType;
+    });
+
+    const attributeColumns = customerContactAttributes.map((obj: apiModels.AttributeField) => {
+      return obj.attributeType;
+    });
+
+    const columns: string[] = [...oppContactKeys, ...attributeOpptyColumns, ...attributeColumns];
+
+    columns.forEach((key: string) => {
+      tempAttributes[key] = getValues(pobj[key]);
+    });
+    return tempAttributes;
   };
 
   const onDownloadReport = () => {
@@ -265,94 +360,7 @@ const Reports: React.FC = () => {
     setReportsopptyContList([]);
   };
 
-  const opptHeaders = [
-    { label: 'Opportunity Id', key: 'opportunityId' },
-    { label: 'Desc', key: 'desc' },
-    { label: 'Customer', key: 'customer' },
-    { label: 'Name', key: 'name' },
-    { label: 'Owner', key: 'handler' },
-    { label: 'Salesman', key: 'salesman' },
-    { label: 'Area', key: 'area' },
-    { label: 'Stage', key: 'stage' },
-    { label: 'Probability', key: 'probability' },
-    { label: 'Reason', key: 'reason' },
-    { label: 'Estimated Value', key: 'estValue' },
-    { label: 'Currency', key: 'currency' },
-    { label: 'Active', key: 'activ' },
-    { label: 'RootId', key: 'rootId' },
-    { label: 'Opportunity Record Type', key: 'oppRecordType' },
-    { label: 'Forecast Category', key: 'forecastCategory' },
-    { label: 'ExchangeRate', key: 'exchangeRate' },
-    { label: 'EstValueSys', key: 'estValueSys' },
-    { label: 'ApprovalStatus', key: 'approvalStatus' },
-    { label: 'LogExist', key: 'logExist' },
-    { label: 'NoteExist', key: 'noteExist' },
-    { label: 'ContactExist', key: 'contactExist' },
-    { label: 'TaskExist', key: 'taskExist' },
-    { label: 'ItemExist', key: 'itemExist' },
-    { label: 'AttributeExist', key: 'attributeExist' },
-    { label: 'ACTION_PENDING', key: 'ACTION_PENDING' },
-    { label: 'CLOUD_OPP_SIZING', key: 'CLOUD_OPP_SIZING' },
-    { label: 'CLOUD_Y1', key: 'CLOUD_Y1' },
-    { label: 'CLOUD_Y2', key: 'CLOUD_Y2' },
-    { label: 'CLOUD_Y3', key: 'CLOUD_Y3' },
-    { label: 'CLOUD_Y4', key: 'CLOUD_Y4' },
-    { label: 'CLOUD_Y5', key: 'CLOUD_Y5' },
-    { label: 'CLOUD_Y6', key: 'CLOUD_Y6' },
-    { label: 'CLOUD_Y7', key: 'CLOUD_Y7' },
-    { label: 'CMP_ONE_OFF_FEE', key: 'CMP_ONE_OFF_FEE' },
-    { label: 'CMS_PRESALE_CONS', key: 'CMS_PRESALE_CONS' },
-    { label: 'CONTACT_TERM_M', key: 'CONTACT_TERM_M' },
-    { label: 'ENTER_ILF_OPP_VALUE', key: 'ENTER_ILF_OPP_VALUE' },
-    { label: 'LEADSOURCE', key: 'LEADSOURCE' },
-    { label: 'LICENSE_CATEGORY', key: 'LICENSE_CATEGORY' },
-    { label: 'LICENSE_SUM', key: 'LICENSE_SUM' },
-    { label: 'MAINT_SUPP_FIRST_Y', key: 'MAINT_SUPP_FIRST_Y' },
-    { label: 'NEXTSTEP', key: 'NEXTSTEP' },
-    { label: 'PARTNER', key: 'PARTNER' },
-    { label: 'PBU', key: 'PBU' },
-    { label: 'PRESALE_CONULTANT', key: 'PRESALE_CONULTANT' },
-    { label: 'PS_REVENUE_GENERATED', key: 'PS_REVENUE_GENERATED' },
-    { label: 'REGION', key: 'REGION' },
-    { label: 'REP_ANNUAL_REVE_CMS', key: 'REP_ANNUAL_REVE_CMS' },
-    { label: 'REP_ANNUAL_REVE_CS', key: 'REP_ANNUAL_REVE_CS' },
-    { label: 'REP_ANNUAL_REVENUE', key: 'REP_ANNUAL_REVENUE' },
-    { label: 'RLF_VALUE', key: 'RLF_VALUE' },
-    { label: 'SUBSCRIPTION_Y1', key: 'SUBSCRIPTION_Y1' },
-    { label: 'SUBSCRIPTION_Y2', key: 'SUBSCRIPTION_Y2' },
-    { label: 'SUBSCRIPTION_Y3', key: 'SUBSCRIPTION_Y3' },
-    { label: 'SUBSCRIPTION_Y4', key: 'SUBSCRIPTION_Y4' },
-    { label: 'SUBSCRIPTION_Y5', key: 'SUBSCRIPTION_Y5' },
-    { label: 'SUBSCRIPTION_Y6', key: 'SUBSCRIPTION_Y6' },
-    { label: 'SUBSCRIPTION_Y7', key: 'SUBSCRIPTION_Y7' },
-    { label: 'TEST_NUMERIC_MANDATO', key: 'TEST_NUMERIC_MANDATO' },
-    { label: 'THIRD_PARTY_COGS', key: 'THIRD_PARTY_COGS' },
-  ];
-
-  const opptProdHeaders = [
-    { label: 'Item Id', key: 'itemId' },
-    { label: 'Item Desc', key: 'itemDescription' },
-    { label: 'Line Number', key: 'lineNumber' },
-    { label: 'Item', key: 'item' },
-    { label: 'ourPrice', key: 'ourPrice' },
-    { label: 'systemPrice', key: 'systemPrice' },
-    { label: 'quantity', key: 'quantity' },
-    { label: 'unit', key: 'unit' },
-    { label: 'isFreeOfCharge', key: 'isFreeOfCharge' },
-  ];
-
-  const opptContHeaders = [
-    { label: 'Contact Id', key: 'contactId' },
-    { label: 'contact Person', key: 'contactPerson' },
-    { label: 'Contact DC', key: 'contactDC' },
-    { label: 'Email', key: 'email' },
-    { label: 'Phone', key: 'phone' },
-    { label: 'Mobile', key: 'mobile' },
-    { label: 'Fax', key: 'fax' },
-  ];
-
   const fetchCustomerList = async () => {
-    dispatch(setBusinessPartnerLoader(true));
     const params: apiModels.CustomerFilters = state.reports.customerReportParams;
 
     const allData: apiModels.BusinessPartnerListItem[] = [];
@@ -364,6 +372,7 @@ const Reports: React.FC = () => {
     const data: any = await BusinessPartnerList.get('', Constants.OPPORTUNITY_REPORT_COUNT, newOffset, '', params);
 
     if (data && data.control && data.control.total && newOffset < data.control.total) {
+      allData.splice(allData.length, 0, ...data.data.items);
       const Promises = [];
       newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
       while (newOffset < data.control.total) {
@@ -372,37 +381,47 @@ const Reports: React.FC = () => {
         newOffset += Constants.OPPORTUNITY_REPORT_COUNT;
       }
 
-      Promise.all(Promises).then((response: any) => {
-        dispatch(setBusinessPartnerLoader(false));
-        response.forEach((res: any) => {
-          allData.splice(allData.length, 0, ...res.data.items);
-          res.data.items.forEach((rptData: apiModels.BusinessPartnerListItem) => {
+      Promise.all(Promises)
+        .then((response: any) => {
+          dispatch(setBusinessPartnerLoader(false));
+          response.forEach((res: any) => {
+            allData.splice(allData.length, 0, ...res.data.items);
+          });
+
+          allData.forEach((rptData: apiModels.BusinessPartnerListItem) => {
+            const custId = rptData.businessPartner;
             if (rptData.addresses) {
               rptData.addresses.forEach((aData: apiModels.AddressesList) => {
-                addrData.splice(addrData.length, 0, aData);
+                addrData.splice(addrData.length, 0, { ...aData, businessPartner: custId });
               });
             }
             if (rptData.contacts) {
               rptData.contacts.forEach((cData: apiModels.CustomerContactsList) => {
-                contData.splice(contData.length, 0, cData);
+                contData.splice(contData.length, 0, { ...cData, businessPartner: custId });
               });
             }
           });
+          createCustomerReportsData(allData);
+          createAddressReports(addrData);
+          createCustomerContactsReports(contData);
+        })
+        .catch(() => {
+          dispatch(setBusinessPartnerLoader(false));
+          setErrorMessage(i18n.t('errorReportDownloading'));
         });
-        createCustomerReportsData(allData);
-        createAddressReports(addrData);
-        createCustomerContactsReports(contData);
-      });
     } else if (data && data.data && data.data.items && data.data.items.length) {
+      // allData.push(data.data.items);
+      allData.splice(allData.length, 0, ...data.data.items);
       data.data.items.forEach((rptData: apiModels.BusinessPartnerListItem) => {
+        const custId = rptData.businessPartner;
         if (rptData.addresses) {
           rptData.addresses.forEach((aData: apiModels.AddressesList) => {
-            addrData.push(aData);
+            addrData.push({ ...aData, businessPartner: custId });
           });
         }
         if (rptData.contacts) {
           rptData.contacts.forEach((cData: apiModels.CustomerContactsList) => {
-            contData.push(cData);
+            contData.push({ ...cData, businessPartner: custId });
           });
         }
       });
@@ -410,6 +429,9 @@ const Reports: React.FC = () => {
       createCustomerReportsData(data.data.items);
       createAddressReports(addrData);
       createCustomerContactsReports(contData);
+    } else {
+      dispatch(setBusinessPartnerLoader(false));
+      setErrorMessage(i18n.t('NoRecordsMsg'));
     }
   };
 
@@ -471,6 +493,7 @@ const Reports: React.FC = () => {
   const createAddressReports = (data: apiModels.AddressesList[]) => {
     const custReportsAddressData = data.map((addrobj: apiModels.AddressesList) => {
       return {
+        businessPartner: addrobj.businessPartner,
         address: addrobj.address,
         name: addrobj.name,
         addressLine1: addrobj.addressLine1,
@@ -498,28 +521,31 @@ const Reports: React.FC = () => {
     csvAddrRef?.current?.link.click();
   };
 
-  const createCustomerContactsReports = (data: apiModels.CustomerContactsList[]) => {
+  const createCustomerContactsReports = (data: any) => {
     const custReportsContactsData = data.map((contobj: apiModels.CustomerContactsList) => {
-      return {
-        contactDC: contobj.contactDC,
-        contactPerson: contobj.contactPerson,
-        isPublicContact: contobj.isPublicContact,
-        userID: contobj.userID,
-        phone: contobj.phone,
-        email: contobj.email,
-        fax: contobj.fax,
-        DO_NOT_CONTACT: contobj.DO_NOT_CONTACT,
-        NO_LONGER_AT_COMP: contobj.NO_LONGER_AT_COMP,
-        OPTED_OUT_OF_EMAIL: contobj.OPTED_OUT_OF_EMAIL,
-        PRIMARY_CONTACT: contobj.PRIMARY_CONTACT,
-        TITLE: contobj.TITLE,
-      };
+      return getCustomerContactsTuple(contobj);
     });
     const contactsObj = custReportsContactsData.flat().filter(function addr(element: any) {
       return element !== undefined;
     });
     setcustcontList(contactsObj);
     csvCustContRef?.current?.link.click();
+  };
+
+  const getCustomerContactsTuple = (pobj: any) => {
+    const { customerContactAttributes } = state.enviornmentConfigs;
+    const tempAttributes: ReportObj = {};
+
+    const attributeColumns = customerContactAttributes.map((obj: apiModels.AttributeField) => {
+      return obj.attributeType;
+    });
+
+    const columns: string[] = [...customerContactHeaderKeys, ...attributeColumns];
+
+    columns.forEach((key: string) => {
+      tempAttributes[key] = getValues(pobj[key]);
+    });
+    return tempAttributes;
   };
 
   const onDownloadCustReport = () => {
@@ -564,6 +590,7 @@ const Reports: React.FC = () => {
   ];
 
   const custAddrHeaders = [
+    { label: 'BusinessPartner Id', key: 'businessPartner' },
     { label: 'Address', key: 'address' },
     { label: 'Name', key: 'name' },
     { label: 'Address Line1', key: 'addressLine1' },
@@ -583,24 +610,25 @@ const Reports: React.FC = () => {
     { label: 'isValidAsShipToAddress', key: 'isValidAsShipToAddress' },
   ];
 
-  const custContHeaders = [
-    { label: 'Contact DC', key: 'contactDC' },
-    { label: 'Contact Person', key: 'contactPerson' },
-    { label: 'isPublicContact', key: 'isPublicContact' },
-    { label: 'userID', key: 'userID' },
-    { label: 'phone', key: 'phone' },
-    { label: 'email', key: 'email' },
-    { label: 'fax', key: 'fax' },
-    { label: 'DO_NOT_CONTACT', key: 'DO_NOT_CONTACT' },
-    { label: 'NO_LONGER_AT_COMP', key: 'NO_LONGER_AT_COMP' },
-    { label: 'OPTED_OUT_OF_EMAIL', key: 'OPTED_OUT_OF_EMAIL' },
-    { label: 'PRIMARY_CONTACT', key: 'PRIMARY_CONTACT' },
-    { label: 'TITLE', key: 'TITLE' },
-  ];
+  const hideNoRecordsMsg = () => {
+    setErrorMessage('');
+  };
 
   return (
     <>
       <Header page={3} />
+      {errorMessage ? (
+        <div className="iptor-alert">
+          <div className="alert-wrapper">
+            <div role="alert" className="alert alert-danger">
+              <button className="btn alert-close" type="button" onClick={hideNoRecordsMsg}>
+                <img src={ImageConfig.CLOSE_BTN} alt="close" />
+              </button>
+              {errorMessage}
+            </div>
+          </div>
+        </div>
+      ) : null}
       {state.addBusinessPartner.loader && <Loader component="opportunity" />}
       <div className="section-reports">
         <div className="d-flex justify-content-between action-btns-row">
@@ -608,20 +636,20 @@ const Reports: React.FC = () => {
             <input
               type="button"
               className={`report-btns${OpportunityButton}`}
-              value="Opportunity Report"
+              value={`${i18n.t('opptReport')}`}
               onClick={() => onClickOpptReport('Opportunity')}
             />
             <input
               type="button"
               className={`report-btns${CustomerButton}`}
-              value="Customer Report"
+              value={`${i18n.t('custReport')}`}
               onClick={() => onClickCustomerReport('Customer')}
             />
           </div>
           <div className="rgt-col">
             {showOpportunityResults ? (
               <>
-                <input type="button" className="download-csv-btn" value="Download CSV" onClick={() => onDownloadReport()} />
+                <input type="button" className="download-csv-btn" value={`${i18n.t('downloadCSV')}`} onClick={() => onDownloadReport()} />
                 <CSVLink ref={csvLinkRef} data={opportunityList} filename="OpportunityReport.csv" headers={opptHeaders} />
                 <CSVLink ref={csvProdRef} data={opptyProdList} filename="OpportunityReport-products.csv" headers={opptProdHeaders} />
                 <CSVLink ref={csvContRef} data={opptyContList} filename="OpportunityReport-contacts.csv" headers={opptContHeaders} />
@@ -629,10 +657,10 @@ const Reports: React.FC = () => {
             ) : null}
             {showCustomerResults ? (
               <>
-                <input type="button" className="download-csv-btn" value="Download CSV" onClick={() => onDownloadCustReport()} />
+                <input type="button" className="download-csv-btn" value={`${i18n.t('downloadCSV')}`} onClick={() => onDownloadCustReport()} />
                 <CSVLink ref={csvCustLinkRef} data={customerList} filename="CustomerReport.csv" headers={custHeaders} />
                 <CSVLink ref={csvAddrRef} data={custAddrList} filename="CustomerReport-adresses.csv" headers={custAddrHeaders} />
-                <CSVLink ref={csvCustContRef} data={custContList} filename="CustomerReport-contacts.csv" headers={custContHeaders} />
+                <CSVLink ref={csvCustContRef} data={custContList} filename="CustomerReport-contacts.csv" headers={customerContactHeaders} />
               </>
             ) : null}
           </div>
@@ -644,24 +672,23 @@ const Reports: React.FC = () => {
         </div>
         {showOpportunityResults ? (
           <>
-            <input type="button" className="mob-download-csv-btn" value="CSV" onClick={() => onDownloadReport()} />
+            <input type="button" className="mob-download-csv-btn" value={`${i18n.t('csv')}`} onClick={() => onDownloadReport()} />
             <CSVLink ref={csvLinkRef} data={opportunityList} filename="OpportunityReport.csv" headers={opptHeaders} />
-            <CSVLink ref={csvProdRef} data={opptyProdList} filename="OpportunityReport-products.csv" headers={opptProdHeaders} />
-            <CSVLink ref={csvContRef} data={opptyContList} filename="OpportunityReport-contacts.csv" headers={opptContHeaders} />
+            <CSVLink ref={csvProdRef} data={opptyProdList} filename="OpportunityReport-products.csv" headers={csvOpportunityProductHeaders} />
+            <CSVLink ref={csvContRef} data={opptyContList} filename="OpportunityReport-contacts.csv" headers={csvOpportunityContactsHeaders} />
           </>
         ) : null}
         {showCustomerResults ? (
           <>
-            <input type="button" className="mob-download-csv-btn" value="CSV" onClick={() => onDownloadCustReport()} />
+            <input type="button" className="mob-download-csv-btn" value={`${i18n.t('csv')}`} onClick={() => onDownloadCustReport()} />
             <CSVLink ref={csvCustLinkRef} data={customerList} filename="CustomerReport.csv" headers={custHeaders} />
             <CSVLink ref={csvAddrRef} data={custAddrList} filename="CustomerReport-adresses.csv" headers={custAddrHeaders} />
-            <CSVLink ref={csvCustContRef} data={custContList} filename="CustomerReport-contacts.csv" headers={custContHeaders} />
+            <CSVLink ref={csvCustContRef} data={custContList} filename="CustomerReport-contacts.csv" headers={csvCustomerContactHeaders} />
           </>
         ) : null}
       </div>
 
-      {isDesktop ? <Footer /> : null}
-      {isMobile || isTablet ? <FooterMobile page={3} /> : null}
+      {isMobile ? <FooterMobile page={3} /> : <Footer />}
     </>
   );
 };

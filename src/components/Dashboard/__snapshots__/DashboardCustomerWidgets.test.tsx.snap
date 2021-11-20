@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Dashboard] DashboarCustomerdWidgets should renders correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12"
+  >
+    <p
+      className="cardsec-title"
+    >
+      Customer
+    </p>
+  </div>
+  <div
+    className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+  >
+    <div
+      className="card mb-2"
+    >
+      <div
+        className="card-title-row"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-12"
+          >
+            <ul
+              className="nav nav-tabs dsbd-tabs lftside-tabs"
+              role="tablist"
+            >
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link active"
+                  id="cust-newlyadded"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Newly Added
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="custinactive"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Inactive
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-body card-body-height"
+      >
+        <div
+          className="tab-content"
+        >
+          <div
+            aria-labelledby="cust-newlyadded"
+            className="tab-pane fade show active"
+            id="cust-newly-added"
+            role="tabpanel"
+          >
+            <ul
+              className="recent-customer-list"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+  >
+    <div
+      className="card mb-2"
+    >
+      <div
+        className="card-title-row"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-xl-7 col-lg-6 col-md-6 col-sm-7 col-6"
+          >
+            <select
+              className="form-control dshbrd-cards-dd"
+            >
+              <option>
+                Top 3 by Opportunities
+              </option>
+            </select>
+          </div>
+          <div
+            className="col-xl-5 col-lg-6 col-md-6 col-sm-5 col-6 text-right"
+          >
+            <ul
+              className="nav nav-tabs dsbd-tabs float-right"
+              role="tablist"
+            >
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="qone"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Q1
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="qtwo"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Q2
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="qthree"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Q3
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="qfour"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Q4
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-body card-body-height"
+      >
+        <div
+          className="tab-content"
+        >
+          <div
+            aria-labelledby="qone"
+            className="tab-pane fade show active"
+            id="opp-qone"
+            role="tabpanel"
+          >
+            <canvas
+              data-testid="canvas"
+              height={150}
+              onClick={[Function]}
+              role="img"
+              width={300}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+  >
+    <div
+      className="card mb-2"
+    >
+      <div
+        className="card-title-row"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-xl-7 col-lg-6 col-md-7 col-sm-8 col-6"
+          >
+            <p
+              className="card-title"
+            >
+              Targeted Customers
+            </p>
+          </div>
+          <div
+            className="col-xl-5 col-lg-6 col-md-5 col-sm-4 col-6 text-right"
+          >
+            <select
+              className="form-control dshbrd-cards-dd float-right"
+              onChange={[Function]}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-body card-body-height"
+      >
+        <ul
+          className="target-customer-list"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

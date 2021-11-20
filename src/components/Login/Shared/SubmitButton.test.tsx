@@ -1,29 +1,16 @@
-import React from 'react';
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import {SubmitButton , Props}  from './SubmitButton';
-const  props:Props = {
-    title: 'test',
-    onClick:  jest.fn()
-  };
+import renderer from 'react-test-renderer';
+import { SubmitButton } from './SubmitButton';
 
-configure({ adapter: new Adapter() });
+const onClick = jest.fn();
 
-describe('<SubmitButton /> ', () => {
-  let wrapper: any;
-
-
-  beforeEach(() => {});
-
-  it("should render the submit button", () => {
-    wrapper = shallow(<SubmitButton {...props} />);
-    expect(wrapper.find('.iptor-login-btn').length).toEqual(1);
+describe('[Login Shared] SubmitButton', () => {
+  it('should renders correctly with isSubmit false', () => {
+    const tree = renderer.create(<SubmitButton title="The Button" isSubmit={false} onClick={onClick} />).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 
-  it("should call the function on button click ", () => {
-    wrapper = shallow(<SubmitButton {...props} />);
-    wrapper.find('.iptor-login-btn').simulate('click');
-    expect(props.onClick).toHaveBeenCalled();
+  it('should renders correctly with isSubmit true', () => {
+    const tree = renderer.create(<SubmitButton title="The Button" isSubmit onClick={onClick} />).toJSON();
+    expect(tree).toMatchSnapshot();
   });
-  
 });

@@ -1,607 +1,638 @@
-@import "global-variables.scss";
-@import "mixins.scss";
+@import 'global-variables.scss';
+@import 'mixins.scss';
 
 @media (max-width: 320px) {
-    .sliding-panel-container {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        z-index: 20;
+  .sliding-panel-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 20;
 
-        .sliding-panel {
-            width: 100%;
-            // position: relative;
+    .sliding-panel {
+      // width: 100%;
+      // position: relative;
 
-            .title-row {
-                padding-left: 35px;
+      .title-row {
+        padding-left: 35px;
 
-                .panel-close-icon {
-                    display: none;
-                }
-
-                .mob-steps-back {
-                    display: block;
-                    position: absolute;
-                    left: 0px;
-                    border:none;
-                    top: 13px;
-                    display:block;
-                    padding:10px;
-                    background-color:white;
-                    text-align:center;
-                }
-            }
-
-            .opportunity-step-circles {
-                position: absolute;
-                top: 17px;
-                right: 10px;
-                padding: 0;
-
-                .step-circles {
-                    .steps {
-                        width: 32px;
-                        height: 32px;
-                        padding-top: 8px;
-                        margin-right: 0px;
-                        position: relative;
-
-                        font: {
-                            size: $base-font-size;
-                        }
-
-                        &.active {
-                            font: {
-                                size: $base-font-size;
-                            }
-                        }
-
-                        &::after {
-                            width: 14px;
-                            left: 31px;
-                            top: 14px;
-                        }
-
-                        .num {
-                            position: absolute;
-                            top: 8px;
-                            left: 11px;
-                        }
-
-                        .checked {
-                            position: absolute;
-                            top: 5px;
-                            left: 6px;
-                        }
-                    }
-                }
-            }
-
-            .opportunity-forms {
-                margin-top: 16px;
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-
-                .steps-two-forms { 
-                    margin-bottom: 90px;
-                }
-
-                .all-opportunity-steps-container {
-                    height: calc(100vh - 210px);
-                }
-            }
-
-
+        .panel-close-icon {
+          display: none;
         }
+
+        .mob-steps-back {
+          position: absolute;
+          left: 0px;
+          border: none;
+          top: 13px;
+          display: block;
+          padding: 10px;
+          background-color: white;
+          text-align: center;
+        }
+      }
+
+      .opportunity-step-circles {
+        position: absolute;
+        top: -60px;
+        right: 10px;
+        padding: 0;
+
+        .step-circles {
+          .steps {
+            width: 32px;
+            height: 32px;
+            padding-top: 8px;
+            margin-right: 0px;
+            position: relative;
+
+            font: {
+              size: $base-font-size;
+            }
+
+            &.active {
+              font: {
+                size: $base-font-size;
+              }
+            }
+
+            &::after {
+              width: 14px;
+              left: 31px;
+              top: 14px;
+            }
+
+            .num {
+              position: absolute;
+              top: 8px;
+              left: 11px;
+            }
+
+            .checked {
+              position: absolute;
+              top: 5px;
+              left: 6px;
+            }
+          }
+        }
+      }
+
+      .opportunity-forms {
+        margin-top: 16px;
+        height: calc(100vh - 160px) !important;
+        top: 16px;
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+
+        .steps-two-forms {
+          margin-bottom: 90px;
+        }
+
+        .all-opportunity-steps-container {
+          height: calc(100vh - 210px);
+        }
+
+        &.form-top {
+          top: 16px;
+        }
+      }
+
+      .customer-forms {
+        margin-top: 16px;
+        height: calc(100vh - 160px) !important;
+
+        .all-opportunity-steps-container {
+          height: calc(100vh - 210px);
+        }
+      }
     }
-
-
+  }
 }
-
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 321px) and (max-width: 767.98px) {
+  .sliding-panel-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 20;
 
+    .sliding-panel {
+      top: 0;
+      background: #fff;
+      width: 100%;
+      z-index: 20;
+      height: calc(100vh - 60px);
 
-    .sliding-panel-container {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        z-index: 20;
+      // position: relative;
 
-        .sliding-panel {
-            width: 100%;
-            // position: relative;
+      .title-row {
+        font-size: 16px;
+        font-weight: 400;
+        padding-left: 48px;
+        padding-bottom: 16px;
 
-            .title-row {
-                padding-left: 40px;
-                font-size: 16px;
-                font-weight: 400;
-                padding-left: 48px;
-                padding-bottom: 16px;
+        .panel-close-icon {
+          display: none;
+        }
 
-                .panel-close-icon {
-                    display: none;
-                }
+        .opp-header-text {
+          font-size: $base-font-size !important;
+          font-weight: bold;
+          color: $tundora;
+        }
 
-                .opp-header-text {
-                    font-size: $base-font-size !important;
-                    font-weight: bold;
-                    color: $tundora;
-                }
+        .mob-steps-back {
+          position: absolute;
+          left: 0px;
+          border: none;
+          top: 13px;
+          display: block;
+          padding: 10px;
+          background-color: white;
+          text-align: center;
+        }
+      }
 
+      .opportunity-step-circles {
+        position: absolute;
+        top: -60px;
+        right: 10px;
+        padding: 0 !important;
 
-                .mob-steps-back {
-                    display: block;
-                    position: absolute;
-                    left: 0px;
-                    border:none;
-                    top: 13px;
-                    display:block;
-                    padding:10px;
-                    background-color:white;
-                    text-align:center;
-                }
+        .step-circles {
+          position: relative;
+
+          .steps {
+            width: 32px !important;
+            height: 32px !important;
+            padding-top: 8px !important;
+            margin-right: 10px !important;
+            position: relative !important;
+
+            font: {
+              size: $base-font-size !important;
             }
 
-            .opportunity-step-circles {
+            &.active {
+              font: {
+                size: $base-font-size !important;
+              }
+            }
+
+            &::after {
+              width: 11px !important;
+              left: 31px !important;
+              top: 15px !important;
+            }
+
+            .num {
+              position: absolute !important;
+              top: 4px !important;
+              left: 11px !important;
+            }
+
+            .checked {
+              position: absolute;
+              top: 5px;
+              left: 6px;
+            }
+
+            &.circle-stepone,
+            &.circle-steptwo,
+            &.circle-stepthree {
+              text-align: center;
+
+              img {
                 position: absolute;
-                top: 17px;
-                right: 10px;
-                padding: 0 !important;
-
-                .step-circles {
-                    position: relative;
-
-                    .steps {
-                        width: 32px !important;
-                        height: 32px !important;
-                        padding-top: 8px !important;
-                        margin-right: 10px !important;
-                        position: relative !important;
-
-                        font: {
-                            size: $base-font-size !important;
-                        }
-
-                        &.active {
-                            font: {
-                                size: $base-font-size !important;
-                            }
-
-                            span {
-                                img {}
-                            }
-                        }
-
-                        &::after {
-                            width: 11px !important;
-                            left: 31px !important;
-                            top: 15px !important;
-                        }
-
-                        .num {
-                            position: absolute !important;
-                            top: 4px !important;
-                            left: 11px !important;
-                        }
-
-                        .checked {
-                            position: absolute;
-                            top: 5px;
-                            left: 6px;
-                        }
-
-                        &.circle-stepone,
-                        &.circle-steptwo,
-                        &.circle-stepthree {
-                            text-align: center;
-
-                            img {
-                                position: absolute;
-                                width: 20px;
-                                height: auto;
-                                top: 6px;
-                                left: 6px;
-                            }
-                        }
-
-
-                        &.circle-stepone {
-                            position: absolute !important;
-                            top: 0;
-                            right: 81px;
-                        }
-
-                        &.circle-steptwo {
-                            position: absolute !important;
-                            top: 0;
-                            right: 38px;
-                        }
-
-                        &.circle-stepthree {
-                            position: absolute !important;
-                            top: 0;
-                            right: -4px;
-                        }
-                    }
-                }
+                width: 20px;
+                height: auto;
+                top: 6px;
+                left: 6px;
+              }
             }
 
-            .all-opportunity-steps-container {
-                background: $white;
-
-                .opportunity-type-container {
-
-                    .opptytype-list-item {
-                        li {
-                            background: $white;
-                        }
-                    }
-                }
-
-
-                .product-items-container {
-                    height: calc(100vh - 260px);
-                    overflow-y: auto;
-                }
+            &.circle-stepone {
+              position: absolute !important;
+              top: 0;
+              right: 81px;
             }
 
-            .opportunity-forms {
-                margin-top: 16px;
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-
-                .steps-two-forms { 
-                    margin-bottom: 90px;
-                }
-
-                .all-opportunity-steps-container {
-                    height: calc(100vh - 210px);
-                }
+            &.circle-steptwo {
+              position: absolute !important;
+              top: 0;
+              right: 38px;
             }
+
+            &.circle-stepthree {
+              position: absolute !important;
+              top: 0;
+              right: -4px;
+            }
+          }
         }
+      }
+
+      .all-opportunity-steps-container {
+        background: $white;
+        overflow-y: inherit;
+        height: 100vh;
+
+        .opportunity-type-container {
+          .opptytype-list-item {
+            li {
+              background: $white;
+            }
+          }
+        }
+
+        .opportunity-edit-form {
+          height: calc(100vh - 139px);
+          overflow-y: hidden;
+          margin-top: 0px;
+
+          .step-nextbtn-with-arrow {
+            bottom: 101px !important;
+          }
+        }
+
+        .step-nextbtn-with-arrow {
+          bottom: 101px !important;
+        }
+
+        .product-items-container {
+          height: calc(100vh - 260px);
+          overflow-y: auto;
+        }
+
+        .opportunity-edit-form {
+          height: 100%;
+        }
+      }
+
+      .opportunity-forms {
+        margin-top: 0px;
+        top: 16px;
+        height: calc(100vh - 240px) !important;
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+
+        .step-nextbtn-with-arrow {
+          bottom: 101px !important;
+        }
+
+        &.form-top {
+          top: 16px;
+        }
+
+        &.edit-form {
+          top: 0px;
+        }
+      }
+
+      .customer-forms {
+        margin-top: 16px;
+        height: calc(100vh - 160px) !important;
+
+        .all-opportunity-steps-container {
+          height: calc(100vh - 210px);
+        }
+      }
+
+      .alert {
+        top: 64px;
+      }
+    }
+    &.editopp-error-msg {
+      .alert {
+        top: 0;
+      }
+    }
+  }
+
+  .opportunity-forms {
+    top: 16px;
+    .steps-one-forms {
+      padding-bottom: 10px;
     }
 
-    .opportunity-forms {
-        .steps-one-forms {
-            padding-bottom: 110px;
-        }
-
-        .steps-two-forms { 
-            margin-bottom: 90px;
-        }
-
-        .stepsone-nxtbtn {
-            position: fixed;
-            bottom: -20px;
-            left: 0;
-            right: 0;
-            background: $white;
-            padding: 24px;
-        }
+    .stepsone-nxtbtn {
+      position: fixed;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      background: $white;
+      padding: 24px;
     }
+  }
+
+  .radiobtn-collection {
+    margin-top: 24px;
+    .opportunity-type-container {
+      height: calc(100vh - 280px);
+    }
+  }
 }
 
-@media (max-width: 767.98px) and (orientation:landscape) {
-    .sliding-panel-container {
-        position: absolute;
-        top: 0;
+@media (max-width: 767.98px) and (orientation: landscape) {
+  .sliding-panel-container {
+    position: absolute;
+    top: 0;
 
-        .sliding-panel {
-            width: 100%;
-            // position: relative;
+    .sliding-panel {
+      width: 100%;
+      // position: relative;
 
-            .title-row {
-                .panel-close-icon {
-                    display: none;
-                }
-            }
-
-            .opportunity-step-circles {
-                position: absolute;
-                top: 17px;
-                right: 10px;
-                padding: 0;
-
-                .step-circles {
-                    .steps {
-                        width: 32px;
-                        height: 32px;
-                        padding-top: 8px;
-                        margin-right: 10px;
-                        position: relative;
-
-                        font: {
-                            size: $base-font-size;
-                        }
-
-                        &.active {
-                            font: {
-                                size: $base-font-size;
-                            }
-                        }
-
-                        &::after {
-                            width: 14px;
-                            left: 31px;
-                            top: 14px;
-                        }
-
-                        .num {
-                            position: absolute;
-                            top: 8px;
-                            left: 11px;
-                        }
-
-                        .checked {
-                            position: absolute;
-                            top: 5px;
-                            left: 6px;
-                        }
-                    }
-                }
-            }
-
-            .opportunity-forms {
-                margin-top: 16px;
-
-                .steps-two-forms { 
-                    margin-bottom: 90px;
-                }
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-            }
-
-
+      .title-row {
+        .panel-close-icon {
+          display: none;
         }
-    }
+      }
 
+      .opportunity-step-circles {
+        position: absolute;
+        top: -60px;
+        right: 10px;
+        padding: 0;
+
+        .step-circles {
+          .steps {
+            width: 32px;
+            height: 32px;
+            padding-top: 8px;
+            margin-right: 10px;
+            position: relative;
+
+            font: {
+              size: $base-font-size;
+            }
+
+            &.active {
+              font: {
+                size: $base-font-size;
+              }
+            }
+
+            &::after {
+              width: 14px;
+              left: 31px;
+              top: 14px;
+            }
+
+            .num {
+              position: absolute;
+              top: 8px;
+              left: 11px;
+            }
+
+            .checked {
+              position: absolute;
+              top: 5px;
+              left: 6px;
+            }
+          }
+        }
+      }
+
+      .opportunity-forms {
+        top: 16px;
+        margin-top: 16px;
+
+        .steps-two-forms {
+          margin-bottom: 90px;
+        }
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .sliding-panel-container {
-        .sliding-panel {
-            width: 100%;
-            // position: relative;
+  .sliding-panel-container {
+    .sliding-panel {
+      // width: 100%;
+      // position: relative;
 
-            .title-row {
-                .panel-close-icon {
-                    display: none;
-                }
+      .opportunity-step-circles {
+        position: absolute;
+        top: 17px;
+        right: 10px;
+        padding: 0;
+
+        .step-circles {
+          .steps {
+            width: 32px;
+            height: 32px;
+            padding-top: 8px;
+            margin-right: 10px;
+            position: relative;
+
+            font: {
+              size: $base-font-size;
             }
 
-            .opportunity-step-circles {
-                position: absolute;
-                top: 17px;
-                right: 10px;
-                padding: 0;
-
-                .step-circles {
-                    .steps {
-                        width: 32px;
-                        height: 32px;
-                        padding-top: 8px;
-                        margin-right: 10px;
-                        position: relative;
-
-                        font: {
-                            size: $base-font-size;
-                        }
-
-                        &.active {
-                            font: {
-                                size: $base-font-size;
-                            }
-                        }
-
-                        &::after {
-                            width: 14px;
-                            left: 31px;
-                            top: 14px;
-                        }
-
-                        .num {
-                            position: absolute;
-                            top: 8px;
-                            left: 11px;
-                        }
-
-                        .checked {
-                            position: absolute;
-                            top: 5px;
-                            left: 6px;
-                        }
-                    }
-                }
+            &.active {
+              font: {
+                size: $base-font-size;
+              }
             }
 
-            .opportunity-forms {
-                margin-top: 16px;
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-
-                .steps-two-forms { 
-                    margin-bottom: 90px;
-                }
-
-                .all-opportunity-steps-container {
-                    height: calc(100vh - 210px);
-                }
+            &::after {
+              width: 14px;
+              left: 31px;
+              top: 14px;
             }
 
+            .num {
+              position: absolute;
+              top: 8px;
+              left: 11px;
+            }
 
+            .checked {
+              position: absolute;
+              top: 5px;
+              left: 6px;
+            }
+          }
         }
+      }
+
+      .opportunity-forms {
+        top: 16px;
+        margin-top: 16px;
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+
+        .steps-two-forms {
+          margin-bottom: 90px;
+        }
+
+        .all-opportunity-steps-container {
+          height: calc(100vh - 210px);
+        }
+      }
     }
+  }
 }
 
-@media (max-width: 991.98px) and (orientation:landscape) {
-    .sliding-panel-container {
-        .sliding-panel {
-            width: 100%;
-            // position: relative;
+@media (max-width: 991.98px) and (orientation: landscape) {
+  .sliding-panel-container {
+    .sliding-panel {
+      // width: 100%;
+      // position: relative;
 
-            .title-row {
-                .panel-close-icon {
-                    display: none;
-                }
+      .opportunity-step-circles {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        left: 0;
+        padding: 0;
+
+        .step-circles {
+          .steps {
+            width: 32px;
+            height: 32px;
+            padding-top: 8px;
+            margin-right: 10px;
+            position: relative;
+
+            font: {
+              size: $base-font-size;
             }
 
-            .opportunity-step-circles {
-                position: absolute;
-                top: 17px;
-                right: 10px;
-                padding: 0;
-
-                .step-circles {
-                    .steps {
-                        width: 32px;
-                        height: 32px;
-                        padding-top: 8px;
-                        margin-right: 10px;
-                        position: relative;
-
-                        font: {
-                            size: $base-font-size;
-                        }
-
-                        &.active {
-                            font: {
-                                size: $base-font-size;
-                            }
-                        }
-
-                        &::after {
-                            width: 14px;
-                            left: 31px;
-                            top: 14px;
-                        }
-
-                        .num {
-                            position: absolute;
-                            top: 8px;
-                            left: 11px;
-                        }
-
-                        .checked {
-                            position: absolute;
-                            top: 5px;
-                            left: 6px;
-                        }
-                    }
-                }
+            &.active {
+              font: {
+                size: $base-font-size;
+              }
             }
 
-            .opportunity-forms {
-                margin-top: 16px;
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-
-                .all-opportunity-steps-container {
-                    height: calc(100vh - 210px);
-                }
+            &::after {
+              width: 14px;
+              left: 31px;
+              top: 14px;
             }
 
+            .num {
+              position: absolute;
+              top: 8px;
+              left: 18px;
+            }
 
+            .checked {
+              position: absolute;
+              top: 5px;
+              left: 6px;
+            }
+          }
         }
+      }
+
+      .opportunity-forms {
+        top: 16px;
+        margin-top: 16px;
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+
+        .all-opportunity-steps-container {
+          height: calc(100vh - 210px);
+        }
+      }
     }
+  }
 }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .sliding-panel-container {
-        .sliding-panel {
-            width: 100%;
-            // position: relative;
+  .sliding-panel-container {
+    .sliding-panel {
+      // width: 100%;
+      // position: relative;
 
-            .title-row {
-                padding-left: 40px;
+      .title-row {
+        padding-left: 24px;
+      }
 
-                .panel-close-icon {
-                    display: none;
-                }
+      .opportunity-step-circles {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        left: 0;
+        padding: 0;
+        text-align: left;
+
+        .step-circles {
+          .steps {
+            width: 32px;
+            height: 32px;
+            padding-top: 8px;
+            margin-right: 10px;
+            position: relative;
+
+            font: {
+              size: $base-font-size;
             }
 
-            .opportunity-step-circles {
-                position: absolute;
-                top: 17px;
-                right: 10px;
-                padding: 0;
-
-                .step-circles {
-                    .steps {
-                        width: 32px;
-                        height: 32px;
-                        padding-top: 8px;
-                        margin-right: 10px;
-                        position: relative;
-
-                        font: {
-                            size: $base-font-size;
-                        }
-
-                        &.active {
-                            font: {
-                                size: $base-font-size;
-                            }
-                        }
-
-                        &::after {
-                            width: 14px;
-                            left: 31px;
-                            top: 14px;
-                        }
-
-                        .num {
-                            position: absolute;
-                            top: 8px;
-                            left: 11px;
-                        }
-
-                        .checked {
-                            position: absolute;
-                            top: 5px;
-                            left: 6px;
-                        }
-                    }
-                }
+            &.active {
+              font: {
+                size: $base-font-size;
+              }
             }
 
-            .opportunity-forms {
-                margin-top: 16px;
-
-                .stepstwo-nxtbtn,
-                .stepthree-nxtbtn {
-                    display: none;
-                }
-
-                .all-opportunity-steps-container {
-                    height: calc(100vh - 210px);
-                }
+            &::after {
+              width: 14px;
+              left: 31px;
+              top: 14px;
             }
 
+            .num {
+              position: absolute;
+              top: 8px;
+              left: 18px;
+            }
 
+            .checked {
+              position: absolute;
+              top: 5px;
+              left: 6px;
+            }
+          }
         }
+      }
+
+      .opportunity-forms {
+        top: 16px;
+        margin-top: 0px;
+
+        .stepstwo-nxtbtn,
+        .stepthree-nxtbtn {
+          display: none;
+        }
+
+        .all-opportunity-steps-container {
+          height: calc(100vh - 210px);
+        }
+      }
     }
+  }
 }
 
 // Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {}

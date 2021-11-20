@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Login Shared] LeftColmData should renders correctly 1`] = `
+<div
+  className="login-lft-cont-container"
+>
+  <img
+    alt="Iptor"
+    className="login-cont-logo"
+    src="iptor-logo-white.svg"
+    title="Iptor"
+  />
+  <h1
+    className="para"
+  >
+    A milestone in the Iptor transformation journey
+  </h1>
+  <p
+    className="version-details"
+  >
+    Version 11 is the key platform for distribution and publishing businesses to turn digital disruption into digital opportunity.
+  </p>
+</div>
+`;

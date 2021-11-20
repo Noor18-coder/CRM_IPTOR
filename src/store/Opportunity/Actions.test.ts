@@ -1,87 +1,132 @@
-//import configureStore from 'redux-mock-store';
-import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-//import * as actions from './Type';
-import { addOpportunity } from './Actions';
-  import { AnyAction } from 'redux';
-// import fetch from 'node-fetch';
+import * as types from './Types';
+import * as actions from './Actions';
 
-import {OpportunityTypes , OpportunityActions, OpportunityState, Opportunity , OpportunityAdd } from './Types';
+import StoreMock, { OpportunitiesStoreType } from '../../mocks/Store.mock';
+import { OpportunityMock } from '../../mocks/Opportunity.mocks';
 
-//jest.mock('node-fetch', () => jest.fn());
+let store: OpportunitiesStoreType;
 
-//const initialState = {};
-const state:OpportunityState =  {
-    opportunities:[]
-};
-const middlewares = [thunk];
-// const mockStore = configureStore<OpportunityState, any, AnyAction >(middlewares);
-// const store = mockStore(State);
+describe('Opportunity Actions', () => {
+  beforeAll(() => {
+    store = StoreMock.createOpportunitiesStore();
+  });
 
-import configureStore, { MockStore } from "redux-mock-store";
-const mockStore = configureStore(middlewares);
-const store = mockStore(state); 
+  afterEach(() => {
+    store.clearActions();
+  });
 
-describe('action creators', () => {
-  describe('#loadCurrentUser', () => {
-    afterEach(() => {
-      store.clearActions();
-    });
-    it('load current user success', async () => {
-    //   const userMocked = { userId: 1 };
-    //   (fetch as jest.MockedFunction<any>).mockResolvedValueOnce({
-    //     ok: true,
-    //     json: jest.fn().mockResolvedValueOnce(userMocked)
-    //   });
+  afterAll(() => {
+    store = {} as OpportunitiesStoreType;
+  });
 
-    const oppty : Opportunity = {
-        id: '1234567',
-        company: 'Serum',
-        dealSize: '$32K',
-        status: 'Closed-Lost'
-    }
+  it('should create an action to SAVE_OPPTY_REPORT_PARAMS', () => {
+    const opportunities = OpportunityMock.getOpportunityListItem(1);
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_LIST_OPPTY,
+        opportunities,
+      },
+    ];
+    store.dispatch(actions.saveOpptyList(opportunities));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
 
-    
-      await store.dispatch(addOpportunity(oppty));
-     // expect(fetch).toBeCalledWith('api/currentuser');
+  it('should create an action to SAVE_OPPTY_FILTERS', () => {
+    const filter = OpportunityMock.getOpportunityFilterItem(1);
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_OPPTY_FILTERS,
+        filter,
+      },
+    ];
+    store.dispatch(actions.saveOpptyFilters(filter));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
 
-      expect(store.getActions()).toEqual([
-        { type: OpportunityTypes.ADD_OPPORTUNITY, opportunity:  oppty}
-      ]);
-    });
+  it('should create an action to SAVE_OPPTY_SEL_FILTERS', () => {
+    const selected = OpportunityMock.getSelectOptionMethod();
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_OPPTY_SEL_FILTERS,
+        selected,
+      },
+    ];
+    store.dispatch(actions.saveOpptySelFilters(selected));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
 
+  it('should create an action to SAVE_OPPTY_SORT_ORDER', () => {
+    const sortOrder = OpportunityMock.getSortModel(1);
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_OPPTY_SORT_ORDER,
+        sortOrder,
+      },
+    ];
+    store.dispatch(actions.saveOpptySortOrder(sortOrder));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
+
+  it('should create an action to SAVE_OPPTY_SEL_HANDLER', () => {
+    const handler = 'handler';
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_OPPTY_SEL_HANDLER,
+        handler,
+      },
+    ];
+    store.dispatch(actions.saveOpptySelHandler(handler));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
+
+  it('should create an action to SAVE_OPPTY_CHANGE_HANDLER', () => {
+    const handlerChange = true;
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_OPPTY_CHANGE_HANDLER,
+        handlerChange,
+      },
+    ];
+    store.dispatch(actions.saveOpptyHandlerChange(handlerChange));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
+
+  it('should create an action to SAVE_OPPTY_SEARCH_TEXT', () => {
+    const searchText = 'searchText';
+    const expectedAction = [
+      {
+        type: types.OpportunityTypes.SAVE_OPPTY_SEARCH_TEXT,
+        searchText,
+      },
+    ];
+    store.dispatch(actions.saveOpptySearchText(searchText));
+    expect(store.getActions()).toEqual(expectedAction);
   });
 });
 
-/*
-
-it('load current user failed', async () => {
-    (fetch as jest.MockedFunction<any>).mockResolvedValueOnce({ ok: false });
-    await store.dispatch(actions.loadCurrentUser());
-    expect(fetch).toBeCalledWith('api/currentuser');
-    expect(store.getActions()).toEqual([
-      { type: actions.LOAD_CURRENT_USER_REQUEST },
-      {
-        type: actions.LOAD_CURRENT_USER_FAILURE,
-        payload: {
-          type: null,
-          message: 'error'
-        }
-      }
-    ]);
+describe('Opportunity Thunk Actions', () => {
+  beforeAll(() => {
+    store = StoreMock.createOpportunitiesStore();
   });
 
-  it('load current user failed when fetch error', async () => {
-    (fetch as jest.MockedFunction<any>).mockRejectedValueOnce(new Error('fetch error'));
-    await store.dispatch(actions.loadCurrentUser());
-    expect(fetch).toBeCalledWith('api/currentuser');
-    expect(store.getActions()).toEqual([
-      { type: actions.LOAD_CURRENT_USER_REQUEST },
+  afterEach(() => {
+    store.clearActions();
+  });
+
+  afterAll(() => {
+    store = {} as OpportunitiesStoreType;
+  });
+
+  it('should save opportunity params', async () => {
+    const filter = OpportunityMock.getOpportunityFilterItem(1);
+    const expectedAction = [
       {
-        type: actions.LOAD_CURRENT_USER_FAILURE,
-        payload: {
-          type: 'Error',
-          message: 'fetch error'
-        }
-      }
-    ]);
-  });*/
+        type: types.OpportunityTypes.SAVE_OPPTY_FILTERS,
+        filter,
+      },
+    ];
+
+    await store.dispatch<any>(actions.saveOpportunityFilters(filter));
+    expect(store.getActions()).toEqual(expectedAction);
+  });
+});

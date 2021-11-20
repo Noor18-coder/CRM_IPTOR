@@ -2,6 +2,7 @@
  * Opportunity Actions and Middleware definition
  */
 import { ActionCreator, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { SelectedFilters, CustomerFilters } from '../../helpers/Api/models';
 import { ReportTypes, SaveOpptyReportsAction, SaveCustReportsAction } from './Types';
 
@@ -20,14 +21,17 @@ export const saveCustReportParams: ActionCreator<SaveCustReportsAction> = (filte
   };
 };
 
-export const saveOpportunityParams = (reports: SelectedFilters) => {
+export const saveOpportunityParams: ActionCreator<
+  ThunkAction<Promise<SaveOpptyReportsAction>, SelectedFilters, SelectedFilters, SaveOpptyReportsAction>
+> = (reports: SelectedFilters) => {
   return async (dispatch: Dispatch) => {
     return dispatch(saveOpptyReportParams(reports));
   };
 };
 
-export const saveCustomerParams = (reports: CustomerFilters) => {
-  return async (dispatch: Dispatch) => {
-    return dispatch(saveCustReportParams(reports));
+export const saveCustomerParams: ActionCreator<ThunkAction<Promise<SaveCustReportsAction>, CustomerFilters, CustomerFilters, SaveCustReportsAction>> =
+  (reports: CustomerFilters) => {
+    return async (dispatch: Dispatch) => {
+      return dispatch(saveCustReportParams(reports));
+    };
   };
-};

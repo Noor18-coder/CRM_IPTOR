@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] AddContact should renders correctly 1`] = `
+<div
+  className="add-contact-msg"
+>
+  No Contacts Found
+</div>
+`;

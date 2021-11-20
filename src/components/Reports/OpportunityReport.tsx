@@ -5,8 +5,9 @@ import { AppState } from '../../store/store';
 import * as models from '../../helpers/Api/models';
 import { getCurrPrevNextYearQuarters } from '../../helpers/utilities/lib';
 import { saveOpportunityParams } from '../../store/Reports/Actions';
+import i18n from '../../i18n';
 
-export const OpportunityReport = () => {
+export const OpportunityReport = (): JSX.Element => {
   const state: AppState = useSelector((opptState: AppState) => opptState);
   const StageInfoDetails = state.enviornmentConfigs.crmOpportunityStage;
   const OpportunityTypeDetails = state.enviornmentConfigs.crmOpportunityTypes;
@@ -17,10 +18,10 @@ export const OpportunityReport = () => {
     <>
       <div className="container-fluid">
         <div className="row">
-          <CardList title="Stages" StageInfoItems={StageInfoDetails} />
-          <CardList title="Type" OpportunityTypeItems={OpportunityTypeDetails} />
-          <CardList title="Forecast" ForeCastItems={foreCastDetails} />
-          <CardList title="Quarter" QuarterItems={QuarterDetails} />
+          <CardList title={`${i18n.t('stages')}`} StageInfoItems={StageInfoDetails} />
+          <CardList title={`${i18n.t('type')}`} OpportunityTypeItems={OpportunityTypeDetails} />
+          <CardList title={`${i18n.t('forecast')}`} ForeCastItems={foreCastDetails} />
+          <CardList title={`${i18n.t('quarter')}`} QuarterItems={QuarterDetails} />
         </div>
       </div>
     </>
@@ -223,7 +224,7 @@ export const CardList: React.FC<Props> = ({ title, StageInfoItems, OpportunityTy
       setAllOpptySelected(false);
       if (allOpptySelected) {
         const Types: string[] = OpportunityTypeItems.map((obj: models.OpportunityType) => {
-          return obj.description;
+          return obj.oppRecordType;
         });
         const filteredTypes = Types.filter((val: string) => {
           return val !== value;
@@ -314,7 +315,7 @@ export const CardList: React.FC<Props> = ({ title, StageInfoItems, OpportunityTy
                   role="presentation"
                   onKeyDown={() => AllItemsClicked('allStages')}
                   className={allStageBtnClass}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {StageInfoItems
@@ -334,26 +335,26 @@ export const CardList: React.FC<Props> = ({ title, StageInfoItems, OpportunityTy
                 : null}
               {OpportunityTypeItems && (
                 <li role="presentation" className={allOpptyBtnClass} onClick={() => AllItemsClicked('allOppty')}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {OpportunityTypeItems
                 ? OpportunityTypeItems.map((obj: models.OpportunityType) => {
                     return (
                       <li
-                        onClick={(e) => ItemClicked(obj.description, e.currentTarget, 'opportunity')}
+                        onClick={(e) => ItemClicked(obj.oppRecordType, e.currentTarget, 'opportunity')}
                         role="presentation"
-                        onKeyDown={(e) => ItemClicked(obj.description, e.currentTarget, 'opportunity')}
+                        onKeyDown={(e) => ItemClicked(obj.oppRecordType, e.currentTarget, 'opportunity')}
                         key={obj.description}
                         className={`oppty ${activeClass}`}>
-                        {obj.description}
+                        {obj.oppRecordType}
                       </li>
                     );
                   })
                 : null}
               {ForeCastItems && (
                 <li role="presentation" className={allForecastBtnClass} onClick={() => AllItemsClicked('allForecast')}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {ForeCastItems
@@ -372,7 +373,7 @@ export const CardList: React.FC<Props> = ({ title, StageInfoItems, OpportunityTy
                 : null}
               {QuarterItems && (
                 <li role="presentation" className={allQuaterBtnClass} onClick={() => AllItemsClicked('allQuater')}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {QuarterItems

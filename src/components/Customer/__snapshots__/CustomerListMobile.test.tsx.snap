@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Customer] BusinessPartnerListMobile should renders correctly 1`] = `
+<section
+  className="mobile-cardview-list"
+>
+  <div
+    className="mobile-text"
+  >
+    No Records Found
+  </div>
+</section>
+`;

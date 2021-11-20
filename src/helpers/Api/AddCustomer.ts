@@ -19,14 +19,14 @@ export default class AddCustomerApi {
    * */
   static async add(businessPartner: AddBusinessPartnerDefaultParams): Promise<AddBusinessPartnerResponse> {
     const requestData = new ApiRequest<AddBusinessPartnerDefaultParams>(this.apiMethod, businessPartner);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post<AddBusinessPartnerResponse>('/api/service', requestData);
+    return get<AxiosResponse<AddBusinessPartnerResponse>, 'data'>(response, 'data');
   }
 
   static async update(businessPartner: AddBusinessPartnerDefaultParams): Promise<AddBusinessPartnerResponse> {
     const requestData = new ApiRequest<AddBusinessPartnerDefaultParams>(this.updateApiMethod, businessPartner);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post<AddBusinessPartnerResponse>('/api/service', requestData);
+    return get<AxiosResponse<AddBusinessPartnerResponse>, 'data'>(response, 'data');
   }
 
   static async addAttributes(
@@ -46,7 +46,7 @@ export default class AddCustomerApi {
       params.attributeValueD = attributeValue;
     }
     const requestData = new ApiRequest<SaveUserDefinedFieldParam>(this.saveAttributeValueMethod, params);
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
-    return get(response, 'data');
+    const response = await axios.post<AddBusinessPartnerResponse>('/api/service', requestData);
+    return get<AxiosResponse<AddBusinessPartnerResponse>, 'data'>(response, 'data');
   }
 }

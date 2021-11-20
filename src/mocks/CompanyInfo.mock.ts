@@ -25,4 +25,11 @@ export class CompanyInfoMock {
       selected: faker.random.boolean(),
     });
   }
+
+  static getCompaniesConstVal(): apiModels.CompanyInfoItem[] {
+    return [
+      { companyCode: 'vig1t13', companyShortName: 'Doyle - Bayer', name: 'Steuber - Abernathy', selected: false },
+      { companyCode: 'vig1t14', companyShortName: 'Doyle - Bayer', name: 'Steuber - Abernathy', selected: true },
+    ];
+  }
 }

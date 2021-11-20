@@ -14,8 +14,7 @@ const Container: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
 
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
 
   const closeDrawerAndRefresh = () => {
     document.body.classList.remove('body-scroll-hidden');
@@ -25,7 +24,7 @@ const Container: React.FC = () => {
   return (
     <>
       {state.addOpportunity.loader ? <Loader /> : null}
-      {isMobile || isTablet ? (
+      {isMobile ? (
         state.opportuntyDetails.editOportunity.open ? (
           state.opportuntyDetails.editOportunity.action === 'edit' ? (
             <EditOpportunity />

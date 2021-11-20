@@ -11,9 +11,8 @@
   }
 
   .approver-search-container {
-      margin-top: 22px;
-      position: relative;
-  
+    margin-top: 22px;
+    position: relative;
 
     .approver-name-label {
       line-height: 21px;
@@ -30,11 +29,10 @@
       display: block;
       margin-top: 12px;
       margin-bottom: 0;
-      font-family: Open Sans;
+      font-family: 'Open Sans', sans-serif;
       font-style: normal;
       font-weight: $font-weight-semibold;
       font-size: $base-font-size + 4;
-      line-height: 25px;
     }
 
     .edit-icon {

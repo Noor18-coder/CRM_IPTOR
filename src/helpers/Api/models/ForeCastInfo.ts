@@ -3,6 +3,10 @@ export interface ForeCastInfo {
   description: string;
 }
 
-export interface ForeCastInfoResponse {
+export interface ForeCastInfoResponseData {
   items: ForeCastInfo[];
+}
+
+export interface ForeCastInfoResponse {
+  data: ForeCastInfoResponseData;
 }

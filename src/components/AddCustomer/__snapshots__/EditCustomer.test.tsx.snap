@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AddCustomer] EditCustomer should renders correctly 1`] = `
+<div
+  className="sliding-panel-container"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Customer Details
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="customer-forms"
+      >
+        <p
+          className="add-subtitle edit-subtitle"
+        >
+          Customer Information
+        </p>
+        <div
+          className="edit-customer-info"
+        >
+          <div
+            className="steps-one-forms"
+          >
+            <form
+              onSubmit={[Function]}
+            >
+              <div
+                className="step-nextbtn-with-arrow stepsone-nxtbtn"
+              >
+                <button
+                  className="customer-btn"
+                  onClick={[Function]}
+                  type="submit"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

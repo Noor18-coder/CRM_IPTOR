@@ -15,7 +15,6 @@ import { Reason } from '../../helpers/Api/models';
 const DeactivateOpportunity: React.FC = () => {
   const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
-  const [reasonsToDeactivateOppty, setReasons] = React.useState<models.Reason[]>();
   const [selectedReason, setSelecteReason] = React.useState<string>('');
 
   const onNextButtonClick = () => {
@@ -30,9 +29,7 @@ const DeactivateOpportunity: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (state.enviornmentConfigs.reasons.length) {
-      setReasons(state.enviornmentConfigs.reasons);
-    } else {
+    if (state.enviornmentConfigs.reasons.length === 0) {
       dispatch(getReasonCodes());
     }
   }, []);
@@ -45,8 +42,8 @@ const DeactivateOpportunity: React.FC = () => {
             <p className="title">Please select any one reason</p>
 
             <div className="opportunity-type-container">
-              {reasonsToDeactivateOppty?.length ? (
-                <ReasonsList list={reasonsToDeactivateOppty} onSelect={onSelect} selected={selectedReason} />
+              {state.enviornmentConfigs.reasons.length ? (
+                <ReasonsList list={state.enviornmentConfigs.reasons} onSelect={onSelect} selected={selectedReason} />
               ) : (
                 <div>No Items Found</div>
               )}

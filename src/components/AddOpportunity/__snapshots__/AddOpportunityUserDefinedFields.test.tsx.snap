@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AddOpportunity] AddOpportunityUserDefinedFields should renders correctly 1`] = `
+Array [
+  <div
+    className="opportunity-step-circles"
+  >
+    <ul
+      className="list-inline step-circles"
+    >
+      <li
+        className="list-inline-item circle-stepone steps"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          1
+        </span>
+      </li>
+      <li
+        className="list-inline-item circle-steptwo steps active"
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          2
+        </span>
+      </li>
+      <li
+        className="list-inline-item circle-stepthree steps"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <span
+          className="num"
+        >
+          3
+        </span>
+      </li>
+    </ul>
+  </div>,
+  <div
+    className="opportunity-forms form-top"
+  >
+    <p
+      className="stepone-title"
+    >
+      Opportunity Details
+    </p>
+    <div
+      className=""
+    >
+      <div
+        className="steps-two-forms"
+      >
+        <form>
+          <div
+            className="form-group oppty-form-elements"
+          >
+            <label
+              className="opp-label"
+              htmlFor="currency"
+            >
+              Opportunity Currency
+            </label>
+            <select
+              className="form-control iptor-dd"
+              id="currency"
+              onChange={[Function]}
+            />
+            <span
+              className="form-hints"
+            />
+          </div>
+          <div
+            className="form-group oppty-form-elements"
+          >
+            <label
+              className="opp-label"
+              htmlFor="estimatedValue"
+            >
+              Total Deal Price
+            </label>
+            <input
+              className="form-control"
+              id="estimatedValue"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Enter Total Deal Price"
+              type="text"
+            />
+            <span
+              className="form-hints"
+            />
+          </div>
+          <div
+            className="form-group oppty-form-elements"
+          >
+            <label
+              className="opp-label"
+              htmlFor="endDate"
+            >
+              Close Date
+            </label>
+            <div
+              className="react-datepicker-wrapper datePicker"
+            >
+              <div
+                className="react-datepicker__input-container"
+              >
+                <input
+                  className="form-control placeholder"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Enter Date"
+                  readOnly={false}
+                  tabIndex={0}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <span
+              className="form-hints"
+            />
+          </div>
+          <div
+            className="form-group oppty-form-elements"
+          >
+            <label
+              className="opp-label"
+              htmlFor="area"
+            >
+              Area
+            </label>
+            <select
+              className="form-control iptor-dd"
+              id="area"
+              onChange={[Function]}
+            >
+              <option
+                disabled={true}
+                selected={true}
+              >
+                Select Area
+              </option>
+            </select>
+            <span
+              className="form-hints"
+            />
+          </div>
+          <div
+            className="form-group oppty-form-elements"
+          >
+            <label
+              className="opp-label"
+              htmlFor="forecastCategory"
+            >
+              Forecast Category
+            </label>
+            <select
+              className="form-control iptor-dd"
+              id="forecastCategory"
+              onChange={[Function]}
+            >
+              <option
+                disabled={true}
+                selected={true}
+              >
+                Select Forecast Category
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn "
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      NEXT
+      <span
+        className="right-whit-arrow"
+      >
+        <img
+          alt="Next"
+          src="chevron-right-white.svg"
+        />
+      </span>
+    </button>
+  </div>,
+]
+`;

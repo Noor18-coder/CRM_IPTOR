@@ -5,6 +5,10 @@ export interface StageInfo {
   probability: number;
 }
 
-export interface StageInfoResponse {
+export interface StageInfoResponseData {
   items: StageInfo[];
+}
+
+export interface StageInfoResponse {
+  data: StageInfoResponseData;
 }

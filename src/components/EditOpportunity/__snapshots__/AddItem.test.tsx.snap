@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] AddItem should renders correctly 1`] = `
+<div
+  className="opportunity-edit-form"
+>
+  <div
+    className="opportunity-forms thirdstep edit-form"
+  >
+    <div
+      className="steps-three-forms"
+    >
+      <div
+        className="radiobtn-collection oppty-form-elements"
+      >
+        <p
+          className="title"
+        >
+          Select Product and Modules
+        </p>
+        <div
+          className="selected-products"
+        >
+          <div
+            className="thirdstep-tag-hscroll"
+          />
+        </div>
+        <div
+          className="form-group oppty-form-elements"
+        >
+          <input
+            className="form-control search-ipbox"
+            onChange={[Function]}
+            onKeyPress={[Function]}
+            placeholder="Search Item"
+            type="text"
+          />
+        </div>
+        <div
+          className="product-items-container"
+        >
+          <ul
+            className="opptytype-list-item"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn done"
+      onClick={[Function]}
+      type="button"
+    >
+      Done
+    </button>
+  </div>
+</div>
+`;

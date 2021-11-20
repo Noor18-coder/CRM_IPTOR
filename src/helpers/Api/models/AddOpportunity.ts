@@ -17,7 +17,10 @@ export interface AddOpportunityDefaultParams {
   startDate?: string;
   desc?: string;
   customer?: string;
+  customerName?: string;
   activ?: boolean;
+  userId?: string;
+  forecastCategory?: string;
 }
 
 export interface AddOpportunityResponse {
@@ -29,11 +32,11 @@ export interface AddOpportunityResponse {
 }
 
 export interface UpdateOpportunityResponse {
-  approver?: string;
-  approvalStatus?: string;
-  minimumStage?: string;
-  approvalRequired?: boolean;
-  defaultApprover?: string;
+  data: {
+    approver?: string;
+    approvalStatus?: string;
+    minimumStage?: string;
+  };
   error?: string;
   messages?: ErrorMessage[];
 }
@@ -86,6 +89,7 @@ export interface AddOpportunityField {
   reduxKey?: string;
   asyncSearch?: boolean;
   dateInput?: boolean;
+  disabled?: boolean;
 }
 
 export interface DeleteCustomerContactParams {
@@ -98,4 +102,11 @@ export interface DeleteOpportunityItemParams {
   itemId: string;
   parentFile?: string;
   parentId: string;
+}
+
+export interface AddOpportunityAddItemsActionParams {
+  opportunityId: string;
+  item: string;
+  quantity: number;
+  unit: string;
 }

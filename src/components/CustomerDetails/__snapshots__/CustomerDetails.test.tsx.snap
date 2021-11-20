@@ -1,0 +1,498 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[CustomerDetails] CustomerDetails should renders correctly 1`] = `
+Array [
+  <nav
+    className="site-navbar navbar navbar-default bg-black"
+    role="navigation"
+  >
+    <div
+      className="navbar-container container-fluid"
+    >
+      <div
+        className="navbar-header"
+      >
+        <div
+          className="navbar-brand navbar-brand-center navbar-sec-logo"
+        >
+          <img
+            alt="..."
+            className="navbar-brand-logo"
+            src="iptor_icon.svg"
+            title="iptor"
+          />
+        </div>
+        <div
+          className="navbar-brand navbar-brand-center navbar-sec-flag"
+        >
+          <span
+            className="navbar-brand-text hidden-xs-down"
+          >
+             
+            
+          </span>
+        </div>
+      </div>
+      <ul
+        className="nav navbar-toolbar navbar-right navbar-toolbar-right"
+      >
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/"
+            onClick={[Function]}
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="dashboard_icon.svg"
+              />
+              <i>
+                Dashboard
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/opportunities"
+            onClick={[Function]}
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-oppty-icon.svg"
+              />
+              <i>
+                Opportunities
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item active"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/customers"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-customers-active-icon.svg"
+              />
+              <i>
+                Customers
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar"
+            data-animation="scale-up"
+            href="/reports"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-report-icon.svg"
+              />
+              <i>
+                Reports
+              </i>
+            </span>
+          </a>
+        </li>
+        <li
+          className="nav-item"
+        >
+          <a
+            aria-expanded="false"
+            className="nav-link navbar-avatar header-notification"
+            data-animation="scale-up"
+            href="/notifications"
+            role="button"
+          >
+            <span
+              className="avatar avatar-online"
+            >
+              <img
+                alt="..."
+                src="nav-notifications-icon.svg"
+              />
+              <i>
+                Notifications
+              </i>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <ul
+        className="nav navbar-toolbar"
+      >
+        <button
+          className="logout"
+          onClick={[Function]}
+          type="button"
+        >
+          
+        </button>
+      </ul>
+    </div>
+  </nav>,
+  <section
+    className="main-wrapper customer"
+  >
+    <div
+      className="container-fluid"
+    >
+      <section
+        className="d-flex justify-content-between pagelvl-actionrow"
+      >
+        <div
+          className="lft-actionitem"
+        >
+          <img
+            alt="Back"
+            className="action-icon"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="presentation"
+            src="left-arrow.svg"
+            title="Back"
+          />
+        </div>
+        <div
+          className="rgt-actionitem"
+        >
+          <ul
+            className="list-inline "
+          />
+        </div>
+      </section>
+      <section
+        className="d-flex justify-content-between align-items-center sec-customer-addr"
+      >
+        <div
+          className="cust-name"
+        >
+          <p>
+            <span>
+              --
+            </span>
+          </p>
+        </div>
+        <div
+          className="mid-sec"
+        >
+          <ul
+            className="list-inline"
+          >
+            <li
+              className="list-inline-item"
+            >
+               
+              <span>
+                Active
+                 
+                <label
+                  className="switch"
+                  htmlFor="deskActive"
+                >
+                  <input
+                    id="deskActive"
+                    type="checkbox"
+                  />
+                  <span
+                    className="slider round disabled-checkbox"
+                  />
+                </label>
+                 
+              </span>
+               
+            </li>
+          </ul>
+        </div>
+        <div
+          className="parent-name"
+        >
+          <p>
+            Parent Group
+            <span>
+              No
+            </span>
+          </p>
+        </div>
+      </section>
+      <section
+        className="sec-info-accordion mob-moreinfo-accordion"
+      >
+        <div
+          className="accordion"
+        >
+          <div
+            className="cust-details card"
+          >
+            <a
+              className="card-link"
+              onClick={[Function]}
+            >
+              Basic Info
+            </a>
+            <div
+              aria-expanded={null}
+              className="collapse"
+            >
+              <div
+                className="accr-body-container card-body"
+              >
+                <ul
+                  className="list-inline bdy-list-item accr-list-columns padd-24"
+                >
+                  <li
+                    className="list-inline-item"
+                  >
+                    <span>
+                      Contact Address
+                    </span>
+                  </li>
+                  <li
+                    className="list-inline-item"
+                  >
+                    <span>
+                      Area
+                    </span>
+                    --
+                  </li>
+                  <li
+                    className="list-inline-item"
+                  >
+                    <span>
+                      Phone Number
+                    </span>
+                    --
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        className="sec-info-accordion"
+      />
+      <section
+        className="d-flex justify-content-between align-items-center sec-customer-desc"
+      >
+        <div
+          className="accr-body-container"
+        >
+          <ul
+            className="list-inline bdy-list-item owner-section d-flex align-items-center"
+          >
+            <li
+              className="list-inline-item"
+            >
+              <span>
+                Account owner
+              </span>
+               
+              --
+            </li>
+            <li
+              className="list-inline-item"
+            >
+              <img
+                alt="phone"
+                className=""
+                src="phone.svg"
+                title="phone"
+                width="25"
+              />
+                
+              --
+            </li>
+            <li
+              className="list-inline-item"
+            >
+              <img
+                alt="mail"
+                className=""
+                src="mail.svg"
+                title="mail"
+                width="25"
+              />
+                 
+              --
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        className="d-flex align-items-center sec-customer-desc"
+      >
+        <div
+          className="cust-group"
+        >
+          <p>
+            Product Family
+          </p>
+        </div>
+      </section>
+      <section
+        className="sec-info-accordion"
+      >
+        <div
+          className="accordion"
+        >
+          <div
+            className="contact-class card"
+          >
+            <a
+              className="card-link"
+              onClick={[Function]}
+            >
+              <span
+                className="cust-title"
+              >
+                 All Contact
+              </span>
+              <span
+                className="cust-info"
+              >
+                <span>
+                  0
+                   CONTACTS
+                </span>
+              </span>
+            </a>
+            <div
+              aria-expanded={null}
+              className="collapse"
+            >
+              <div
+                className="accr-body-container customers-comp"
+              >
+                <div
+                  className="container-fluid"
+                >
+                  <div
+                    className="row"
+                  >
+                    <div
+                      className="padding-28"
+                    >
+                       No Contacts Found 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        className="d-flex sec-customer-desc"
+      >
+        <div
+          className="cust-group"
+        >
+          <p>
+            Opportunities
+          </p>
+        </div>
+        <div
+          className="group-sec"
+        >
+          <ul
+            className="list-inline"
+          >
+            <li
+              className="list-inline-item"
+            >
+              <span
+                className="cust-info"
+                role="presentation"
+              >
+                0
+                 ACTIVE
+              </span>
+               
+            </li>
+            <li
+              className="list-inline-item"
+            >
+              <span
+                className="cust-info"
+                role="presentation"
+              >
+                0
+                 CLOSED
+              </span>
+            </li>
+            <li
+              className="list-inline-item"
+            >
+              <span
+                className="cust-info"
+              >
+                0
+                 TOTAL
+              </span>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        className="d-flex sec-customer-desc"
+      >
+        <div
+          className="cust-group"
+        >
+          <p>
+            Subsidiary - Entity
+          </p>
+        </div>
+      </section>
+    </div>
+  </section>,
+  <footer>
+    <p>
+      <img
+        alt="Iptor"
+        src="iptor-logo-orange.svg"
+        title="Iptor"
+      />
+       © All Content Copyright 2021
+       
+    </p>
+  </footer>,
+]
+`;

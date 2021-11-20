@@ -18,19 +18,17 @@ const AddItem: React.FC = () => {
 
   const [searchText, setSearchText] = React.useState<string>('');
   const [items, setItems] = React.useState<models.Item[]>([]);
-  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = React.useState<models.Item[]>([]);
   const [hasMoreRows, setHasMoreRows] = React.useState<boolean>(false);
   const [pageNumber, setPageNumber] = React.useState<number>(0);
 
   const onNextButtonClick = () => {
-    const filterItems: models.Item[] = items?.filter((obj: models.Item) => selectedItems.indexOf(obj.item) > -1) || [];
     const opptyId = state.opportuntyDetails.opportunityDefaultParams.opportunityId;
-    dispatch(addItemsToOpportunity(opptyId, filterItems));
+    dispatch(addItemsToOpportunity(opptyId, selectedItems));
   };
 
   const fetchItems = async (currentPage: number, searchstr: string) => {
     dispatch(setOpportunityLoader(true));
-    setSelectedItems([]);
     try {
       const offSet = currentPage * Constants.ADD_OPPTY_PRODUCTS_LOAD_LIMIT;
       const response = await Item.get(searchstr, offSet, Constants.ADD_OPPTY_PRODUCTS_LOAD_LIMIT);
@@ -54,7 +52,7 @@ const AddItem: React.FC = () => {
         }
       }
     } catch (e: any) {
-      console.log(e);
+      console.error(e);
     } finally {
       dispatch(setOpportunityLoader(false));
     }
@@ -95,23 +93,30 @@ const AddItem: React.FC = () => {
     }
   };
 
-  const onSelect = (item: string) => {
-    if (selectedItems.indexOf(item) === -1) {
-      setSelectedItems([...selectedItems, item]);
-    } else {
-      const newArray = selectedItems.filter((itemObj) => {
-        return itemObj !== item;
+  const onSelect = (str: string) => {
+    const find: models.Item | undefined = selectedItems.find((item: models.Item) => {
+      return item.item === str;
+    });
+
+    if (find) {
+      const newArray = selectedItems.filter((itemObj: models.Item) => {
+        return itemObj.item !== str;
       });
       setSelectedItems(newArray);
+    } else {
+      const newItem: models.Item | undefined = items.find((itemObj: models.Item) => {
+        return itemObj.item === str;
+      });
+      if (newItem) setSelectedItems((prevItems) => [...prevItems, newItem]);
     }
   };
 
   const isSelected = (item: string) => {
     let check = false;
-    const find = selectedItems?.find((selectedItem: string) => {
-      return selectedItem === item;
+    const find = selectedItems?.find((selectedItem: models.Item) => {
+      return selectedItem.item === item;
     });
-    if (find?.length) {
+    if (find) {
       check = true;
     }
     return check;
@@ -120,73 +125,81 @@ const AddItem: React.FC = () => {
   return (
     <>
       <div className="opportunity-edit-form">
-        <div className="steps-three-forms">
-          <div className="opportunity-forms">
-            <div className="">
-              <div className="steps-three-forms">
-                <div className="form-group oppty-form-elements">
-                  <input
-                    type="text"
-                    className="form-control search-ipbox"
-                    placeholder="Search Item"
-                    onChange={searchStart}
-                    onKeyPress={searchOpportunity}
-                  />
-                </div>
+        <div className="opportunity-forms thirdstep edit-form">
+          <div className="steps-three-forms">
+            <div className="radiobtn-collection oppty-form-elements">
+              <p className="title">Select Product and Modules</p>
 
-                <div className="radiobtn-collection oppty-form-elements">
-                  <p className="title">Select Product and Modules</p>
-
-                  <div className="product-items-container">
-                    <ul className="opptytype-list-item">
-                      {items.map((obj: models.Item, index: number) => {
-                        if (index + 1 === items.length) {
-                          return (
-                            <li role="presentation" key={obj.item} ref={lastOpptyElement} onClick={() => onSelect(obj.item)}>
-                              <div className="company-container">
-                                <div className="center">
-                                  <div className="test">{obj.description}</div>
-                                  <Image
-                                    className="company-selection-img"
-                                    style={{ display: isSelected(obj.item) ? 'block' : 'none' }}
-                                    src={VectorImg}
-                                    alt="company"
-                                    title="company"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        } else {
-                          return (
-                            <li role="presentation" key={obj.item} onClick={() => onSelect(obj.item)}>
-                              <div className="company-container">
-                                <div className="center">
-                                  <div className="test">{obj.description}</div>
-                                  <Image
-                                    className="company-selection-img"
-                                    style={{ display: isSelected(obj.item) ? 'block' : 'none' }}
-                                    src={VectorImg}
-                                    alt="company"
-                                    title="company"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        }
-                      })}
-                    </ul>
-                  </div>
+              <div className="selected-products">
+                <div className="thirdstep-tag-hscroll">
+                  {selectedItems.map((item: models.Item) => {
+                    return (
+                      <div className="item-description" onClick={() => onSelect(item.item)} onKeyDown={() => onSelect(item.item)} role="presentation">
+                        {item.description}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-              <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-                <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
-                  Done
-                </button>
+
+              <div className="form-group oppty-form-elements">
+                <input
+                  type="text"
+                  className="form-control search-ipbox"
+                  placeholder="Search Item"
+                  onChange={searchStart}
+                  onKeyPress={searchOpportunity}
+                />
+              </div>
+
+              <div className="product-items-container">
+                <ul className="opptytype-list-item">
+                  {items.map((obj: models.Item, index: number) => {
+                    if (index + 1 === items.length) {
+                      return (
+                        <li role="presentation" key={obj.item} ref={lastOpptyElement} onClick={() => onSelect(obj.item)}>
+                          <div className="company-container">
+                            <div className="center">
+                              <div className="test">{obj.description}</div>
+                              <Image
+                                className="company-selection-img"
+                                style={{ display: isSelected(obj.item) ? 'block' : 'none' }}
+                                src={VectorImg}
+                                alt="company"
+                                title="company"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li role="presentation" key={obj.item} onClick={() => onSelect(obj.item)}>
+                          <div className="company-container">
+                            <div className="center">
+                              <div className="test">{obj.description}</div>
+                              <Image
+                                className="company-selection-img"
+                                style={{ display: isSelected(obj.item) ? 'block' : 'none' }}
+                                src={VectorImg}
+                                alt="company"
+                                title="company"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    }
+                  })}
+                </ul>
               </div>
             </div>
           </div>
+        </div>
+        <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
+          <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
+            Done
+          </button>
         </div>
       </div>
     </>

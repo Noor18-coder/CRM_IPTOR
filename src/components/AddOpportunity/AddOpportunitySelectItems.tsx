@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import { Dispatch } from 'redux';
 import { Image } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { setOpportunityLoader } from '../../store/AddOpportunity/Actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../../store/store';
+import { setOpportunityLoader, setOpportunityProducts } from '../../store/AddOpportunity/Actions';
 
-import ImageConfig from '../../config/ImageConfig';
+// import ImageConfig from '../../config/ImageConfig';
 // import ItemsList from './ItemsList';
 import Item from '../../helpers/Api/Items';
 import * as models from '../../helpers/Api/models';
@@ -13,14 +14,15 @@ import { Constants } from '../../config/Constants';
 import VectorImg from '../../assets/images/check_circle.svg';
 
 interface Props {
-  createOpportunity: (items: models.Item[]) => void;
+  createOpportunity: () => void;
+  changeStep: (num: number) => void;
 }
 
-const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
+const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity, changeStep }) => {
+  const state: AppState = useSelector((appState: AppState) => appState);
   const dispatch: Dispatch<any> = useDispatch();
   const [searchText, setSearchText] = React.useState<string>('');
   const [items, setItems] = React.useState<models.Item[]>([]);
-  const [selectedItems, setSelectedItems] = React.useState<models.Item[]>([]);
   const [hasMoreRows, setHasMoreRows] = React.useState<boolean>(false);
   const [pageNumber, setPageNumber] = React.useState<number>(0);
 
@@ -45,7 +47,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
   }, [pageNumber]);
 
   const onNextButtonClick = () => {
-    createOpportunity(selectedItems);
+    createOpportunity();
   };
 
   const fetchItems = async (currentPage: number, searchstr: string) => {
@@ -73,7 +75,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
         }
       }
     } catch (e: any) {
-      console.log(e);
+      console.error(e);
     } finally {
       dispatch(setOpportunityLoader(false));
     }
@@ -95,6 +97,7 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
   };
 
   const onSelect = (str: string) => {
+    const selectedItems: models.Item[] = [...state.addOpportunity.products];
     const find: models.Item | undefined = selectedItems.find((item: models.Item) => {
       return item.item === str;
     });
@@ -103,17 +106,18 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
       const newArray = selectedItems.filter((itemObj: models.Item) => {
         return itemObj.item !== str;
       });
-      setSelectedItems(newArray);
+      dispatch(setOpportunityProducts(newArray));
     } else {
       const newItem: models.Item | undefined = items.find((itemObj: models.Item) => {
         return itemObj.item === str;
       });
-      if (newItem) setSelectedItems((prevItems) => [...prevItems, newItem]);
+      if (newItem) dispatch(setOpportunityProducts([...selectedItems, newItem]));
     }
   };
 
   const isSelected = (item: string) => {
     let check = false;
+    const selectedItems: models.Item[] = [...state.addOpportunity.products];
     const find = selectedItems?.find((selectedItem: models.Item) => {
       return selectedItem.item === item;
     });
@@ -127,33 +131,29 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
     <>
       <div className="opportunity-step-circles">
         <ul className="list-inline step-circles">
-          <li className="list-inline-item circle-stepone steps active">
-            <span className="num checked">1</span>
-            <span>
-              <img alt="steps" src={ImageConfig.STEP_CHECK_ICON} />
-            </span>
+          <li className="list-inline-item circle-stepone steps" role="presentation" onClick={() => changeStep(1)}>
+            <span className="num">1</span>
           </li>
-          <li className="list-inline-item circle-steptwo steps active">
-            <span className="num checked">2</span>
-            <span>
-              <img alt="steps" src={ImageConfig.STEP_CHECK_ICON} />
-            </span>
+          <li className="list-inline-item circle-steptwo steps" role="presentation" onClick={() => changeStep(2)}>
+            <span className="num">2</span>
           </li>
-          <li className="list-inline-item circle-stepthree steps active">
+          <li className="list-inline-item circle-stepthree steps active" role="presentation">
             <span className="num">3</span>
           </li>
         </ul>
       </div>
 
-      <div className="opportunity-forms">
+      <div className="opportunity-forms thirdstep form-top">
         <div className="selected-products">
-          {selectedItems.map((item: models.Item) => {
-            return (
-              <button className="item-description" type="button" onClick={() => onSelect(item.item)}>
-                {item.description}
-              </button>
-            );
-          })}
+          <div className="thirdstep-tag-hscroll">
+            {state.addOpportunity.products.map((item: models.Item) => {
+              return (
+                <div className="item-description" onClick={() => onSelect(item.item)} onKeyDown={() => onSelect(item.item)} role="presentation">
+                  {item.description}
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div className="">
           <div className="steps-three-forms">
@@ -213,12 +213,12 @@ const AddOpportunitySelectItems: React.FC<Props> = ({ createOpportunity }) => {
               </div>
             </div>
           </div>
-          <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-            <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
-              Done
-            </button>
-          </div>
         </div>
+      </div>
+      <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
+        <button type="button" className="stepone-next-btn done" onClick={onNextButtonClick}>
+          Done
+        </button>
       </div>
     </>
   );

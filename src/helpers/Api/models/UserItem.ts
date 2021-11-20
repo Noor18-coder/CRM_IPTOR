@@ -30,9 +30,7 @@ export interface UserParams {
 
 export interface UserResponse {
   IptorAPI: string;
-  data: {
-    items: UserItem;
-  };
+  data: UserItem;
   id: string;
 }
 

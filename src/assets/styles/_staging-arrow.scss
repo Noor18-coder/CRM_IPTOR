@@ -1,131 +1,125 @@
 .hbreadcrumb {
-    list-style: none;
+  list-style: none;
 }
 
 .hbreadcrumb li {
-    display: inline-block;
-    margin-bottom: .2em;
+  display: inline-block;
+  margin-bottom: 0.2em;
 }
 
 .hbreadcrumb li a {
-    background-color: $mercury;
-    box-sizing: border-box;
-    color: $gull-gray;
+  background-color: $mercury;
+  box-sizing: border-box;
+  color: $gull-gray;
+
+  font: {
+    size: $base-font-size + 4;
+    weight: $font-weight-semibold;
+  }
+
+  display: block;
+  max-height: 54px;
+  padding: 13px 16px 38px 36px;
+  position: relative;
+  text-decoration: none;
+  @include transition;
+  text-align: center;
+  line-height: 17px;
+
+  span {
+    display: block;
 
     font: {
-        size: $base-font-size + 4;
-        weight: $font-weight-semibold;
+      size: $base-font-size - 4;
+      weight: $font-weight-semibold;
     }
-
-    display: block;
-    max-height: 54px;
-    padding: 13px 16px 38px 36px;
-    position: relative;
-    text-decoration: none;
-    @include transition;
-    text-align: center;
-    line-height: 17px;
-
-    span {
-        display: block;
-
-        font: {
-            size: $base-font-size - 4;
-            weight: $font-weight-semibold;
-        }
-    }
+  }
 }
 
 .hbreadcrumb li a:before {
-    border-top: 28px solid transparent;
-    border-bottom: 28px solid transparent;
-    border-left: 19px solid #ffffff;
-    content: "";
-    position: absolute;
-    top: -3px;
-    right: -1.08em;
-    z-index: 1;
-    bottom: -3px;
+  border-top: 28px solid transparent;
+  border-bottom: 28px solid transparent;
+  border-left: 19px solid #ffffff;
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -1.08em;
+  z-index: 1;
+  bottom: -3px;
 }
 
 .hbreadcrumb li a:after {
-    border-top: 26px solid transparent;
-    border-bottom: 28px solid transparent;
-    border-left: 18px solid $mercury;
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -1em;
-    @include transition;
-    z-index: 1;
+  border-top: 26px solid transparent;
+  border-bottom: 28px solid transparent;
+  border-left: 18px solid $mercury;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1em;
+  @include transition;
+  z-index: 1;
 }
 
 .hbreadcrumb li a:hover {
-    background-color: rgba($bermuda-gray,0.5);
-    color: $white;
+  background-color: rgba($bermuda-gray, 0.5);
+  color: $white;
 }
 
 .hbreadcrumb li a:hover:after {
-    border-left-color: rgba($bermuda-gray,0.5);;
+  border-left-color: rgba($bermuda-gray, 0.5);
 }
-
-
-
-
-
 
 // for selected state with persian backgorund
 .hbreadcrumb li a.active {
-    background-color: $persian-green;
-    color: $white;
+  background-color: $persian-green;
+  color: $white;
 }
 
 .hbreadcrumb li a.active:after {
-    border-left-color: $persian-green;
-    color: $white;
+  border-left-color: $persian-green;
+  color: $white;
 }
 
 // white bg
 .hbreadcrumb li a.ready {
-    background-color: rgba($persian-green,0.07);
-    color: $persian-green;
-    
+  background-color: rgba($persian-green, 0.07);
+  color: $persian-green;
 }
 
 .hbreadcrumb li a.ready:after {
-    border-left-color: rgba($persian-green,0.07);
-    color: $persian-green;
+  border-left-color: rgba($persian-green, 0.07);
+  color: $persian-green;
 }
 
 //red bg
 .hbreadcrumb li a.reject {
-    background-color: #EB617C;
-    color: $white;
+  background-color: #eb617c;
+  color: $white;
 }
 
 .hbreadcrumb li a.reject:after {
-    border-left-color: #EB617C;
-    color: $white;
+  border-left-color: #eb617c;
+  color: $white;
 }
 
 //yellow bg
 .hbreadcrumb li a.submit {
-    background-color: #FFDF99;
-    color: #E09900;
+  background-color: #ffdf99;
+  color: #e09900;
 }
 
 .hbreadcrumb li a.submit:after {
-    border-left-color: #FFDF99;
-    color: $white;
+  border-left-color: #ffdf99;
+  color: $white;
 }
 
 //gray bg
 .hbreadcrumb li a.lost {
-    background-color: #6D899D;
-    color: #DAE2E7;
+  background-color: #6d899d;
+  color: #dae2e7;
 }
 
 .hbreadcrumb li a.lost:after {
-    border-left-color: #6D899D;
-    color: #DAE2E7;
+  border-left-color: #6d899d;
+  color: #dae2e7;
 }

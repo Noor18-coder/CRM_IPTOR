@@ -7,13 +7,13 @@ import errorIcon from '../../assets/images/error.png';
 import { AppState } from '../../store/store';
 import { ApprovalLog } from '../../helpers/Api/ApprovalLog';
 import * as models from '../../helpers/Api/models';
-import ImageConfig from '../../config/ImageConfig';
 import ApproverSearchField from '../Shared/Search/ApproverSearchField';
 import i18n from '../../i18n';
 import { Notes } from '../../helpers/Api/Notes';
-import { ParentFiles } from '../../config/Constants';
+import { ParentFiles, APPROVAL_STATUS } from '../../config/Constants';
 import { setLoadingMask, removeLoadingMask } from '../../store/InitialConfiguration/Actions';
-import { openOpportunityForm } from '../../store/OpportunityDetails/Actions';
+import { openOpportunityForm, saveOpportunityDetails, saveOpportunityLogs } from '../../store/OpportunityDetails/Actions';
+import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 
 interface Props {
   reloadOpportunity: () => void;
@@ -29,6 +29,7 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
   const existedApprover = approvalData && approvalData.approver ? approvalData.approver : '';
   const [changeApprover, setChangeApprover] = React.useState<boolean>(false);
   const [approvalError, setApprovalError] = React.useState<string>('');
+  const [nextButtonEnabled, setNextButtonEnabled] = React.useState<boolean>(false);
   const handler = subGroupData !== '' ? existedApprover : defaultApprover;
   const [comment, setComment] = React.useState<string>('');
   const [approver, setApprover] = React.useState<string>(handler);
@@ -38,6 +39,17 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
     reloadOpportunity();
   };
 
+  const isManager = (userId: string) => {
+    const tempUser: models.UserItem | undefined = state.users.users.find((obj: models.UserItem) => {
+      return obj.user === userId;
+    });
+
+    if (tempUser && tempUser.MANAGER && tempUser.MANAGER === state.auth.user.user) {
+      return true;
+    }
+    return false;
+  };
+
   const submitForApproval = async () => {
     if (approvalData) {
       const submitApprovalRequest = {
@@ -45,7 +57,7 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
         opportunityId: approvalData?.opportunityId,
         salesStage: approvalData?.salesStage,
         levelId: approvalData?.levelId,
-        user: state.auth.user.handler,
+        user: state.auth.user.user,
         approvalLogStatus: 'submitted',
       };
 
@@ -61,6 +73,22 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
           await Notes.addNote(params);
           dispatch(removeLoadingMask());
           closePopupAndReloadOpportunity();
+          const details: models.OpportunityDetailsDefault = await OpportunityDetailsApi.get(approvalData?.opportunityId);
+          dispatch(saveOpportunityDetails(details));
+          dispatch(saveOpportunityLogs(approvalData?.opportunityId));
+          if (
+            details &&
+            (state.auth.user.role === 'Admin' ||
+              (details.approvalStatus &&
+                details.approvalStatus !== APPROVAL_STATUS.SUBMITTED &&
+                details.activ === true &&
+                state.auth.user.user === details.userId) ||
+              (details.activ === true && details.userId && isManager(details.userId)))
+          ) {
+            dispatch(openOpportunityForm({ allowEdit: true }));
+          } else {
+            dispatch(openOpportunityForm({ allowEdit: false }));
+          }
         } else if (data && data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
           setApprovalError(data.messages[0].text);
           dispatch(removeLoadingMask());
@@ -83,9 +111,11 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
     return '';
   };
 
-  const onHandlerChange = (user: models.UserItem) => {
+  const onHandlerChange = (user: string) => {
     if (user) {
-      setApprover(user.handler);
+      setApprover(user);
+    } else {
+      setApprover('');
     }
     setChangeApprover(false);
   };
@@ -94,42 +124,56 @@ const SubmitForApprovals: React.FC<Props> = ({ reloadOpportunity }) => {
     setComment(e.currentTarget.value);
   };
 
+  React.useEffect(() => {
+    if (approver) {
+      setNextButtonEnabled(true);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (approver) {
+      setNextButtonEnabled(true);
+    } else {
+      setNextButtonEnabled(false);
+    }
+  }, [approver]);
+
   return (
-    <div className="submit-approval-form">
-      <p className="approval-error">Because the deal size is more than 120K and is moved to stage A3.</p>
-      <div className="form-group oppty-form-elements">
-        <label htmlFor="desc" className="opp-label">
-          Approver Name
-        </label>
+    <div className="approval-container">
+      <p className="lbl-apporver-name">Approver’s Name</p>
+      <p className="apporver-name">
         <>
-          {changeApprover ? (
-            <ApproverSearchField onChange={onHandlerChange} description="Owner" currentSelectedUser={approver} />
-          ) : (
-            <div className="approver-search-container">
-              <button
-                type="button"
-                className="edit-icon"
-                onClick={() => {
-                  setChangeApprover(true);
-                }}>
-                <img src={ImageConfig.EDIT_ICON} alt="edit" />
-              </button>
-              <span className="approver-name-value">{approver ? getName(approver) : ''}</span>
-            </div>
-          )}
+          <div className="approver-search-container">
+            <ApproverSearchField
+              onChange={onHandlerChange}
+              description="Owner"
+              value={approver ? getName(approver) : ''}
+              disabled={!changeApprover}
+              currentSelectedUser={approver}
+            />
+          </div>
         </>
-      </div>
-      <div className="form-group oppty-form-elements">
+      </p>
+
+      {/* // Comment for now. 
+       <button type="button" className="add-cc" onClick={OpenCommentBox}>
+        Add CC
+      </button>  */}
+
+      <div id="comment" className="form-group oppty-form-elements">
         <label htmlFor="comments" className="opp-label">
           Comment
         </label>
-        <textarea className="form-control" id="comment" onChange={onCommentChange} rows={3} />
+        <textarea className="form-control" onChange={onCommentChange} rows={3} />
       </div>
-      <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-        <button type="button" className="stepone-next-btn done" onClick={submitForApproval}>
-          Done
-        </button>
-      </div>
+
+      <button
+        type="button"
+        className={nextButtonEnabled ? 'stepone-next-btn' : 'stepone-next-btn inactive'}
+        disabled={!nextButtonEnabled}
+        onClick={submitForApproval}>
+        Send for Approval
+      </button>
       {approvalError ? (
         <p className="error">
           <Image className="alert-icon" src={errorIcon} width={15} height={12} />

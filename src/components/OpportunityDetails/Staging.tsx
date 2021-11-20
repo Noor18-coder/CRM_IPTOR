@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { StageInfo } from '../../helpers/Api/models';
+import { StageInfo, AddOpportunityDefaultParams } from '../../helpers/Api/models';
 import { saveOpportunityStages } from '../../store/InitialConfiguration/Actions';
 import { editOpportunity, openOpportunityForm } from '../../store/OpportunityDetails/Actions';
 import { AppState } from '../../store/store';
@@ -18,7 +18,7 @@ const Staging: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
 
   const updateStage = async (obj: StageInfo) => {
-    const opportunity = state.opportuntyDetails.opportunityDefaultParams;
+    const opportunity = { ...state.opportuntyDetails.opportunityDefaultParams };
     opportunity.stage = obj.salesStage;
     dispatch(editOpportunity(opportunity));
   };
@@ -30,7 +30,11 @@ const Staging: React.FC = () => {
   const changeActiveStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     const active: boolean = e.currentTarget.checked;
     if (active) {
-      dispatch(openOpportunityForm({ open: true, groupName: 'deactivate-opportunity', action: 'edit' }));
+      dispatch(openOpportunityForm({ open: true, groupName: 'deactivate-opportunity', action: 'edit', activ: active }));
+    } else {
+      const opportunityDetails: AddOpportunityDefaultParams = { ...state.opportuntyDetails.opportunityDefaultParams };
+      opportunityDetails.activ = true;
+      dispatch(editOpportunity(opportunityDetails));
     }
   };
 
@@ -51,6 +55,8 @@ const Staging: React.FC = () => {
                         : approvalStatus === APPROVAL_STATUS.SUBMITTED
                         ? 'list-inline-item submit'
                         : approvalStatus === APPROVAL_STATUS.APPROVED
+                        ? 'list-inline-item active'
+                        : approvalStatus === APPROVAL_STATUS.WON
                         ? 'list-inline-item active'
                         : approvalStatus === APPROVAL_STATUS.LOST
                         ? 'list-inline-item lost'
@@ -82,7 +88,13 @@ const Staging: React.FC = () => {
           <div className="rgt-col">
             <p className="oppt-lost">Opportunity Lost</p>
             <label className="switch">
-              <input type="checkbox" id="oppty-lost" onChange={changeActiveStatus} />
+              <input
+                type="checkbox"
+                id="oppty-lost"
+                tabIndex={0}
+                checked={!state.opportuntyDetails.opportunityDefaultParams.activ}
+                onChange={changeActiveStatus}
+              />
               <span className="slider round" />
             </label>
           </div>

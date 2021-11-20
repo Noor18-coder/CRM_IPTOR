@@ -6,8 +6,12 @@ export interface CountryInfo {
   countryIdIn: string;
 }
 
-export interface CountryInfoResponse {
+export interface CountryInfoResponseData {
   items: CountryInfo[];
+}
+
+export interface CountryInfoResponse {
+  data: CountryInfoResponseData;
 }
 
 export interface AreaInfo {
@@ -15,8 +19,12 @@ export interface AreaInfo {
   description: string;
 }
 
-export interface AreaInfoResponse {
+export interface AreaInfoResponseData {
   items: AreaInfo[];
+}
+
+export interface AreaInfoResponse {
+  data: AreaInfoResponseData;
 }
 
 export interface CountryListParams {

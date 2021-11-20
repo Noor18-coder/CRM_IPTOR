@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] BooleanInput should renders correctly 1`] = `
+<div
+  className="adding-txt-field-container"
+>
+  <div
+    className="form-group oppty-form-elements"
+  >
+    <span
+      className="checkbox-label"
+    >
+      Generic
+      <label
+        className="switch"
+        htmlFor="New"
+      >
+        <input
+          checked={false}
+          id="New"
+          onChange={[Function]}
+          tabIndex={0}
+          type="checkbox"
+        />
+        <span
+          className="slider round"
+        >
+           
+        </span>
+      </label>
+    </span>
+  </div>
+</div>
+`;

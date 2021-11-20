@@ -22,6 +22,7 @@ import {
   SetUpdateCustomerSuccess,
   SetUpdateCustomerError,
 } from './Types';
+import { Attributes } from '../../helpers/Api/Attributes';
 
 /** Action to set auth state logged in status */
 export const saveCustomerDefaultFields: ActionCreator<SaveBusinessPartnerParamAction> = (businessPartner: models.CustomerDetailsDefaultFields) => {
@@ -103,11 +104,20 @@ export const resetBusinessPartnerFields: ActionCreator<RemoveBusinessPartnerFiel
 
 export const updateCustomerContact: ActionCreator<
   ThunkAction<Promise<SetUpdateCustomerSuccess | SetUpdateCustomerError>, AppState, undefined, SetUpdateCustomerSuccess | SetUpdateCustomerError>
-> = (customerFields: any, customerId: any, type: string) => {
+> = (customerFields: any, customerId: any, deleteAttributes: any, type: string) => {
   return async (dispatch: Dispatch) => {
     try {
       if (type === 'update') {
         const data: any = await CustomerDetailsApi.updateContactDetails(customerFields);
+        if (deleteAttributes) {
+          Promise.all(
+            deleteAttributes.map((obj: any) => {
+              return Attributes.deleteAttribute(obj.valueId);
+            })
+          ).then((res: any) => {
+            return res;
+          });
+        }
         if (data && data.error) {
           dispatch(setBusinessPartnerLoader(false));
           if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {
@@ -127,6 +137,15 @@ export const updateCustomerContact: ActionCreator<
         }
       } else {
         const data: any = await CustomerDetailsApi.addContactDetails(customerFields);
+        if (deleteAttributes) {
+          Promise.all(
+            deleteAttributes.map((obj: any) => {
+              return Attributes.deleteAttribute(obj.valueId);
+            })
+          ).then((res: any) => {
+            return res;
+          });
+        }
         if (data && data.error) {
           dispatch(setBusinessPartnerLoader(false));
           if (data.messages && isArray(data.messages) && data.messages[0] && data.messages[0].text) {

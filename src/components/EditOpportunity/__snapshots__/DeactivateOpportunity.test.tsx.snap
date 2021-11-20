@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] DeactivateOpportunity should render component to edit opportunity basic values 1`] = `
+Array [
+  <div
+    className="opportunity-edit-form"
+  >
+    <div
+      className="steps-three-forms"
+    >
+      <div
+        className="radiobtn-collection oppty-form-elements"
+      >
+        <p
+          className="title"
+        >
+          Please select any one reason
+        </p>
+        <div
+          className="opportunity-type-container"
+        >
+          <ul
+            className="opptytype-list-item"
+          >
+            <li
+              className="action-icon"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+            >
+              <div
+                className="company-container"
+              >
+                <div
+                  className="center"
+                >
+                  <div
+                    className="test"
+                  >
+                    Mistake
+                  </div>
+                  <img
+                    alt="company"
+                    className="company-selection-img"
+                    src="check_circle.svg"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
+                    title="company"
+                  />
+                </div>
+              </div>
+            </li>
+            <li
+              className="action-icon"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+            >
+              <div
+                className="company-container"
+              >
+                <div
+                  className="center"
+                >
+                  <div
+                    className="test"
+                  >
+                     Opportunity lost
+                  </div>
+                  <img
+                    alt="company"
+                    className="company-selection-img"
+                    src="check_circle.svg"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
+                    title="company"
+                  />
+                </div>
+              </div>
+            </li>
+            <li
+              className="action-icon"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+            >
+              <div
+                className="company-container"
+              >
+                <div
+                  className="center"
+                >
+                  <div
+                    className="test"
+                  >
+                    Not competitive deal
+                  </div>
+                  <img
+                    alt="company"
+                    className="company-selection-img"
+                    src="check_circle.svg"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
+                    title="company"
+                  />
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn inactive"
+      onClick={[Function]}
+      type="button"
+    >
+      Done
+    </button>
+  </div>,
+]
+`;
+
+exports[`[EditOpportunity] DeactivateOpportunity should renders correctly 1`] = `
+Array [
+  <div
+    className="opportunity-edit-form"
+  >
+    <div
+      className="steps-three-forms"
+    >
+      <div
+        className="radiobtn-collection oppty-form-elements"
+      >
+        <p
+          className="title"
+        >
+          Please select any one reason
+        </p>
+        <div
+          className="opportunity-type-container"
+        >
+          <div>
+            No Items Found
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="step-nextbtn-with-arrow stepsone-nxtbtn"
+  >
+    <button
+      className="stepone-next-btn inactive"
+      onClick={[Function]}
+      type="button"
+    >
+      Done
+    </button>
+  </div>,
+]
+`;

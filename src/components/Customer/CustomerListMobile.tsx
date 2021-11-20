@@ -14,14 +14,14 @@ interface Props {
   gridRowClicked: (data: any) => void;
   getDataRows: (start: number, sortString: string) => Promise<Result>;
   refresh: boolean;
+  searchLoader: boolean;
 }
 
-const BusinessPartnerListMobile: React.FC<Props> = ({ getDataRows, refresh }) => {
+const BusinessPartnerListMobile: React.FC<Props> = ({ getDataRows, refresh, searchLoader }) => {
   const [hasMoreRows, setHasMoreRows] = React.useState<boolean>(false);
   const [pageNumber, setPageNumber] = React.useState<number>(0);
   const [businessPartners, setBusinesspartners] = React.useState<BusinessPartnerListItem[]>([]);
   const [loader, setLoader] = React.useState<boolean>(false);
-  const [listData, setlistData] = React.useState<boolean>(false);
   const history = useHistory();
 
   // To handle pagination.
@@ -42,9 +42,11 @@ const BusinessPartnerListMobile: React.FC<Props> = ({ getDataRows, refresh }) =>
   const fetchBusinesspartners = async () => {
     const orderByString = '';
     const data: Result = await getDataRows(pageNumber * 20, orderByString);
-    if (data.items.length === 0) setlistData(true);
-    else setlistData(false);
-    setBusinesspartners((prevBusinessPartners) => [...prevBusinessPartners, ...data.items]);
+    if (pageNumber > 0) {
+      setBusinesspartners((prevBusinessPartners) => [...prevBusinessPartners, ...data.items]);
+    } else {
+      setBusinesspartners(data.items);
+    }
     setHasMoreRows(data.load);
     setLoader(false);
   };
@@ -101,7 +103,7 @@ const BusinessPartnerListMobile: React.FC<Props> = ({ getDataRows, refresh }) =>
               </div>
             );
           })}
-        {listData && <div className="mobile-text">No Records Found</div>}
+        {businessPartners.length === 0 && !loader && !searchLoader ? <div className="mobile-text">No Records Found</div> : null}
       </section>
     </>
   );

@@ -17,31 +17,23 @@
   position: absolute;
   right: 24px;
   top: 13px;
-  background-position: center;
-  background-size: contain;
   height: 16px;
   width: 16px;
-  background-repeat: no-repeat;
   background: url(../images/right-arrow.png) no-repeat center center;
 }
-
 
 .arrow-prev {
   position: absolute;
   left: -16px;
   top: 13px;
   margin-left: 0px;
-  background-position: center;
-  background-size: contain;
   height: 16px;
   width: 16px;
-  background-repeat: no-repeat;
   background: url(../images/left-arrow.png) no-repeat center center;
 }
 
 .toggle-btn-group {
   display: flex;
-  width: 100%;
   padding-left: 0px;
   width: 200px;
   position: relative;
@@ -52,7 +44,7 @@
     text-transform: capitalize;
     color: #506574;
     border: 1px solid grey;
-    background-color: #EEF0F2;
+    background-color: #eef0f2;
     box-shadow: none;
     outline: none;
     border-radius: 24px;
@@ -89,7 +81,6 @@
       right: 20px;
       width: 100%;
     }
-
   }
 }
 
@@ -100,14 +91,14 @@
 
 .filter-items .btn {
   padding: 8px 7px;
-  font-family: Open Sans;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 22px;
   text-align: center;
   text-transform: uppercase;
-  color: #6D899D;
+  color: #6d899d;
   text-decoration: none;
   border: none;
   background-color: transparent;
@@ -115,7 +106,7 @@
   outline: none;
 
   &:hover {
-    color: #6D899D;
+    color: #6d899d;
   }
 
   &:focus {
@@ -127,9 +118,8 @@
 .btn-active .btn {
   height: 40px;
   padding: 8px 31px;
-  font-family: Open Sans;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
-  font-weight: normal;
   font-size: 16px;
   line-height: 22px;
   text-align: center;
@@ -167,7 +157,9 @@
         padding: 0;
 
         .btn {
-          padding: 4px 16px;
+          padding: 5px 30px;
+          margin-left: -31px;
+          margin-right: 18px;
         }
       }
     }
@@ -182,9 +174,7 @@
   .custom-menu {
     padding-top: 5px;
   }
-}
 
-.filter-class {
   .s-header {
     .col {
       display: block;
@@ -193,7 +183,6 @@
 }
 
 @media (max-width: 767.98px) {
-
   .filterrow {
     border-bottom: none;
 
@@ -234,8 +223,6 @@
     }
   }
 
-
-
   .filter-class {
     display: block !important;
 
@@ -258,7 +245,6 @@
       }
     }
   }
-
 }
 
 .add-btn {
@@ -272,7 +258,40 @@
   }
 }
 
-
 .customer-filter-container {
-  margin-left:40px;
+  margin-left: 40px;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .toggle-btn-group {
+    .switch-txt-btn {
+      &:first-child {
+        position: inherit;
+      }
+    }
+  }
+
+  .custom-menu {
+    width: 80%;
+    margin-left: 60px;
+
+    .scroll-menu-arrow {
+      .arrow-prev {
+        margin-left: 60px;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .custom-menu {
+    width: 85%;
+    margin-left: 60px;
+
+    .scroll-menu-arrow {
+      .arrow-prev {
+        margin-left: 60px;
+      }
+    }
+  }
 }

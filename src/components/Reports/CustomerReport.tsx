@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as models from '../../helpers/Api/models';
 import { AppState } from '../../store/store';
 import { saveCustReportParams } from '../../store/Reports/Actions';
+import i18n from '../../i18n';
 
-export const CustomerReport = () => {
+export const CustomerReport = (): JSX.Element => {
   const state: AppState = useSelector((custState: AppState) => custState);
   const industryDetails = state.enviornmentConfigs.crmIndustries;
   const productDetails = state.enviornmentConfigs.crmProductFamily;
@@ -14,9 +15,9 @@ export const CustomerReport = () => {
     <>
       <div className="container-fluid">
         <div className="row">
-          <CardList title="Region" AreaListItems={AreaDetails} />
-          <CardList title="Product Family" ProductListItems={productDetails} />
-          <CardList title="Industry" IndustryItems={industryDetails} />
+          <CardList title={`${i18n.t('region')}`} AreaListItems={AreaDetails} />
+          <CardList title={`${i18n.t('productFamily')}`} ProductListItems={productDetails} />
+          <CardList title={`${i18n.t('industry')}`} IndustryItems={industryDetails} />
         </div>
       </div>
     </>
@@ -246,7 +247,7 @@ export const CardList: React.FC<Props> = ({ title, AreaListItems, ProductListIte
                   role="presentation"
                   onKeyDown={() => AllItemsClicked('allAreas')}
                   className={allAreaBtnClass}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {AreaListItems
@@ -266,7 +267,7 @@ export const CardList: React.FC<Props> = ({ title, AreaListItems, ProductListIte
                 : null}
               {ProductListItems && (
                 <li role="presentation" className={allProductBtnClass} onClick={() => AllItemsClicked('allProduct')}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {ProductListItems
@@ -285,7 +286,7 @@ export const CardList: React.FC<Props> = ({ title, AreaListItems, ProductListIte
                 : null}
               {IndustryItems && (
                 <li role="presentation" className={allIndustryBtnClass} onClick={() => AllItemsClicked('allIndustry')}>
-                  All
+                  {i18n.t('all')}
                 </li>
               )}
               {IndustryItems

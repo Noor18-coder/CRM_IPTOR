@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[CustomerDetails] CustomerInfo should renders correctly 1`] = `
+Array [
+  <section
+    className="d-flex justify-content-between pagelvl-actionrow"
+  >
+    <div
+      className="lft-actionitem"
+    >
+      <img
+        alt="Back"
+        className="action-icon"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="presentation"
+        src="left-arrow.svg"
+        title="Back"
+      />
+    </div>
+    <div
+      className="rgt-actionitem"
+    >
+      <ul
+        className="list-inline "
+      />
+    </div>
+  </section>,
+  <section
+    className="d-flex justify-content-between align-items-center sec-customer-addr"
+  >
+    <div
+      className="cust-name"
+    >
+      <p>
+        
+        <span />
+      </p>
+    </div>
+    <div
+      className="mid-sec"
+    >
+      <ul
+        className="list-inline"
+      >
+        <li
+          className="list-inline-item"
+        >
+           
+          <span>
+            Active
+             
+            <label
+              className="switch"
+              htmlFor="deskActive"
+            >
+              <input
+                id="deskActive"
+                type="checkbox"
+              />
+              <span
+                className="slider round disabled-checkbox"
+              />
+            </label>
+             
+          </span>
+           
+        </li>
+      </ul>
+    </div>
+    <div
+      className="parent-name"
+    >
+      <p>
+        Parent Group
+        <span>
+          No
+        </span>
+      </p>
+    </div>
+  </section>,
+]
+`;

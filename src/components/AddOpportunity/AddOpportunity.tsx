@@ -22,6 +22,7 @@ import {
 import AddOpportunityApi from '../../helpers/Api/AddOpportunityApi';
 import { Attributes } from '../../helpers/Api/Attributes';
 import * as models from '../../helpers/Api/models';
+import i18n from '../../i18n';
 
 const AddOpportunity: React.FC = () => {
   const [step, setStep] = React.useState<number>(1);
@@ -29,8 +30,8 @@ const AddOpportunity: React.FC = () => {
   const history = useHistory();
   const dispatch: Dispatch<any> = useDispatch();
 
-  const createOpportunity = async (items: models.Item[]) => {
-    const { attributes, contacts, opportunityDefaultParams } = state.addOpportunity;
+  const createOpportunity = async () => {
+    const { attributes, contacts, opportunityDefaultParams, products } = state.addOpportunity;
     opportunityDefaultParams.handler = state.auth.user.user;
     dispatch(setOpportunityLoader(true));
     const data = await AddOpportunityApi.add(opportunityDefaultParams);
@@ -41,14 +42,26 @@ const AddOpportunity: React.FC = () => {
         attributes.map((obj: models.SaveAttributeFieldParam) => {
           obj.parentFile = Constants.OPPORTUNITY_ATTRIBUTES_PARENT_FILE;
           obj.parentId = opptyId;
-          return Attributes.addAttribute(obj);
+
+          const params: models.SaveAttributeFieldParam = {
+            parentFile: Constants.OPPORTUNITY_ATTRIBUTES_PARENT_FILE,
+            parentId: opptyId,
+            attributeType: obj.attributeType,
+          };
+
+          if (obj.attributeValueD) {
+            params.attributeValueD = obj.attributeValueD;
+          } else {
+            params.attributeValue = obj.attributeValue;
+          }
+          return Attributes.addAttribute(params);
         })
       ).then((response) => {
         return response;
       });
 
       Promise.all(
-        items.map((item: models.Item) => {
+        products.map((item: models.Item) => {
           return AddOpportunityApi.addItem(opptyId, item.item, 1, item.stockingUnit);
         })
       ).then((response) => {
@@ -107,13 +120,13 @@ const AddOpportunity: React.FC = () => {
 
   return (
     <>
-      <div className="sliding-panel-container">
+      <div className="sliding-panel-container fixed-header-footer">
         <div className="sliding-panel">
           <div className="title-row opp-header-text">
             <button type="button" className="mob-steps-back" onClick={closeAction}>
               <img src={ImageConfig.CHEVRON_LEFT} alt="Back" />
             </button>
-            Add New Opportunity
+            {i18n.t('addNewOppt')}
             <button type="button" className="panel-close-icon link-anchor-button" onClick={closeAction}>
               <img src={ImageConfig.CLOSE_BTN} alt="Close" />
             </button>
@@ -127,7 +140,7 @@ const AddOpportunity: React.FC = () => {
           <div className="all-opportunity-steps-container">
             {step === 1 ? <AddOpportunityDefaultFields changeStep={changeStep} /> : null}
             {step === 2 ? <AddOpportunityUserDefinedFields changeStep={changeStep} /> : null}
-            {step === 3 ? <AddOpportunitySelectItems createOpportunity={createOpportunity} /> : null}
+            {step === 3 ? <AddOpportunitySelectItems changeStep={changeStep} createOpportunity={createOpportunity} /> : null}
           </div>
         </div>
       </div>

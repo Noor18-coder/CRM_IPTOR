@@ -60,7 +60,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
     const attributeType = await Attributes.getAttributeType(Constants.ATTRIBUTE_CAMPAIGN, Constants.CUSTOMER_PARENT_FILE);
     if (attributeType.data) {
       const attributeValues = await Attributes.getAttributeValues(attributeType.data.attributeId);
-      if (attributeValues.items) {
+      if (attributeValues?.items) {
         setCampaignList(attributeValues.items);
         setIsCampaignLoading(false);
       }
@@ -224,7 +224,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
       <div className="col-12">
         <p className="cardsec-title">{i18n.t('customer')}</p>
       </div>
-      <div className="col-lg-4 col-md-6 col-sm-6">
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div className="card mb-2">
           <div className="card-title-row">
             <div className="row">
@@ -253,7 +253,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
             </div>
           </div>
 
-          <div className="card-body">
+          <div className="card-body card-body-height">
             <div className="tab-content">
               <div className="tab-pane fade show active" id="cust-newly-added" role="tabpanel" aria-labelledby="cust-newlyadded">
                 {isNewLoading && <div className="text-center">{i18n.t('loadingData')}</div>}
@@ -289,16 +289,16 @@ const DashboarCustomerdWidgets: React.FC = () => {
         </div>
       </div>
 
-      <div className="col-lg-4 col-md-6 col-sm-6">
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div className="card mb-2">
           <div className="card-title-row">
             <div className="row">
-              <div className="col-4">
+              <div className="col-xl-7 col-lg-6 col-md-6 col-sm-7 col-6">
                 <select className="form-control dshbrd-cards-dd">
                   <option>Top 3 by Opportunities</option>
                 </select>
               </div>
-              <div className="col-8 text-right">
+              <div className="col-xl-5 col-lg-6 col-md-6 col-sm-5 col-6 text-right">
                 <ul className="nav nav-tabs dsbd-tabs float-right" role="tablist">
                   <li className="nav-item" role="presentation">
                     <button
@@ -341,7 +341,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
             </div>
           </div>
 
-          <div className="card-body">
+          <div className="card-body card-body-height">
             <div className="tab-content">
               <div className="tab-pane fade show active" id="opp-qone" role="tabpanel" aria-labelledby="qone">
                 {topOpportunityDataLoading ? (
@@ -355,14 +355,14 @@ const DashboarCustomerdWidgets: React.FC = () => {
         </div>
       </div>
 
-      <div className="col-lg-4 col-md-6 col-sm-6">
+      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div className="card mb-2">
           <div className="card-title-row">
             <div className="row">
-              <div className="col">
+              <div className="col-xl-7 col-lg-6 col-md-7 col-sm-8 col-6">
                 <p className="card-title">Targeted Customers</p>
               </div>
-              <div className="col text-right">
+              <div className="col-xl-5 col-lg-6 col-md-5 col-sm-4 col-6 text-right">
                 <select className="form-control dshbrd-cards-dd float-right" onChange={onSelectChange}>
                   {campaignList &&
                     campaignList.map((obj: any) => {
@@ -373,7 +373,7 @@ const DashboarCustomerdWidgets: React.FC = () => {
             </div>
           </div>
 
-          <div className="card-body">
+          <div className="card-body card-body-height">
             {isCampaignLoading ? (
               <div className="text-center">{i18n.t('loadingData')}</div>
             ) : (

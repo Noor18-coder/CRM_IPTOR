@@ -1,4 +1,8 @@
-export default (props: any) => {
+interface Props {
+  noRowsMessageFunc: () => string;
+}
+
+export default (props: Props): JSX.Element => {
   const { noRowsMessageFunc } = props;
   return (
     <div>

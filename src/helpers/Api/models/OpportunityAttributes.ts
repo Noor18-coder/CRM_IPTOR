@@ -1,6 +1,7 @@
 export interface UserDefinedFieldReduxParams {
   attributeType: string;
   attributeValue: string | number;
+  attributeValueD?: string;
   valueFormat?: string;
 }
 
@@ -26,6 +27,7 @@ export interface UserDefinedField {
   valueId?: string;
   readOnly?: boolean;
   error?: string;
+  id?: string;
 }
 
 export interface UserDefinedFieldParam {
@@ -39,6 +41,19 @@ export interface SaveUserDefinedFieldParam {
   attributeType: string;
   attributeValue?: string | number;
   attributeValueD?: string | number;
+}
+
+export interface AddAttributesThunkActionParams {
+  businessPartnerId: string;
+  attributeType: string;
+  attributeValue: string | number;
+  type?: string;
+}
+
+export interface AddOpportunityAttributesParams extends Omit<AddAttributesThunkActionParams, 'businessPartnerId' | 'type'> {
+  opportunityId: string;
+  attributeType: string;
+  attributeValue: string | number;
 }
 
 export interface UserDefinedFieldValuesParams {

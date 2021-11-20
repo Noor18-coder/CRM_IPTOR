@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] Footer should renders correctly 1`] = `
+<footer>
+  <p>
+    <img
+      alt="Iptor"
+      src="iptor-logo-orange.svg"
+      title="Iptor"
+    />
+     © All Content Copyright 2021
+     
+  </p>
+</footer>
+`;

@@ -1,0 +1,268 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Dashboard] DashboardOpportunityWidgets should renders correctly 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-12"
+  >
+    <p
+      className="cardsec-title"
+    >
+      Opportunity
+    </p>
+  </div>
+  <div
+    className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+  >
+    <div
+      className="card mb-2"
+    >
+      <div
+        className="card-title-row"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-xl-6 col-lg-5 col-md-6 col-sm-4 col-5"
+          >
+            <select
+              className="form-control dshbrd-cards-dd"
+              onChange={[Function]}
+            >
+              <option
+                value="Won vs Lost"
+              >
+                Won vs Lost
+              </option>
+              <option
+                value="Revenue"
+              >
+                Revenue
+              </option>
+            </select>
+          </div>
+          <div
+            className="col-xl-6 col-lg-7 col-md-6 col-sm-8 col-7 text-right"
+          >
+            <ul
+              className="nav nav-tabs dsbd-tabs float-right"
+              role="tablist"
+            >
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  data-toggle="tab"
+                  id="day-tab"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Week
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="month-tab"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Month
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="year-tab"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Year
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-body card-body-height"
+      >
+        <div
+          className="tab-content"
+        >
+          <canvas
+            data-testid="canvas"
+            height={150}
+            onClick={[Function]}
+            role="img"
+            width={300}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+  >
+    <div
+      className="card mb-2"
+    >
+      <div
+        className="card-title-row"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-xl-6 col-lg-5 col-md-6 col-sm-4 col-5"
+          >
+            <select
+              className="form-control dshbrd-cards-dd"
+              onChange={[Function]}
+            >
+              <option
+                value="All Regions"
+              >
+                All Regions
+              </option>
+              <option
+                value="Top 10 Industries"
+              >
+                Top 10 Industries
+              </option>
+              <option
+                value="Top 10 Types"
+              >
+                Top 10 Types
+              </option>
+              <option
+                value="Top Sales Person"
+              >
+                Top Sales Person
+              </option>
+            </select>
+          </div>
+          <div
+            className="col-xl-6 col-lg-7 col-md-6 col-sm-8 col-7 text-right"
+          >
+            <ul
+              className="nav nav-tabs dsbd-tabs float-right"
+              role="tablist"
+            >
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="day-tab"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Week
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="month-tab"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Month
+                </button>
+              </li>
+              <li
+                className="nav-item"
+                role="presentation"
+              >
+                <button
+                  className="nav-link"
+                  id="year-tab"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Year
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-body card-body-height"
+      >
+        <div
+          className="tab-content"
+        >
+          <canvas
+            data-testid="canvas"
+            height={150}
+            onClick={[Function]}
+            role="img"
+            width={300}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+  >
+    <div
+      className="card mb-2"
+    >
+      <div
+        className="card-title-row"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-6"
+          >
+            <p
+              className="card-title"
+            >
+              Pipeline
+            </p>
+          </div>
+          <div
+            className="col-6 text-right singlelink"
+          >
+            <span
+              className="pipeline-title-link"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+            >
+              View All
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-body pipeline card-body-height"
+      >
+        <div
+          className="row"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

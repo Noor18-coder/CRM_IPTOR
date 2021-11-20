@@ -24,6 +24,7 @@ const AddCustomer: React.FC = () => {
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value, id } = e.currentTarget;
+
     const inputElement = document.getElementById(id) as HTMLInputElement;
     if (value.length && id === 'EMAIL' && !value.match(emailPattern)) {
       inputElement.style.border = '1px solid #ED2024';
@@ -120,7 +121,7 @@ const AddCustomer: React.FC = () => {
 
   return (
     <>
-      <div className="sliding-panel-container">
+      <div className="sliding-panel-container fixed-header-footer">
         <div className="sliding-panel">
           <div className="title-row opp-header-text">
             <button type="button" className="mob-steps-back" onClick={closeAction}>
@@ -131,105 +132,115 @@ const AddCustomer: React.FC = () => {
               <img src={ImageConfig.CLOSE_BTN} alt="Close" />
             </button>
           </div>
-          <div className="all-opportunity-steps-container pt-24">
-            <div className="opportunity-forms">
-              <p className="add-subtitle">{i18n.t('customerInfo')}</p>
-              <div className="">
-                <div className="steps-one-forms">
-                  <form>
-                    <div className="form-group oppty-form-elements">
-                      <label className="cust-label" htmlFor="name">
-                        {i18n.t('customerName')}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder={i18n.t('giveCustomerName')}
-                        id="name"
-                        onChange={onInputValueChange}
-                        onBlur={validateField}
-                      />
-                    </div>
-                    <p className="add-subtitle">{i18n.t('contactAddr')}</p>
-                    <div className="form-group oppty-form-elements">
-                      <label className="cust-label" htmlFor="addressLine1">
-                        {i18n.t('addr')}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder={i18n.t('giveAddr')}
-                        id="addressLine1"
-                        onChange={onInputValueChange}
-                        onBlur={validateField}
-                      />
-                    </div>
-                    <div className="form-group oppty-form-elements">
-                      <label className="cust-label" htmlFor="country">
-                        {i18n.t('country')}
-                      </label>
-                      <select className="form-control iptor-dd" id="country" onChange={onInputValueChange} onBlur={validateField}>
-                        <option disabled selected>
-                          {i18n.t('selectCountry')}
-                        </option>
-                        {state.enviornmentConfigs.crmCountryInfo.map((obj: CountryInfo) => {
-                          return <option value={obj.country}>{obj.description}</option>;
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group oppty-form-elements">
-                      <label className="cust-label" htmlFor="area">
-                        {i18n.t('area')}
-                      </label>
-                      <select className="form-control iptor-dd" id="area" onChange={onInputValueChange} onBlur={validateField}>
-                        <option disabled selected>
-                          {i18n.t('selectArea')}
-                        </option>
-                        {state.enviornmentConfigs.crmAreaInfo.map((obj: AreaInfo) => {
-                          return (
-                            <option value={obj.area}>
-                              {obj.area} - {obj.description}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group oppty-form-elements">
-                      <label className="cust-label" htmlFor="phone">
-                        {i18n.t('phone')}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder={i18n.t('giveNumber')}
-                        id="phone"
-                        onChange={onInputValueChange}
-                        onBlur={validateField}
-                      />
-                      {phoneErr && <span className="form-hints">{i18n.t('numericFieldError')}</span>}
-                    </div>
-                    <p className="add-subtitle">{i18n.t('accountInfo')}</p>
-                    <div className="form-group oppty-form-elements">
-                      <label className="cust-label" htmlFor="EMAIL">
-                        {i18n.t('email')}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder={i18n.t('giveEmail')}
-                        id="EMAIL"
-                        onChange={onInputValueChange}
-                        onBlur={validateField}
-                      />
-                      {emailErr && <span className="form-hints">{i18n.t('emailFieldError')}</span>}
-                    </div>
-                  </form>
+          <div className="all-opportunity-steps-container">
+            <div className="opportunity-edit-forms">
+              <div className="opportunity-forms edit-form">
+                <p className="add-subtitle">{i18n.t('customerInfo')}</p>
+                <div className="">
+                  <div className="steps-one-forms">
+                    <form>
+                      <div className="form-group oppty-form-elements">
+                        <label className="cust-label" htmlFor="name">
+                          {i18n.t('customerName')}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder={i18n.t('giveCustomerName')}
+                          id="name"
+                          onChange={onInputValueChange}
+                          onBlur={validateField}
+                        />
+                      </div>
+                      <p className="add-subtitle">{i18n.t('contactAddr')}</p>
+                      <div className="form-group oppty-form-elements">
+                        <label className="cust-label" htmlFor="addressLine1">
+                          {i18n.t('addr')}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder={i18n.t('giveAddr')}
+                          id="addressLine1"
+                          onChange={onInputValueChange}
+                          onBlur={validateField}
+                        />
+                      </div>
+                      <div className="form-group oppty-form-elements">
+                        <label className="cust-label" htmlFor="country">
+                          {i18n.t('country')}
+                        </label>
+                        <select className="form-control iptor-dd" id="country" onChange={onInputValueChange} onBlur={validateField}>
+                          <option disabled selected>
+                            {i18n.t('selectCountry')}
+                          </option>
+                          {state.enviornmentConfigs.crmCountryInfo.map((obj: CountryInfo) => {
+                            return (
+                              <option key={obj.country} value={obj.country}>
+                                {obj.description}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                      <div className="form-group oppty-form-elements">
+                        <label className="cust-label" htmlFor="area">
+                          {i18n.t('area')}
+                        </label>
+                        <select className="form-control iptor-dd" id="area" onChange={onInputValueChange} onBlur={validateField}>
+                          <option disabled selected>
+                            {i18n.t('selectArea')}
+                          </option>
+                          {state.enviornmentConfigs.crmAreaInfo.map((obj: AreaInfo) => {
+                            return (
+                              <option key={obj.area} value={obj.area}>
+                                {obj.area} - {obj.description}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                      <div className="form-group oppty-form-elements">
+                        <label className="cust-label" htmlFor="phone">
+                          {i18n.t('phone')}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder={i18n.t('giveNumber')}
+                          id="phone"
+                          onChange={onInputValueChange}
+                          onBlur={validateField}
+                        />
+                        {phoneErr && <span className="form-hints">{i18n.t('numericFieldError')}</span>}
+                      </div>
+                      <p className="add-subtitle">{i18n.t('accountInfo')}</p>
+                      <div className="form-group oppty-form-elements">
+                        <label className="cust-label" htmlFor="EMAIL">
+                          {i18n.t('email')}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder={i18n.t('giveEmail')}
+                          id="EMAIL"
+                          onChange={onInputValueChange}
+                          onBlur={validateField}
+                        />
+                        {emailErr && <span className="form-hints">{i18n.t('emailFieldError')}</span>}
+                      </div>
+                    </form>
+                  </div>
                 </div>
-                <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
-                  <button className={isSubmit ? 'customer-btn' : 'customer-btn disable-link'} onClick={isSubmit ? onSubmit : undefined} type="button">
-                    {!!state.auth.user.role && state.auth.user.role === 'Admin' ? i18n.t('addCustomerBtn') : i18n.t('addShareApproval')}
-                  </button>
-                </div>
+              </div>
+              <div className="step-nextbtn-with-arrow stepsone-nxtbtn">
+                <button
+                  id="addCustomerBtn"
+                  className={isSubmit ? 'customer-btn' : 'customer-btn disable-link'}
+                  onClick={isSubmit ? onSubmit : undefined}
+                  type="button">
+                  {!!state.auth.user.role && state.auth.user.role === 'Admin' ? i18n.t('addCustomerBtn') : i18n.t('addShareApproval')}
+                </button>
               </div>
             </div>
           </div>

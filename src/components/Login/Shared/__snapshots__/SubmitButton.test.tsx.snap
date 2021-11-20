@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Login Shared] SubmitButton should renders correctly with isSubmit false 1`] = `
+<button
+  className="iptor-login-btn disable-button"
+  onClick={[MockFunction]}
+  type="submit"
+>
+  The Button
+</button>
+`;
+
+exports[`[Login Shared] SubmitButton should renders correctly with isSubmit true 1`] = `
+<button
+  className="iptor-login-btn"
+  onClick={[MockFunction]}
+  type="submit"
+>
+  The Button
+</button>
+`;

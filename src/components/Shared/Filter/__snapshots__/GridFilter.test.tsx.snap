@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] GridFilter should renders correctly 1`] = `
+<div
+  className="row s-header filterrow"
+>
+  <div
+    className="mobFilterRow"
+  >
+    <div>
+      <div
+        className="tabs-btn-row"
+      >
+        <img
+          className=""
+          onClick={[Function]}
+          src="add-icon.svg"
+        />
+      </div>
+      <div
+        className="col-12 add-btn"
+      >
+        <div
+          className="custom-menu"
+          onWheel={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "userSelect": "none",
+            }
+          }
+        >
+          <div
+            className="menu-wrapper"
+            onMouseDown={[Function]}
+            onMouseMove={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            style={
+              Object {
+                "overflow": "hidden",
+                "userSelect": "none",
+              }
+            }
+          >
+            <div
+              className="menu-wrapper--inner"
+              style={
+                Object {
+                  "textAlign": "left",
+                  "transform": "translate3d(5px, 0, 0)",
+                  "transition": "transform 0s",
+                  "whiteSpace": "nowrap",
+                }
+              }
+            >
+              <div
+                className="btn filter-items btn-active"
+                onClick={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "display": "inline-block",
+                  }
+                }
+                tabIndex={0}
+              >
+                <button
+                  className="btn "
+                  onClick={[Function]}
+                  type="button"
+                >
+                  
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateInput should renders correctly 1`] = `
+<div
+  className="react-datepicker-wrapper datePicker"
+>
+  <div
+    className="react-datepicker__input-container"
+  >
+    <input
+      className="form-control"
+      disabled={false}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Enter Date"
+      readOnly={false}
+      tabIndex={0}
+      type="text"
+      value=""
+    />
+  </div>
+</div>
+`;

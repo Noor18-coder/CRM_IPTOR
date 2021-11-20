@@ -1,480 +1,472 @@
 .accordion {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .accordion .card {
-    position: relative;
-    margin-bottom: 16px;
-    @include border-radius($border-radius);
-    border: solid 1px $geyser;
+  position: relative;
+  margin-bottom: 16px;
+  @include border-radius($border-radius);
+  border: solid 1px $geyser;
 }
 
 .accordion li div {
-    display: none;
-    padding: 12px 24px 12px 24px;
-    background: $white;
-    color: $limed-spruce;
-    border-top: solid 1px $geyser;
-    -webkit-border-bottom-right-radius: 4px;
-    -webkit-border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
-    -moz-border-radius-bottomleft: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
+  display: none;
+  padding: 12px 24px 12px 24px;
+  background: $white;
+  color: $limed-spruce;
+  border-top: solid 1px $geyser;
+  -webkit-border-bottom-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .accordion a {
-    width: 100%;
-    display: block;
-    cursor: pointer;
-    border-bottom: solid 1px #DAE2E7;
-    padding: 24px;
-    text-decoration: none;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  border-bottom: solid 1px #dae2e7;
+  padding: 24px;
+  text-decoration: none;
 
-    font: {
-        size: $base-font-size + 4;
-        weight: $font-weight-bold;
-    }
+  font: {
+    size: $base-font-size + 4;
+    weight: $font-weight-bold;
+  }
 
-    color: $limed-spruce;
-    user-select: none;
-    background: $white;
-    // @include border-radius($border-radius);
-    -webkit-border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
-    -moz-border-radius-topleft: 4px;
-    -moz-border-radius-topright: 4px;
-
+  color: $limed-spruce;
+  user-select: none;
+  background: $white;
+  // @include border-radius($border-radius);
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
 }
 
 .accordion a:after {
-    width: 8px;
-    height: 8px;
-    border-right: 1px solid #4a6e78;
-    border-bottom: 1px solid #4a6e78;
-    position: absolute;
-    right: 32px;
-    content: " ";
-    top: 32px;
-    transform: rotate(45deg);
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid #4a6e78;
+  border-bottom: 1px solid #4a6e78;
+  position: absolute;
+  right: 32px;
+  content: ' ';
+  top: 32px;
+  transform: rotate(45deg);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .accordion div {
-    font-size: 13px;
-    font-size: 0.8125rem;
-    line-height: 1;
+  font-size: 13px;
+  font-size: 0.8125rem;
+  line-height: 1;
 }
 
 .accordion a.active:after {
-    transform: rotate(228deg);
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
+  transform: rotate(228deg);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .accr-body-container {
+  position: relative;
+
+  button {
     position: relative;
 
-    button {
-        position: relative;
+    &.edit-icon {
+      position: absolute;
+      right: 18px;
+      top: 8px;
+      padding: 10px;
+      cursor: pointer;
 
-        &.edit-icon {
+      border: none;
+      display: block;
+      background-color: white;
+      text-align: center;
+    }
+  }
+
+  &.prod-modules-tbl {
+    padding: 6px 12px 12px 12px;
+
+    table {
+      margin-bottom: 0;
+
+      tbody {
+        tr {
+          position: relative;
+
+          &::after {
             position: absolute;
-            right: 18px;
-            top: 8px;
-            padding: 10px;
-            cursor: pointer;
-            
-            border:none;
-            display:block;
-            padding:10px;
-            background-color:white;
-            text-align:center;
-        }
-    }
+            content: '';
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: $white;
+            display: block;
+          }
 
-    &.prod-modules-tbl {
-        padding: 6px 12px 12px 12px;
-
-        table {
-            margin-bottom: 0;
-
-            tbody {
-
-                tr {
-                    position: relative;
-
-                    &::after {
-                        position: absolute;
-                        content: '';
-                        left: 0;
-                        right: 0;
-                        height: 3px;
-                        background: $white;
-                        display: block;
-                    }
-
-                    &:last-child {
-                        &::after {
-                            content: '';
-                        }
-                    }
-
-                    td {
-                        &.prod-class {
-                            padding: 10px;
-                            vertical-align: middle;
-                        }
-
-                        &.prod-revenue-class {
-                            padding: 0;
-
-                            .title-row {
-
-                                .lft-col {
-                                    display: block;
-                                  //  padding: 10px;
-                                    background-color:transparent;
-                                    border-radius: 5px;
-                                    position: relative;
-                                    width: auto;
-                                    margin: 0px 5px;
-                                    text-align: center;
-                                    border: none;
-
-                                    img {
-                                        padding: 6px;
-                                    }
-                                }
-
-                                .rgt-col {
-                                    display: block;
-                                    padding: 10px;
-                                    background-color:transparent;
-                                    border-radius: 5px;
-                                    position: relative;
-                                    width: auto;
-                                    margin: 10px 5px;
-                                    text-align: center;
-                                    border: none;
-
-                                    img {
-                                        padding: 6px;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+          &:last-child {
+            &::after {
+              content: '';
             }
-        }
-    }
+          }
 
-    >ul {
-        margin: 24px;
+          td {
+            &.prod-class {
+              padding: 24px 12px;
+              vertical-align: middle;
+            }
+
+            &.prod-revenue-class {
+              padding: 0;
+
+              .title-row {
+                .lft-col {
+                  display: block;
+                  //  padding: 10px;
+                  background-color: transparent;
+                  border-radius: 5px;
+                  position: relative;
+                  width: auto;
+                  margin: 0px 5px;
+                  text-align: center;
+                  border: none;
+
+                  img {
+                    padding: 6px;
+                  }
+                }
+
+                .rgt-col {
+                  display: block;
+                  padding: 10px;
+                  background-color: transparent;
+                  border-radius: 5px;
+                  position: relative;
+                  width: auto;
+                  margin: 10px 5px;
+                  text-align: center;
+                  border: none;
+
+                  img {
+                    padding: 6px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  > ul {
+    margin: 24px;
+    margin-bottom: 0;
+
+    &.bdy-list-item {
+      li {
+        color: $limed-spruce;
+        line-height: 22px;
+        border: none;
+        margin-right: 60px;
         margin-bottom: 0;
 
-        &.bdy-list-item {
-            li {
-                color: $limed-spruce;
-                line-height: 22px;
-                border: none;
-                margin-right: 60px;
-                margin-bottom: 0;
-                text-transform: capitalize;
-
-                font: {
-                    size: $base-font-size + 4;
-                    weight: $font-weight-semibold;
-                }
-
-                span {
-                    display: block;
-                    text-transform: capitalize;
-                    color: $blue-bayoux;
-
-                    font: {
-                        size: $base-font-size;
-                        weight: $font-weight-regular;
-                    }
-                }
-
-                &:first-child {
-                    width: 200px;
-                }
-            }
+        font: {
+          size: $base-font-size + 4;
+          weight: $font-weight-semibold;
         }
 
-        &.accr-list-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            column-gap: 20px;
+        span {
+          display: block;
+          color: $blue-bayoux;
 
-            li {
-                margin: 0;
-                margin-bottom: 24px;
-
-                &:first-child {
-                    width: inherit;
-                }
-            }
+          font: {
+            size: $base-font-size;
+            weight: $font-weight-regular;
+          }
         }
 
-
-
+        &:first-child {
+          width: 200px;
+        }
+      }
     }
+
+    &.accr-list-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 20px;
+
+      li {
+        margin: 0;
+        margin-bottom: 24px;
+
+        &:first-child {
+          width: inherit;
+        }
+      }
+    }
+  }
 }
 
 .accordian-card {
-    margin-left: 28px;
-    width: 30%;
-    display: inline-block;
-    vertical-align: top;
+  margin-left: 28px;
+  width: 30%;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .left-card {
-    width: 90%;
-    display: inline-block
+  width: 90%;
+  display: inline-block;
 }
 
 .right-card {
-    width: 10%;
-    display: inline-block;
-    vertical-align: top
+  width: 10%;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .padding-28 {
-    padding: 28px
+  padding: 28px;
 }
 
 .card-delete {
-    padding-right: 20px
+  padding-right: 20px;
 }
 
 .product-row {
-    padding: 24px 16px 0 16px;
-    background: #EEF0F2;
-    width: 100%;
+  padding: 24px 16px 0 16px;
+  background: #eef0f2;
+  width: 100%;
 
-    .lft-col {
-        color: $o-black;
+  .lft-col {
+    color: $o-black;
 
-        font: {
-            size: $base-font-size;
-        }
-
-        span {
-            padding-top: 4px;
-            display: block;
-
-            font: {
-                size: $base-font-size + 2;
-                weight: $font-weight-bold;
-            }
-        }
+    font: {
+      size: $base-font-size;
     }
 
-    .rgt-col {
-        color: $o-black;
+    span {
+      padding-top: 4px;
+      display: block;
 
-        font: {
-            size: $base-font-size;
-        }
-
-        text-align: right;
-
-        span {
-            padding-top: 4px;
-            display: block;
-
-            font: {
-                size: $base-font-size + 2;
-                weight: $font-weight-bold;
-            }
-        }
+      font: {
+        size: $base-font-size + 2;
+        weight: $font-weight-bold;
+      }
     }
+  }
+
+  .rgt-col {
+    color: $o-black;
+
+    font: {
+      size: $base-font-size;
+    }
+
+    text-align: right;
+
+    span {
+      padding-top: 4px;
+      display: block;
+
+      font: {
+        size: $base-font-size + 2;
+        weight: $font-weight-bold;
+      }
+    }
+  }
 }
 
 .icon {
-    font: {
-        size: $base-font-size + 2;
-        weight: $font-weight-bold -100;
-    }
+  font: {
+    size: $base-font-size + 2;
+    weight: $font-weight-bold -100;
+  }
 
-    line-height: 22px;
-    padding-bottom: 24px;
-    padding-top: 20px;
+  line-height: 22px;
+  padding-bottom: 24px;
+  padding-top: 20px;
 }
 
 .icon-class {
-    background: #DAE2E7;
-    font-size: 16px;
-    font-weight: 700;
-    color: #2F3C46;
+  background: #dae2e7;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2f3c46;
 }
 
 .del-icon {
-    margin-right: 28px;
-    margin-left: 28px;
+  margin-right: 28px;
+  margin-left: 28px;
 }
 
 .mr-6 {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .mr-10 {
-    margin: 10px;
+  margin: 10px;
 }
 
 .add-details .card-link img {
-    position: absolute;
-    right: 59px;
-    top: 17px;
+  position: absolute;
+  right: 59px;
+  top: 17px;
 }
 
 .contact-label {
-    font-size: 12px !important;
-    color: #404040 !important;
-    margin-bottom: 12px !important
+  font-size: 12px !important;
+  color: #404040 !important;
+  margin-bottom: 12px !important;
 }
 
 .contact-font {
-    font-size: 14px !important
+  font-size: 14px !important;
 }
 
 .more-info-group-name {
-    font-size: 18px !important;
-    font-weight: 700;
-    color: #2F3C46;
-    padding: 16px 24px;
-    padding-bottom: 0;
-    text-transform: capitalize;
-    position: relative;
-    line-height: 1.3 !important;
+  font-size: 18px !important;
+  font-weight: 700;
+  color: #2f3c46;
+  padding: 16px 24px;
+  padding-bottom: 0;
+  position: relative;
+  line-height: 1.3 !important;
 
-    .edit-moreinfo {
-        position: absolute;
-        right: 18px;
-        top: 8px;
-        padding: 10px;
-        cursor: pointer;
-        
-        border:none;
-        display:block;
-        padding:10px;
-        background-color:white;
-        text-align:center;
-        line-height: 1;
-    }
+  .edit-moreinfo {
+    position: absolute;
+    right: 18px;
+    top: 8px;
+    padding: 10px;
+    cursor: pointer;
+
+    border: none;
+    display: block;
+    background-color: white;
+    text-align: center;
+    line-height: 1;
+  }
 }
 
 .more-info-group-container {
-    border-bottom: 1px solid #DAE2E7;
+  border-bottom: 1px solid #dae2e7;
 }
 
 .cust-details img {
-    position: absolute;
-    right: 29px;
+  position: absolute;
+  right: 29px;
 }
 
 .list-inline .edit {
-    position: relative;
-    left: 387px;
+  position: relative;
+  left: 387px;
 }
 
 .customer-card-text {
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    margin-top: 0px !important;
-    color: #404040 !important
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin-top: 0px !important;
+  color: #404040 !important;
 }
 
 .mobile-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 ag-cell span {
-    padding-left: 10px
+  padding-left: 10px;
 }
 
 .add-details {
+  .collapse {
+    padding: 12px;
+    padding-bottom: 0;
 
-    .collapse {
+    .container-fluid {
+      padding-left: 0;
+      padding-right: 0;
 
-        padding: 12px;
-        padding-bottom: 0;
+      .card {
+        .card-body {
+          padding: 0px;
+          position: relative;
 
-        .container-fluid {
-            padding-left: 0;
-            padding-right: 0;
+          .name-add-sec {
+            padding: 24px;
 
-            .card {
-                .card-body {
-                    padding: 0px;
-                    position: relative;
+            .person-name-desig {
+              .name {
+                color: $limed-spruce;
 
-                    .name-add-sec {
-                        padding: 24px;
-
-                        .person-name-desig {
-                            .name {
-                                color: $limed-spruce;
-
-                                font: {
-                                    weight: $font-weight-semibold;
-                                    size: $base-font-size;
-                                }
-                            }
-
-                            .designation {
-                                display: block;
-                                margin-top: 4px;
-                            }
-                        }
-                    }
-
-                    .address-card-close {
-                        position: absolute;
-                        top: 10px;
-                        right: 10px;
-                        border-bottom: none;
-                        display: inherit;
-                        width: inherit;
-                        padding: 10px;
-
-                        .card-delete {
-                            padding-right: 0;
-                        }
-
-                        &::after {
-                            content: inherit;
-                        }
-                    }
-
-                    .select-opportunity-sec {
-                        background: $mercury;
-                        padding: 24px;
-
-                        .form-group {
-                            margin-bottom: 0;
-
-                            label {
-                                font: {
-                                    weight: $font-weight-bold;
-                                    size: $base-font-size - 2;
-                                }
-                            }
-                        }
-                    }
+                font: {
+                  weight: $font-weight-semibold;
+                  size: $base-font-size;
                 }
+              }
+
+              .designation {
+                display: block;
+                margin-top: 4px;
+              }
             }
+          }
+
+          .card-action-btns {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-bottom: none;
+            display: inherit;
+            width: inherit;
+            padding: 10px;
+
+            .card-delete {
+              padding-right: 0;
+            }
+
+            &::after {
+              content: inherit;
+            }
+
+            .view-contact {
+              margin-right: 16px;
+              cursor: pointer;
+            }
+          }
+
+          .select-opportunity-sec {
+            background: $mercury;
+            padding: 24px;
+
+            .form-group {
+              margin-bottom: 0;
+
+              label {
+                font: {
+                  weight: $font-weight-bold;
+                  size: $base-font-size - 2;
+                }
+              }
+            }
+          }
         }
+      }
     }
+  }
 }

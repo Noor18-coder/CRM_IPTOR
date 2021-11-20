@@ -9,9 +9,13 @@ export interface ProductList {
   quantity: number;
   unit: string;
   isFreeOfCharge: boolean;
+  ATRTST1ITM: string | string[];
+  ATRTST2ITM: string | string[];
+  DATE_MULTIPLE: string | string[];
 }
 
 export interface ContactsList {
+  opportunityId: string;
   contactId: string;
   contactPerson: string;
   contactDC: string;
@@ -51,6 +55,8 @@ export interface ReportOpptyList {
   customer: string;
   currency: string;
   ACTION_PENDING: string;
+  ATRTST1: string | string[];
+  ATRTST2: string | string[];
   CLOUD_OPP_SIZING: string | string[];
   CLOUD_Y1: number | number[];
   CLOUD_Y2: number | number[];
@@ -86,6 +92,8 @@ export interface ReportOpptyList {
   SUBSCRIPTION_Y7: number | number[];
   TEST_NUMERIC_MANDATO: number | number[];
   THIRD_PARTY_COGS: number | number[];
+  MULTIPLE_TEXT: string | string[];
+  TEST_MULTY: string | string[];
   products?: ProductList[];
   contacts?: ContactsList[];
 }

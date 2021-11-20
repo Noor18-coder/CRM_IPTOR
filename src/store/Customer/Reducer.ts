@@ -12,6 +12,8 @@ export const createBusinessPartnerInitialState = (): BusinessPartnerState => {
   return {
     businesspartners: [],
     businessPartnerFilters: [],
+    businessPartnerSelectedFilter: undefined,
+    businessPartnerSearchText: '',
   };
 };
 
@@ -33,6 +35,16 @@ const businessPartnerReducer: Reducer<BusinessPartnerState, BusinessPartnerActio
       return {
         ...state,
         businessPartnerFilters: [...state.businessPartnerFilters, ...action.filter],
+      };
+    case BusinessPartnerTypes.SAVE_BUSINESSPARTNER_SELECTED_FILTER:
+      return {
+        ...state,
+        businessPartnerSelectedFilter: action.selected,
+      };
+    case BusinessPartnerTypes.SAVE_BUSINESSPARTNER_SEARCH_TEXT:
+      return {
+        ...state,
+        businessPartnerSearchText: action.searchText,
       };
     default:
       return state;

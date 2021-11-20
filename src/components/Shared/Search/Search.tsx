@@ -5,7 +5,7 @@ import { OpportunityListItem } from '../../../helpers/Api/models';
 
 interface Props {
   onChange: () => void;
-  onSearch: (key: string) => void;
+  onSearch: (key: string) => Promise<any[]>;
   onSearchItemSelect: (data: any) => void;
 }
 

@@ -7,14 +7,14 @@ const ContactFields = [
     attributeValue: '',
     readOnly: false,
   },
-  {
-    description: 'Role',
-    attributeType: 'role',
-    valuesExist: false,
-    attributeId: '',
-    attributeValue: '',
-    readOnly: true,
-  },
+  // {
+  //   description: 'Role',
+  //   attributeType: 'role',
+  //   valuesExist: false,
+  //   attributeId: '',
+  //   attributeValue: '',
+  //   readOnly: true,
+  // },
   {
     description: 'E-mail',
     attributeType: 'email',
@@ -31,14 +31,14 @@ const ContactFields = [
     attributeValue: '',
     readOnly: false,
   },
-  {
-    description: 'Address',
-    attributeType: 'ADDRESS',
-    valuesExist: false,
-    attributeId: '',
-    attributeValue: '',
-    readOnly: false,
-  },
+  // {
+  //   description: 'Address',
+  //   attributeType: 'ADDRESS',
+  //   valuesExist: false,
+  //   attributeId: '',
+  //   attributeValue: '',
+  //   readOnly: false,
+  // },
 ];
 
 export default ContactFields;

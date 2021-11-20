@@ -11,8 +11,7 @@ import { AddOpportunityContextProvider, AddOpportunityContextInterface } from '.
 const Container: React.FC<AddOpportunityContextInterface> = ({ customerId, customerName }) => {
   const state: AppState = useSelector((appState: AppState) => appState);
 
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
 
   const customerData: AddOpportunityContextInterface = {
     customerId,
@@ -24,7 +23,7 @@ const Container: React.FC<AddOpportunityContextInterface> = ({ customerId, custo
       <AddOpportunityContextProvider value={customerData}>
         {state.addOpportunity.loader ? <Loader /> : null}
         {state.addOpportunity.loader ? <Loader /> : null}
-        {isMobile || isTablet ? (
+        {isMobile ? (
           state.addOpportunity.addOpptyWindowActive ? (
             <AddOpportunity />
           ) : null

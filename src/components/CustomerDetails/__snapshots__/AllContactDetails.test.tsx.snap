@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[CustomerDetails] AllContactsAccordian should renders correctly 1`] = `
+<div
+  className="accordion"
+>
+  <div
+    className="contact-class card"
+  >
+    <a
+      className="card-link"
+      onClick={[Function]}
+    >
+      <span
+        className="cust-title"
+      >
+        title
+      </span>
+      <span
+        className="cust-info"
+      >
+        <span>
+          1
+           CONTACTS
+        </span>
+      </span>
+      <img
+        alt="Add"
+        className="add-img action-icon"
+        onClick={[Function]}
+        src="add_btn.svg"
+        title="Add"
+      />
+    </a>
+    <div
+      aria-expanded={null}
+      className="collapse"
+    >
+      <div
+        className="accr-body-container customers-comp"
+      >
+        <div
+          className="container-fluid"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="col-md-4"
+            >
+              <div
+                className="accordian-card mb-4 card"
+              >
+                <div
+                  className="card-body"
+                >
+                  <div
+                    className="name-add-sec"
+                  >
+                    <p
+                      className="person-name-desig"
+                    >
+                      <span
+                        className="name"
+                      >
+                        New
+                      </span>
+                    </p>
+                    <p
+                      className="mailid"
+                    >
+                      Plastic
+                    </p>
+                    <p
+                      className="contact-num"
+                    >
+                      5130757854
+                    </p>
+                     
+                    <br />
+                    <p
+                      className="contact-address"
+                    >
+                      <span
+                        className="line1"
+                      >
+                        Profound
+                      </span>
+                    </p>
+                  </div>
+                  <div
+                    className="card-action-icons"
+                  >
+                    <img
+                      alt="Delete"
+                      className="card-delete action-icon"
+                      height="20"
+                      onClick={[Function]}
+                      src="close.svg"
+                      title="Delete"
+                    />
+                    <img
+                      alt="Edit"
+                      className="action-icon"
+                      onClick={[Function]}
+                      src="edit-icon.svg"
+                      title="Edit"
+                    />
+                  </div>
+                  <div
+                    className="active-switch"
+                  >
+                    <span
+                      className="active-text"
+                    >
+                      Active
+                      <label
+                        className="switch active-box"
+                      >
+                        <input
+                          checked={true}
+                          disabled={false}
+                          id="ACTIVE"
+                          onChange={[Function]}
+                          tabIndex={0}
+                          type="checkbox"
+                        />
+                        <span
+                          className="slider round"
+                        >
+                           
+                        </span>
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

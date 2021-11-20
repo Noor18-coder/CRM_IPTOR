@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LoginFooter = () => {
+const LoginFooter = (): JSX.Element => {
   return (
     <p className="login-copyrights">
       Copyright &copy; 2021 - Iptor Sweden AB |{' '}

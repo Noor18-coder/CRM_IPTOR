@@ -5,16 +5,15 @@ import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import i18n from '../../i18n';
 import { AttributeValueObject, Product } from '../../helpers/Api/models';
-import OpportunityDetailsApi from '../../helpers/Api/OpportunityDetailsApi';
 import * as models from '../../helpers/Api/models';
 import ImageConfig from '../../config/ImageConfig';
 import { AppState } from '../../store/store';
+import { getDateInFormat } from '../../helpers/utilities/lib';
 import {
   getOpportunityProducts,
   getProductInformation,
-  setOpportunityDetailsLoader,
-  removeOpportunityDetailsLoader,
   openOpportunityForm,
+  deleteOpportunityProducts,
 } from '../../store/OpportunityDetails/Actions';
 
 export interface ContactProps {
@@ -27,7 +26,7 @@ interface Props {
 }
 
 export const ProductAccordian: React.FC<Props> = ({ opportunityId }) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
 
   const [activeClass, setActiveClass] = React.useState('');
@@ -70,8 +69,8 @@ export const ProductAccordian: React.FC<Props> = ({ opportunityId }) => {
                         <tr>
                           <th>{i18n.t('itemId')}</th>
                           <th>{i18n.t('itemName')}</th>
-                          {state.enviornmentConfigs.productAttributes.map((obj: models.AttributeField) => {
-                            return <th>{obj.attributeType}</th>;
+                          {state.enviornmentConfigs.productAttributes.slice(0, 5).map((obj: models.AttributeField) => {
+                            return <th>{obj.description}</th>;
                           })}
                         </tr>
                       </thead>
@@ -105,20 +104,50 @@ export const ProductCards: React.FC<ContactProps> = ({ data, opportunityId }) =>
 
   const openAddItemForm = (action: string) => {
     if (action === 'delete_item') {
-      const params: models.DeleteOpportunityItemParams = {
-        parentId: opportunityId,
-        itemId: data && data.itemId ? data.itemId : '',
-      };
-      dispatch(setOpportunityDetailsLoader());
-      OpportunityDetailsApi.deleteItem(params).then(() => {
-        dispatch(removeOpportunityDetailsLoader());
-        dispatch(getOpportunityProducts(opportunityId));
-      });
+      dispatch(deleteOpportunityProducts(opportunityId, data));
     } else {
       document.body.classList.add('body-scroll-hidden');
       dispatch(openOpportunityForm({ open: true, groupName: action, data, action: 'edit' }));
     }
   };
+
+  const getValue = (obj: models.AttributeField) => {
+    const attributes: models.AttributeValueObject[] | undefined =
+      data &&
+      data.attributes &&
+      data.attributes.filter((dataAttributeValue: AttributeValueObject) => {
+        return obj.attributeType === dataAttributeValue.attributeType;
+      });
+
+    let result = '';
+
+    if (!attributes) {
+      return result;
+    }
+
+    attributes.forEach((attribute: models.AttributeValueObject) => {
+      const value = attribute && attribute.attributeValue ? attribute.attributeValue : '--';
+      if (obj?.valueFormatDesc === 'DATE') {
+        const year = value.substring(0, 4);
+        const month = value.substring(4, 6);
+        const day = value.substring(6, 8);
+        result += `${year}-${month}-${day}, `;
+        const tempDate = `${year}-${month}-${day}`;
+        result += `${getDateInFormat(new Date(tempDate))}, `;
+      } else if (obj?.valueFormatDesc === 'BOOLEAN') {
+        result += `${value ? (value === 'Y' ? 'Yes' : 'No') : '--'}, `;
+      } else {
+        result += `${value}, `;
+      }
+    });
+    result = result.slice(0, -2);
+    if (result === '') {
+      return '--';
+    } else {
+      return result;
+    }
+  };
+
   return (
     <>
       <div className="mr-10 mob-prod-modules-card">
@@ -130,24 +159,18 @@ export const ProductCards: React.FC<ContactProps> = ({ data, opportunityId }) =>
             {i18n.t('itemName')} <span className="danger">{data.itemDescription}</span>
           </div>
         </div>
-        <div className="d-flex justify-content-between product-row">
-          {state.enviornmentConfigs.productAttributes.map((obj: models.AttributeField, index: number) => {
-            const attribute: AttributeValueObject | undefined =
-              data.attributes &&
-              data.attributes.find((dataAttributeValue: AttributeValueObject) => {
-                return obj.attributeType === dataAttributeValue.attributeType;
-              });
-
+        <div className="d-flex justify-content-between product-row prod-mod-collection">
+          {state.enviornmentConfigs.productAttributes.slice(0, 5).map((obj: models.AttributeField, index: number) => {
             if (index % 2 === 0) {
               return (
                 <div className="lft-col">
-                  {obj.description} <div className="values">{attribute?.attributeValue ? attribute.attributeValue : '--'}</div>
+                  {obj.description} <div className="values">{getValue(obj)}</div>
                 </div>
               );
             } else {
               return (
                 <div className="rgt-col">
-                  {obj.description} <div className="values">{attribute?.attributeValue ? attribute.attributeValue : '--'}</div>
+                  {obj.description} <div className="values">{getValue(obj)}</div>
                 </div>
               );
             }
@@ -180,21 +203,9 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ opportunityId, data 
   const state: AppState = useSelector((appState: AppState) => appState);
   // const data: models.Product | undefined = state.opportuntyDetails.products.find((obj: models.Product) => obj.itemId === itemId);
   const dispatch: Dispatch<any> = useDispatch();
-  React.useEffect(() => {
-    dispatch(getProductInformation(data.itemId));
-  }, []);
-
   const openAddItemForm = (action: string) => {
     if (action === 'delete_item') {
-      const params: models.DeleteOpportunityItemParams = {
-        parentId: opportunityId,
-        itemId: data && data.itemId ? data.itemId : '',
-      };
-      dispatch(setOpportunityDetailsLoader());
-      OpportunityDetailsApi.deleteItem(params).then(() => {
-        dispatch(removeOpportunityDetailsLoader());
-        dispatch(getOpportunityProducts(opportunityId));
-      });
+      dispatch(deleteOpportunityProducts(opportunityId, data));
     } else {
       document.body.classList.add('body-scroll-hidden');
       dispatch(openOpportunityForm({ open: true, groupName: action, data, action: 'edit' }));
@@ -202,24 +213,43 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ opportunityId, data 
   };
 
   const getValue = (obj: models.AttributeField) => {
-    const attribute: models.AttributeValueObject | undefined =
+    const attributes: models.AttributeValueObject[] | undefined =
       data &&
       data.attributes &&
-      data.attributes.find((dataAttributeValue: AttributeValueObject) => {
+      data.attributes.filter((dataAttributeValue: AttributeValueObject) => {
         return obj.attributeType === dataAttributeValue.attributeType;
       });
 
-    const value = attribute && attribute.attributeValue ? attribute.attributeValue : '';
+    let result = '';
 
-    if (obj?.valueFormatDesc === 'DATE') {
-      const year = value.substring(0, 4);
-      const month = value.substring(4, 6);
-      const day = value.substring(6, 8);
-      return `${year}-${month}-${day}`;
-    } else if (obj?.valueFormatDesc === 'BOOLEAN') {
-      return value ? (value === 'Y' ? 'No' : 'Yes') : '--';
+    if (!attributes) {
+      return result;
     }
-    return value;
+
+    attributes.forEach((attribute: models.AttributeValueObject) => {
+      const value = attribute && attribute.attributeValue ? attribute.attributeValue : '';
+      if (obj?.valueFormatDesc === 'DATE') {
+        if (value !== '0') {
+          const year = value.substring(0, 4);
+          const month = value.substring(4, 6);
+          const day = value.substring(6, 8);
+          const tempDate = `${year}-${month}-${day}`;
+          result += `${getDateInFormat(new Date(tempDate))}, `;
+        } else {
+          result = '--';
+        }
+      } else if (obj?.valueFormatDesc === 'BOOLEAN') {
+        result += `${value ? (value === 'Y' ? 'Yes' : 'No') : '--'}, `;
+      } else {
+        result += `${value}, `;
+      }
+    });
+    result = result.slice(0, -2);
+    if (result === '') {
+      return '--';
+    } else {
+      return result;
+    }
   };
 
   return (
@@ -228,9 +258,11 @@ export const ProductCardsTable: React.FC<ContactProps> = ({ opportunityId, data 
         <tr>
           <td className="prod-class">{data.item}</td>
           <td className="prod-class">{data.itemDescription}</td>
-          {state.enviornmentConfigs.productAttributes.map((obj: models.AttributeField) => {
-            return <td className="prod-class">{getValue(obj)}</td>;
-          })}
+          {state.opportuntyDetails.products
+            ? state.enviornmentConfigs.productAttributes.slice(0, 5).map((obj: models.AttributeField) => {
+                return <td className="prod-class">{getValue(obj)}</td>;
+              })
+            : null}
           <td className="prod-revenue-class">
             {state.opportuntyDetails.editOportunity.allowEdit ? (
               <div className="d-flex justify-content-between title-row float-right">

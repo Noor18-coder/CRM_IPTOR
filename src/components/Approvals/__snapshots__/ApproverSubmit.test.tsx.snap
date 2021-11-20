@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Approvals] ApproverSubmit should renders correctly 1`] = `
+<div
+  className="stage-level-container"
+>
+  <div
+    className="stage-level-section"
+  >
+    <div
+      className="stage-row approval-data-rows"
+    >
+      <div
+        className="form-group oppty-form-elements"
+      >
+        <label
+          className="cust-label"
+          htmlFor="comment"
+        >
+          Comment
+        </label>
+        <textarea
+          className="form-control"
+          id="comment"
+          onChange={[Function]}
+          placeholder="Add comment here"
+        />
+      </div>
+      <div
+        className="step-nextbtn-with-arrow stepsone-nxtbtn"
+      >
+        <button
+          className="approval-btn"
+          onClick={[Function]}
+          type="button"
+        >
+          Approve
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

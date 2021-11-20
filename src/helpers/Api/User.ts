@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { get } from 'lodash';
 import { ApiRequest } from './ApiRequest';
 import * as models from './models';
@@ -19,7 +19,7 @@ export class User {
   static async get(userId?: string): Promise<models.UserItem> {
     const requestData = { method: this.apiMethod, user: userId };
     const response = await axios.post<models.UserResponse>('/api/service', requestData);
-    return get(response, 'data.data', {});
+    return get<AxiosResponse<models.UserResponse>, 'data', 'data', models.UserItem>(response, ['data', 'data'], {} as models.UserItem);
   }
 
   /**
@@ -41,6 +41,6 @@ export class User {
   static async getAll(freeTextSearch: string, offset?: number, limit?: number): Promise<models.UserItem[]> {
     const requestData = new ApiRequest<models.UsersParams>(this.apiGetAllUsers, {}, { freeTextSearch, limit, offset });
     const response = await axios.post<models.UsersResponse>('/api/service', requestData);
-    return get(response, 'data.data.items', []);
+    return get<AxiosResponse<models.UsersResponse>, 'data', 'data', 'items', models.UserItem[]>(response, ['data', 'data', 'items'], []);
   }
 }

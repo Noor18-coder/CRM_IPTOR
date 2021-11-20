@@ -28,10 +28,11 @@ export interface OpportunityListItem {
   estValueSys: number;
   exchangeRate: number;
   approvalStatus: string;
+  userId: string;
 }
 
 export interface OpportunityListParams {
-  handler: string;
+  selectUserId?: string;
   selectHandler?: string;
   selectCloseDateFrom?: string;
   selectCloseDateTo?: string;
@@ -59,4 +60,11 @@ export interface OpportunityListResponse {
       items: OpportunityListItem[];
     };
   };
+}
+
+export interface OpportunityListApiMethodParams {
+  limit?: number;
+  offset?: number;
+  orderBy?: string;
+  otherparams?: OpportunityListParams;
 }

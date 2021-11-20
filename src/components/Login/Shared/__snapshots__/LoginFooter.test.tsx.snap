@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Login Shared] LoginFooter should renders correctly 1`] = `
+<p
+  className="login-copyrights"
+>
+  Copyright © 2021 - Iptor Sweden AB |
+   
+  <button
+    className="text-link footer-anchor-button"
+    type="button"
+  >
+    Privacy Policy
+  </button>
+   
+  |
+   
+  <button
+    className="text-link footer-anchor-button"
+    type="button"
+  >
+    UK Legal?
+  </button>
+   
+  |
+   
+  <button
+    className="text-link footer-anchor-button"
+    type="button"
+  >
+    Code
+  </button>
+   
+</p>
+`;

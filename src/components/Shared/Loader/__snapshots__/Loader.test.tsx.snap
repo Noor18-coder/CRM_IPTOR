@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Shared] Loader should renders correctly 1`] = `
+<div
+  id="loader-overlay"
+>
+  <div
+    id="loader_container"
+  >
+    <div
+      id="loader-bg"
+    >
+      <div
+        id="loader_part_1_cover"
+      >
+        <div
+          id="loader_part_1"
+        />
+      </div>
+      <div
+        id="loader_part_2_cover"
+      >
+        <div
+          id="loader_part_2"
+        />
+      </div>
+      <div
+        id="loader_part_3_cover"
+      >
+        <div
+          id="loader_part_3"
+        />
+      </div>
+      <span
+        id="loader-cover"
+      />
+    </div>
+    <p
+      id="loader-text"
+    >
+      Loading...
+    </p>
+  </div>
+</div>
+`;

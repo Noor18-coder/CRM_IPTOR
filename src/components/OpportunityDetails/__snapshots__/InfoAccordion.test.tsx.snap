@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[OpportunityDetails] AccordianForMobileWithGroups should renders correctly 1`] = `
+<div
+  className="opp-moreinfo-sec"
+>
+  title
+</div>
+`;
+
+exports[`[OpportunityDetails] DisplayGroup should renders correctly 1`] = `
+<div
+  className="more-info-group-container"
+>
+  <div
+    className="more-info-group-name"
+  >
+    title
+  </div>
+  <div
+    className="accr-body-container"
+  >
+    <ul
+      className="list-inline bdy-list-item accr-list-columns"
+    />
+  </div>
+</div>
+`;
+
+exports[`[OpportunityDetails] DisplayGroupMobile should renders correctly 1`] = `
+<div
+  className="more-info-group-container"
+>
+  <div
+    className="accr-body-container"
+  >
+    <ul
+      className="list-inline bdy-list-item"
+    />
+  </div>
+</div>
+`;
+
+exports[`[OpportunityDetails] InfoAccordion should renders correctly 1`] = `
+<div
+  className="accordion"
+>
+  <div
+    className="card"
+  >
+    <a
+      className="card-link"
+      onClick={[Function]}
+    >
+      title
+    </a>
+    <div
+      aria-expanded={null}
+      className="collapse"
+    >
+      <div
+        className="accr-body-container"
+      >
+        <ul
+          className="list-inline bdy-list-item accr-list-columns"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[OpportunityDetails] InfoAccordionGroups should renders correctly 1`] = `
+<div
+  className="accordion"
+>
+  <div
+    className="card"
+  >
+    <a
+      className="card-link"
+      onClick={[Function]}
+    >
+      title
+    </a>
+    <div
+      aria-expanded={null}
+      className="collapse"
+    />
+  </div>
+</div>
+`;

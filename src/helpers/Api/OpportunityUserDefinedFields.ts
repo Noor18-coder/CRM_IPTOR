@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import * as apiModels from './models';
 import { ApiRequest } from './ApiRequest';
 
@@ -59,11 +59,11 @@ export default class AddOpportunityFields {
       parentFile: this.attributesFileName,
       attributeType: opportunityId,
     });
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    const response = await axios.post('/api/service', requestData);
     return response.data.data;
   }
 
-  static async getAttributeValues(attributeId: string): Promise<any> {
+  static async getAttributeValues(attributeId: string): Promise<apiModels.UserDefinedFieldValuesResponse['data']> {
     const requestData = new ApiRequest<apiModels.UserDefinedFieldValuesParams>(this.apiGetAttributeValues, { attributeId });
     const response = await axios.post<apiModels.UserDefinedFieldValuesResponse>('/api/service', requestData);
     return response.data.data;
@@ -74,7 +74,7 @@ export default class AddOpportunityFields {
       parentFile: this.industryAttributesFileName,
       attributeType,
     });
-    const response = await axios.post<AxiosResponse>('/api/service', requestData);
+    const response = await axios.post('/api/service', requestData);
     return response.data.data;
   }
 }

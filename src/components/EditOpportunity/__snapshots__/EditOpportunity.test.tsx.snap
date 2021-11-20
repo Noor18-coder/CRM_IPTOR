@@ -1,0 +1,656 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[EditOpportunity] EditOpportunity should render component to add contact to given opportunity 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Add Contacts
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="add-contact-msg"
+      >
+        No Contacts Found
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[EditOpportunity] EditOpportunity should render component to assign (change ownership) of the opportunity 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="assign-opportunity-form"
+      >
+        <div
+          className="form-group oppty-form-elements"
+        >
+          <label
+            className="opp-label"
+            htmlFor="owner"
+          >
+            Assign Opportunity
+          </label>
+          <input
+            className="form-control"
+            onFocus={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className="step-nextbtn-with-arrow stepsone-nxtbtn"
+      >
+        <button
+          className="stepone-next-btn inactive"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[EditOpportunity] EditOpportunity should render component to de-activate the opportunity 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Deactivate Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-edit-form"
+      >
+        <div
+          className="steps-three-forms"
+        >
+          <div
+            className="radiobtn-collection oppty-form-elements"
+          >
+            <p
+              className="title"
+            >
+              Please select any one reason
+            </p>
+            <div
+              className="opportunity-type-container"
+            >
+              <div>
+                No Items Found
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="step-nextbtn-with-arrow stepsone-nxtbtn"
+      >
+        <button
+          className="stepone-next-btn inactive"
+          onClick={[Function]}
+          type="button"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[EditOpportunity] EditOpportunity should render component to edit items assigned to an opportunity 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    />
+  </div>
+</div>
+`;
+
+exports[`[EditOpportunity] EditOpportunity should render component to edit opportunity basic values 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-edit-form"
+      >
+        <form
+          onSubmit={[Function]}
+        >
+          <div
+            className="opportunity-forms edit-form"
+          >
+            <p
+              className="title"
+            >
+              Basic Details
+            </p>
+            <div
+              className=""
+            >
+              <div
+                className="steps-one-forms"
+              >
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="desc"
+                  >
+                    Opportunity Name
+                  </label>
+                  <input
+                    className="form-control"
+                    id="desc"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Opportunity Name"
+                    type="text"
+                    value=""
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="stage"
+                  >
+                    Stage
+                  </label>
+                  <select
+                    className="form-control iptor-dd"
+                    id="stage"
+                    onChange={[Function]}
+                    value=""
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="customerName"
+                  >
+                    Customer
+                  </label>
+                  <input
+                    className="form-control"
+                    disabled={true}
+                    id="customerName"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Customer"
+                    type="text"
+                    value=""
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="owner"
+                  >
+                    Owner
+                  </label>
+                  <input
+                    className="form-control"
+                    onFocus={[Function]}
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="oppRecordType"
+                  >
+                    Opportunity Type
+                  </label>
+                  <input
+                    className="form-control"
+                    disabled={true}
+                    id="oppRecordType"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Opportunity Type"
+                    type="text"
+                    value=""
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="endDate"
+                  >
+                    Close Date
+                  </label>
+                  <div
+                    className="react-datepicker-wrapper datePicker"
+                  >
+                    <div
+                      className="react-datepicker__input-container"
+                    >
+                      <input
+                        className="form-control placeholder"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Enter Date"
+                        readOnly={false}
+                        tabIndex={0}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="currency"
+                  >
+                    Currency
+                  </label>
+                  <select
+                    className="form-control iptor-dd"
+                    id="currency"
+                    onChange={[Function]}
+                    value=""
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="estimatedValue"
+                  >
+                    Opp Value
+                  </label>
+                  <input
+                    className="form-control"
+                    id="estimatedValue"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    placeholder="Opp Value"
+                    type="text"
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="area"
+                  >
+                    Area
+                  </label>
+                  <select
+                    className="form-control iptor-dd"
+                    id="area"
+                    onChange={[Function]}
+                    value=""
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+                <div
+                  className="form-group oppty-form-elements"
+                >
+                  <label
+                    className="opp-label"
+                    htmlFor="forecastCategory"
+                  >
+                    Forecast Category
+                  </label>
+                  <select
+                    className="form-control iptor-dd"
+                    id="forecastCategory"
+                    onChange={[Function]}
+                  />
+                  <span
+                    className="form-hints"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="step-nextbtn-with-arrow stepsone-nxtbtn"
+          >
+            <button
+              className="stepone-next-btn done"
+              onClick={[Function]}
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[EditOpportunity] EditOpportunity should render the component to add items to an opportunity 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Add Product
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    >
+      <div
+        className="opportunity-edit-form"
+      >
+        <div
+          className="opportunity-forms thirdstep edit-form"
+        >
+          <div
+            className="steps-three-forms"
+          >
+            <div
+              className="radiobtn-collection oppty-form-elements"
+            >
+              <p
+                className="title"
+              >
+                Select Product and Modules
+              </p>
+              <div
+                className="selected-products"
+              >
+                <div
+                  className="thirdstep-tag-hscroll"
+                />
+              </div>
+              <div
+                className="form-group oppty-form-elements"
+              >
+                <input
+                  className="form-control search-ipbox"
+                  onChange={[Function]}
+                  onKeyPress={[Function]}
+                  placeholder="Search Item"
+                  type="text"
+                />
+              </div>
+              <div
+                className="product-items-container"
+              >
+                <ul
+                  className="opptytype-list-item"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="step-nextbtn-with-arrow stepsone-nxtbtn"
+        >
+          <button
+            className="stepone-next-btn done"
+            onClick={[Function]}
+            type="button"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[EditOpportunity] EditOpportunity should renders correctly 1`] = `
+<div
+  className="sliding-panel-container fixed-header-footer editopp-error-msg"
+>
+  <div
+    className="sliding-panel"
+  >
+    <div
+      className="title-row opp-header-text"
+    >
+      <button
+        className="mob-steps-back"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Back"
+          src="chevron-left-black.svg"
+        />
+      </button>
+      Edit Opportunity
+      <button
+        className="panel-close-icon link-anchor-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <img
+          alt="Close"
+          src="close.svg"
+        />
+      </button>
+    </div>
+    <div
+      className="all-opportunity-steps-container"
+    />
+  </div>
+</div>
+`;

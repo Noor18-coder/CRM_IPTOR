@@ -37,10 +37,11 @@ export interface OpportunityDetailsDefault {
   approver?: string;
   exchangeRate?: number;
   estimatedValueSys?: number;
-  minimumStage?: number;
+  minimumStage?: string;
   level?: number;
   approvalStatus?: string;
   error?: string;
+  userId?: string;
 }
 
 export interface OpportunityDetailsGroupItem {
@@ -99,12 +100,13 @@ export interface OpportunityEditOptions {
   success?: boolean;
   error?: string;
   groupName?: string;
-  data?: Product;
+  data?: any;
   action?: string;
   approvalHistory?: any;
   submitApprovalData?: InitiateSubmitApprovalPopupData;
   subGroupName?: string;
   approvalSubmitMessage?: string;
+  closeLostForm?: boolean;
 }
 
 export interface OpportunityDeleteResponse {

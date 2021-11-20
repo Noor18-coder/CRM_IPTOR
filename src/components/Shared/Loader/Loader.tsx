@@ -5,7 +5,7 @@ export interface Props {
 }
 
 const Loader: React.FC<Props> = ({ component }) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: 767.98 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   return (
     <div id="loader-overlay">

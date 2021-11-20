@@ -29,3 +29,9 @@ export interface CustomerFilters {
   includeAddresses: boolean;
   includeContacts: boolean;
 }
+
+export interface ReportsOpptyListApiMethodParams {
+  filterParams: ReportRequestParams;
+  offset: number;
+  limit: number;
+}

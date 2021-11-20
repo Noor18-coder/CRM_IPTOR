@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[OpportunityDetails] ContactAccordian should renders correctly 1`] = `
+<div
+  className="accordion"
+>
+  <div
+    className="add-details card"
+  >
+    <a
+      className="card-link"
+      onClick={[Function]}
+    >
+      Contacts
+    </a>
+    <div
+      aria-expanded={null}
+      className="collapse"
+    >
+      <div
+        className="container-fluid"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="no-data-txt"
+          >
+            No contacts.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`[OpportunityDetails] ContactCards should renders correctly 1`] = `
+<div
+  className="col-md-4"
+>
+  <div
+    className="card mb-4"
+  >
+    <div
+      className="card-body"
+    >
+      <div
+        className="name-add-sec"
+      >
+        <p
+          className="person-name-desig"
+        >
+          <span
+            className="name"
+          />
+          <span
+            className="designation"
+          />
+        </p>
+        <p
+          className="mailid"
+        >
+          --
+        </p>
+        <p
+          className="contact-num"
+        >
+          --
+        </p>
+        <p
+          className="contact-address"
+        >
+          --
+        </p>
+      </div>
+      <div
+        className="select-opportunity-sec"
+      >
+        <p
+          className="contact-address"
+        >
+          --
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

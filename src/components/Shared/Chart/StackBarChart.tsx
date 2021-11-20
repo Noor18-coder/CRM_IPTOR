@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
+import { BubbleDataPoint, ChartData, ChartOptions, ScatterDataPoint } from 'chart.js';
 import { AppState } from '../../../store/store';
 
 interface Props {
@@ -62,45 +63,33 @@ const StackBarChart: React.FC<Props> = ({ data, selectedFilter }) => {
   }, [data]);
 
   const arbitraryStackKey = 'stack1';
-  const chartData = {
+  const chartData: ChartData = {
     labels: areaData,
     datasets: [
       {
         label: 'Won',
-        data: wonData,
+        data: wonData as (number | ScatterDataPoint | BubbleDataPoint | null)[],
         backgroundColor: '#91D3D3',
         stack: arbitraryStackKey,
       },
       {
         label: 'Lost',
-        data: lostData,
+        data: lostData as (number | ScatterDataPoint | BubbleDataPoint | null)[],
         backgroundColor: '#EB617C',
         stack: arbitraryStackKey,
       },
       {
         label: 'In progress',
-        data: inProgressData,
+        data: inProgressData as (number | ScatterDataPoint | BubbleDataPoint | null)[],
         backgroundColor: '#506574',
         stack: arbitraryStackKey,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions = {
     responsive: true,
     animation: false,
-    scales: {
-      yAxes: [
-        {
-          stacked: true,
-        },
-      ],
-      xAxes: [
-        {
-          stacked: true,
-        },
-      ],
-    },
     plugins: {
       legend: {
         display: true,
